@@ -111,9 +111,19 @@ export const resetPassword = async (req, res) => {
 
 export const fetchAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find({});
+    const admins = await Admin.find({}).select("-password");
     if (!admins) return res.json(success("No records found", admins, res.statusCode));
     return res.json(success("Success", admins, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
+  }
+}
+
+export const fetchAdmin = async (req, res) => {
+  try {
+    const admin = await Admin.findById({ _id: req.params.adminId });
+    if (!admin) return res.json(success("Admin account not found", admin, res.statusCode));
+    return res.json(success("Success", admin, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
@@ -137,7 +147,7 @@ export const updateRole = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     let admin = await Admin.findByIdAndUpdate({_id: req.params.adminId}, req.body);
-    return res.json(success("Account deleted", admin, res.statusCode));
+    return res.json(success("Account updated", admin, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }

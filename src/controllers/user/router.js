@@ -2,6 +2,7 @@ import express from "express";
 import { 
   createUser, 
   deleteAdmin, 
+  fetchAdmin, 
   fetchAdmins, 
   forgotPassword, 
   resetPassword, 
@@ -17,11 +18,12 @@ const router = express.Router();
 
 router.post('/auth/login', signIn);
 router.post('/auth/admin', verifyToken, grantAccess("createAny", "super admin"), new_admin_validator, createUser)
-router.put('/auth/admin/:adminId', verifyToken, grantAccess("updateAny", "admin"), updateProfile),
+router.put('/auth/admin/:adminId', verifyToken, grantAccess("updateOwn", "admin"), updateProfile),
 router.post('/auth/forgot_password', forgotPassword);
 router.post('/auth/reset_password/:token', resetPassword);
 router.get('/auth/admins', verifyToken, grantAccess("readAny", "super admin"), fetchAdmins);
+router.get("/auth/admin/:adminId", verifyToken, grantAccess("readOwn", "admin"), fetchAdmin);
 router.put("/auth/role", verifyToken, grantAccess("updateAny", "super admin"), updateRole);
-router.delete("/auth/delete/:adminId", verifyToken, grantAccess("deleteAny", "admin"), deleteAdmin);
+router.delete("/auth/delete/:adminId", verifyToken, grantAccess("deleteAny", "super admin"), deleteAdmin);
 
 export default router;
