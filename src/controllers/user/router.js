@@ -9,7 +9,7 @@ import {
   updateProfile, 
   updateRole, 
 } from "./controller";
-import { new_admin_validator } from "../../validators/user";
+import { new_admin_validator } from "../../validation/user";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
 

@@ -16,6 +16,7 @@
   "author": "Onoja Igoche Matthew",
   "license": "MIT",
   "dependencies": {
+    "accesscontrol": "^2.2.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",

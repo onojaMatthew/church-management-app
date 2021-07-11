@@ -1,6 +1,6 @@
 import error from "../config/error";
-import userRoutes from "../controller/user/router";
-import roleRoutes from "../controller/role/router";
+import userRoutes from "../controllers/user/router";
+import roleRoutes from "../controllers/role/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);

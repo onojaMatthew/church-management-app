@@ -10,10 +10,8 @@ console.log('here', env);
 
 if ( env === "development" || env === "test" ) {
   db_url = `mongodb+srv://${key.dev_db_user}:${key.dev_db_password}@${key.dev_db_host}/${key.dev_db_name}`;
-  //db_url = db_url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?ssl=true&authSource=admin&replicaSet=prodcluster-shard-0`;
-  //db_url = key.test_db_url
 } else {
-  db_url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?ssl=true&authSource=admin&replicaSet=prodcluster-shard-0`;
+  db_url = `mongodb+srv://${key.dev_db_user}:${key.dev_db_password}@${key.dev_db_host}/${key.prod_db_name}`;
 }
 
 export default () => {
