@@ -14,9 +14,40 @@ export const create = async (req, res) => {
   }
 }
 
+export const fetchOfficeList = async (req, res) => {
+  try {
+    const officeList = await Office.find({});
+    if (!officeList) return res.json(success("No records found", officeList, res.statusCode));
+    return res.json(success("Success", officeList, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+  }
+}
+
 export const fetchOffice = async (req, res) => {
   try {
-    const office = await Office.find({});
+    const office = await Office.findById({ _id: OfficeId });
+    if (!office) return res.json(success("No records found", office, res.statusCode));
+    return res.json(success("Success", office, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Unknown Server Error. Please check your connection and try again", res.statusCode));
+  }
+}
+
+export const updateOffice = async (req, res) => {
+  try {
+    const office = await Office.findByIdAndUpdate({ _id: officeId }, req.body);
+    return res.json(success("Updated successfully", office, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+  }
+}
+
+export const deleteOffice = async (req, res) => {
+  try {
+    const office = await Office.findByIdAndRemove({ _id: officeId });
+    if (!office) return res.json(success("Office does not exist", office, res.statusCode));
+    return res.json(success("Office deleted", office, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
   }

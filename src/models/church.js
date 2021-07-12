@@ -10,6 +10,7 @@ const churchSchema = new Schema({
   },
   email: { type: String, unique: true },
   phone: { type: String },
+  domain_name: { type: String },
   bank: {
     acct_no: { type: Number },
     bank_name: { type: String },
