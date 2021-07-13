@@ -25,8 +25,9 @@ export const fetchOfficeList = async (req, res) => {
 }
 
 export const fetchOffice = async (req, res) => {
+  const { officeId } = req.params
   try {
-    const office = await Office.findById({ _id: OfficeId });
+    const office = await Office.findById({ _id: officeId });
     if (!office) return res.json(success("No records found", office, res.statusCode));
     return res.json(success("Success", office, res.statusCode));
   } catch (err) {
@@ -35,6 +36,7 @@ export const fetchOffice = async (req, res) => {
 }
 
 export const updateOffice = async (req, res) => {
+  const { officeId } = req.params;
   try {
     const office = await Office.findByIdAndUpdate({ _id: officeId }, req.body);
     return res.json(success("Updated successfully", office, res.statusCode));
@@ -44,6 +46,7 @@ export const updateOffice = async (req, res) => {
 }
 
 export const deleteOffice = async (req, res) => {
+  const { officeId } = req.params;
   try {
     const office = await Office.findByIdAndRemove({ _id: officeId });
     if (!office) return res.json(success("Office does not exist", office, res.statusCode));
