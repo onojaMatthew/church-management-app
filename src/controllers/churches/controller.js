@@ -40,3 +40,12 @@ export const updateChurch = async (req, res) => {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
   }
 }
+
+export const deleteChurch = async (req, res) => {
+  try {
+    const church = await Church.findByIdAndRemove({ _id: churchId });
+    return res.json(success("Church account deleted", church, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+  }
+}
