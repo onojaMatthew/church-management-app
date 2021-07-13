@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ message: "" });
+  res.end('Subdomain: ' + req.headers['x-subdomain']);
 });
 
 router(app);
