@@ -24,8 +24,8 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  console.log(req.headers["X-Subdomain"]);
-  res.end('subdomain: ' + req.headers['X-Subdomain']);
+  console.log(req.headers);
+  res.end('subdomain: ' + req.headers['x-subdomain']);
 });
 
 router(app);
