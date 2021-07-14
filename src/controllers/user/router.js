@@ -17,8 +17,7 @@ import { verifyToken } from "../../middleware/auth";
 const router = express.Router();
 
 router.post('/auth/login', signIn);
-// verifyToken, grantAccess("createAny", "super admin"), new_admin_validator,
-router.post('/auth/admin', createUser)
+router.post('/auth/admin', verifyToken, grantAccess("createAny", "super admin"), new_admin_validator, createUser)
 router.put('/auth/admin/:adminId', verifyToken, grantAccess("updateOwn", "admin"), updateProfile),
 router.post('/auth/forgot_password', forgotPassword);
 router.post('/auth/reset_password/:token', resetPassword);

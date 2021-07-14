@@ -1,5 +1,5 @@
 import path from "path";
-import bcrypt from "bcrypt";
+import bcrypt, { hashSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error, success } from '../../config/response';
 import Admin from "../../models/admin";
@@ -14,7 +14,8 @@ export const createUser = async (req, res) => {
     const isAdmin = await Admin.findOne({ email });
     const role_data = await Role.findById({ _id: role });
     if (isAdmin) return res.status(400).json(error("Email already exists", res.statusCode));
-    let newAdmin = new Admin({ first_name, last_name, email, password, phone, role: role });
+    const hash = bcrypt.hashSync(password, 12);
+    let newAdmin = new Admin({ first_name, last_name, email, password: hash, phone, role: role });
     const hash = bcrypt.hashSync(password, 12);
 
     newAdmin.role.role_id = role_data && role_data._id;
