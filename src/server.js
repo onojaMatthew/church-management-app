@@ -24,8 +24,9 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  console.log(req.headers);
-  res.end('subdomain: ' + req.headers['x-subdomain']);
+  console.log(req.header);
+  // 'subdomain: ' + req.headers['x-subdomain']
+  res.redirect(`http://matthew.${req.hostname}:3200/home`);
 });
 
 router(app);
