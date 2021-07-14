@@ -3,7 +3,7 @@ import sgMail from '@sendgrid/mail';
 
 require("dotenv").config({ path: path.resolve(__dirname, "/../../.env")});
 
-export const sendEmail = async (data, res) => {
+export const sendEmail = async (data) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   var msg = {
