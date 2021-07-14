@@ -16,11 +16,9 @@ export const createUser = async (req, res) => {
     if (isAdmin) return res.status(400).json(error("Email already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 12);
     let newAdmin = new Admin({ first_name, last_name, email, password: hash, phone, role: role });
-    const hash = bcrypt.hashSync(password, 12);
 
     newAdmin.role.role_id = role_data && role_data._id;
     newAdmin.role.name = role_data && role_data.name;
-    newAdmin.password = hash;
     newAdmin = await newAdmin.save();
 
     return res.json(success("Account created successfully", newAdmin, res.statusCode));
