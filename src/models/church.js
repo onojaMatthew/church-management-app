@@ -16,7 +16,8 @@ const churchSchema = new Schema({
     bank_name: { type: String },
     acct_name: { type: String }
   },
-  officers: [{ type: ObjectId, ref: "Officer" }]
+  officers: [{ type: ObjectId, ref: "Officer" }],
+  office: [{ type: ObjectId, ref: "Office" }],
 });
 
 export const Church = mongoose.model("Church", churchSchema);

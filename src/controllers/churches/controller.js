@@ -25,7 +25,7 @@ export const createChurch = async (req, res) => {
 
 export const churchList = async (req, res) => {
   try {
-    const churchList = await Church.find({});
+    const churchList = await Church.find({}).populate("office").populate("officers").populate("memebers").sort({ createdAt: -1 });;
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
@@ -34,7 +34,7 @@ export const churchList = async (req, res) => {
 
 export const churchDetails = async (req, res) => {
   try {
-    const church = await Church.findById({ _id: req.params.churchId });
+    const church = await Church.findById({ _id: req.params.churchId }).populate("office").populate("officers").populate("memebers");
     if (!church) return res.json(success("Record not found", church, res.statusCode));
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {

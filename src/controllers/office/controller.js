@@ -1,4 +1,5 @@
 import { error, success } from "../../config/response";
+import { Church } from "../../models/church";
 import { Office } from "../../models/office";
 
 export const create = async (req, res) => {
@@ -8,6 +9,8 @@ export const create = async (req, res) => {
     if (isExists) return res.status(400).json(error("Name already exists", res.statusCode));
     let office = new Office({ name, churchId });
     office = await office.save();
+    let church = await Church.findByIdAndUpdate({ _id: churchId }, { $push: { office: office._id }}, { new: true });
+    await church.save();
     return res.json(success("New office created", office, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
