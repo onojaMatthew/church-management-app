@@ -16,8 +16,13 @@ const churchSchema = new Schema({
     bank_name: { type: String },
     acct_name: { type: String }
   },
+  role: {
+    role_id: { type: ObjectId, ref: "Role" },
+    role_name: { type: String },
+  },
   officers: [{ type: ObjectId, ref: "Officer" }],
   office: [{ type: ObjectId, ref: "Office" }],
+  password: { type: String },
 });
 
 export const Church = mongoose.model("Church", churchSchema);
