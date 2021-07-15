@@ -57,7 +57,7 @@ export const createChurch = async (req, res) => {
 
 export const churchList = async (req, res) => {
   try {
-    const churchList = await Church.find({}).populate("office").populate("officers").populate("memebers").sort({ createdAt: -1 });;
+    const churchList = await Church.find({}).populate("office").populate("officers").populate("memebers").select("-password").sort({ _id: -1 });;
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
