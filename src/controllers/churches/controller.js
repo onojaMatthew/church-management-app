@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { sendEmail } from "../../services/mailer";
 import { Church } from "../../models/church";
 import { error, success } from "../../config/response";
 import Role from "../../models/role";
@@ -25,7 +26,7 @@ export const createChurch = async (req, res) => {
     });
 
     church = await church.save();
-    
+
     const subdomain_name = email.split("@")[0];
     const subdomain_link = `https://${subdomain_name}.${req.hostname}/`;
     const receiver = church.email;
@@ -47,6 +48,7 @@ export const createChurch = async (req, res) => {
     await sendEmail(data);
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
   }
 }

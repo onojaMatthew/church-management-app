@@ -7,7 +7,7 @@ export const create = async (req, res) => {
     const isExists = await MembershipCategory.findOne({ name });
     if (isExists) return res.status(400).json(error("Name already exists", res.statusCode));
     let category = new MembershipCategory({ name, churchId });
-    office = await category.save();
+    category = await category.save();
     return res.json(success("New office created", category, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
