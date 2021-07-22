@@ -17,22 +17,39 @@ if ( env === "development") {
 }
 // mongodb+srv://ticket:kq1IL4UHiz8l4qN6@ticket.6z9ee.mongodb.net/church
 
-export default () => {
-  mongoose.Promise = global.Promise;
-  mongoose.connect( db_url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    poolSize: 5,
-    socketTimeoutMS: 45000,
-  } )
-    .then( () => {
-      winston.info("Connection to database established");
-    } )
-    .catch( err => {
-      winston.error(`Connection failed. ${ err.message }`);
-    } );
-  
-  mongoose.set("useFindAndModify", false);
-  mongoose.set("useCreateIndex", true);
-}
+const mongoOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  autoIndex: true,
+  poolSize: 10,
+  bufferMaxEntries: 0,
+  connectTimeoutMS: 10000,
+  socketTimeoutMS: 30000,
+};
+
+const connect = () => mongoose.createConnection(db_url, mongoOptions);
+
+const connectToMongoDB = () => {
+  const db = connect(db_url);
+  db.on('open', () => {
+    winston.info(`Mongoose connection open to ${JSON.stringify(db_url)}`);
+  });
+  db.on('error', (err) => {
+    winston.error(`Mongoose connection error: ${err} with connection info ${JSON.stringify(db_url)}`);
+    process.exit(0);
+  });
+  return db;
+};
+
+export const mongodb = (connectToMongoDB)();
+
+  // mongoose.Promise = global.Promise;
+  // mongoose.connect( db_url, mongoOptions)
+  //   .then( () => {
+  //     winston.info("Connection to database established");
+  //   } )
+  //   .catch( err => {
+  //     winston.error(`Connection failed. ${ err.message }`);
+  //   } );

@@ -1,5 +1,5 @@
 import path from "path";
-import bcrypt, { hashSync } from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error, success } from '../../config/response';
 import Admin from "../../models/admin";
@@ -81,7 +81,7 @@ export const forgotPassword = async (req, res) => {
 // @access Public
 export const resetPassword = async (req, res) => {
   try {
-    let isAdmin = await Account.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()} });
+    let isAdmin = await Admin.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()} });
     if (!isAdmin) return res.status(401).json(error("Invalid password reset token or token has expired", res.statusCode));
     const hash = bcrypt.hashSync(req.body.password, 12);
     isAdmin.password = hash;

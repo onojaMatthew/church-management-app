@@ -3,7 +3,7 @@ require("dotenv").config({ path: path.resolve(__dirname + "./.env")});
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import db from "./config/db";
+import { mongodb } from "./config/db";
 import router from "./middleware/router";
 import logger from "./config/error-log";
 
@@ -12,7 +12,7 @@ const port = process.env.PORT || 3200;
 
 const app = express();
 
-db();
+mongodb;
 
 app.use(morgan("combined"));
 app.use(express.json());

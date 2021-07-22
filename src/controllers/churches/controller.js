@@ -75,14 +75,13 @@ export const churchLogin = async (req, res) => {
     res.cookie("token", `Bearer ${token}`, { expires: new Date(new Date() + 64800000)});
     return res.header("authorization", `Bearer ${token}`).json(success("Login success", { token, church: { email, subdomain_name, role, phone, _id }}, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error("Internal Server Error. Please try again", res.statusCode));
   }
 }
 
 export const churchList = async (req, res) => {
   try {
-    const churchList = await Church.find({}).populate("office").populate("officers").populate("memebers").select("-password").sort({ _id: -1 });;
+    const churchList = await Church.find({});
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
