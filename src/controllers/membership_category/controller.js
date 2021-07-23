@@ -21,7 +21,6 @@ export const fetchCategoryList = async (req, res) => {
     if (!categoryList) return res.json(success("No records found", categoryList, res.statusCode));
     return res.json(success("Success", categoryList, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

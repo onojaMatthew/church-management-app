@@ -25,8 +25,8 @@ const mongoOptions = {
   autoIndex: true,
   poolSize: 10,
   bufferMaxEntries: 0,
-  connectTimeoutMS: 50000,
-  socketTimeoutMS: 50000,
+  connectTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
 };
 
 const connect = () => mongoose.createConnection(db_url, mongoOptions);
@@ -34,9 +34,9 @@ const connect = () => mongoose.createConnection(db_url, mongoOptions);
 const connectToMongoDB = () => {
   const db = connect(db_url);
   db.then(() => {
-    winston.info(`Mongoose connection open to ${JSON.stringify(db_url)}`);
+    winston.info(`Connection to database established with ${JSON.stringify(db_url)}`);
   }).catch(err => {
-    winston.error(`Mongoose connection error: ${err} with connection info ${JSON.stringify(db_url)}`);
+    winston.error(`Failed to connect to database. Error: ${err.message}`);
   })
   
   return db;
