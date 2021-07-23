@@ -25,31 +25,21 @@ const mongoOptions = {
   autoIndex: true,
   poolSize: 10,
   bufferMaxEntries: 0,
-  connectTimeoutMS: 10000,
-  socketTimeoutMS: 30000,
+  connectTimeoutMS: 50000,
+  socketTimeoutMS: 50000,
 };
 
 const connect = () => mongoose.createConnection(db_url, mongoOptions);
 
 const connectToMongoDB = () => {
   const db = connect(db_url);
-  db.on('open', () => {
+  db.then(() => {
     winston.info(`Mongoose connection open to ${JSON.stringify(db_url)}`);
-  });
-  db.on('error', (err) => {
+  }).catch(err => {
     winston.error(`Mongoose connection error: ${err} with connection info ${JSON.stringify(db_url)}`);
-    process.exit(0);
-  });
+  })
+  
   return db;
 };
 
 export const mongodb = (connectToMongoDB)();
-
-  // mongoose.Promise = global.Promise;
-  // mongoose.connect( db_url, mongoOptions)
-  //   .then( () => {
-  //     winston.info("Connection to database established");
-  //   } )
-  //   .catch( err => {
-  //     winston.error(`Connection failed. ${ err.message }`);
-  //   } );

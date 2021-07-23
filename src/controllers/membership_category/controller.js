@@ -1,4 +1,5 @@
 import { error, success } from "../../config/response";
+import { Church } from "../../models/church";
 import { MembershipCategory } from "../../models/membership_category";
 
 export const create = async (req, res) => {
@@ -10,7 +11,7 @@ export const create = async (req, res) => {
     category = await category.save();
     return res.json(success("New office created", category, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
@@ -20,7 +21,8 @@ export const fetchCategoryList = async (req, res) => {
     if (!categoryList) return res.json(success("No records found", categoryList, res.statusCode));
     return res.json(success("Success", categoryList, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+    console.log(err)
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
@@ -31,7 +33,7 @@ export const fetchCategory = async (req, res) => {
     if (!category) return res.json(success("No records found", category, res.statusCode));
     return res.json(success("Success", category, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Server Error. Please check your connection and try again", res.statusCode));
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
@@ -41,7 +43,7 @@ export const updateCategory = async (req, res) => {
     const category = await MembershipCategory.findByIdAndUpdate({ _id: id }, req.body);
     return res.json(success("Updated successfully", category, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
@@ -52,6 +54,7 @@ export const deleteCategory = async (req, res) => {
     if (!category) return res.json(success("Category does not exist", category, res.statusCode));
     return res.json(success("Deleted successfully", category, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+

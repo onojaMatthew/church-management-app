@@ -23,6 +23,7 @@ export const fetchOfficeList = async (req, res) => {
     if (!officeList) return res.json(success("No records found", officeList, res.statusCode));
     return res.json(success("Success", officeList, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
   }
 }
