@@ -11,7 +11,7 @@ export const getChurchDB = async (churchId, modelName, schema) => {
     if (mongodb) {
       // useDb will return new connection
       db = mongodb.useDb(dbName, { useCache: true });
-      winston.info(`DB switched to ${dbName}`);
+      // winston.info(`DB switched to ${dbName}`);
       db.model(modelName, schema);
       return db;
     }
@@ -25,7 +25,7 @@ export const getChurchDB = async (churchId, modelName, schema) => {
  */
 export const getModelByChurch = async (churchId, modelName, schema) => {
   try {
-    winston.info(`getModelByTenant churchId : ${churchId}.`);
+    // winston.info(`getModelByTenant churchId : ${churchId}.`);
     const churchDB = await getChurchDB(churchId, modelName, schema);
     return churchDB.model(modelName);
   } catch (err) {
