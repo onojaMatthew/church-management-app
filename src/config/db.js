@@ -13,7 +13,7 @@ if ( env === "development") {
 } else if (env === "test") {
   db_url = `mongodb+srv://${key.test_db_user}:${key.test_db_password}@${key.test_db_host}/${key.test_db_name}`;
 } else {
-  db_url = `mongodb+srv://${key.dev_db_user}:${key.dev_db_password}@${key.dev_db_host}/${key.prod_db_name}`;
+  db_url = `mongodb+srv://${key.prod_db_user}:${key.prod_db_password}@${key.prod_db_host}/${key.prod_db_name}`;
 }
 // mongodb+srv://ticket:kq1IL4UHiz8l4qN6@ticket.6z9ee.mongodb.net/church
 
