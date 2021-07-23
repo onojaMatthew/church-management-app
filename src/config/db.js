@@ -24,15 +24,14 @@ const mongoOptions = {
   useFindAndModify: false,
   autoIndex: true,
   poolSize: 10,
-  bufferMaxEntries: 0,
+  // bufferMaxEntries: 0,
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
 };
 
 const connect = () => mongoose.createConnection(db_url, mongoOptions);
-
-const connectToMongoDB = async () => {
-  const db = await connect(db_url);
+const connectToMongoDB = () => {
+  const db = connect(db_url);
   db.on("open", () => {
     winston.info(`Connection to database established with ${JSON.stringify(db_url)}`);
   })

@@ -6,7 +6,8 @@ import { verifyToken } from "../../middleware/auth";
 const router = express.Router();
 
 router.post("/office/new", verifyToken, grantAccess("createAny", "super admin"), create);
-router.get("/office/all", verifyToken, grantAccess("readOwn", "church"), fetchOfficeList);
+// verifyToken, grantAccess("readOwn", "church"),
+router.get("/office/all", fetchOfficeList);
 router.get("/office/detail/:officeId", verifyToken, grantAccess("readOwn", "church"), fetchOffice);
 router.put("/office/update/:officeId", verifyToken, grantAccess("updateOwn", "church"), updateOffice);
 router.delete("/office/delete/:officeId", verifyToken, grantAccess("deleteAny", "church"), deleteOffice);
