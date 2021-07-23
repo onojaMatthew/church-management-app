@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema, ObjectId } = mongoose;
 
-const adminSchema = new Schema({
+export const adminSchema = new Schema({
   first_name: { type: String },
   last_name: { type: String },
   email: { type: String },
@@ -15,7 +15,3 @@ const adminSchema = new Schema({
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
 }, { timestamps: true });
-
-const Admin = mongoose.model("Admin",  adminSchema);
-
-export default Admin;

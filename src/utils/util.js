@@ -6,7 +6,7 @@ import { mongodb } from "../config/db";
  */
 export const getChurchDB = async (churchId, modelName, schema) => {
   try {
-    const dbName = `church_${churchId}`;
+    const dbName = churchId === "hostdatabase" ? "hostdatabase" : churchId === "church" ? "church" : `church_${churchId}`;
     let db;
     if (mongodb) {
       // useDb will return new connection

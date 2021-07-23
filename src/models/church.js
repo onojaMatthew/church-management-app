@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema, ObjectId } = mongoose;
 
-const churchSchema = new Schema({
+export const churchSchema = new Schema({
   address: {
     city: { type: String },
     state: { type: String },
@@ -26,4 +26,3 @@ const churchSchema = new Schema({
   password: { type: String },
 }, { timestamps: true });
 
-export const Church = mongoose.model("Church", churchSchema);

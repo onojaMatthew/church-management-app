@@ -2,8 +2,9 @@ import path from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error, success } from '../../config/response';
-import Admin from "../../models/admin";
-import Role from "../../models/role";
+import { adminSchema } from "../../models/admin";
+import { getModelByChurch } from "../../utils/util";
+import { roleSchema }  from "../../models/role";
 
 require("dotenv").config({ path: path.resolve(__dirname, "/../../../.env")});
 
@@ -11,7 +12,9 @@ require("dotenv").config({ path: path.resolve(__dirname, "/../../../.env")});
 export const createUser = async (req, res) => {
   const { first_name, last_name, email, password, phone, role } = req.body;
   try {
-    const isAdmin = await Admin.findOne({ email });
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
+    const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
+    const isAdmin = await Admin.findOne({ email }); 
     const role_data = await Role.findById({ _id: role });
     if (isAdmin) return res.status(400).json(error("Email already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 12);
@@ -30,6 +33,7 @@ export const createUser = async (req, res) => {
 
 export const signIn = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const isAdmin = await Admin.findOne({ email: req.body.email });
     if (!isAdmin) return res.status(404).json(error("User does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isAdmin.password);
@@ -48,6 +52,7 @@ export const signIn = async (req, res) => {
 // @access Public
 export const forgotPassword = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let isAdmin = await Admin.findOne({ email });
     if (!isAdmin) return res.status(404).json(error(`We could not find any account with the email ${email}`));
     isAdmin.resetPasswordToken = jwt.sign({ firstName: user.firstName }, process.env.SECRET_KEY, { expiresIn: "120m" });
@@ -81,6 +86,7 @@ export const forgotPassword = async (req, res) => {
 // @access Public
 export const resetPassword = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let isAdmin = await Admin.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()} });
     if (!isAdmin) return res.status(401).json(error("Invalid password reset token or token has expired", res.statusCode));
     const hash = bcrypt.hashSync(req.body.password, 12);
@@ -111,6 +117,7 @@ export const resetPassword = async (req, res) => {
 
 export const fetchAdmins = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const admins = await Admin.find({}).select("-password");
     if (!admins) return res.json(success("No records found", admins, res.statusCode));
     return res.json(success("Success", admins, res.statusCode));
@@ -121,6 +128,7 @@ export const fetchAdmins = async (req, res) => {
 
 export const fetchAdmin = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const admin = await Admin.findById({ _id: req.params.adminId });
     if (!admin) return res.json(success("Admin account not found", admin, res.statusCode));
     return res.json(success("Success", admin, res.statusCode));
@@ -131,6 +139,7 @@ export const fetchAdmin = async (req, res) => {
 
 export const updateRole = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let isExists = await Admin.findById({ _id: req.body.adminId });
     const role_data = await Role.findById({ _id: req.body.role });
 
@@ -146,6 +155,7 @@ export const updateRole = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let admin = await Admin.findByIdAndUpdate({_id: req.params.adminId}, req.body);
     return res.json(success("Account updated", admin, res.statusCode));
   } catch (err) {
@@ -155,6 +165,7 @@ export const updateProfile = async (req, res) => {
 
 export const deleteAdmin = async (req, res) => {
   try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const deletedAccount = await Admin.findByIdAndRemove({ _id: req.params.adminId });
     if (!deletedAccount) return res.status(404).json(error("Admin account not found", res.statusCode));
     return res.json(success("Account deleted", deletedAccount, res.statusCode));
