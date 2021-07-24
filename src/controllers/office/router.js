@@ -2,14 +2,14 @@ import express from "express";
 import { create, deleteOffice, fetchOffice, fetchOfficeList, updateOffice } from "./controller";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
+import { office_validator, param_validator } from "../../validation/office";
 
 const router = express.Router();
 
-router.post("/office/new", verifyToken, grantAccess("createAny", "super admin"), create);
-// 
-router.get("/office/all", verifyToken, grantAccess("readOwn", "church"), fetchOfficeList);
-router.get("/office/detail/:officeId", verifyToken, grantAccess("readOwn", "church"), fetchOffice);
-router.put("/office/update/:officeId", verifyToken, grantAccess("updateOwn", "church"), updateOffice);
-router.delete("/office/delete/:officeId", verifyToken, grantAccess("deleteAny", "church"), deleteOffice);
+router.post("/office/new/:churchId", verifyToken, grantAccess("createAny", "church"), office_validator, create);
+router.get("/office/all/:churchId", verifyToken, grantAccess("readOwn", "church"), office_validator, fetchOfficeList);
+router.get("/office/detail/:officeId/:churchId", verifyToken, grantAccess("readOwn", "church"), param_validator, fetchOffice);
+router.put("/office/update/:officeId/:churchId", verifyToken, grantAccess("updateOwn", "church"), param_validator, updateOffice);
+router.delete("/office/delete/:officeId/:churchId", verifyToken, grantAccess("deleteAny", "church"), param_validator, deleteOffice);
 
 export default router;

@@ -10,14 +10,14 @@ import {
   updateProfile, 
   updateRole, 
 } from "./controller";
-import { new_admin_validator } from "../../validation/user";
+import { loginValidator, new_admin_validator } from "../../validation/user";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
 
 const router = express.Router();
 // verifyToken, grantAccess("createAny", "super admin"),
-router.post('/auth/login', signIn);
-router.post('/auth/admin', new_admin_validator, createUser)
+router.post('/auth/login', loginValidator, signIn);
+router.post('/auth/admin', new_admin_validator, verifyToken, grantAccess("createAny", "super admin"), createUser)
 router.put('/auth/admin/:adminId', verifyToken, grantAccess("updateOwn", "admin"), updateProfile),
 router.post('/auth/forgot_password', forgotPassword);
 router.post('/auth/reset_password/:token', resetPassword);

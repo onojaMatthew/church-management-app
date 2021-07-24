@@ -15,3 +15,13 @@ export const new_admin_validator = [
     next();
   }
 ]
+
+export const loginValidator = [
+  check("email").isEmail().withMessage("Invalid email"),
+  check("password").isString({ min: 5 }).withMessage("Password must be at least 5 characters"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
+    next();
+  }
+]

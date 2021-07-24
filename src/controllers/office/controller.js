@@ -1,10 +1,12 @@
 import { error, success } from "../../config/response";
-import { Church } from "../../models/church";
-import { Office } from "../../models/office";
+// import { churchSchema } from "../../models/church";
+import { officeSchema } from "../../models/office";
+import { getModelByChurch } from "../../utils/util";
 
 export const create = async (req, res) => {
   const { churchId, name } = req.body;
   try {
+    const Office = await getModelByChurch(churchId, "Office", officeSchema);
     const isExists = await Office.findOne({ name });
     if (isExists) return res.status(400).json(error("Name already exists", res.statusCode));
     let office = new Office({ name, churchId });
@@ -18,7 +20,9 @@ export const create = async (req, res) => {
 }
 
 export const fetchOfficeList = async (req, res) => {
+  const { churchId } = req.params;
   try {
+    const Office = await getModelByChurch(churchId, "Office", officeSchema);
     const officeList = await Office.find({});
     if (!officeList) return res.json(success("No records found", officeList, res.statusCode));
     return res.json(success("Success", officeList, res.statusCode));
@@ -29,8 +33,9 @@ export const fetchOfficeList = async (req, res) => {
 }
 
 export const fetchOffice = async (req, res) => {
-  const { officeId } = req.params
+  const { officeId, churchId } = req.params;
   try {
+    const Office = await getModelByChurch(churchId, "Office", officeSchema);
     const office = await Office.findById({ _id: officeId });
     if (!office) return res.json(success("No records found", office, res.statusCode));
     return res.json(success("Success", office, res.statusCode));
@@ -40,8 +45,9 @@ export const fetchOffice = async (req, res) => {
 }
 
 export const updateOffice = async (req, res) => {
-  const { officeId } = req.params;
+  const { officeId, churchId } = req.params;
   try {
+    const Office = await getModelByChurch(churchId, "Office", officeSchema);
     const office = await Office.findByIdAndUpdate({ _id: officeId }, req.body);
     return res.json(success("Updated successfully", office, res.statusCode));
   } catch (err) {
@@ -50,8 +56,9 @@ export const updateOffice = async (req, res) => {
 }
 
 export const deleteOffice = async (req, res) => {
-  const { officeId } = req.params;
+  const { officeId, churchId } = req.params;
   try {
+    const Office = await getModelByChurch(churchId, "Office", officeSchema);
     const office = await Office.findByIdAndRemove({ _id: officeId });
     if (!office) return res.json(success("Office does not exist", office, res.statusCode));
     return res.json(success("Office deleted", office, res.statusCode));

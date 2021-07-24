@@ -64,7 +64,7 @@ export const checkDomainName = async (req, res) => {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const isExists = await Church.findOne({ subdomain_name: req.body.subdomain_name });
     if (!isExists) return res.status(404).json(error("Subdomain not found. Contact admin for assistance", res.statusCode));
-    res.redirect()
+    res.json(success("Success", isExists, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }

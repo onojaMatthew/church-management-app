@@ -1,5 +1,4 @@
 import { error, success } from "../../config/response";
-// import { Church } from "../../models/church";
 import { membershipCategorySchema } from "../../models/membership_category";
 import { getModelByChurch } from "../../utils/util";
 
