@@ -18,7 +18,9 @@ export const createMember = async (req, res) => {
     newMember.address.street = req.body.street;
     newMember.state_of_origin = req.body.state_of_origin;
     newMember.occupation = req.body.occupation;
-
+    newMember.church = req.body.church;
+    newMember.category = req.body.category;
+    
     const response = await newMember.save();
     return res.json(success("Member successfully created", response, res.statusCode));
   } catch (err) {

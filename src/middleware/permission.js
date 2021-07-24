@@ -5,7 +5,7 @@ const ac = new AccessControl();
 export const roles = () => {
   ac.grant("user").readOwn("user").updateOwn("user");
 
-  ac.grant("church").readOwn("church").updateOwn("church");
+  ac.grant("church").createOwn("church").readOwn("church").updateOwn("church").deleteOwn("church");
 
   ac.grant("admin").extend("user").readOwn("admin").readAny("admin").updateOwn("admin");
   

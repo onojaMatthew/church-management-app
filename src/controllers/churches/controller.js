@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { sendEmail } from "../../services/mailer";
 import { churchSchema } from "../../models/church";
 import { error, success } from "../../config/response";
