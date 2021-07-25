@@ -1,7 +1,7 @@
 import express from "express";
 import { assignOffice, createMember, deleteMember, getMembers, memberDetails, updateMember } from "./controller";
 import { verifyToken } from "../../middleware/auth";
-import { } from "../../middleware/access";
+import { grantAccess } from "../../middleware/access";
 import { body_validator } from "../../validation/member";
 
 const router = express.Router();
