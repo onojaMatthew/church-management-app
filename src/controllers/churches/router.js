@@ -6,11 +6,11 @@ import { churchDetails, churchList, churchLogin, createChurch, deleteChurch, upd
 
 const router = express.Router();
 
-router.post("/church/new", verifyToken, grantAccess("createAny", "super admin"), newChurchValidator, createChurch);
+router.post("/church/new", verifyToken, newChurchValidator, createChurch);
 router.post("/church/login", loginValidator, churchLogin);
-router.get("/church/all", verifyToken, grantAccess("readAny", "super admin"), churchList);
-router.get("/church/detail/:churchId", verifyToken, grantAccess("readOwn", "church"), validateChurch, churchDetails);
-router.put("/church/update/:churchId", verifyToken, grantAccess("updateOwn", "church"), validateChurch, updateChurch);
-router.delete("/church/delete/:churchId", verifyToken, grantAccess("deleteAny", "super admin"), validateChurch, deleteChurch);
+router.get("/church/all", verifyToken, churchList);
+router.get("/church/detail/:churchId", verifyToken, validateChurch, churchDetails);
+router.put("/church/update/:churchId", verifyToken, validateChurch, updateChurch);
+router.delete("/church/delete/:churchId", verifyToken, validateChurch, deleteChurch);
 
 export default router;

@@ -6,11 +6,11 @@ import { body_validator } from "../../validation/member";
 
 const router = express.Router();
 
-router.post("/member/new", verifyToken, grantAccess("createOwn", "church"), body_validator, createMember);
-router.get("/member/all/:church", verifyToken, grantAccess("createOwn", "church"), getMembers);
-router.get("/member/details/:member/:church", verifyToken, grantAccess("createOwn", "church"), memberDetails);
-router.put("/member/update/:member/:church", verifyToken, grantAccess("createOwn", "church"), updateMember);
-router.put("/member/assign_office/:member/:church", verifyToken, grantAccess("createOwn", "church"), assignOffice);
-router.delete("/member/delete/:church/:memberId", verifyToken, grantAccess("createOwn", "church"), deleteMember);
+router.post("/member/new", verifyToken, body_validator, createMember);
+router.get("/member/all/:church", verifyToken, getMembers);
+router.get("/member/details/:member/:church", verifyToken,  memberDetails);
+router.put("/member/update/:member/:church", verifyToken, updateMember);
+router.put("/member/assign_office/:member/:church", verifyToken, assignOffice);
+router.delete("/member/delete/:church/:memberId", verifyToken, deleteMember);
 
 export default router;

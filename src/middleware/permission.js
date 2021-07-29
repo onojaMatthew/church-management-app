@@ -7,7 +7,7 @@ export const roles = () => {
 
   ac.grant("church").createOwn("church").readOwn("church").updateOwn("church").deleteOwn("church");
 
-  ac.grant("admin").extend("user").readOwn("admin").readAny("admin").updateOwn("admin");
+  ac.grant("admin").extend("user").extend("church").readOwn("admin").readAny("admin").updateOwn("admin");
   
   ac.grant("super admin").extend("user").extend("admin").extend("church").updateAny("super admin").createAny("super admin").deleteAny("super admin").readAny("super admin");
 
