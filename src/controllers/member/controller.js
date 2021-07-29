@@ -89,6 +89,7 @@ export const updateMember = async (req, res) => {
 export const assignOffice = async (req, res) => {
   const { church, member, office } = req.body;
   try {
+    const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const church = await Church.findById({ _id: church });
     const Member = await getModelByChurch(church, "member", memberSchema);
     let isMember = await Member.findById({ _id: member });

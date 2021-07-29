@@ -5,11 +5,15 @@ import { verifyToken } from "../../middleware/auth";
 import { office_validator, param_validator } from "../../validation/office";
 
 const router = express.Router();
-
-router.post("/office/new/:churchId", verifyToken, grantAccess("createAny", "church"), office_validator, create);
+// 
+router.post("/office/new", verifyToken, grantAccess("createAny", "church"), create);
+// 
 router.get("/office/all/:churchId", verifyToken, grantAccess("readOwn", "church"), office_validator, fetchOfficeList);
+// 
 router.get("/office/detail/:officeId/:churchId", verifyToken, grantAccess("readOwn", "church"), param_validator, fetchOffice);
+// 
 router.put("/office/update/:officeId/:churchId", verifyToken, grantAccess("updateOwn", "church"), param_validator, updateOffice);
+// 
 router.delete("/office/delete/:officeId/:churchId", verifyToken, grantAccess("deleteAny", "church"), param_validator, deleteOffice);
 
 export default router;

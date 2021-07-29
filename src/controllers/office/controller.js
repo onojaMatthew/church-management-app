@@ -1,5 +1,5 @@
 import { error, success } from "../../config/response";
-// import { churchSchema } from "../../models/church";
+import { churchSchema } from "../../models/church";
 import { officeSchema } from "../../models/office";
 import { getModelByChurch } from "../../utils/util";
 
@@ -7,6 +7,7 @@ export const create = async (req, res) => {
   const { churchId, name } = req.body;
   try {
     const Office = await getModelByChurch(churchId, "Office", officeSchema);
+    const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const isExists = await Office.findOne({ name });
     if (isExists) return res.status(400).json(error("Name already exists", res.statusCode));
     let office = new Office({ name, churchId });
@@ -15,7 +16,8 @@ export const create = async (req, res) => {
     await church.save();
     return res.json(success("New office created", office, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
+    console.log(err)
+    return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
@@ -48,7 +50,7 @@ export const updateOffice = async (req, res) => {
   const { officeId, churchId } = req.params;
   try {
     const Office = await getModelByChurch(churchId, "Office", officeSchema);
-    const office = await Office.findByIdAndUpdate({ _id: officeId }, req.body);
+    const office = await Office.findByIdAndUpdate({ _id: officeId }, req.body, { new: true });
     return res.json(success("Updated successfully", office, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Unknown Error. Please check your connection and try again", res.statusCode));
