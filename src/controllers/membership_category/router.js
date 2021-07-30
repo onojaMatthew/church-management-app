@@ -6,10 +6,10 @@ import { create, deleteCategory, fetchCategory, fetchCategoryList, updateCategor
 
 const router = express.Router();
 
-router.post("/mem_category/new", verifyToken, body_validator, create);
-router.get("/mem_category/all/:churchId", verifyToken, category_validator, fetchCategoryList);
-router.get("/mem_category/detail/:id/:churchId", verifyToken,param_validator, fetchCategory);
-router.put("/mem_category/update/:id/:churchId", verifyToken, param_validator, updateCategory);
-router.delete("/mem_category/delete/:id/:churchId", verifyToken, param_validator, deleteCategory);
+router.post("/mem_category/new", verifyToken, create);
+router.get("/mem_category/all/:churchId", verifyToken,fetchCategoryList);
+router.get("/mem_category/detail/:id/:churchId", verifyToken, fetchCategory);
+router.put("/mem_category/update/:id/:churchId", verifyToken, updateCategory);
+router.delete("/mem_category/delete/:id/:churchId", verifyToken, deleteCategory);
 
 export default router;
