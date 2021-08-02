@@ -7,14 +7,27 @@ import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 
 export const createChurch = async (req, res) => {
-  const { email, city, state, street, bank_name, acct_no, acct_name, phone, password, role } = req.body;
+  const { 
+    email, 
+    city, 
+    state, 
+    street, 
+    bank_name, 
+    acct_no, 
+    acct_name, 
+    phone, 
+    password, 
+    role,
+    branch,
+  } = req.body;
+
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     const roleData = await Role.findById({ _id: role });
     const isExists = await Church.findOne({ email });
-    const subdomain_name = email.split("@")[0];
-    const subdomain_link = `https://${subdomain_name}.${req.hostname}/`;
+    const subdomain_name = branch.split(" ").join("-");
+    const subdomain_link = `https://${req.hostname}/church`;
     if (isExists) return res.status(400).json(error("Church already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 15);
     let church = new Church({ 
@@ -31,6 +44,7 @@ export const createChurch = async (req, res) => {
       password: hash,
       subdomain_name,
       subdomain_link,
+      branch
     });
 
     church = await church.save();

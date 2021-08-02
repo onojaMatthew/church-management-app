@@ -1,0 +1,14 @@
+.church-card {
+  min-height: 80vh !important;
+  max-height: 80vh !important;
+  padding: 20px;
+}
+
+.church-card-col {
+  margin-bottom: 20px;
+}
+
+.view-church {
+  cursor: pointer;
+  color: rgb(104,187,228);
+}

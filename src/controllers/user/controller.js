@@ -174,3 +174,11 @@ export const deleteAdmin = async (req, res) => {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
 }
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("token").json(success("Successfully logged out", res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}

@@ -8,6 +8,7 @@ export const churchSchema = new Schema({
     state: { type: String },
     street: { type: String }
   },
+  branch: { type: String },
   email: { type: String, unique: true },
   phone: { type: String },
   subdomain_name: { type: String },

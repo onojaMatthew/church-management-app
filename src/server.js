@@ -14,6 +14,8 @@ const app = express();
 
 mongodb;
 
+app.use(express.static(path.join(__dirname, "/client/build")));
+
 app.use(morgan("combined"));
 app.use(express.json());
 app.use(cors());
@@ -23,9 +25,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send({ message: "Welcome to express API"})
-});
+app.get( '/', ( req, res ) => {
+  res.send({ message: "Welcome to Express API"})
+  // res.sendFile( path.join( __dirname + '/client/build/index.html' ) );
+} );
 
 router(app);
 logger();
