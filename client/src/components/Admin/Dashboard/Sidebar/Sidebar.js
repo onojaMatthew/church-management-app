@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Avatar, Image, Layout, Menu } from 'antd';
 import {
   DashboardOutlined,
@@ -16,6 +17,7 @@ const { SubMenu } = Menu;
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { logoutSuccess } = useSelector(state => state.account);
   
   const onLogout = () => {
@@ -24,9 +26,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      window.location.href = "/";
+      history.push("/");
     }
-  }, [ logoutSuccess ]);
+  }, [ logoutSuccess, history ]);
 
   return (
     <div className="side-container">
@@ -35,7 +37,7 @@ const Sidebar = () => {
           <Avatar src={<Image src={Logo} />} size={90}/>
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item onClick={() => window.location.href="/dashboard"} key="1" icon={<DashboardOutlined />}>
+          <Menu.Item onClick={() => history.push("/dashboard")} key="1" icon={<DashboardOutlined />}>
             Dashboard
           </Menu.Item>
           <Menu.Item key="2" icon={<FileOutlined />}>
@@ -44,10 +46,10 @@ const Sidebar = () => {
           <Menu.Item key="3" icon={<FileOutlined />}>
             Admin List
           </Menu.Item>
-          <Menu.Item onClick={() => window.location.href = "/dashboard/create-church"} key="4" icon={<FileOutlined />}>
+          <Menu.Item onClick={() => history.push("/dashboard/create-church")} key="4" icon={<FileOutlined />}>
             Create Church
           </Menu.Item>
-          <Menu.Item key="5" onClick={() => window.location.href = "/dashboard/church-list"} icon={<FileOutlined />}>
+          <Menu.Item key="5" onClick={() => history.push("/dashboard/church-list")} icon={<FileOutlined />}>
             Church List
           </Menu.Item>
           <SubMenu key="sub1" icon={<BankFilled />} title="Manage Church">

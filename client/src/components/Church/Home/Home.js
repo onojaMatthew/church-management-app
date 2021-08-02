@@ -5,12 +5,14 @@ import { Layout } from 'antd';
 import Sidebar from "../Sidebar/Sidebar";
 import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
+import MemberList from "../Member/MemberList/MemberList";
 
 
 const { Content, Footer } = Layout;
 
 const ChurchHomePage = (props) => {
   const { match } = props;
+  console.log(match, " this is the match object")
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar />
@@ -19,6 +21,7 @@ const ChurchHomePage = (props) => {
         <Content style={{ margin: '0 16px' }}>
           <div className="site-layout-background dashboard-content">
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
+            <Route exact path={`${match.url}/members`} render={(props) => <MemberList {...props} />} />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>©2021 Developed by Onoja Igoche Matthew</Footer>

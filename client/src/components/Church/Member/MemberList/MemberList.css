@@ -1,0 +1,39 @@
+.member-card {
+  margin-top: 20px;
+  min-height: 80vh;
+  max-height: 80vh;
+  padding: 20px;
+}
+
+.member-header-row {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.member-header-row input {
+  border-radius: 50px;
+  height: 50px;
+}
+
+.view-member-button {
+  cursor: pointer;
+  color: rgb(104,187,228);
+}
+
+.create-member-header-button {
+  background: rgb(104,187,228);
+  height: 50px;
+  border: none;
+}
+
+.create-member-header-button:hover {
+  background: rgb(104,187,228);
+  height: 50px;
+  border: none;
+}
+
+.create-member-header-button:focus {
+  background: rgb(104,187,228);
+  height: 50px;
+  border: none;
+}

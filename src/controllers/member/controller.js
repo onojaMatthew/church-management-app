@@ -20,6 +20,7 @@ export const createMember = async (req, res) => {
     newMember.occupation = req.body.occupation;
     newMember.church = req.body.church;
     newMember.category = req.body.category;
+    newMember.marital_status = req.body.marital_status;
     
     const response = await newMember.save();
     return res.json(success("Member successfully created", response, res.statusCode));

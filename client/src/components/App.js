@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/" render={(props) => <Login {...props} />} />
         <Route path="/dashboard" render={(props) => <Home {...props} />} />
-        <Route path="/church" render={(props) => <ChurchLogin {...props} />} />
+        <Route path="/church-login" render={(props) => <ChurchLogin {...props} />} />
         <Route path="/church/:subdomain" render={(props) => <ChurchHomePage {...props} />} />
       </BrowserRouter>
     </div>
