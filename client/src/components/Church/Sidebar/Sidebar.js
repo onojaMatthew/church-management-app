@@ -6,7 +6,6 @@ import {
 import { Avatar, Image, Layout, Menu } from 'antd';
 import {
   DashboardOutlined,
-  FileOutlined,
   BankFilled,
   LogoutOutlined,
   DollarCircleFilled,

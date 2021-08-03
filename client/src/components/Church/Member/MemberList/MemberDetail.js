@@ -4,7 +4,23 @@ import { Avatar, Divider } from "antd";
 
 import "./MemberList.css";
 
-const Member = ({ modal, toggle, data }) => {
+const Member = ({ 
+  modal, 
+  toggle, 
+  handleChange,
+  first_name,
+  last_name,
+  email,
+  phone,
+  city,
+  street,
+  state,
+  state_of_origin,
+  marital_status,
+  occupation,
+  category,
+  dob,
+}) => {
   const [ readOnly, setReadOnly ] = useState(true);
 
   const toggleReadOnly = () => {
@@ -27,36 +43,36 @@ const Member = ({ modal, toggle, data }) => {
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>First name</label>
-            <Input value={"John"} readOnly={readOnly}/>
+            <Input value={first_name} name="first_name" onChange={(e) => handleChange(e)} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Last name</label>
-            <Input value={"Doe"} readOnly={readOnly}/>
+            <Input value={last_name} name="last_name" onChange={(e) => handleChange(e)} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Email</label>
-            <Input value={"johdoe@gmail.com"} readOnly={readOnly}/>
+            <Input value={email} name="email" onChange={(e) => handleChange(e)} readOnly={readOnly}/>
           </Col>
         </Row>
         <Divider>Contact Info</Divider>
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="12" xl="12">
             <label>Street</label>
-            <Input value={"21 Akinnagbe, Seaside Estate Badore Road"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="street" value={street} readOnly={readOnly}/>
           </Col>
         </Row>
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>City</label>
-            <Input value={"Ajah"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="city" value={city} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>State</label>
-            <Input value={"Lagos"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="state" value={state} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Phone</label>
-            <Input value={"09012345678"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="phone" value={phone} readOnly={readOnly}/>
           </Col>
         </Row>
         
@@ -65,29 +81,29 @@ const Member = ({ modal, toggle, data }) => {
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>State of Origin</label>
-            <Input value={"Lagos"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="state_of_origin" value={state_of_origin} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Occupation</label>
-            <Input value={"Software Developer"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="occupation" value={occupation} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Marital Status</label>
-            <Input value={"Married"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="marital_status" value={marital_status} readOnly={readOnly}/>
           </Col>
         </Row>
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Date of Birth</label>
-            <Input value={"21/10/1986"} readOnly={readOnly}/>
+            <Input type="date" onChange={(e) => handleChange(e)} name="dob" value={dob} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Responsibility</label>
-            <Input value={"Head usher"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="office" value={"Head usher"} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Membership</label>
-            <Input value={"Individual"} readOnly={readOnly}/>
+            <Input onChange={(e) => handleChange(e)} name="category" value={category} readOnly={readOnly}/>
           </Col>
         </Row>
         <Divider>Actions</Divider>

@@ -1,16 +1,106 @@
 import { EyeOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { Button, Card, CardBody, Col, Input, Row, Table } from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap";
+import { memberList } from "../../../../store/actions/actions_member";
+import { categoryDetail } from "../../../../store/actions/actions_mem_category";
 import Member from "./MemberDetail";
+import { errorMsg } from "../../../../helper/message";
 
 import "./MemberList.css";
 
 const MemberList = () => {
+  const dispatch = useDispatch();
+  const { listLoading, members, error } = useSelector(state => state.member);
+  const { categoryInfo, categorySuccess } = useSelector(state => state.category);
+  const [ values, setValues ] = useState({ 
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    city: "",
+    street: "",
+    state: "",
+    state_of_origin: "",
+    marital_status: "",
+    occupation: "",
+    category: "",
+    dob: "",
+  });
+  const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
+  const [ currentMember, setCurrentMember ] = useState({});
 
-  const toggle = () => {
+  const toggle = (id) => {
+    setId(id)
     setModal(!modal);
   }
+
+  const {
+    first_name,
+    last_name,
+    email,
+    phone,
+    city,
+    street,
+    state,
+    state_of_origin,
+    marital_status,
+    occupation,
+    category,
+    dob,
+  } = values;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value })
+  }
+
+  useEffect(() => {
+    dispatch(memberList());
+  }, [ dispatch ]);
+
+  useEffect(() => {
+    if (currentMember && currentMember._id !== null) {
+      setValues({ 
+        first_name: currentMember.first_name,
+        last_name: currentMember.last_name,
+        email: currentMember.email,
+        phone: currentMember.phone,
+        city: currentMember.address && currentMember.address.city,
+        street: currentMember.address && currentMember.address.street,
+        state: currentMember.address && currentMember.address.state,
+        state_of_origin: currentMember.state_of_origin,
+        marital_status: currentMember.marital_status,
+        occupation: currentMember.occupation,
+        dob: currentMember.dob,
+      })
+
+      console.log(currentMember && currentMember.category, " the category")
+      dispatch(categoryDetail(currentMember && currentMember.category))
+    }
+  }, [ currentMember, dispatch ]);
+
+  useEffect(() => {
+    if (error && error === "Operation `members.find()` buffering timed out after 10000ms") {
+      errorMsg("Request timed out. Check your network and try again")
+    } else if (error && error.includes("Could not connect to any servers in your MongoDB Atlas cluster.")) {
+      errorMsg("Request failed due to network error");
+    }
+  }, [ error ]);
+
+  useEffect(() => {
+    if (id && id.length > 0) {
+      const selectedMember = members.find(m => m._id === id);
+      setCurrentMember(selectedMember);
+    }
+  }, [ id, members ]);
+
+  useEffect(() => {
+    if (categorySuccess && categoryInfo && categoryInfo._id !== null) {
+      setValues({ category: categoryInfo.name});
+    }
+  }, [ categoryInfo, categorySuccess ]);
 
   return (
     <div>
@@ -42,83 +132,51 @@ const MemberList = () => {
                   <th>Marital Status</th>
                   <th>Action</th>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-
-                  <tr>
-                    <td>3</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-
-                  <tr>
-                    <td>4</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-
-                  <tr>
-                    <td>5</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-
-                  <tr>
-                    <td>6</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>johndoe@gmail.com</td>
-                    <td>09088464233</td>
-                    <td>Lagos</td>
-                    <td>Software Engineer</td>
-                    <td>Married</td>
-                    <td className="view-member-button" onClick={toggle}><EyeOutlined size="large" /> View</td>
-                  </tr>
-                </tbody>
+                {listLoading ? 
+                <div className="text-center mt-5">
+                  <Spinner color="info" animation="grow">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div> : 
+                 members && members.length > 0 ? (
+                  <tbody>
+                    {members && members.map((m, i) => (
+                      <tr key={m._id}>
+                        <td>{i+1}</td>
+                        <td>{m && m.first_name}</td>
+                        <td>{m && m.last_name}</td>
+                        <td>{m && m.email}</td>
+                        <td>{m && m.phone}</td>
+                        <td>{m && m.state_of_origin}</td>
+                        <td>{m && m.occupation}</td>
+                        <td>{m && m.marital_status}</td>
+                        <td className="view-member-button" onClick={() => toggle(m._id)}><EyeOutlined size="large" /> View</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                 ) : 
+                 <p className="text-center mt-5">No records found</p>}
+                
               </Table>
             </Col>
           </Row>
-          <Member toggle={toggle} modal={modal} />
+          <Member 
+            toggle={toggle} 
+            modal={modal}
+            handleChange={handleChange}
+            first_name={first_name}
+            last_name={last_name}
+            email={email}
+            phone={phone}
+            city={city}
+            street={street}
+            state={state}
+            state_of_origin={state_of_origin}
+            marital_status={marital_status}
+            occupation={occupation}
+            category={category}
+            dob={dob}
+          />
         </CardBody>
       </Card>
     </div>
