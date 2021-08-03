@@ -76,10 +76,10 @@ export const categoryListFailed = (error) => {
 }
 
 
-export const categoryList = (mem_id) => {
+export const categoryList = () => {
   return dispatch => {
     dispatch(categoryListStart());
-    fetch(`${BASE_URL}/mem_category/detail/${mem_id}/${id}`, {
+    fetch(`${BASE_URL}/mem_category/all/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

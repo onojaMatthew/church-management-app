@@ -69,6 +69,10 @@
   min-width: 800px !important;
 }
 
+#member-detail-modal label {
+  margin-bottom: 5px !important;
+}
+
 #modal-body {
   padding: 40px !important;
 }

@@ -2,17 +2,18 @@ import { EyeOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap";
-import { memberList } from "../../../../store/actions/actions_member";
-import { categoryDetail } from "../../../../store/actions/actions_mem_category";
+import { memberList, postMember } from "../../../../store/actions/actions_member";
+import { categoryDetail, categoryList } from "../../../../store/actions/actions_mem_category";
 import Member from "./MemberDetail";
-import { errorMsg } from "../../../../helper/message";
+import { errorMsg, success } from "../../../../helper/message";
 
 import "./MemberList.css";
+import NewMember from "../NewMember/NewMember";
 
 const MemberList = () => {
   const dispatch = useDispatch();
-  const { listLoading, members, error } = useSelector(state => state.member);
-  const { categoryInfo, categorySuccess } = useSelector(state => state.category);
+  const { listLoading, members, postSuccess, error } = useSelector(state => state.member);
+  const { categories, categoryInfo, categorySuccess } = useSelector(state => state.category);
   const [ values, setValues ] = useState({ 
     first_name: "",
     last_name: "",
@@ -29,11 +30,16 @@ const MemberList = () => {
   });
   const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
   const [ currentMember, setCurrentMember ] = useState({});
 
   const toggle = (id) => {
     setId(id)
     setModal(!modal);
+  }
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
   }
 
   const {
@@ -58,6 +64,7 @@ const MemberList = () => {
 
   useEffect(() => {
     dispatch(memberList());
+    dispatch(categoryList())
   }, [ dispatch ]);
 
   useEffect(() => {
@@ -75,8 +82,6 @@ const MemberList = () => {
         occupation: currentMember.occupation,
         dob: currentMember.dob,
       })
-
-      console.log(currentMember && currentMember.category, " the category")
       dispatch(categoryDetail(currentMember && currentMember.category))
     }
   }, [ currentMember, dispatch ]);
@@ -102,6 +107,31 @@ const MemberList = () => {
     }
   }, [ categoryInfo, categorySuccess ]);
 
+  const handleSubmit = () => {
+    const data = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      city,
+      street,
+      state,
+      state_of_origin,
+      marital_status,
+      occupation,
+      category,
+      dob,
+    }
+
+    dispatch(postMember(data));
+  }
+
+  useEffect(() => {
+    if (postSuccess) {
+      success("New member added");
+    }
+  }, [ postSuccess ])
+
   return (
     <div>
       <Card className="member-card">
@@ -114,7 +144,7 @@ const MemberList = () => {
               <Input placeholder="Search..." />
             </Col>
             <Col xs="12" sm="12" md="12" lg="2" xl="2" className="create-toggle-btn">
-              <Button className="create-member-header-button lead">Create a New Member</Button>
+              <Button onClick={toggleOpen} className="create-member-header-button lead">Create a New Member</Button>
             </Col>
           </Row>
 
@@ -161,7 +191,8 @@ const MemberList = () => {
             </Col>
           </Row>
           <Member 
-            toggle={toggle} 
+            toggle={toggle}
+            handleSubmit={handleSubmit}
             modal={modal}
             handleChange={handleChange}
             first_name={first_name}
@@ -179,6 +210,24 @@ const MemberList = () => {
           />
         </CardBody>
       </Card>
+      <NewMember
+        isOpen={isOpen}
+        toggleOpen={toggleOpen}
+        categories={categories}
+        handleChange={handleChange}
+        first_name={first_name}
+        last_name={last_name}
+        email={email}
+        phone={phone}
+        city={city}
+        street={street}
+        state={state}
+        state_of_origin={state_of_origin}
+        marital_status={marital_status}
+        occupation={occupation}
+        category={category}
+        dob={dob}
+      />
     </div>
   );
 }
