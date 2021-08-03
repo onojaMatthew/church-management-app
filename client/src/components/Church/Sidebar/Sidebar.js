@@ -8,7 +8,10 @@ import {
   DashboardOutlined,
   FileOutlined,
   BankFilled,
-  LogoutOutlined
+  LogoutOutlined,
+  DollarCircleFilled,
+  UsergroupAddOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import Logo from "../../../assets/images/User.jpeg";
 import "./Sidebar.css";
@@ -44,13 +47,13 @@ const Sidebar = () => {
           <Menu.Item onClick={() => window.location.href = `${match && match.url}`} key="1" icon={<DashboardOutlined />}>
             Dashboard
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/members`)} key="2" icon={<FileOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/members`)} key="2" icon={<UsergroupAddOutlined />}>
             Member Management
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="3" icon={<FileOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="3" icon={<UserOutlined />}>
             Officers 
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="4" icon={<FileOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="4" icon={<UsergroupAddOutlined />}>
             Group and Subgroups
           </Menu.Item>
           <SubMenu key="sub1" icon={<BankFilled />} title="Events and Programs">
@@ -58,7 +61,12 @@ const Sidebar = () => {
             <Menu.Item key="7" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Birthday Events</Menu.Item>
             <Menu.Item key="8" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Wedding Events</Menu.Item>
           </SubMenu>
-          <Menu.Item onClick={onLogout} key="9" icon={<LogoutOutlined />}>
+          <SubMenu key="sub2" icon={<DollarCircleFilled />} title="Finance">
+            <Menu.Item key="9" onClick={() => navigate.push(`${match && match.url}/programs`)}>Programs</Menu.Item>
+            <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Birthday Events</Menu.Item>
+            <Menu.Item key="11" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Wedding Events</Menu.Item>
+          </SubMenu>
+          <Menu.Item onClick={onLogout} key="12" icon={<LogoutOutlined />}>
             Logout
           </Menu.Item>
         </Menu>

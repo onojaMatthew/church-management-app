@@ -11,7 +11,7 @@ import ChurchList from "../Church/ChurchList/ChurchList";
 const { Content, Footer } = Layout;
 
 const Home = (props) => {
-  const { match } = props;
+  const { match } = props; 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar />

@@ -17,6 +17,7 @@ export const memberSchema = new Schema({
   state_of_origin: { type: String },
   office: { type: ObjectId, ref: "Office" },
   occupation: { type: String },
+  dob: { type: Date },
   marital_status: { type: String },
 }, { timestamps: true });
 

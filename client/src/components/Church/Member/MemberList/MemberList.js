@@ -18,12 +18,12 @@ const MemberList = () => {
         <CardBody>
           <Row className="member-header-row">
             <Col xs="12" sm="12" md="12" lg="2" xl="2">
-              <p className="member-header lead">Member List</p>
+              <p className="member-header">Member List</p>
             </Col>
             <Col xs="12" sm="12" md="12" lg="8" xl="8">
               <Input placeholder="Search..." />
             </Col>
-            <Col xs="12" sm="12" md="12" lg="2" xl="2">
+            <Col xs="12" sm="12" md="12" lg="2" xl="2" className="create-toggle-btn">
               <Button className="create-member-header-button lead">Create a New Member</Button>
             </Col>
           </Row>
