@@ -19,7 +19,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Row className="mb-4 dashboard-subhead">
+      <Row className="dashboard-subhead">
         <Col xs="12" sm="12" md="3" lg="1" xl="1">
           <div className="user-image-cont">
             <Avatar src={<Image src={User} />} size={100} />

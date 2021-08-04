@@ -10,7 +10,7 @@ import {
   LogoutOutlined,
   DollarCircleFilled,
   UsergroupAddOutlined,
-  UserOutlined
+  SettingFilled
 } from '@ant-design/icons';
 import Logo from "../../../assets/images/User.jpeg";
 import "./Sidebar.css";
@@ -49,9 +49,7 @@ const Sidebar = () => {
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/members`)} key="2" icon={<UsergroupAddOutlined />}>
             Member Management
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="3" icon={<UserOutlined />}>
-            Officers 
-          </Menu.Item>
+          
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="4" icon={<UsergroupAddOutlined />}>
             Group and Subgroups
           </Menu.Item>
@@ -65,6 +63,9 @@ const Sidebar = () => {
             <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Tithes</Menu.Item>
             <Menu.Item key="11" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Thanksgiving</Menu.Item>
           </SubMenu>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="3" icon={<SettingFilled />}>
+            Settings
+          </Menu.Item>
           <Menu.Item onClick={onLogout} key="12" icon={<LogoutOutlined />}>
             Logout
           </Menu.Item>

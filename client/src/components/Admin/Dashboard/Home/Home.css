@@ -1,3 +1,6 @@
+.dashboard-container-wrapper {
+  margin: 0 16px;
+}
 
 .dashboard-content {
   padding: 24px;
@@ -113,9 +116,14 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .dashboard-container-wrapper {
+    margin: 0 1px !important;
+  }
   .dashboard-content {
-    padding: 12px;
-    min-height: 360;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+    padding-top: 5px !important;
+    min-height: 360px;
   }
 
   .fcard {
@@ -179,8 +187,9 @@
 
 @media only screen and (min-width: 800px) {
   .dashboard-content {
-    padding: 12px;
+    padding: 5px !important;
     min-height: 360;
+    z-index: 0;
   }
 
   .fcard {

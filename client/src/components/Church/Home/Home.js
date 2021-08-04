@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
 import MemberList from "../Member/MemberList/MemberList";
+import Settings from "../settings/Settings";
 
 
 const { Content, Footer } = Layout;
@@ -17,10 +18,11 @@ const ChurchHomePage = (props) => {
       <Sidebar />
       <Layout className="site-layout">
         <Head />
-        <Content style={{ margin: '0 16px' }}>
+        <Content className="dashboard-container-wrapper">
           <div className="site-layout-background dashboard-content">
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
             <Route exact path={`${match.url}/members`} render={(props) => <MemberList {...props} />} />
+            <Route exact path={`${match.url}/settings`} render={(props) => <Settings {...props} />} />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>©2021 Developed by Onoja Igoche Matthew</Footer>

@@ -45,6 +45,10 @@
   color: rgb(104,187,228);
 }
 
+.btn-loader {
+  color: #FFFFFF !important;
+}
+
 @media only screen and (max-width: 490px){
   .login-container {
     height: 100vh;

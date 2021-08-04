@@ -1,28 +1,33 @@
 import React from "react";
+import styled from 'styled-components';
+import Burger from './Burger';
+
+const Nav = styled.nav`
+  width: 100%;
+  height: 55px;
+  border-bottom: 2px solid #f1f1f1;
+  display: flex;
+  background-color: #FFFFFFF !important;
+  justify-content: space-between;
+  .logo {
+    position: fixed;
+    z-index: 1;
+    padding: 15px 15px;
+    background: #FFF;
+    width: 100%;
+    height: 60px;
+    box-shadow: 0px 1px rgba(0, 0, 0, 0.125);
+  }
+`
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <span className="navbar-brand">Hidden brand</span>
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <span className="nav-link active" aria-current="page">Home</span>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link">Link</span>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link disabled" tabindex="-1" aria-disabled="true">Disabled</span>
-            </li>
-          </ul>
-        </div>
+    <Nav>
+      <div className="logo">
+        Nav Bar
       </div>
-    </nav>
+      <Burger />
+    </Nav>
   )
 }
 

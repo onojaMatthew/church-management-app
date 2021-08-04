@@ -40,7 +40,7 @@ const ChurchList = (props) => {
                 churches && churches.length > 0 ? churches.map((church, i) => (
                   <tr key={church && church._id}>
                     <td>{i+1}</td>
-                    <td>{"Branch name"}</td>
+                    <td>{church && church.branch}</td>
                     <td>{church && church.email}</td>
                     <td>{church && church.phone}</td>
                     <td>{church && church.address && church.address.street}</td>
