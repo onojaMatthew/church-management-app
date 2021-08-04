@@ -1,5 +1,6 @@
 import { EyeOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap";
 import { memberList, postMember } from "../../../../store/actions/actions_member";
@@ -9,10 +10,12 @@ import { errorMsg, success } from "../../../../helper/message";
 
 import "./MemberList.css";
 import NewMember from "../NewMember/NewMember";
+import { localAuth } from "../../../../helper/authenticate";
 
 const MemberList = () => {
   const dispatch = useDispatch();
-  const { listLoading, members, postSuccess, error } = useSelector(state => state.member);
+  const church = localAuth() && localAuth().church && localAuth().church._id;
+  const { listLoading, members, postSuccess, postLoading, error } = useSelector(state => state.member);
   const { categories, categoryInfo, categorySuccess } = useSelector(state => state.category);
   const [ values, setValues ] = useState({ 
     first_name: "",
@@ -32,7 +35,7 @@ const MemberList = () => {
   const [ modal, setModal ] = useState(false);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ currentMember, setCurrentMember ] = useState({});
-
+  const history = useHistory();
   const toggle = (id) => {
     setId(id)
     setModal(!modal);
@@ -91,8 +94,10 @@ const MemberList = () => {
       errorMsg("Request timed out. Check your network and try again")
     } else if (error && error.includes("Could not connect to any servers in your MongoDB Atlas cluster.")) {
       errorMsg("Request failed due to network error");
+    } else if (error === "Invalid token") {
+      history.push("/church-login")
     }
-  }, [ error ]);
+  }, [ error, history ]);
 
   useEffect(() => {
     if (id && id.length > 0) {
@@ -121,6 +126,7 @@ const MemberList = () => {
       occupation,
       category,
       dob,
+      church,
     }
 
     dispatch(postMember(data));
@@ -128,6 +134,7 @@ const MemberList = () => {
 
   useEffect(() => {
     if (postSuccess) {
+      setIsOpen(false);
       success("New member added");
     }
   }, [ postSuccess ])
@@ -227,6 +234,9 @@ const MemberList = () => {
         occupation={occupation}
         category={category}
         dob={dob}
+        handleSubmit={handleSubmit}
+        postLoading={postLoading}
+        postSuccess={postSuccess}
       />
     </div>
   );

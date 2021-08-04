@@ -75,12 +75,12 @@ export const postMemberFailed = (error) => {
 export const postMember = (data) => {
   return dispatch => {
     dispatch(postMemberStart());
-    fetch(`${BASE_URL}/member/new/${id}`, {
+    fetch(`${BASE_URL}/member/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
-        "Authorziation": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data)
     })

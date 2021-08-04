@@ -114,6 +114,7 @@
   height:50px;
   background: rgb(104,187,228);
   border: none;
+  color: #FFFFFF;
 }
 
 .member-delete {
@@ -121,6 +122,7 @@
   width: 100%;
   height:50px;
   border: none;
+  color: #FFFFFF;
 }
 
 .add-to-group:hover, .a-responsibility:hover {
@@ -128,6 +130,7 @@
   height:50px;
   background: rgb(104,187,228);
   border: non;
+  color: #FFFFFF;
 }
 
 .member-delete:hover {
@@ -135,6 +138,7 @@
   width: 100%;
   height:50px;
   border: none;
+  color: #FFFFFF;
 }
 
 .add-to-group:focus, .a-responsibility:focus {
@@ -142,6 +146,7 @@
   height:50px;
   background: rgb(104,187,228);
   border: none;
+  color: #FFFFFF;
 }
 
 .member-delete:focus {
@@ -149,6 +154,7 @@
   width: 100%;
   height:50px;
   border: none;
+  color: #FFFFFF;
 }
 
 

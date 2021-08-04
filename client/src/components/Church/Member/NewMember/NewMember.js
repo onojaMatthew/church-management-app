@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Row, Col, Input, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
-import { Avatar, Divider } from "antd";
+import React from "react";
+import { Row, Col, Input, Modal, ModalBody, ModalHeader  } from "reactstrap";
+import { Avatar, Divider, Button } from "antd";
+import { State } from "country-state-city";
 
 import "../MemberList/MemberList.css";
 
@@ -9,19 +10,21 @@ const NewMember = ({
   isOpen, 
   toggleOpen, 
   handleChange,
+  handleSubmit,
   first_name,
   last_name,
   email,
   phone,
   city,
   street,
-  state,
-  state_of_origin,
   marital_status,
   occupation,
-  category,
+  postLoading,
+  // category,
   dob,
 }) => {
+
+  const allStates = State.getStatesOfCountry("NG");
   
   return (
     <Modal id="member-detail-modal" isOpen={isOpen} toggle={toggleOpen}>
@@ -32,8 +35,7 @@ const NewMember = ({
             <Avatar size={100} />
           </Col>
         </Row>
-        <Divider>Member Info</Divider>detail
-        <Divider>Member Info</Divider>detaildetaildetail
+        <Divider>Member Info</Divider>
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>First name *</label>
@@ -62,7 +64,12 @@ const NewMember = ({
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>State *</label>
-            <Input placeholder="State of residence" onChange={(e) => handleChange(e)} name="state" value={state} />
+            <Input type="select" onChange={(e) => handleChange(e)} name="state">
+              <option>State</option>
+              {allStates && allStates.map((s, i) => (
+                <option key={i} value={s.name}>{s.name}</option>
+              ))}
+            </Input>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Phone *</label>
@@ -75,7 +82,12 @@ const NewMember = ({
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>State of Origin *</label>
-            <Input placeholder="State of Origin" onChange={(e) => handleChange(e)} name="state_of_origin" value={state_of_origin} />
+            <Input onChange={(e) => handleChange(e)} name="state_of_origin">
+              <option>State of Origin</option>
+              {allStates && allStates.map((s, i) => (
+                <option key={i} value={s.name}>{s.name}</option>
+              ))}
+            </Input>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Occupation *</label>
@@ -109,11 +121,12 @@ const NewMember = ({
 
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <Button className="add-to-group">Submit</Button>
+            {postLoading ? <Button className="add-to-group" loading>Loading</Button> : 
+            <Button onClick={handleSubmit} className="add-to-group">Submit</Button>}
           </Col>
           
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <Button className="member-delete">Cancel</Button>
+            <Button onClick={toggleOpen} className="member-delete">Cancel</Button>
           </Col>
         </Row>
       </ModalBody>

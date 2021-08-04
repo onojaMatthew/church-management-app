@@ -61,9 +61,9 @@ const Sidebar = () => {
             <Menu.Item key="8" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Wedding Events</Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<DollarCircleFilled />} title="Finance">
-            <Menu.Item key="9" onClick={() => navigate.push(`${match && match.url}/programs`)}>Programs</Menu.Item>
-            <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Birthday Events</Menu.Item>
-            <Menu.Item key="11" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Wedding Events</Menu.Item>
+            <Menu.Item key="9" onClick={() => navigate.push(`${match && match.url}/programs`)}>Offerings</Menu.Item>
+            <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Tithes</Menu.Item>
+            <Menu.Item key="11" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Thanksgiving</Menu.Item>
           </SubMenu>
           <Menu.Item onClick={onLogout} key="12" icon={<LogoutOutlined />}>
             Logout

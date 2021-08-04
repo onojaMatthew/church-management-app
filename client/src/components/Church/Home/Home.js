@@ -12,7 +12,6 @@ const { Content, Footer } = Layout;
 
 const ChurchHomePage = (props) => {
   const { match } = props;
-  console.log(match, " this is the match object")
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar />
