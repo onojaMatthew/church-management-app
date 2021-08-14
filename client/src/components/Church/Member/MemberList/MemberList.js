@@ -94,7 +94,7 @@ const MemberList = () => {
       errorMsg("Request timed out. Check your network and try again")
     } else if (error && error.includes("Could not connect to any servers in your MongoDB Atlas cluster.")) {
       errorMsg("Request failed due to network error");
-    } else if (error === "Invalid token") {
+    } else if (error === "Invalid token" || error.includes("Invalid role")) {
       history.push("/church-login")
     }
   }, [ error, history ]);

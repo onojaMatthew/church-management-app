@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Input, Card, CardBody, Spinner } from "reactstrap";
+import { Row, Col, Input, Card, CardBody } from "reactstrap";
 import { Avatar, Button, Image } from "antd";
 import User from "../../../assets/images/User.jpeg";
 import "./Login.css";
@@ -51,7 +51,6 @@ const ChurchLogin = () => {
   useEffect(() => {
     if (subdomain) {
       success("Logged in success");
-      console.log()
       window.location.href = `/church/${subdomain}`;
     }
   }, [ subdomain ])
@@ -73,19 +72,13 @@ const ChurchLogin = () => {
               <label>Password *</label>
               <Input onChange={(e) => handleChange(e)} placeholder="Enter password" type="password" name="password" value={password} />
               <p className="mb-4 forgot-p-text">Forgot password</p>
-              <Button onClick={handleSubmit} className="login-button">{loginLoading ? (
-                <div>
-                  <Spinner color="info" animation="grow">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner> Processing...
-                </div>
-              ) : "Login"}</Button>
+              {loginLoading ? <Button className="login-button" loading>Loading...</Button> : <Button onClick={handleSubmit} className="login-button">Login</Button>}
             </CardBody>
           </Card>
         </Col>
       </Row>
     </div>
-  )
+  );
 }
 
 export default ChurchLogin;

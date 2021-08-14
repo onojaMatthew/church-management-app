@@ -7,6 +7,7 @@ import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
 import MemberList from "../Member/MemberList/MemberList";
 import Settings from "../settings/Settings";
+import Groups from "../Groups/Groups";
 
 
 const { Content, Footer } = Layout;
@@ -22,6 +23,7 @@ const ChurchHomePage = (props) => {
           <div className="site-layout-background dashboard-content">
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
             <Route exact path={`${match.url}/members`} render={(props) => <MemberList {...props} />} />
+            <Route path={`${match.url}/groups`} render={(props) => <Groups {...props} />} />
             <Route exact path={`${match.url}/settings`} render={(props) => <Settings {...props} />} />
           </div>
         </Content>

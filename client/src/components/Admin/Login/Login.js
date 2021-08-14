@@ -54,9 +54,7 @@ const Login = () => {
               <label>Password *</label>
               <Input onChange={(e) => handleChange(e)} placeholder="Enter password" type="password" name="password" value={password} />
               <p className="mb-4 forgot-p-text">Forgot password</p>
-              {loginLoading ? <Button className="btn-loader login-button" loading>Loading...</Button> :
-              <Button onClick={handleSubmit} className="login-button">Login</Button>
-              }
+              {loginLoading ? <Button className="login-button" loading>Loading...</Button> : <Button onClick={handleSubmit} className="login-button">Login</Button>}
             </CardBody>
           </Card>
         </Col>
