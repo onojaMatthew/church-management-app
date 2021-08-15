@@ -11,8 +11,8 @@ import {
   updateRole, 
   logout,
 } from "./controller";
-import { loginValidator, new_admin_validator } from "../../validation/user";
-import { grantAccess } from "../../middleware/access";
+// import { loginValidator, new_admin_validator } from "../../validation/user";
+// import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
 
 const router = express.Router();

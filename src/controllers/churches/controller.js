@@ -103,7 +103,8 @@ export const churchLogin = async (req, res) => {
 export const churchList = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const churchList = await Church.find({});
+    const churchList = await Church.paginate({});
+    if (!churchList) return res.json(success("No records found", churchList, res.statusCode))
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

@@ -38,7 +38,7 @@ export const getMembers = async (req, res) => {
   const { church } = req.params;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    const members = await Member.find({});
+    const members = await Member.paginate({});
     if (!members) return res.json(success("No records found", members, res.statusCode));
     return res.json(success("Success", members, res.statusCode));
   } catch (err) {

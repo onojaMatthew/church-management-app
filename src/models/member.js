@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const { Schema, ObjectId } = mongoose;
 
@@ -21,4 +22,4 @@ export const memberSchema = new Schema({
   marital_status: { type: String },
 }, { timestamps: true });
 
-// / 
+memberSchema.plugin(mongoosePaginate);

@@ -32,6 +32,7 @@ export const serviceList = async (req, res) => {
   try {
     const Service = await getModelByChurch(church, "Service", serviceSchema);
     const services = await Service.paginate({});
+    if (!services) return res.json(success("No records found", services, res.statusCode));
     return res.json(success("Success", services, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
@@ -43,6 +44,7 @@ export const service = async (req, res) => {
   try {
     const Service = await getModelByChurch(church, "Group", serviceSchema);
     const service = await Service.findById({ _id: serviceId});
+    if (!service) return res.json(success("No records found", service, res.statusCode));
     return res.json(success("Success", service, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
@@ -53,8 +55,8 @@ export const updateService = async (req, res) => {
   const { church } = req.query;
   try {
     const Service = await getModelByChurch(church, "Service", serviceSchema);
-    const group = await Service.findByIdAndUpdate({ _id: req.body.id }, req.body, { new: true });
-    return res.json(success("Success", servuce, res.statusCode));
+    const service = await Service.findByIdAndUpdate({ _id: req.body.id }, req.body, { new: true });
+    return res.json(success("Success", service, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }

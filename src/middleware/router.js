@@ -6,6 +6,7 @@ import churchRoutes from "../controllers/churches/router";
 import mem_categoryRoutes from "../controllers/membership_category/router";
 import memberRoutes from "../controllers/member/router";
 import groupRoutes from "../controllers/groups/router";
+import serviceRoutes from "../controllers/service/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -15,5 +16,6 @@ export default (app) => {
   app.use("/api/v1", mem_categoryRoutes);
   app.use("/api/v1", memberRoutes);
   app.use("/api/v1", groupRoutes);
+  app.use("/api/v1", serviceRoutes);
   app.use(error);
 }

@@ -1,16 +1,16 @@
 import express from "express";
 import { grantAccess } from "../../middleware/access";
-import { validateParams, validateQuery } from "../../validation/group";
-import { deleteService, service, ServiceList, postService, updateService } from "./controllers";
+import { validateParams, validateQuery, validateInput } from "../../validation/service";
 import { verifyToken } from "../../middleware/auth"
+import { serviceList, postService, service, updateService, deleteService } from "./controller";
 
 
 const router = express.Router();
 
-router.post("/service/new", verifyToken, grantAccess("createOwn", "church"),  postGroup);
-router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, groupList);
-router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), validateQuery, group);
-router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateGroup);
-router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteGroup);
+router.post("/service/new", verifyToken, grantAccess("createOwn", "church"), validateInput, postService);
+router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, serviceList);
+router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), validateQuery, service);
+router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateService);
+router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), validateQuery, deleteService);
 
 export default router;

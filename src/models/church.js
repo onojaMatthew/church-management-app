@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const { Schema, ObjectId } = mongoose;
 
@@ -27,3 +28,4 @@ export const churchSchema = new Schema({
   password: { type: String },
 }, { timestamps: true });
 
+churchSchema.plugin(mongoosePaginate);
