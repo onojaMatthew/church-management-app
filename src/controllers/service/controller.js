@@ -42,7 +42,7 @@ export const serviceList = async (req, res) => {
 export const service = async (req, res) => {
   const { church, serviceId } = req.query
   try {
-    const Service = await getModelByChurch(church, "Group", serviceSchema);
+    const Service = await getModelByChurch(church, "Service", serviceSchema);
     const service = await Service.findById({ _id: serviceId});
     if (!service) return res.json(success("No records found", service, res.statusCode));
     return res.json(success("Success", service, res.statusCode));
@@ -65,7 +65,7 @@ export const updateService = async (req, res) => {
 export const deleteService = async (req, res) => {
   const { church, serviceId } = req.query;
   try {
-    const Service = await getModelByChurch(church, "Group", groupSchema);
+    const Service = await getModelByChurch(church, "Service", serviceSchema);
     const service = await Service.findByIdAndDelete({ _id: serviceId});
     return res.json(success("Success", service, res.statusCode));
   } catch (err) {
