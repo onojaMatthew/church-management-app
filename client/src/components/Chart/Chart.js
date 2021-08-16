@@ -10,7 +10,7 @@ const Charts = () => {
       chartType="ColumnChart"
       loader={<div>Loading Chart</div>}
       data={[
-        ['City', '2010 Population', '2000 Population'],
+        ['City', 'Female Members', 'Male Members'],
         ['Jan', 500, 8000],
         ['Feb', 2000, 4000],
         ['Mar', 5000, 6000],
@@ -25,14 +25,14 @@ const Charts = () => {
         ['Dec', 6000, 7000],
       ]}
       options={{
-        title: 'Number of new members for each month',
+        title: 'Number of new members',
         chartArea: { width: '70%' },
         hAxis: {
           title: 'Month',
           minValue: 0,
         },
         vAxis: {
-          title: 'New members',
+          title: 'New Members',
         },
       }}
       legendToggle

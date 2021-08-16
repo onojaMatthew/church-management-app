@@ -19,6 +19,7 @@ export const memberSchema = new Schema({
   office: { type: ObjectId, ref: "Office" },
   occupation: { type: String },
   dob: { type: Date },
+  sex: { type: String, enum: [ "male", "female" ]},
   marital_status: { type: String },
 }, { timestamps: true });
 

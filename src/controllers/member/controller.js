@@ -24,6 +24,7 @@ export const createMember = async (req, res) => {
     newMember.category = req.body.category;
     newMember.marital_status = req.body.marital_status;
     newMember.dob = req.body.dob;
+    newMember.sex = req.body.sex;
     
     const response = await newMember.save();
 

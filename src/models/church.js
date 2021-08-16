@@ -25,6 +25,7 @@ export const churchSchema = new Schema({
   officers: [{ type: ObjectId, ref: "Officer" }],
   office: [{ type: ObjectId, ref: "Office" }],
   members: [ {type: ObjectId, ref: "Member" }],
+  head_pastor: { type: String },
   password: { type: String },
 }, { timestamps: true });
 

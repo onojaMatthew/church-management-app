@@ -30,7 +30,7 @@ export const validateParams = [
 ];
 
 export const validateQuery = [
-  query("serviceId").isMongoId().withMessage("Invalid group ID"),
+  query("serviceId").isMongoId().withMessage("Invalid service ID"),
   query("church").isMongoId().withMessage("Invalid church ID"),
   (req, res, next) => {
     const errors = validationResult(req);

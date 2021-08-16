@@ -6,16 +6,26 @@ export const postBirthday = async (req, res) => {
   const { celebrants, church } = req.body;
 
   try {
-    // let birthdays = [];
-    // celebrants.forEach(celeb => birthdays.push(celeb));
-    // console.log(birthdays, " the birth days");
+    let birthdays = [];
+    
     const Birthday = await getModelByChurch(church, "Birthday", birthdaySchema);
-    let event = new Birthday({ celebrants: celebrants });
+    let event;
 
-    event = await event.save();
-    return res.json(success("Birthday event created", event, res.statusCode));
+    for (let i = 0; i < celebrants.length; i++) {
+      event = new Birthday();
+      event.first_name = celebrants[i].first_name;
+      event.last_name = celebrants[i].last_name;
+      event.email = celebrants[i].email;
+      event.phone = celebrants[i].phone;
+      event.birth_date = celebrants[i].birth_date;
+      event.sex = celebrants[i].sex;
+      
+      event = await event.save();
+      birthdays.push(event);
+    }
+    
+    return res.json(success("Birthday event created", birthdays, res.statusCode));
   } catch (err) {
-
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

@@ -19,6 +19,7 @@ export const createChurch = async (req, res) => {
     password, 
     role,
     branch,
+    head_pastor,
   } = req.body;
 
   try {
@@ -44,7 +45,8 @@ export const createChurch = async (req, res) => {
       password: hash,
       subdomain_name,
       subdomain_link,
-      branch
+      branch,
+      head_pastor
     });
 
     church = await church.save();

@@ -101,7 +101,7 @@ const MemberList = () => {
 
   useEffect(() => {
     if (id && id.length > 0) {
-      const selectedMember = members.find(m => m._id === id);
+      const selectedMember = members && members.docs.find(m => m._id === id);
       setCurrentMember(selectedMember);
     }
   }, [ id, members ]);
@@ -137,7 +137,9 @@ const MemberList = () => {
       setIsOpen(false);
       success("New member added");
     }
-  }, [ postSuccess ])
+  }, [ postSuccess ]);
+
+  console.log(members.docs, " these are the members")
 
   return (
     <div>
@@ -175,9 +177,9 @@ const MemberList = () => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div> : 
-                 members && members.length > 0 ? (
+                 members && members.docs && members.docs.length > 0 ? (
                   <tbody>
-                    {members && members.map((m, i) => (
+                    {members && members.docs && members.docs.map((m, i) => (
                       <tr key={m._id}>
                         <td>{i+1}</td>
                         <td>{m && m.first_name}</td>
