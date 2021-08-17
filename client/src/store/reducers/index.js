@@ -4,6 +4,7 @@ import { church } from "./reducers_church";
 import { role } from "./reducers_role";
 import { member } from "./reducers_member";
 import { category } from "./reducers_mem_category";
+import { dashboard_data } from "./reducers_dashboard_data";
 
 export const rootReducer = combineReducers({
   account,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   role,
   member,
   category,
+  dashboard_data,
 });

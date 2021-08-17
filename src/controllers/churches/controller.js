@@ -2,6 +2,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../../services/mailer";
 import { churchSchema } from "../../models/church";
+import { memberSchema } from "../../models/member";
+import { officeSchema } from "../../models/office";
+import { groupSchema } from "../../models/group";
 import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
@@ -139,6 +142,33 @@ export const deleteChurch = async (req, res) => {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const church = await Church.findByIdAndRemove({ _id: req.params.churchId });
     return res.json(success("Church account deleted", church, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const dashboardData = async (req, res) => {
+  const { church } = req.query;
+  try {
+    let groupObj = {};
+    let officeObj = {};
+    let memeberObj = {};
+    const Group = await getModelByChurch( church, "Group", groupSchema);
+    const Office = await getModelByChurch( church, "Office", officeSchema);
+    const Member = await getModelByChurch( church, "Member", memberSchema);
+
+    let group = await Group.find({});
+    groupObj["totalGroup"] = group.length;
+
+    let office = await Office.find({});
+    officeObj["totalOffice"] = office.length;
+
+    let members = await Member.find({});
+    memberObj["totalMember"] = members.length;
+
+    const result = { groupObj, memeberObj, officeObj };
+
+    return res.json(success("Success", result, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
