@@ -152,7 +152,7 @@ export const dashboardData = async (req, res) => {
   try {
     let groupObj = {};
     let officeObj = {};
-    let memeberObj = {};
+    let memberObj = {};
     const Group = await getModelByChurch( church, "Group", groupSchema);
     const Office = await getModelByChurch( church, "Office", officeSchema);
     const Member = await getModelByChurch( church, "Member", memberSchema);
@@ -166,7 +166,7 @@ export const dashboardData = async (req, res) => {
     let members = await Member.find({});
     memberObj["totalMember"] = members.length;
 
-    const result = { groupObj, memeberObj, officeObj };
+    const result = { groupObj, memberObj, officeObj };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
