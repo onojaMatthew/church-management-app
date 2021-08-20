@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon --exec babel-node src/server",
-    "seed": "babel-node src/seed.js",
     "clean": "rimraf 'build'",
     "start": "cd build && node server.js",
     "build": "yarn clean && babel src --out-dir build",

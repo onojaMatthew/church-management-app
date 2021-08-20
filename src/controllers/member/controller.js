@@ -74,20 +74,9 @@ export const updateMember = async (req, res) => {
   const { church, member } = req.params;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    let isMember = await Member.findById({ _id: member }); 
-    if (!isMember) return res.status(404).json(error("Member does not exist", res.statusCode));
-    if (req.body.first_name) isMember.first_name = req.body.first_name;
-    if (req.body.last_name) isMember.last_name = req.body.last_name;
-    if (req.body.email) isMember.email = req.body.email;
-    if (req.body.phone) isMember.phone = req.body.phone;
-    if (req.body.city) isMember.address.city = req.body.city;
-    if (req.body.state) isMember.address.state = req.body.state;
-    if (req.body.street) isMember.address.street = req.body.street;
-    if (req.body.state_of_origin) isMember.state_of_origin = req.body.state_of_origin;
-    if (req.body.occupation) isMember.occupation = req.body.occupation;
-
-    const response = await isMember.save();
-    return res.json(success("Operation success", response, res.statusCode));
+    let result = await Member.findByIdAndUpdate({ _id: member }, req.body, { new: true }); 
+    
+    return res.json(success("Operation success", result, res.statusCode));
   } catch (err) {
     res.status(400).json(error(err.message, res.statusCode));
   }

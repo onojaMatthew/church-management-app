@@ -8,6 +8,7 @@ import { groupSchema } from "../../models/group";
 import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
+import { chartData } from "../../utils/computation";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -153,6 +154,7 @@ export const dashboardData = async (req, res) => {
     let groupObj = {};
     let officeObj = {};
     let memberObj = {};
+    
     const Group = await getModelByChurch( church, "Group", groupSchema);
     const Office = await getModelByChurch( church, "Office", officeSchema);
     const Member = await getModelByChurch( church, "Member", memberSchema);
@@ -165,8 +167,10 @@ export const dashboardData = async (req, res) => {
 
     let members = await Member.find({});
     memberObj["totalMember"] = members.length;
-
-    const result = { groupObj, memberObj, officeObj };
+    const male_members = members && members.filter(m => m.sex === "male");
+    const female_members = members && members.filter(m => m.sex === "female");
+    const chart_data = chartData({ male_members, female_members });
+    const result = { groupObj, memberObj, officeObj, chart_data };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
