@@ -9,18 +9,27 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Home.css";
 import { churchList } from "../../../store/actions/actions_church";
 import { dashboardData } from "../../../store/actions/actions_dashboard_data";
+import { errorMsg } from "../../../helper/message";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { churches } = useSelector(state => state.church);
-  const { loading, success, data, error } = useSelector(state => state.dashboard_data);
+  const { loading, data, error } = useSelector(state => state.dashboard_data);
   const admin = localAuth() && localAuth().user;
   useEffect(() => {
     dispatch(churchList());
     dispatch(dashboardData());
   }, [ dispatch ]);
 
-  console.log({...data}, " the data")
+  useEffect(() => {
+    if (error && error.length > 0) {
+      if (error.includes("Failed to fetch")) {
+        errorMsg("Request failed. Network Error occured")
+      } else {
+        errorMsg(error);
+      }
+    }
+  });
+
   return (
     <>
     {loading ? 
@@ -124,7 +133,7 @@ const Dashboard = () => {
                   </Row>
                   <Row>
                     <Col>
-                      <Charts />
+                      <Charts data={data && data.chart_data} />
                     </Col>
                   </Row>
                 </CardBody>

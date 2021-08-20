@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Card, CardBody, Col, Input, Modal, ModalBody, ModalHeader, Row, Table } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Card, CardBody, Col, Input, Modal, ModalBody, ModalHeader, Row, Spinner, Table } from "reactstrap";
 import { Button } from "antd";
 
 import "./Groups.css";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { groupDelete, groupList } from "../../../store/actions/actions_group";
 
 const Groups = () => {
+  const dispatch = useDispatch()
+  const { groups, group_list_loading } = useSelector(state => state.group);
   const [ modal, setModal ] = useState(false);
   const [ name, setName ] = useState("");
   const [ view, setView ] = useState(false);
@@ -31,9 +35,15 @@ const Groups = () => {
   }
 
   const handleDelete = () => {
+    console.log(groupId, " the group id")
     const data = { id: groupId }
-    console.log(data, " this the data")
+    return
+    dispatch(groupDelete(data))
   }
+
+  useEffect(() => {
+    dispatch(groupList());
+  }, [ dispatch ]);
 
   return (
     <div>
@@ -126,19 +136,27 @@ const Groups = () => {
             <Card className="group-form-card">
               <CardBody>
                 <h3>Group List</h3>
-                <Row>
-                  <Col xs="8" sm="8" md="9" lg="9" xl="9">
-                    <Input value={"Choir"} />
-                  </Col>
-                  <Col xs="4" sm="4" md="3" lg="3" xl="3">
-                    <Input type="select" onChange={(e) => handleToggleChange(e, 1)}>
-                      <option>Actions</option>
-                      <option value="view">View Members</option>
-                      <option value="edit">Edit Group</option>
-                      <option value="delete">Delete Group</option>
-                    </Input>
-                  </Col>
-                </Row>
+                {group_list_loading ? <div className="text-center">
+                  <Spinner>
+                    <span className="visually-hidden">Loading</span>
+                  </Spinner>
+                </div> : 
+                groups && groups.length > 0 ? groups.map(g => (
+                  <Row>
+                    <Col xs="8" sm="8" md="9" lg="9" xl="9">
+                      <Input value={g && g.name} />
+                    </Col>
+                    <Col xs="4" sm="4" md="3" lg="3" xl="3">
+                      <Input type="select" onChange={(e) => handleToggleChange(e, g._id)}>
+                        <option>Actions</option>
+                        <option value="view">View Members</option>
+                        <option value="edit">Edit Group</option>
+                        <option value="delete">Delete Group</option>
+                      </Input>
+                    </Col>
+                  </Row>
+                )) : <p className="text-center">No records found</p>}
+                
                 <Row>
                   <Col xs="8" sm="8" md="8" lg="9" xl="9">
                     <Input value={"Choir"} />

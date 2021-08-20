@@ -44,7 +44,11 @@ const ChurchLogin = () => {
 
   useEffect(() => {
     if (error && error.length > 0) {
-      errorMsg(error);
+      if (error.includes("buffering timed out after 10000ms")) {
+        errorMsg("Network Error. Check you network and try again")
+      } else {
+        errorMsg(error);
+      }
     }
   }, [ error ]);
 
