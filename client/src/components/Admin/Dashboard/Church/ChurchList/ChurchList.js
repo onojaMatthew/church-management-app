@@ -22,6 +22,7 @@ const ChurchList = (props) => {
           <Table responsive>
             <thead>
               <th>S/N</th>
+              <th>Head Pastor</th>
               <th>Branch</th>
               <th>Email</th>
               <th>Phone</th>
@@ -40,6 +41,7 @@ const ChurchList = (props) => {
                 churches && churches.docs && churches.docs.length > 0 ? churches.docs.map((church, i) => (
                   <tr key={church && church._id}>
                     <td>{i+1}</td>
+                    <td>{church && church.head_pastor}</td>
                     <td>{church && church.branch}</td>
                     <td>{church && church.email}</td>
                     <td>{church && church.phone}</td>

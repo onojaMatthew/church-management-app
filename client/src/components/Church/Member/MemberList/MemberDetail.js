@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Row, Col, Input, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
-import { Avatar, Divider } from "antd";
+import { Row, Col, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Avatar, Divider, Button } from "antd";
 
 import "./MemberList.css";
 
@@ -20,6 +20,9 @@ const Member = ({
   occupation,
   category,
   dob,
+  onMemberUpdate,
+  updateLoading,
+  categories,
 }) => {
   const [ readOnly, setReadOnly ] = useState(true);
 
@@ -38,7 +41,9 @@ const Member = ({
             <Avatar size={100} />
           </Col>
           <Col xs="6" sm="6" md="6" lg="3" xl="3">
-            <Button onClick={toggleReadOnly} className="update-toggle-btn">Click to Update</Button>
+            <Button onClick={toggleReadOnly} className="update-toggle-btn">
+              {readOnly ? "Click to Update" : "Stop Update"}
+            </Button>
           </Col>
         </Row>
         <Divider>Member Info</Divider>
@@ -107,18 +112,34 @@ const Member = ({
             <Input onChange={(e) => handleChange(e)} name="office" value={"Head usher"} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <label>Membership</label>
-            <Input onChange={(e) => handleChange(e)} name="category" value={category} readOnly={readOnly}/>
+            {readOnly ? (
+              <>
+                <label>Membership</label>
+                <Input onChange={(e) => handleChange(e)} name="category" value={category} readOnly={readOnly}/>
+              </>
+            ) : (
+              <Input className="membership-categories" type="select" name="category" onChange={(e) => handleChange(e)} >
+                <option>Select Membership type</option>
+                {categories && categories.map(c => (
+                  <option value={c._id}>{c && c.name}</option>
+                ))}
+              </Input>
+            )}
+            
           </Col>
         </Row>
         <Divider>Actions</Divider>
 
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <Button className="add-to-group">Add to Group</Button>
+            {/* <Button className="add-to-group">Add to Group</Button> */}
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <Button className="a-responsibility">Assign responsibility</Button>
+            {updateLoading ? 
+              <Button className="a-responsibility" loading>Processing...</Button> :
+              <Button onClick={onMemberUpdate} className="a-responsibility">Submit Update</Button>
+            }
+            
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <Button className="member-delete">Delete</Button>

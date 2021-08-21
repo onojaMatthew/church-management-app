@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Card, CardBody, Row, Col, Input, Button, Spinner } from "reactstrap";
 import "./NewChurch.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ const NewChurch = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { postLoading, postSuccess, error } = useSelector(state => state.church);
+  const history = useHistory();
   const [ values, setValues ] = useState({ 
     email: "", 
     password: "", 
@@ -45,8 +47,11 @@ const NewChurch = () => {
   useEffect(() => {
     if (postSuccess) {
       success("Request processed successfully");
+      setTimeout(() => {
+        history.push("/dashboard/church-list")
+      }, 500);
     }
-  }, [ postSuccess ]);
+  }, [ postSuccess, history ]);
 
   const onSubmit = () => {
     const data = {

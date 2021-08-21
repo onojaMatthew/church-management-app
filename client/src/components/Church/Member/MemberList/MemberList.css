@@ -86,11 +86,17 @@
   background: transparent !important;
 }
 
+.membership-categories {
+  margin-top: 25px;
+  height: 40px;
+}
+
 .update-toggle-btn {
   background: rgb(104,187,228);
   height: 50px !important;
   width: 100%;
   border: none;
+  color: #FFFFFF;
 }
 
 .update-toggle-btn:focus {
@@ -98,6 +104,7 @@
   height: 50px !important;
   width: 100%;
   border: none;
+  color: #FFFFFF;
   outline: none !important;
 }
 
@@ -106,6 +113,7 @@
   height: 50px !important;
   width: 100%;
   border: none;
+  color: #FFFFFF;
   outline: none !important;
 }
 

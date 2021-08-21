@@ -55,7 +55,7 @@ export const church = (state=initialState, action) => {
         ...state,
         postLoading: false,
         postSuccess: true,
-        churches: state.churches.concat(action.data),
+        churches: action.data,
       }
     case CREATE_CHURCH_FAILED:
       return {

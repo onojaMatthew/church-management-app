@@ -95,6 +95,7 @@ export const post_church = (data) => {
         if (resp.error) return dispatch(createChurchFailed(resp.message));
         return dispatch(createChurchSuccess(resp.results));
       })
+      .then(() => dispatch(churchList()))
       .catch(err => dispatch(createChurchFailed(err.message)));
   }
 }

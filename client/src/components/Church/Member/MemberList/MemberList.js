@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap";
-import { memberList, postMember, searchMember } from "../../../../store/actions/actions_member";
+import { memberList, postMember, searchMember, updateMember } from "../../../../store/actions/actions_member";
 import { categoryDetail, categoryList } from "../../../../store/actions/actions_mem_category";
 import Member from "./MemberDetail";
 import { errorMsg, success } from "../../../../helper/message";
@@ -15,7 +15,7 @@ import { localAuth } from "../../../../helper/authenticate";
 const MemberList = () => {
   const dispatch = useDispatch();
   const church = localAuth() && localAuth().church && localAuth().church._id;
-  const { listLoading, members, postSuccess, postLoading, error } = useSelector(state => state.member);
+  const { listLoading, members, postSuccess, updateLoading, postLoading, error } = useSelector(state => state.member);
   const { categories, categoryInfo, categorySuccess } = useSelector(state => state.category);
   const [ values, setValues ] = useState({ 
     first_name: "",
@@ -60,7 +60,6 @@ const MemberList = () => {
     occupation,
     category,
     dob,
-    membershipCategory,
   } = values;
 
   const handleChange = (e) => {
@@ -143,19 +142,31 @@ const MemberList = () => {
     }
   }, [ postSuccess ]);
 
-  // const handleSearchInput = (e) => {
-  //   const { value } = e.target;
-  //   setSearchTerm(value);
-  // }
-
   useEffect(() => {
     if (searchTerm && searchTerm.length > 0) {
-      handleSearch()
+      dispatch(searchMember(searchTerm));
     }
   }, [ searchTerm, dispatch ]);
 
-  const handleSearch = () => {
-    dispatch(searchMember(searchTerm));
+  const onMemberUpdate = () => {
+    const data = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      city,
+      street,
+      state,
+      state_of_origin,
+      marital_status,
+      occupation,
+      category,
+      dob,
+      church,
+      id,
+    }
+
+    dispatch(updateMember(data));
   }
 
   return (
@@ -250,7 +261,9 @@ const MemberList = () => {
             occupation={occupation}
             category={category}
             dob={dob}
-            membershipCategory={membershipCategory}
+            onMemberUpdate={onMemberUpdate}
+            updateLoading={updateLoading}
+            categories={categories}
           />
         </CardBody>
       </Card>

@@ -127,7 +127,7 @@ export const updateMember = (data) => {
   return dispatch => {
     dispatch(updateMemberStart());
     fetch(`${BASE_URL}/member/update/${data.id}/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
@@ -140,6 +140,7 @@ export const updateMember = (data) => {
         if (resp.error) return dispatch(updateMemberFailed(resp.message));
         dispatch(updateMemberSuccess(resp.results));
       })
+      .then(() => dispatch(memberList()))
       .catch(err => dispatch(updateMemberFailed(err.message)));
   }
 }
