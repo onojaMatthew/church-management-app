@@ -11,6 +11,6 @@ router.post("/group/new", verifyToken, grantAccess("createOwn", "church"),  post
 router.get("/group/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, groupList);
 router.get("/group/detail", verifyToken, grantAccess("readOwn", "church"), validateQuery, group);
 router.put("/group/update", verifyToken, grantAccess("updateOwn", "church"), updateGroup);
-router.delete("/group/delete", verifyToken, grantAccess("deleteOwn", "church"), validateQuery, deleteGroup);
+router.delete("/group/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteGroup);
 
 export default router;

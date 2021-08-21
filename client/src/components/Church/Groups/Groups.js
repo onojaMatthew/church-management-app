@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { localAuth } from "../../../helper/authenticate";
 import { Card, CardBody, Col, Input, Modal, ModalBody, ModalHeader, Row, Spinner, Table } from "reactstrap";
 import { Button } from "antd";
 
 import "./Groups.css";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { groupDelete, groupList } from "../../../store/actions/actions_group";
+import { createGroup, groupDelete, groupList, groupUpdate } from "../../../store/actions/actions_group";
 
 const Groups = () => {
   const dispatch = useDispatch()
-  const { groups, group_list_loading } = useSelector(state => state.group);
+  const { 
+    groups,
+    create_group_success, 
+    create_group_loading, 
+    group_list_loading,
+    group_update_loading,
+    group_update_success, 
+  } = useSelector(state => state.group);
   const [ modal, setModal ] = useState(false);
   const [ name, setName ] = useState("");
   const [ view, setView ] = useState(false);
   const [ groupId, setGroupId ] = useState("");
+  const church = localAuth() && localAuth().church && localAuth().church._id;
 
   const toggle = () => {
     setModal(!modal);
@@ -26,24 +35,38 @@ const Groups = () => {
       toggle();
       setGroupId(id)
     } else if (value === "view") {
-      setGroupId(id);
+      // setGroupId(id);
       setView(true);
     } else {
-      setGroupId(id);
-      handleDelete();
+      // setGroupId(id);
+      handleDelete(id);
     }
   }
 
-  const handleDelete = () => {
-    console.log(groupId, " the group id")
-    const data = { id: groupId }
-    return
+  const handleDelete = (id) => {
+    const data = { id }
     dispatch(groupDelete(data))
   }
 
   useEffect(() => {
     dispatch(groupList());
   }, [ dispatch ]);
+
+  const handleSubmit = () => {
+    const data = { church, name };
+    dispatch(createGroup(data));
+  }
+
+  useEffect(() => {
+    if (create_group_success || group_update_success) {
+      setName("")
+    }
+  }, [ create_group_success, group_update_success ]);
+
+  const onEdit = () => {
+    const data = { id: groupId, name };
+    dispatch(groupUpdate(data));
+  }
 
   return (
     <div>
@@ -126,7 +149,8 @@ const Groups = () => {
                 </Row>
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="12" xl="12">
-                    <Button className="group-submit-btn">Submit</Button>
+                    {create_group_loading ? <Button className="login-button" loading>Loading...</Button> : 
+                    <Button onClick={handleSubmit} className="login-button">Login</Button>}
                   </Col>
                 </Row>
               </CardBody>
@@ -157,19 +181,6 @@ const Groups = () => {
                   </Row>
                 )) : <p className="text-center">No records found</p>}
                 
-                <Row>
-                  <Col xs="8" sm="8" md="8" lg="9" xl="9">
-                    <Input value={"Choir"} />
-                  </Col>
-                  <Col xs="4" sm="4" md="4" lg="3" xl="3">
-                    <Input type="select" onChange={(e) => handleToggleChange(e, 2)}>
-                      <option>Actions</option>
-                      <option value="view">View Members</option>
-                      <option value="edit">Edit Group</option>
-                      <option value="delete">Delete Group</option>
-                    </Input>
-                  </Col>
-                </Row>     
               </CardBody>
             </Card>
           </Col>
@@ -188,7 +199,9 @@ const Groups = () => {
           </Row>
           <Row>
             <Col xs="12" sm="12" md="12" lg="12" xl="12">
-              <Button className="group-submit-btn">Submit</Button>
+            {group_update_loading ? <Button className="group-submit-btn" loading>Loading...</Button> : 
+              <Button onClick={onEdit} className="group-submit-btn">Login</Button>}
+              <Button onClick={onEdit} className="">Submit</Button>
             </Col>
           </Row>
         </ModalBody>

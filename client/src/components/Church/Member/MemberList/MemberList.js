@@ -30,6 +30,7 @@ const MemberList = () => {
     occupation: "",
     category: "",
     dob: "",
+    membershipCategory: ""
   });
   const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -58,6 +59,7 @@ const MemberList = () => {
     occupation,
     category,
     dob,
+    membershipCategory,
   } = values;
 
   const handleChange = (e) => {
@@ -84,6 +86,7 @@ const MemberList = () => {
         marital_status: currentMember.marital_status,
         occupation: currentMember.occupation,
         dob: currentMember.dob,
+        membershipCategory: currentMember.membershipCategory,
       })
       dispatch(categoryDetail(currentMember && currentMember.category))
     }
@@ -138,8 +141,6 @@ const MemberList = () => {
       success("New member added");
     }
   }, [ postSuccess ]);
-
-  console.log(members.docs, " these are the members")
 
   return (
     <div>
@@ -216,6 +217,7 @@ const MemberList = () => {
             occupation={occupation}
             category={category}
             dob={dob}
+            membershipCategory={membershipCategory}
           />
         </CardBody>
       </Card>

@@ -1,5 +1,6 @@
 import { error, success } from "../../config/response";
 import { memberSchema } from "../../models/member";
+import { membershipCategorySchema } from "../../models/membership_category";
 import { churchSchema } from "../../models/church";
 import { getModelByChurch } from "../../utils/util";
 
@@ -7,7 +8,9 @@ export const createMember = async (req, res) => {
   const { church } = req.body;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
+    const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema)
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
+    const membershipCategory = await MembershipCategory.findById({ _id: req.body.category });
     const isExists = await Member.aggregate([{ $match: { $or: [{ email: req.body.email }, { phone: req.body.phone }]}}]);
     if (isExists[0]) return res.status(400).json(error("Member alreay exists", res.statusCode));
     let newMember = new Member();
@@ -25,6 +28,7 @@ export const createMember = async (req, res) => {
     newMember.marital_status = req.body.marital_status;
     newMember.dob = req.body.dob;
     newMember.sex = req.body.sex;
+    newMember.membershipCategory = membershipCategory.name;
     
     const response = await newMember.save();
 

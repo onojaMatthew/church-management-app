@@ -122,16 +122,17 @@ export const groupDetailFailed = (error) => {
   }
 }
 
-export const groupDetail = (groupId) => {
+export const groupDetail = (data) => {
   return dispatch => {
     dispatch(groupDetailStart());
-    fetch(`${BASE_URL}/group/${id}/${groupId}`, {
+    fetch(`${BASE_URL}/group/detail?church=${id}&groupId=${data.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
-      }
+      },
+      
     })
       .then(response => response.json())
       .then(resp => {
@@ -162,22 +163,24 @@ export const groupUpdateFailed = (error) => {
   }
 }
 
-export const groupUpdate = (groupId) => {
+export const groupUpdate = (data) => {
   return dispatch => {
     dispatch(groupUpdateStart());
-    fetch(`${BASE_URL}/group/${id}/${groupId}`, {
-      method: "GET",
+    fetch(`${BASE_URL}/group/update?church=${id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
-      }
+      },
+      body: JSON.stringify(data)
     })
       .then(response => response.json())
       .then(resp => {
         if (resp.error) return dispatch(groupUpdateFailed(resp.message));
         return dispatch(groupUpdateSuccess(resp.results));
       })
+      .then(() => dispatch(groupList()))
       .catch(err => dispatch(groupUpdateFailed(err.message)));
   }
 }
@@ -206,7 +209,7 @@ export const groupDelete = (data) => {
   return dispatch => {
     dispatch(groupDeleteStart());
     fetch(`${BASE_URL}/group/delete?church=${id}&groupId=${data.id}`, {
-      method: "GET",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",

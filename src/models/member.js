@@ -18,6 +18,7 @@ export const memberSchema = new Schema({
   state_of_origin: { type: String },
   office: { type: ObjectId, ref: "Office" },
   occupation: { type: String },
+  membershipCategory: { type: String, default: "" },
   dob: { type: Date },
   sex: { type: String, enum: [ "male", "female" ]},
   marital_status: { type: String },

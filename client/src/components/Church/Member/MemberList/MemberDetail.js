@@ -27,6 +27,8 @@ const Member = ({
     setReadOnly(!readOnly);
   }
 
+  const convertedDOB = dob && new Date(dob).toLocaleDateString();
+
   return (
     <Modal id="member-detail-modal" isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle}>Member Information</ModalHeader>
@@ -95,7 +97,10 @@ const Member = ({
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Date of Birth</label>
+            {readOnly ? 
+            <Input onChange={(e) => handleChange(e)} name="dob" value={convertedDOB && convertedDOB} readOnly={readOnly}/> :
             <Input type="date" onChange={(e) => handleChange(e)} name="dob" value={dob} readOnly={readOnly}/>
+            }
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Responsibility</label>
