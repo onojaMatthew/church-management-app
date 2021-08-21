@@ -1,30 +1,44 @@
-import React, { useEffect } from "react";
-import { Card, CardBody, Table, Spinner, Row, Col } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Card, CardBody, Table, Spinner, Row, Col, Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { EyeOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { churchList } from "../../../../../store/actions/actions_church";
 
 import "./ChurchList.css";
-import Paginations from "../../../../../helper/Pagination";
+// import Paginations from "../../../../../helper/Pagination";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
   const { churches, allLoading } = useSelector(state => state.church);
+  // const [ page_number, setPageNumber ] = useState(0);
 
   useEffect(() => {
     const offset = 1;
-    const limit = 4;
+    const limit = 10;
     const data = { offset, limit}
     dispatch(churchList(data));
   }, [ dispatch ]);
 
-  const onPaginate = (page_number) => {
-    console.log(page_number, " the page number")
+  const handleNextPage = (page_number) => {
     const offset = page_number;
-    const limit = 4;
+    const limit = 10;
     const data = { offset, limit };
     dispatch(churchList(data));
   }
+
+  const totalPages = churches?.totalPages;
+  const page = churches?.page;
+  const prevPage = churches?.prevPage;
+  const nextPage = churches?.nextPage;
+  
+
+
+  let paginateArr = [];
+  for (let i = 1; i <= totalPages; i++) {
+    paginateArr.push(i)
+  }
+
+  console.log(prevPage, nextPage)
 
   return (
     <div>
@@ -65,17 +79,29 @@ const ChurchList = () => {
                 )) : <h2 className="text-center mt-5">No records found</h2>}
             </tbody>
           </Table>
-          <Row>
-            <Col xs="12" sm="12" md="12" lg="4" xl="4">
+            <div className="justify-content-center">
               {churches && churches.totalPages && churches.totalPages > 1 ? (
-                <Paginations 
-                  churches={churches && churches}
-                  onPaginate={onPaginate}
-                />
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-center mt-5">
+                    <li className="page-item">
+                      <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        
+                      </span>
+                    </li>
+                    {paginateArr && paginateArr.map((p, i) => (
+                      <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                    ))}
+                    
+                    <li className="page-item">
+                      <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </span>
+                    </li>
+                  </ul>
+                </nav>
               ) : null}
-              
-            </Col>
-          </Row>
+            </div>
         </CardBody>  
       </Card>
     </div>

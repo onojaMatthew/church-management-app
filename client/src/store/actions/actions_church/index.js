@@ -41,7 +41,7 @@ export const allChurchFailed = (error) => {
 export const churchList = (data) => {
   return dispatch => {
     dispatch(allChurchStart());
-    fetch(`${BASE_URL}/church/all?offset=${data.offset}&limit=${data.limit}`, {
+    fetch(`${BASE_URL}/church/all?offset=${data?.offset}&limit=${data?.limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

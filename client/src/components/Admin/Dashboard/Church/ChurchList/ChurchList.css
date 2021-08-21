@@ -13,6 +13,17 @@
   color: rgb(104,187,228);
 }
 
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: rgb(104,187,228);
+  border-color: rgb(104,187,228);
+}
+
+.page-link {
+  color: rgb(104,187,228);
+}
+
 @media only screen and (max-width: 768px) {
   .church-card {
     min-height: 80vh !important;
