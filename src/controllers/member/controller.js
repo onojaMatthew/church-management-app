@@ -102,3 +102,59 @@ export const assignOffice = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+export const searchMember = async (req, res) => {
+  const { searchTerm, church } = req.query;
+
+  try {
+    const Member = await getModelByChurch(church, "Member", memberSchema);
+    const searchResult = await Member.aggregate([{ $match: {
+      $or: [
+        { first_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { last_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          email: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          phone: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          state_of_origin: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          sex: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          occupation: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        }
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
+  }
+}
