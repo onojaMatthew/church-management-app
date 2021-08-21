@@ -1,18 +1,30 @@
 import React, { useEffect } from "react";
-import { Card, CardBody, Table, Spinner } from "reactstrap";
+import { Card, CardBody, Table, Spinner, Row, Col } from "reactstrap";
 import { EyeOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { churchList } from "../../../../../store/actions/actions_church";
 
 import "./ChurchList.css";
+import Paginations from "../../../../../helper/Pagination";
 
-const ChurchList = (props) => {
+const ChurchList = () => {
   const dispatch = useDispatch();
   const { churches, allLoading } = useSelector(state => state.church);
 
   useEffect(() => {
-    dispatch(churchList());
+    const offset = 1;
+    const limit = 4;
+    const data = { offset, limit}
+    dispatch(churchList(data));
   }, [ dispatch ]);
+
+  const onPaginate = (page_number) => {
+    console.log(page_number, " the page number")
+    const offset = page_number;
+    const limit = 4;
+    const data = { offset, limit };
+    dispatch(churchList(data));
+  }
 
   return (
     <div>
@@ -53,6 +65,17 @@ const ChurchList = (props) => {
                 )) : <h2 className="text-center mt-5">No records found</h2>}
             </tbody>
           </Table>
+          <Row>
+            <Col xs="12" sm="12" md="12" lg="4" xl="4">
+              {churches && churches.totalPages && churches.totalPages > 1 ? (
+                <Paginations 
+                  churches={churches && churches}
+                  onPaginate={onPaginate}
+                />
+              ) : null}
+              
+            </Col>
+          </Row>
         </CardBody>  
       </Card>
     </div>

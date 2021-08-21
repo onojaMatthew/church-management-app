@@ -1,29 +1,39 @@
 import React from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
-const Paginations = ({ pager, handlePagination }) => {
-  console.log(pager, " the pager");
+const Paginations = (
+    churches,
+    onPaginate,
+  ) => {
+  const totalPages = churches?.churches?.totalPages;
+  const page = churches?.churches?.page;
+  const prevPage = churches?.churches?.prevPage;
+  const nextPage = churches?.churches?.nextPage;
+  const hasNextPage = churches?.churches?.hasNextPage;
+  const hasPrevPage = churches?.churches?.hasPrevPage
+
+   
+
+  let paginateArr = [];
+  for (let i = 1; i <= totalPages; i++) {
+    paginateArr.push(i)
+  }
+  
   return (
     <Pagination aria-label="Page navigation example">
-      <PaginationItem className="m-1">
-        <PaginationLink onClick={() => handlePagination(pager.startPage && pager.startPage)} first className={`${pager.currentPage === 1 ? 'disabled' : ''}`} />
-      </PaginationItem>
       <PaginationItem className="m-1 paginat">
-        <PaginationLink className={`${pager.currentPage === 1 ? 'disabled' : ''}`} previous onClick={() => handlePagination(pager.currentPage && pager.currentPage - 1)} />
+        <PaginationLink className={hasPrevPage ? '' : 'disabled'} onClick={onPaginate} previous  />
       </PaginationItem>
-      {pager && pager.pages && pager.pages.map((page, i) => (
+      {paginateArr && paginateArr.map((p, i) => (
         <PaginationItem key={i} className="m-1 paginat">
-          <PaginationLink onClick={() => handlePagination(page)} className={pager.currentPage === page ? 'active' : ''} >
-            {page}
+          <PaginationLink onClick={() => onPaginate(p && p)} className={p === page ? 'active' : ''} >
+            {p}
           </PaginationLink>
-      </PaginationItem>
+        </PaginationItem>
       ))}
       
       <PaginationItem className="m-1 paginat">
-        <PaginationLink onClick={() => handlePagination(pager.currentPage && pager.currentPage + 1)} className={`${pager.currentPage === pager.totalPages ? 'disabled' : ''}`} next />
-      </PaginationItem>
-      <PaginationItem className="m-1 paginat">
-        <PaginationLink onClick={() => handlePagination(pager.endPage && pager.endPage)} className={`${pager.currentPage === pager.totalPages ? 'disabled' : ''}`} last />
+        <PaginationLink onClick={() => onPaginate(nextPage)} next className={hasNextPage  ? '' : 'disabled'} />
       </PaginationItem>
     </Pagination>
   );

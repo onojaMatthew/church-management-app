@@ -9,6 +9,7 @@ import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 import { chartData } from "../../utils/computation";
+import { pagination } from "../../middleware/pagination";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -107,9 +108,11 @@ export const churchLogin = async (req, res) => {
 }
 
 export const churchList = async (req, res) => {
+  const { offset, limit } = pagination(req.query);
+  console.log(offset, limit)
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const churchList = await Church.paginate({});
+    const churchList = await Church.paginate({}, { offset, limit });
     if (!churchList) return res.json(success("No records found", churchList, res.statusCode))
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
