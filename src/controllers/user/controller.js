@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
     let newAdmin = new Admin({ first_name, last_name, email, password: hash, phone, role: role });
 
     newAdmin.role.role_id = role_data && role_data._id;
-    newAdmin.role.name = role_data && role_data.name;
+    newAdmin.role.role_name = role_data && role_data.name;
     newAdmin = await newAdmin.save();
 
     return res.json(success("Account created successfully", newAdmin, res.statusCode));
@@ -43,7 +43,6 @@ export const signIn = async (req, res) => {
     res.cookie("token", `Bearer ${token}`, { expires: new Date(new Date() + 64800000)});
     return res.header("authorization", `Bearer ${token}`).json(success("Login success", { token, user: { email, first_name, role, last_name, phone, _id }}, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error("Internal Server Error. Please try again", res.statusCode));
   }
 }
@@ -170,7 +169,6 @@ export const deleteAdmin = async (req, res) => {
     if (!deletedAccount) return res.status(404).json(error("Admin account not found", res.statusCode));
     return res.json(success("Account deleted", deletedAccount, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
 }

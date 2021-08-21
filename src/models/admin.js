@@ -10,7 +10,7 @@ export const adminSchema = new Schema({
   phone: { type: String },
   role: { 
     role_id: {type: ObjectId, ref: "Role"},
-    name: { type: String }
+    role_name: { type: String }
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },

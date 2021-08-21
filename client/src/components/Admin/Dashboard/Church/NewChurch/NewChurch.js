@@ -22,9 +22,10 @@ const NewChurch = () => {
     acct_name: "",
     bank_name: "",
     role: "",
+    head_pastor: "",
   });
 
-  const { email, password, branch, city, street, bank_name, acct_name, acct_no, state, phone, role } = values;
+  const {head_pastor, email, password, branch, city, street, bank_name, acct_name, acct_no, state, phone, role } = values;
 
   useEffect(() => {
     dispatch(roleList());
@@ -32,9 +33,7 @@ const NewChurch = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value, " handle change func")
     setValues({ ...values, [name]: value });
-    console.log(values, " the values")
   }
 
   useEffect(() => {
@@ -61,7 +60,8 @@ const NewChurch = () => {
       acct_no, 
       state, 
       phone, 
-      role
+      role,
+      head_pastor,
     }
 
     dispatch(post_church(data));
@@ -75,11 +75,15 @@ const NewChurch = () => {
             <CardBody>
               <h1>The new Church form</h1>
               <Row>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                <Col xs="12" sm="12" md="12" lg="4" xl="4">
+                  <label>Head Pastor</label>
+                  <Input placeholder="Enter head pastor name" onChange={(e) => handleChange(e)} value={head_pastor} name="head_pastor" />
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Branch Name</label>
                   <Input placeholder="Enter branch name" onChange={(e) => handleChange(e)} value={branch} name="branch" />
-                </Col>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                </Col>  
+                <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Select a Role</label>
                   <Input type="select" onChange={(e) => handleChange(e)} name="role">
                     <option>Select a role</option>
@@ -87,7 +91,7 @@ const NewChurch = () => {
                       <option value={role && role._id} key={i}>{role && role.name}</option>
                     ))}
                   </Input>
-                </Col>  
+                </Col> 
               </Row>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="4" xl="4">

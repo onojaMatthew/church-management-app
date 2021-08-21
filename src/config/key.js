@@ -3,7 +3,6 @@ require("dotenv").config({ path: path.resolve(__dirname + "/../../.env")});
 
 export default ({
   jwtPrivateKey: "unsecureKey",
-  prod_db_name: process.env.PROD_DB_NAME,
   dev_db_name: process.env.DEV_DB_NAME,
   dev_db_user: process.env.DEV_DB_USER,
   dev_db_host: process.env.DEV_DB_HOST,

@@ -53,7 +53,7 @@ const Dashboard = () => {
                   <h1>Hello {admin && admin.first_name} {admin && admin.last_name}</h1>
                   <p>Welcome to your admin dashboard</p>
                 </Col>
-                {admin && admin.role && admin.role.name === "super admin" && 
+                {admin && admin.role && admin.role.role_name === "super admin" && 
                 <Col md="2" lg="2" xl="2">
                   <Button onClick={() => window.location.href="/dashboard/church-list"} className="to-adm">Goto Admin Dashboard</Button>
                 </Col>}

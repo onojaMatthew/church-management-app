@@ -37,7 +37,7 @@ const ChurchList = (props) => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div> : 
-                churches && churches.length > 0 ? churches.map((church, i) => (
+                churches && churches.docs && churches.docs.length > 0 ? churches.docs.map((church, i) => (
                   <tr key={church && church._id}>
                     <td>{i+1}</td>
                     <td>{church && church.branch}</td>

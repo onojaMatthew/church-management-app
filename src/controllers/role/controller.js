@@ -11,7 +11,6 @@ export const createRole = async (req, res) => {
     newRole = await newRole.save();
     return res.json(success("Role created successfully", newRole, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
 }
