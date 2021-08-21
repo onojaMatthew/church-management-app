@@ -5,6 +5,15 @@ import {
   POST_MEMBER_START,
   POST_MEMBER_SUCCESS,
   POST_MEMBER_FAILED,
+  SEARCH_START,
+  SEARCH_SUCCESS,
+  SEARCH_FAILED,
+  UPDATE_MEMBER_START,
+  UPDATE_MEMBER_SUCCESS,
+  UPDATE_MEMBER_FAILED,
+  DELETE_MEMBER_START,
+  DELETE_MEMBER_SUCCESS,
+  DELETE_MEMBER_FAILED,
 } from "../../actions/actions_member";
 
 const initialState = {
@@ -14,6 +23,14 @@ const initialState = {
   listSuccess: false,
   postLoading: false,
   postSuccess: false,
+  detailLoading: false,
+  detailSuccess: false,
+  searchLoading: false,
+  searchSuccess: false,
+  updateLoading: false,
+  updateSuccess: false,
+  deleteLoading: false,
+  deleteSuccess: false,
   error: ""
 }
 
@@ -57,6 +74,66 @@ export const member = (state=initialState, action) => {
         ...state,
         postLoading: false,
         postSuccess: false,
+        error: action.error
+      }
+    case SEARCH_START:
+      return {
+        ...state,
+        searchLoading: true,
+        searchSuccess: false,
+      }
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        searchLoading: false,
+        searchSuccess: true,
+        members: action.data,
+      }
+    case SEARCH_FAILED:
+      return {
+        ...state,
+        searchLoading: false,
+        searchSuccess: false,
+        error: action.error
+      }
+    case UPDATE_MEMBER_START:
+      return {
+        ...state,
+        updateLoading: true,
+        updateSuccess: false,
+      }
+    case UPDATE_MEMBER_SUCCESS:
+      return {
+        ...state,
+        updateLoading: false,
+        updateSuccess: true,
+        member: action.data,
+      }
+    case UPDATE_MEMBER_FAILED:
+      return {
+        ...state,
+        updateLoading: false,
+        updateSuccess: false,
+        error: action.error
+      }
+    case DELETE_MEMBER_START:
+      return {
+        ...state,
+        deleteLoading: true,
+        deleteSuccess: false,
+      }
+    case DELETE_MEMBER_SUCCESS:
+      return {
+        ...state,
+        deleteLoading: false,
+        deleteSuccess: true,
+        members: state.members.filter(m => m._id !== action.data._id),
+      }
+    case DELETE_MEMBER_FAILED:
+      return {
+        ...state,
+        deleteLoading: false,
+        deleteSuccess: false,
         error: action.error
       }
     default:

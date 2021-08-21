@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap";
-import { memberList, postMember } from "../../../../store/actions/actions_member";
+import { memberList, postMember, searchMember } from "../../../../store/actions/actions_member";
 import { categoryDetail, categoryList } from "../../../../store/actions/actions_mem_category";
 import Member from "./MemberDetail";
 import { errorMsg, success } from "../../../../helper/message";
@@ -37,6 +37,7 @@ const MemberList = () => {
   const [ isOpen, setIsOpen ] = useState(false);
   const [ currentMember, setCurrentMember ] = useState({});
   const history = useHistory();
+  const [ searchTerm, setSearchTerm ] = useState("");
   const toggle = (id) => {
     setId(id)
     setModal(!modal);
@@ -142,6 +143,21 @@ const MemberList = () => {
     }
   }, [ postSuccess ]);
 
+  // const handleSearchInput = (e) => {
+  //   const { value } = e.target;
+  //   setSearchTerm(value);
+  // }
+
+  useEffect(() => {
+    if (searchTerm && searchTerm.length > 0) {
+      handleSearch()
+    }
+  }, [ searchTerm, dispatch ]);
+
+  const handleSearch = () => {
+    dispatch(searchMember(searchTerm));
+  }
+
   return (
     <div>
       <Card className="member-card">
@@ -151,7 +167,7 @@ const MemberList = () => {
               <p className="member-header">Member List</p>
             </Col>
             <Col xs="12" sm="12" md="12" lg="8" xl="8">
-              <Input placeholder="Search..." />
+              <Input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search..." />
             </Col>
             <Col xs="12" sm="12" md="12" lg="2" xl="2" className="create-toggle-btn">
               <Button onClick={toggleOpen} className="create-member-header-button lead">Create a New Member</Button>
@@ -178,6 +194,23 @@ const MemberList = () => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div> : 
+                members && members.length > 0 ? (
+                  <tbody>
+                    {members && members.map((m, i) => (
+                      <tr key={m._id}>
+                        <td>{i+1}</td>
+                        <td>{m && m.first_name}</td>
+                        <td>{m && m.last_name}</td>
+                        <td>{m && m.email}</td>
+                        <td>{m && m.phone}</td>
+                        <td>{m && m.state_of_origin}</td>
+                        <td>{m && m.occupation}</td>
+                        <td>{m && m.marital_status}</td>
+                        <td className="view-member-button" onClick={() => toggle(m._id)}><EyeOutlined size="large" /> View</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                 ) :
                  members && members.docs && members.docs.length > 0 ? (
                   <tbody>
                     {members && members.docs && members.docs.map((m, i) => (
