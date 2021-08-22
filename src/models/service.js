@@ -11,7 +11,8 @@ export const serviceSchema = new Schema({
   attendance: {
     men: { type: Number, default: 0 },
     women: { type: Number, default: 0 },
-    children: { type: Number, default: 0 }
+    children: { type: Number, default: 0 },
+    youth: { type: Number, default: 0 }
   },
   start_time: { type: Date },
   end_time: { type: Date }

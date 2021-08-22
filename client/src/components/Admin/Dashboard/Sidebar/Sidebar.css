@@ -6,6 +6,10 @@
   width: 200px;
 }
 
+.ant-menu-item-selected {
+  background-color: rgb(104,187,228) !important;
+}
+
 @media only screen and (max-width: 490px) {
   .side-container {
     display: none !important;

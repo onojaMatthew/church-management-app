@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Table, Spinner, Row, Col, Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import { Card, CardBody, Table, Spinner, Input, Row, Col } from "reactstrap";
 import { EyeOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { churchList } from "../../../../../store/actions/actions_church";
 
 import "./ChurchList.css";
-// import Paginations from "../../../../../helper/Pagination";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
+  const [ searchTerm, setSearchTerm ] = useState("");
   const { churches, allLoading } = useSelector(state => state.church);
-  // const [ page_number, setPageNumber ] = useState(0);
 
   useEffect(() => {
     const offset = 1;
@@ -30,21 +29,24 @@ const ChurchList = () => {
   const page = churches?.page;
   const prevPage = churches?.prevPage;
   const nextPage = churches?.nextPage;
-  
-
 
   let paginateArr = [];
   for (let i = 1; i <= totalPages; i++) {
-    paginateArr.push(i)
+    paginateArr.push(i);
   }
-
-  console.log(prevPage, nextPage)
 
   return (
     <div>
       <Card className="church-card">
         <CardBody>
-          <h1>Church List</h1>  
+          <Row>
+            <Col xs="12" sm="12" md="12" lg="3" xl="3">
+              <h1>Church List</h1>  
+            </Col>
+            <Col xs="12" sm="12" md="12" lg="9" xl="9">
+              <Input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search..." />
+            </Col>
+          </Row>
           <Table responsive>
             <thead>
               <th>S/N</th>

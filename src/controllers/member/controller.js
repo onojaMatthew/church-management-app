@@ -6,9 +6,10 @@ import { getModelByChurch } from "../../utils/util";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
+  console.log(req.body)
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema)
+    const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const membershipCategory = await MembershipCategory.findById({ _id: req.body.category });
     const isExists = await Member.aggregate([{ $match: { $or: [{ email: req.body.email }, { phone: req.body.phone }]}}]);
@@ -35,6 +36,7 @@ export const createMember = async (req, res) => {
     await Church.findByIdAndUpdate({ _id: church }, { $push: { members: response._id }}, { new: true})
     return res.json(success("Member successfully created", response, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message), res.statusCode);
   }
 }

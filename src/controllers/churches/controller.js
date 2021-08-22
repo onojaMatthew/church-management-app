@@ -109,7 +109,6 @@ export const churchLogin = async (req, res) => {
 
 export const churchList = async (req, res) => {
   const { offset, limit } = pagination(req.query);
-  console.log(offset, limit)
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const churchList = await Church.paginate({}, { offset, limit });
@@ -178,5 +177,55 @@ export const dashboardData = async (req, res) => {
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const searchMember = async (req, res) => {
+  const { searchTerm, church } = req.query;
+
+  try {
+    const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
+    const searchResult = await Church.aggregate([{ $match: {
+      $or: [
+        { subdomain_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { branch: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          email: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          phone: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          state: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          head_pastor: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        }
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
   }
 }

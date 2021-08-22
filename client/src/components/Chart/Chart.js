@@ -30,7 +30,7 @@ const Charts = ({data}) => {
       data={chartData}
       options={{
         title: 'Number of new members',
-        chartArea: { width: '70%' },
+        chartArea: { width: '80%', height: '70%' },
         hAxis: {
           title: 'Month',
           minValue: 0,
