@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const weddingSchema = new Schema({
+export const weddingSchema = new Schema({
   groom: {
     first_name: { type: String },
     last_name: { type: String },
@@ -18,5 +18,3 @@ const weddingSchema = new Schema({
   venue: { type: String },
   date: { type: Date }
 }, { timestamps: true });
-
-export const Wedding = mongoose.model("Wedding", weddingSchema);
