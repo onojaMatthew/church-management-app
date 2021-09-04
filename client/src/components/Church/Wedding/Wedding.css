@@ -1,0 +1,25 @@
+
+#wedding_card {
+  min-height: 80vh !important;
+  padding: 15px;
+}
+.spin {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spin .my-loader {
+  width: 100px;
+  height: 100px;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
