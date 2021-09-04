@@ -16,15 +16,6 @@ export default ({
   prod_db_password: process.env.PROD_DB_PASSWORD,
   prod_db_user: process.env.PROD_DB_USER,
   sendGridApiKey: process.env.SENDGRID_API_KEY,
-  account_sid: process.env.ACCOUNT_SID,
-  AUTH_TOKEN: process.env.AUTH_TOKEN,
-  smsc_twilio: {
-    sms_client: process.env.TWILIO_SMS_CLIENT,
-    sms_client_secret: process.env.TWILIO_SMS_CLIENT_SECRET,
-    sms_from_number: process.env.SMS_FROM_NUMBER,
-    registrationOTP: "$otp$ is your verification code for registering on GroceryApp",
-    resetPasswordOTP: "$otp$ is your verification code for reset password request."
-  },
   S3_SECRET_KEY: process.env.S3_SECRET_KEY,
   S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
   S3_BUCKET_REGION: process.env.S3_BUCKET_REGION,
