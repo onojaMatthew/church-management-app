@@ -104,7 +104,7 @@ const MemberList = () => {
 
   useEffect(() => {
     if (id && id.length > 0) {
-      const selectedMember = members && members.docs.find(m => m._id === id);
+      const selectedMember = members && members.find(m => m._id === id);
       setCurrentMember(selectedMember);
     }
   }, [ id, members ]);
@@ -184,7 +184,6 @@ const MemberList = () => {
               <Button onClick={toggleOpen} className="create-member-header-button lead">Create a New Member</Button>
             </Col>
           </Row>
-
           <Row>
             <Col xs="12" sm="12" md="12" lg="12" xl="12">
               <Table responsive>

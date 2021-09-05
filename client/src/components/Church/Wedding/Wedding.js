@@ -9,7 +9,7 @@ import NewEvent from "./NewEvent";
 
 const Wedding = () => {
   const dispatch = useDispatch();
-  const { list_loading, weddings, error } = useSelector(state => state.wedding);
+  const { list_loading, weddings, create_loading, create_success, error } = useSelector(state => state.wedding);
   const [ isDetail, setDetail ] = useState(false);
   const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -66,26 +66,42 @@ const Wedding = () => {
   }
 
   const handleSubmit = () => {
-    const data = {
-      groom_first_name,
-      groom_last_name,
-      groom_phone_number,
-      bride_first_name,
-      bride_last_name,
-      bride_phone_number,
-      venue,
-      date,
-      lead_pastor,
-      wedding_picture
-    }
+    let formData = new FormData();
+    formData.append("groom_first_name", groom_first_name);
+    formData.append("groom_last_name", groom_last_name)
+    formData.append("groom_phone_number", groom_phone_number)
+    formData.append("bride_first_name", bride_first_name)
+    formData.append("bride_last_name", bride_last_name)
+    formData.append("bried_phone_number", bride_phone_number)
+    formData.append("venue", venue)
+    formData.append("lead_pastor", lead_pastor);
+    formData.append("date", date);
+    formData.append("wedding_picture", wedding_picture);
 
-    dispatch(createWedding(data));
+    dispatch(createWedding(formData));
   }
 
   const handlePhoto = (e) => {
     const { files } = e.target;
     setValues({...values, ["wedding_picture"]: files[0]});
   }
+
+  useEffect(() => {
+    if (create_success) {
+      setValues({
+        groom_first_name: "", 
+        groom_last_name: "",
+        groom_phone_number: "",
+        bride_first_name: "",
+        bride_last_name: "",
+        bride_phone_number: "",
+        venue: "",
+        date: "",
+        lead_pastor: "",
+        wedding_picture: "",
+      })
+    }
+  }, [ create_success ]);
 
 
   return (
@@ -217,6 +233,7 @@ const Wedding = () => {
         handleSubmit={handleSubmit}
         modal={modal}
         handlePhoto={handlePhoto}
+        create_loading={create_loading}
       />
     </div>
   )

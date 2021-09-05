@@ -32,7 +32,7 @@ const NewEvent = ({
   return (
     <div className="wedding-modal">
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>New Wedding Event</ModalHeader>
+        <ModalHeader toggle={toggle} id="header-title">New Wedding Event</ModalHeader>
         <ModalBody>
           <Row className="mt-4">
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -41,7 +41,7 @@ const NewEvent = ({
             </Col>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
               <label htmlFor="groom_l_name">Groom Last Name</label>
-              <Input id="groom_l_name" name="groom_first_name" onChange={(e) => handleChange(e)} value={groom_last_name} placeholder="Groom last name" />
+              <Input id="groom_l_name" name="groom_last_name" onChange={(e) => handleChange(e)} value={groom_last_name} placeholder="Groom last name" />
             </Col>
           </Row>
          
@@ -52,7 +52,7 @@ const NewEvent = ({
             </Col>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
               <label htmlFor="bride_l_name">Bride Last Name</label>
-              <Input id="bride_l_name" name="bride_first_name" value={bride_last_name} onChange={(e) => handleChange(e)} placeholder="Bride last name" />
+              <Input id="bride_l_name" name="bride_last_name" value={bride_last_name} onChange={(e) => handleChange(e)} placeholder="Bride last name" />
             </Col>
           </Row>
           <Row className="mt-4">
@@ -107,7 +107,7 @@ const NewEvent = ({
               {/* {Array.isArray(errorMsg) && errorMsg.length > 0 ? errorMsg.map((error, i) => error.param === "meansOfIdentification" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null} */}
             </Col>
           </Row>
-          {create_loading ? <Button loading>Processing...</Button> : <Button onClick={handleSubmit}>Submit</Button>}
+          {create_loading ? <Button className="submit-button" loading>Processing...</Button> : <Button className="submit-button" onClick={handleSubmit}>Submit</Button>}
         </ModalBody>
       </Modal>
     </div>

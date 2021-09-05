@@ -95,3 +95,34 @@
 .wedding-modal input {
   height: 60px !important;
 }
+
+.submit-button {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(104,187,228);
+  border: none;
+}
+
+.submit-button:hover {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(104,187,228);
+  border: none;
+}
+
+.submit-button:focus {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(104,187,228);
+  border: none;
+}
+
+#header-title {
+  color: #0B70A5 !important;
+}

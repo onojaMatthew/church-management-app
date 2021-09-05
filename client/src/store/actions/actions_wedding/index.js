@@ -38,11 +38,11 @@ export const createWedding = (data) => {
     fetch(`${BASE_URL}/wedding/new?church=${id}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        ACCEPT: "application/json",
+        // "Content-Type": "application/json",
+        // ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify(data)
+      body: data
     })
       .then(response => response.json())
       .then(resp => {
