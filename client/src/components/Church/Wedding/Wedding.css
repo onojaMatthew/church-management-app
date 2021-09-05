@@ -27,7 +27,7 @@
 .card-top button {
   background: #68bbe4 !important;
   color: #ffffff !important;
-  min-height: 54px !important;
+  min-height: 45px !important;
   border-radius: 5px;
   border: none;
 }
@@ -35,7 +35,7 @@
 .card-top button:hover {
   background: #68bbe4 !important;
   color: #ffffff !important;
-  min-height: 54px !important;
+  min-height: 45px !important;
   border-radius: 5px;
   border: none;
 }
@@ -43,25 +43,39 @@
 .card-top button:focus {
   background: #68bbe4 !important;
   color: #ffffff !important;
-  min-height: 54px !important;
+  min-height: 45px !important;
   border-radius: 5px;
   border: none;
 }
 
-#eye-icon {
+#eye-icon, #arrow-icon {
   cursor: pointer;
+  color: #68bbe4;
+}
+
+.card-top h3, .celebrant-h3 {
+  color: #68bbe4;
 }
 
 .image-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
+  min-height: 200px;
 }
 
 #wedding_image {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 40%;
+  width: 100%;
   height: auto;
+}
+
+#wedding_card input {
+ border-top: none;
+ border-left: none;
+ border-right: none;
+}
+
+#wedding_card label {
+  margin-top: 20px;
+  font-size: 16px;
 }

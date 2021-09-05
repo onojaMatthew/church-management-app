@@ -1,8 +1,8 @@
 import { Button, Image } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, CardBody, Col, Row, Spinner, Table } from "reactstrap"; 
-import { BsFillEyeFill } from "react-icons/bs";
+import { Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap"; 
+  import { BsFillEyeFill, BsArrowLeftShort } from "react-icons/bs";
 import { weddingList } from "../../../store/actions/actions_wedding";
 import "./Wedding.css";
 
@@ -29,8 +29,6 @@ const Wedding = () => {
     }
   }, [ id ]);
 
-  console.log(event)
-
   return (
     <div>
       {list_loading ? 
@@ -39,17 +37,67 @@ const Wedding = () => {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div> : 
-        ( isDetail ? (<Card id="wedding_card">
-          <CardBody>
-            <div className="card-top">
-              <h3>Event Details</h3>
-              {/* <Button>Create New Event</Button> */}
-            </div>
-            <div className="image-wrapper">
-              <Image id="wedding_image" preview={false} src={event?.wedding_picture} />
-            </div>
-          </CardBody>
-        </Card>
+        ( isDetail ? (
+          <Card id="wedding_card">
+            <CardBody>
+              <BsArrowLeftShort size={40} id="arrow-icon" onClick={() => setDetail(false)} />
+              <div className="card-top">
+                <h3>Event Details</h3>
+              </div>
+              <Row>
+                <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                  <div className="image-wrapper">
+                    <Image id="wedding_image" preview={false} src={event?.wedding_picture} />
+                  </div>
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="9" xl="9">
+                  <h3 className="celebrant-h3">Celebrants Information</h3>
+                  <Row>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Groom First Name</label>
+                      <Input value={event.groom && event.groom?.first_name} />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Groom Last Name</label>
+                      <Input value={event.groom && event.groom?.last_name} />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Groom Phone Number</label>
+                      <Input value={event.groom && event.groom?.phone} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Bride First Name</label>
+                      <Input value={event.bride && event.bride?.first_name} />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Bride Last Name</label>
+                      <Input value={event.bride && event.bride?.last_name} />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Bride Phone Number</label>
+                      <Input value={event.bride && event.bride?.phone} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Officiating Lead Pastor</label>
+                      <Input value={event?.lead_pastor } />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Groom Last Name</label>
+                      <Input value={event?.venue} />
+                    </Col>
+                    <Col xs="12" sm="12" smd="12" lg="4" xl="4">
+                      <label>Groom Phone Number</label>
+                      <Input value={event?.date && event.date.slice(0,10)} />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
         ) : 
           <Card id="wedding_card">
             <CardBody>
