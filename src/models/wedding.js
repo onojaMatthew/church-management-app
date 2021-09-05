@@ -14,7 +14,7 @@ export const weddingSchema = new Schema({
     phone: { type: String },
   },
   wedding_picture: { type: String },
-  officating_Lead_pastor: { type: String },
+  lead_pastor: { type: String },
   venue: { type: String },
   date: { type: Date }
 }, { timestamps: true });

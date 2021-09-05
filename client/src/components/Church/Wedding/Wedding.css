@@ -23,3 +23,45 @@
   justify-content: space-between;
   margin-bottom: 15px;
 }
+
+.card-top button {
+  background: #68bbe4 !important;
+  color: #ffffff !important;
+  min-height: 54px !important;
+  border-radius: 5px;
+  border: none;
+}
+
+.card-top button:hover {
+  background: #68bbe4 !important;
+  color: #ffffff !important;
+  min-height: 54px !important;
+  border-radius: 5px;
+  border: none;
+}
+
+.card-top button:focus {
+  background: #68bbe4 !important;
+  color: #ffffff !important;
+  min-height: 54px !important;
+  border-radius: 5px;
+  border: none;
+}
+
+#eye-icon {
+  cursor: pointer;
+}
+
+.image-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#wedding_image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  height: auto;
+}

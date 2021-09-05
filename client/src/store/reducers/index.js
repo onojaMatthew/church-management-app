@@ -6,6 +6,7 @@ import { member } from "./reducers_member";
 import { category } from "./reducers_mem_category";
 import { dashboard_data } from "./reducers_dashboard_data";
 import { group } from "./reducers_group";
+import { wedding } from "./reducers_wedding";
 
 export const rootReducer = combineReducers({
   account,
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
   category,
   dashboard_data,
   group,
+  wedding
 });

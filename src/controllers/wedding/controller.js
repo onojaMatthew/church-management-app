@@ -19,7 +19,7 @@ export const create = async (req, res) => {
       "bride.phone": bride_phone_number,
       venue,
       date,
-      officiating_lead_pastor: lead_pastor,
+      lead_pastor,
       wedding_picture
     });
 
