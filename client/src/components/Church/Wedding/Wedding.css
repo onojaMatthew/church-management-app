@@ -79,3 +79,19 @@
   margin-top: 20px;
   font-size: 16px;
 }
+
+.p-file-uploader {
+  border: 2px dashed #ced4da !important;
+  background: #0B70A50F !important;
+  height: 92px !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+}
+
+.file-uploader .ri-folder-reduce-fill {
+  color:  #0B70A5 !important;
+}
+
+.wedding-modal input {
+  height: 60px !important;
+}

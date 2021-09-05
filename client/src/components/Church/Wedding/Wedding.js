@@ -3,15 +3,46 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap"; 
   import { BsFillEyeFill, BsArrowLeftShort } from "react-icons/bs";
-import { weddingList } from "../../../store/actions/actions_wedding";
+import { createWedding, weddingList } from "../../../store/actions/actions_wedding";
 import "./Wedding.css";
+import NewEvent from "./NewEvent";
 
 const Wedding = () => {
   const dispatch = useDispatch();
   const { list_loading, weddings, error } = useSelector(state => state.wedding);
   const [ isDetail, setDetail ] = useState(false);
   const [ id, setId ] = useState("");
+  const [ modal, setModal ] = useState(false);
   const [ event, setEvent ] = useState({});
+  const [ values, setValues ] = useState({ 
+    groom_first_name: "", 
+    groom_last_name: "",
+    groom_phone_number: "",
+    bride_first_name: "",
+    bride_last_name: "",
+    bride_phone_number: "",
+    venue: "",
+    date: "",
+    lead_pastor: "",
+    wedding_picture: "",
+  });
+
+  const toggle = () => {
+    setModal(!modal);
+  }
+
+  const {
+    groom_first_name,
+    groom_last_name,
+    groom_phone_number,
+    bride_first_name,
+    bride_last_name,
+    bride_phone_number,
+    venue,
+    date,
+    lead_pastor,
+    wedding_picture
+  } = values;
 
   useEffect(() => {
     dispatch(weddingList());
@@ -28,6 +59,34 @@ const Wedding = () => {
       setEvent(details);
     }
   }, [ id ]);
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setValues({...values, [name]: value});
+  }
+
+  const handleSubmit = () => {
+    const data = {
+      groom_first_name,
+      groom_last_name,
+      groom_phone_number,
+      bride_first_name,
+      bride_last_name,
+      bride_phone_number,
+      venue,
+      date,
+      lead_pastor,
+      wedding_picture
+    }
+
+    dispatch(createWedding(data));
+  }
+
+  const handlePhoto = (e) => {
+    const { files } = e.target;
+    setValues({...values, ["wedding_picture"]: files[0]});
+  }
+
 
   return (
     <div>
@@ -103,7 +162,7 @@ const Wedding = () => {
             <CardBody>
               <div className="card-top">
                 <h3>Wedding Events</h3>
-                <Button>Create New Event</Button>
+                <Button onClick={toggle}>Create New Event</Button>
               </div>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -142,6 +201,23 @@ const Wedding = () => {
           </Card>
         )
       }
+      <NewEvent
+        groom_first_name={groom_first_name}
+        groom_last_name={groom_last_name}
+        groom_phone_number={groom_phone_number}
+        bride_first_name={bride_first_name}
+        bride_last_name={bride_last_name}
+        bride_phone_number={bride_phone_number}
+        venue={venue}
+        date={date}
+        lead_pastor={lead_pastor}
+        wedding_picture={wedding_picture}
+        toggle={toggle}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        modal={modal}
+        handlePhoto={handlePhoto}
+      />
     </div>
   )
 }
