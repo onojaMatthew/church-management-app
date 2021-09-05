@@ -96,7 +96,7 @@
   height: 60px !important;
 }
 
-.submit-button {
+.submit-button, .update_btn {
   width: 100%;
   margin-top: 15px;
   height: 45px;
@@ -105,7 +105,7 @@
   border: none;
 }
 
-.submit-button:hover {
+.submit-button:hover, .update_btn:hover {
   width: 100%;
   margin-top: 15px;
   height: 45px;
@@ -114,7 +114,7 @@
   border: none;
 }
 
-.submit-button:focus {
+.submit-button:focus, .update_btn:focus {
   width: 100%;
   margin-top: 15px;
   height: 45px;
@@ -125,4 +125,87 @@
 
 #header-title {
   color: #0B70A5 !important;
+}
+
+.delete_btn {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(231, 44, 11);
+  border: none;
+}
+
+.delete_btn:hover {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(231, 44, 11);
+  border: none;
+}
+
+.delete_btn:focus {
+  width: 100%;
+  margin-top: 15px;
+  height: 45px;
+  color: #FFFFFF;
+  background: rgb(231, 44, 11);
+  border: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .submit-button, .update_btn {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(104,187,228);
+    border: none;
+  }
+  
+  .submit-button:hover, .update_btn:hover {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(104,187,228);
+    border: none;
+  }
+  
+  .submit-button:focus, .update_btn:focus {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(104,187,228);
+    border: none;
+  }
+
+  .delete_btn {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(231, 44, 11);
+    border: none;
+  }
+  
+  .delete_btn:hover {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(231, 44, 11);
+    border: none;
+  }
+  
+  .delete_btn:focus {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFFFFF;
+    background: rgb(231, 44, 11);
+    border: none;
+  }
 }

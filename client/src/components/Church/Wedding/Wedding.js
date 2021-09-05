@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap"; 
   import { BsFillEyeFill, BsArrowLeftShort } from "react-icons/bs";
-import { createWedding, weddingList } from "../../../store/actions/actions_wedding";
+import { createWedding, deleteWedding, updateWedding, weddingList } from "../../../store/actions/actions_wedding";
 import "./Wedding.css";
 import NewEvent from "./NewEvent";
+import UpdateEvent from "./Update";
 
 const Wedding = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Wedding = () => {
   const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
   const [ event, setEvent ] = useState({});
+  const [ isUpdate, setUpdate ] = useState(false);
   const [ values, setValues ] = useState({ 
     groom_first_name: "", 
     groom_last_name: "",
@@ -29,6 +31,10 @@ const Wedding = () => {
 
   const toggle = () => {
     setModal(!modal);
+  }
+
+  const toggleUpdate = () => {
+    setUpdate(!isUpdate);
   }
 
   const {
@@ -103,6 +109,26 @@ const Wedding = () => {
     }
   }, [ create_success ]);
 
+  const handleUpdate = () => {
+    let formData = new FormData();
+    formData.append("groom_first_name", groom_first_name);
+    formData.append("groom_last_name", groom_last_name)
+    formData.append("groom_phone_number", groom_phone_number)
+    formData.append("bride_first_name", bride_first_name)
+    formData.append("bride_last_name", bride_last_name)
+    formData.append("bried_phone_number", bride_phone_number)
+    formData.append("venue", venue)
+    formData.append("lead_pastor", lead_pastor);
+    formData.append("date", date);
+    formData.append("wedding_picture", wedding_picture);
+    formData.append("id", id);
+
+    dispatch(updateWedding(formData));
+  }
+
+  const handleDelete = (id) => {
+    dispatch(deleteWedding(id))
+  }
 
   return (
     <div>
@@ -169,8 +195,22 @@ const Wedding = () => {
                       <Input value={event?.date && event.date.slice(0,10)} />
                     </Col>
                   </Row>
+                  <Row>
+                    <Col xs="6" sm="6" md="6"></Col>
+                    <Col xs="6" sm="6" md="6">
+                      <Row>
+                        <Col xs="6" sm="6" md="6">
+                          <Button className="update_btn" onClick={toggleUpdate}>Update</Button>
+                        </Col>
+                        <Col xs="6" sm="6" md="6">
+                          <Button className="delete_btn" onClick={() => handleDelete(event?._id)}>Delete</Button>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
+             
             </CardBody>
           </Card>
         ) : 
@@ -232,6 +272,24 @@ const Wedding = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         modal={modal}
+        handlePhoto={handlePhoto}
+        create_loading={create_loading}
+      />
+      <UpdateEvent
+        groom_first_name={groom_first_name}
+        groom_last_name={groom_last_name}
+        groom_phone_number={groom_phone_number}
+        bride_first_name={bride_first_name}
+        bride_last_name={bride_last_name}
+        bride_phone_number={bride_phone_number}
+        venue={venue}
+        date={date}
+        lead_pastor={lead_pastor}
+        wedding_picture={wedding_picture}
+        toggle={toggleUpdate}
+        handleChange={handleChange}
+        handleSubmit={handleUpdate}
+        modal={isUpdate}
         handlePhoto={handlePhoto}
         create_loading={create_loading}
       />
