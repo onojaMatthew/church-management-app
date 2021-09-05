@@ -19,8 +19,8 @@ const UpdateEvent = ({
   wedding_picture,
   handlePhoto,
   handleChange,
-  create_loading,
   handleSubmit,
+  update_loading,
 }) => {
 
   const onDrop = useCallback(acceptedFiles => {
@@ -107,7 +107,7 @@ const UpdateEvent = ({
               {/* {Array.isArray(errorMsg) && errorMsg.length > 0 ? errorMsg.map((error, i) => error.param === "meansOfIdentification" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null} */}
             </Col>
           </Row>
-          {create_loading ? <Button className="submit-button" loading>Processing...</Button> : <Button className="submit-button" onClick={handleSubmit}>Submit</Button>}
+          {update_loading ? <Button className="submit-button" loading>Processing...</Button> : <Button className="submit-button" onClick={handleSubmit}>Submit</Button>}
         </ModalBody>
       </Modal>
     </div>

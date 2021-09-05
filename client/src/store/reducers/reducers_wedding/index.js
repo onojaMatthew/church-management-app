@@ -5,6 +5,12 @@ import {
   WEDDING_LIST_START,
   WEDDING_LIST_SUCCESS,
   WEDDING_LIST_FAILED,
+  DELETE_WEDDING_START,
+  DELETE_WEDDING_SUCCESS,
+  DELETE_WEDDING_FAILED,
+  UPDATE_WEDDING_START,
+  UPDATE_WEDDING_SUCCESS,
+  UPDATE_WEDDING_FAILED,
 } from "../../actions/actions_wedding";
 
 const initialState = {
@@ -14,6 +20,10 @@ const initialState = {
   create_success: false,
   list_loading: false,
   list_success: false,
+  update_loading: false,
+  update_success: false,
+  delete_loading: false,
+  delete_success: false,
   error: ""
 }
 
@@ -57,6 +67,46 @@ export const wedding = (state=initialState, action) => {
         ...state,
         list_loading: false,
         list_success: false,
+        error: action.error
+      }
+    case DELETE_WEDDING_START:
+      return {
+        ...state,
+        delete_loading: true,
+        delete_success: false,
+      }
+    case DELETE_WEDDING_SUCCESS:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: true,
+        wedding: state.weddings.filter(w => w._id !== action.data._id),
+      }
+    case DELETE_WEDDING_FAILED:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: false,
+        error: action.error
+      }
+    case UPDATE_WEDDING_START:
+      return {
+        ...state,
+        update_loading: true,
+        update_success: false,
+      }
+    case UPDATE_WEDDING_SUCCESS:
+      return {
+        ...state,
+        update_loading: false,
+        update_success: true,
+        wedding: action.data,
+      }
+    case UPDATE_WEDDING_FAILED:
+      return {
+        ...state,
+        update_loading: false,
+        update_success: false,
         error: action.error
       }
     default:

@@ -10,7 +10,7 @@ import UpdateEvent from "./Update";
 
 const Wedding = () => {
   const dispatch = useDispatch();
-  const { list_loading, weddings, create_loading, create_success, error } = useSelector(state => state.wedding);
+  const { list_loading, weddings, update_loading, delete_success, update_success, delete_loading, create_loading, create_success, error } = useSelector(state => state.wedding);
   const [ isDetail, setDetail ] = useState(false);
   const [ id, setId ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -93,7 +93,7 @@ const Wedding = () => {
   }
 
   useEffect(() => {
-    if (create_success) {
+    if (create_success || update_success) {
       setValues({
         groom_first_name: "", 
         groom_last_name: "",
@@ -107,7 +107,7 @@ const Wedding = () => {
         wedding_picture: "",
       })
     }
-  }, [ create_success ]);
+  }, [ create_success, update_success ]);
 
   const handleUpdate = () => {
     let formData = new FormData();
@@ -116,7 +116,7 @@ const Wedding = () => {
     formData.append("groom_phone_number", groom_phone_number)
     formData.append("bride_first_name", bride_first_name)
     formData.append("bride_last_name", bride_last_name)
-    formData.append("bried_phone_number", bride_phone_number)
+    formData.append("bride_phone_number", bride_phone_number)
     formData.append("venue", venue)
     formData.append("lead_pastor", lead_pastor);
     formData.append("date", date);
@@ -129,6 +129,18 @@ const Wedding = () => {
   const handleDelete = (id) => {
     dispatch(deleteWedding(id))
   }
+
+  useEffect(() => {
+    if (delete_success) {
+      setDetail(false)
+    }
+  }, [ delete_success]);
+
+  useEffect(() => {
+    if (update_success) {
+      setDetail(false)
+    }
+  }, [ update_success])
 
   return (
     <div>
@@ -187,11 +199,11 @@ const Wedding = () => {
                       <Input value={event?.lead_pastor } />
                     </Col>
                     <Col xs="12" sm="12" smd="12" lg="4" xl="4">
-                      <label>Groom Last Name</label>
+                      <label>Wedding Venue</label>
                       <Input value={event?.venue} />
                     </Col>
                     <Col xs="12" sm="12" smd="12" lg="4" xl="4">
-                      <label>Groom Phone Number</label>
+                      <label>Wedding Date</label>
                       <Input value={event?.date && event.date.slice(0,10)} />
                     </Col>
                   </Row>
@@ -203,7 +215,8 @@ const Wedding = () => {
                           <Button className="update_btn" onClick={toggleUpdate}>Update</Button>
                         </Col>
                         <Col xs="6" sm="6" md="6">
-                          <Button className="delete_btn" onClick={() => handleDelete(event?._id)}>Delete</Button>
+                          {delete_loading ? <Button className="delete_btn" loading>Deleting...</Button> : <Button className="delete_btn" onClick={() => handleDelete(event?._id)}>Delete</Button>}
+                          
                         </Col>
                       </Row>
                     </Col>
@@ -242,7 +255,7 @@ const Wedding = () => {
                           <td>{w.groom && w.groom?.phone}</td>
                           <td>{w.bride && w.bride?.phone}</td>
                           <td>{w?.lead_pastor}</td>
-                          <td>{w?.date.slice(0,10)}</td>
+                          <td>{w.date && w?.date.slice(0,10)}</td>
                           <td>
                             <BsFillEyeFill onClick={() => toggleView(w?._id)} size={20} id="eye-icon" />
                             {/* <Avatar src={<Image src={w?.wedding_picture} />} /> */}
@@ -292,6 +305,7 @@ const Wedding = () => {
         modal={isUpdate}
         handlePhoto={handlePhoto}
         create_loading={create_loading}
+        update_loading={update_success}
       />
     </div>
   )

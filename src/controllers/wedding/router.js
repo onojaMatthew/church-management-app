@@ -29,7 +29,8 @@ router.put("/wedding/update", verifyToken, grantAccess("updateOwn", "church"), u
   { name: "venue", maxCount: 1 },
   { name: "date", maxCount: 1 },
   { name: "lead_pastor", maxCount: 1 },
-  { name: "wedding_picture", maxCount: 1 }
+  { name: "wedding_picture", maxCount: 1 },
+  { name: "id", maxCount: 1 },
 ]), updateWedding);
 router.delete("/wedding/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteWedding);
 export default router;

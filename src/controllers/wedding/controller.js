@@ -49,7 +49,17 @@ export const updateWedding = async (req, res) => {
   try {
     const Wedding = await getModelByChurch(church, "Wedding", weddingSchema);
     const wedding_picture = req.files.wedding_picture && req.files.wedding_picture[0].location;
-    let wedding = await Wedding.findByIdAndUpdate({ _id: req.body.id }, req.body, { new: true });
+    let wedding = await Wedding.findById({ _id: req.body.id });
+    if (req.body.groom_first_name) wedding.groom_first_name = req.body.groom_first_name
+    if (req.body.groom_last_name) wedding.groom_last_name = req.body.groom_last_name
+    if (req.body.groom_phone_number) wedding.groom_phone_number = req.body.groom_phone_number
+    if (req.body.bride_first_name) wedding.groom_first_name = req.body.bride_first_name;
+    if (req.body.bride_last_name) wedding.bride_last_name = req.body.bride_last_name
+    if (req.body.bride_phone_number) wedding.bride_phone_number = req.body.bride_phone_number
+    if (req.body.bride_phone_number) wedding.bride_phone_number = req.body.bride_phone_number
+    if (req.body.venue) wedding.venue = req.body.venue;
+    if (req.body.date) wedding.date = req.body.date;
+    if (req.body.lead_pastor) wedding.lead_pastor = req.body.lead_pastor;
     if (wedding_picture) wedding.wedding_picture = wedding_picture;
     wedding = await wedding.save();
     if (!wedding) return res.status(404).json(success("Event not found", wedding, res.statusCode));
