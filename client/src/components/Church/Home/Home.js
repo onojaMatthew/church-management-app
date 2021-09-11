@@ -8,7 +8,7 @@ import Dashboard from "./Dasboard";
 import MemberList from "../Member/MemberList/MemberList";
 import Settings from "../settings/Settings";
 import Groups from "../Groups/Groups";
-import Wedding from "../Wedding/Wedding";
+// import Wedding from "../Wedding/Wedding";
 import Container from "../Programs/Container";
 
 
@@ -27,7 +27,7 @@ const ChurchHomePage = (props) => {
             <Route exact path={`${match.url}/members`} render={(props) => <MemberList {...props} />} />
             <Route path={`${match.url}/groups`} render={(props) => <Groups {...props} />} />
             <Route path={`${match.url}/programs`} render={(props) => <Container {...props} />} />
-            <Route path={`${match.url}/weddings`} render={(props) => <Wedding {...props} />} />
+            {/* <Route path={`${match.url}/weddings`} render={(props) => <Wedding {...props} />} /> */}
             <Route exact path={`${match.url}/settings`} render={(props) => <Settings {...props} />} />
           </div>
         </Content>

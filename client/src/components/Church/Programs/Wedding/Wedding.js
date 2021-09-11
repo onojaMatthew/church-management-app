@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, Col, Input, Row, Spinner, Table } from "reactstrap"; 
   import { BsFillEyeFill, BsArrowLeftShort } from "react-icons/bs";
-import { createWedding, deleteWedding, updateWedding, weddingList } from "../../../store/actions/actions_wedding";
+import { createWedding, deleteWedding, updateWedding, weddingList } from "../../../../store/actions/actions_wedding";
 import "./Wedding.css";
 import NewEvent from "./NewEvent";
 import UpdateEvent from "./Update";

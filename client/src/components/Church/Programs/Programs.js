@@ -1,7 +1,13 @@
+import { Card, CardBody, Col, Row } from "reactstrap";
+
+import "./Program.css";
 
 const Programs = () => {
   return (
-    <h1>Programs</h1>
+    <div>
+      <h1>Programs</h1>
+    </div>
+    
   )
 }
 
