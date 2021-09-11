@@ -1,0 +1,40 @@
+.programs-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 10%;
+  /* border: 2px solid #eeeccc; */
+}
+
+.programs-container h1 {
+  color: #1890ff;
+}
+
+#event-card {
+  min-height: 100px;
+  margin-bottom: 25px;
+  font-size: large;
+  font-weight: bolder;
+  padding: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .programs-container {
+    width: 95%;
+    margin: auto;
+    margin-top: 10%;
+  }
+
+  #event-card {
+    min-height: 100px;
+    margin-bottom: 25px;
+    font-size: large;
+    font-weight: bolder;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    max-height: 100px !important;
+  }
+}

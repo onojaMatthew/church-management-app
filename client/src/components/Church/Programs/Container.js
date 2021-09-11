@@ -15,7 +15,7 @@ const Container = () => {
       <Route exact path={`${match.url}/services`} render={() => <Services />} />
       <Route exact path={`${match.url}/burials`} render={() => <Burial />} />
       <Route exact path={`${match.url}/outreach`} render={() => <OutReachPrograms />} />
-      <Route exact path={`${match.url}/social_programs`} render={() => <SocialPrograms />} />
+      <Route exact path={`${match.url}/socials`} render={() => <SocialPrograms />} />
       <Route exact path={`${match.url}/birthdays`} render={() => <Birthday />} />
       <Route exact path={`${match.url}/weddings`} render={() => <Wedding />} />
     </Switch>
