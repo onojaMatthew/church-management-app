@@ -59,6 +59,7 @@ export const createBirthday = (data) => {
         if (resp.error) return dispatch(createFailed(resp.message));
         return dispatch(createSuccess(resp.results));
       })
+      .then(() => dispatch(birthdayList()))
       .catch(err => dispatch(createFailed(err.message)));
   }
 }
@@ -211,9 +212,10 @@ export const deleteFailed = (error) => {
 }
 
 export const deleteBirthday = (data) => {
+  console.log(data)
   return dispatch => {
     dispatch(deleteStart());
-    fetch(`${BASE_URL}/birthday/delete`, {
+    fetch(`${BASE_URL}/birthday/delete/${church}/${data}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

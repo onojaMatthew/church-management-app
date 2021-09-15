@@ -1,5 +1,6 @@
 import { birthdaySchema } from "../../models/birthday";
 import { success, error } from "../../config/response";
+import { pagination } from "../../middleware/pagination";
 import { getModelByChurch } from "../../utils/util";
 
 export const postBirthday = async (req, res) => {
@@ -31,10 +32,11 @@ export const postBirthday = async (req, res) => {
 }
 
 export const eventList = async (req, res) => {
+  const { offset, limit } = pagination(req.query);
   const { church } = req.params;
   try {
     const Event = await getModelByChurch(church, "Birthday", birthdaySchema);
-    const events = await Event.paginate({});
+    const events = await Event.paginate({}, { offset, limit });
     if (!events) return res.json(success("No records found", events, res.statusCode));
     return res.json(success("Success", events, res.statusCode));
   } catch (err) {
@@ -66,12 +68,62 @@ export const updateEvent = async (req, res) => {
 }
 
 export const deleteEvent = async (req, res) => {
-  const { church, eventId } = req.query;
+  const { church, eventId } = req.params;
   try {
     const Event = await getModelByChurch(church, "Birthday", birthdaySchema);
     const event = await Event.findByIdAndDelete({ _id: eventId});
     return res.json(success("Success", event, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const searchEvent = async (req, res) => {
+  const { searchTerm, church } = req.query;
+
+  try {
+    const Event = await getModelByChurch(church, "Birthday", birthdaySchema);
+    const searchResult = await Event.aggregate([{ $match: {
+      $or: [
+        { first_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { last_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          email: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          phone: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          sex: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          venue: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
   }
 }

@@ -54,7 +54,8 @@
   height: 50px;
   border: none;
   border-radius: 7px;
-  width: 150px
+  width: 150px;
+  margin-right: 15px;
 }
 
 #birthday-modal .input-container input {

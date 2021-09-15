@@ -1,21 +1,30 @@
 import BirthdayTable from "./BirthdayTable";
 import { useHistory } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
+import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Birthday.css";
-import { birthdayList, createBirthday } from "../../../../store/actions/actions_birthday";
+import { birthdayList, createBirthday, deleteBirthday } from "../../../../store/actions/actions_birthday";
 import { Button } from "antd";
 import { NewBirthday } from "./NewBirthday";
 
 const Birthday = () => {
   const dispatch = useDispatch();
-  const { birthdays, get_loading, error, create_loading } = useSelector(state => state.birthday);
+  const { birthdays, get_loading, error, create_loading, delete_loading } = useSelector(state => state.birthday);
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
-  const history = useHistory()
+  const [ birthdayData, setBirthdayData ] = useState([{ first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "" }]);
+  const history = useHistory();
+  const church = localAuth().church && localAuth().church._id;
+
+  const onDataChange = (event, index) => {
+    const newUserData = [ ...birthdayData ];
+    newUserData[ index ][ event.target.name ] = event.target.value;
+    setBirthdayData(newUserData);
+  }
 
   const { nextPage, page, prevPage, totalPages } = birthdays && birthdays;
 
@@ -58,13 +67,27 @@ const Birthday = () => {
   const handleNextPage = (next_page) => {
     const offset=next_page;
     const limit=10;
+    console.log(next_page, " the next page")
     dispatch(birthdayList(offset, limit));
   }
 
   const handleSubmit = () => {
-    const data = {};
+    const data = {
+      celebrants: birthdayData,
+      church
+    };
 
-    dispatch(createBirthday());
+    dispatch(createBirthday(data));
+  }
+
+  const addNewData = () => {
+    const newData = [ ...birthdayData ];
+    newData.push( { first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "" });
+    setBirthdayData(newData);
+  }
+
+  const onDelete = (id) => {
+    dispatch(deleteBirthday(id));
   }
 
   return (
@@ -80,7 +103,7 @@ const Birthday = () => {
             onChange={onHandleChange}
           />
         </div>
-        <BirthdayTable birthdays={birthdays} get_loading={get_loading} />
+        <BirthdayTable onDelete={onDelete} delete_loading={delete_loading} birthdays={birthdays} get_loading={get_loading} />
         <div className="justify-content-center">
           {birthdays && birthdays.totalPages && birthdays.totalPages > 1 ? (
             <nav aria-label="Page navigation example">
@@ -108,8 +131,11 @@ const Birthday = () => {
         create_loading={create_loading}
         toggle={toggle}
         modal={modal}
-        onHandleChange={onHandleChange}
+        onHandleChange={onDataChange}
         handleSubmit={handleSubmit}
+        // onFieldChange={onDataChange}
+        addNewData={addNewData}
+        birthdayData={birthdayData}
       />
     </Card>
   )

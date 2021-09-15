@@ -1,7 +1,7 @@
 import { Table } from "reactstrap";
 import { FaTrash } from "react-icons/fa";
 
-const BirthdayTable = ({ birthdays }) => {
+const BirthdayTable = ({ birthdays, onDelete, delete_loading }) => {
   const date = new Date()
   return (
     <Table responsive>
@@ -27,7 +27,7 @@ const BirthdayTable = ({ birthdays }) => {
             <td>{b?.email}</td>
             <td>{b?.sex}</td>
             <td>{b?.phone}</td>
-            <td><FaTrash /></td>
+            <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
           </tr>
           )})}
       </tbody>

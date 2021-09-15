@@ -44,7 +44,7 @@ export const birthday = (state=initialState, action) => {
         ...state,
         create_loading: false,
         create_success: true,
-        birthdays: state.birthdays.concat(action.data),
+        birthdays: action.data,
       }
     case CREATE_BIRTHDAY_FAILED:
       return {
@@ -125,7 +125,7 @@ export const birthday = (state=initialState, action) => {
         ...state,
         delete_loading: false,
         delete_success: true,
-        birthday: action.data,
+        birthdays: state.birthdays.docs.filter(f => f._id !== action.data._id),
       }
     case DELETE_FAILED:
       return {
