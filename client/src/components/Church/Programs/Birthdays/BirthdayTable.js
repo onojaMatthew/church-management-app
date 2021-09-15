@@ -1,6 +1,8 @@
-import { Card, CardBody, Table } from "reactstrap";
+import { Table } from "reactstrap";
+import { FaTrash } from "react-icons/fa";
 
-const BirthdayTable = () => {
+const BirthdayTable = ({ birthdays }) => {
+  const date = new Date()
   return (
     <Table responsive>
       <thead>
@@ -8,39 +10,26 @@ const BirthdayTable = () => {
         <th>First Name</th>
         <th>Last Name</th>
         <th>Date of Birth</th>
-        <th>Anuversary Date</th>
-        <th>Event Venue</th>
+        <th>Email</th>
+        <th>Gender</th>
         <th>Phone Number</th>
+        <th>Delete</th>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>02/10/1988</td>
-          <td>02/10/2021</td>
-          <td>Moon Shine Hotel, 2, Shomolu Lagos</td>
-          <td>09012345678</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>02/10/1988</td>
-          <td>02/10/2021</td>
-          <td>Moon Shine Hotel, 2, Shomolu Lagos</td>
-          <td>09012345678</td>
-        </tr>
-
-        <tr>
-          <td>1</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>02/10/1988</td>
-          <td>02/10/2021</td>
-          <td>Moon Shine Hotel, 2, Shomolu Lagos</td>
-          <td>09012345678</td>
-        </tr>
+        {birthdays?.docs && birthdays?.docs.map((b, i) => {
+          let date = new Date(b?.birth_date)
+          return (
+          <tr key={i}>
+            <td>{i + 1}</td>
+            <td>{b?.first_name}</td>
+            <td>{b?.last_name}</td>
+            <td>{date && date.toLocaleDateString()}</td>
+            <td>{b?.email}</td>
+            <td>{b?.sex}</td>
+            <td>{b?.phone}</td>
+            <td><FaTrash /></td>
+          </tr>
+          )})}
       </tbody>
     </Table>
   );

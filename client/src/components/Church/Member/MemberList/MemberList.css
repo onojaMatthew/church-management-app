@@ -28,29 +28,29 @@
 
 .view-member-button {
   cursor: pointer;
-  color: rgb(104,187,228);
+  color: #1890ff;
 }
 
 .create-member-header-button {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px;
   border: none;
 }
 
 .create-member-header-button:hover {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px;
   border: none;
 }
 
 .create-member-header-button:focus {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px;
   border: none;
 }
 
 .create-toggle-btn button {
-  background: rgb(104,187,228);;
+  background: #1890ff;
   margin-top: 10px;
   height: 50px !important;
   width: 100%;
@@ -58,7 +58,7 @@
 }
 
 .create-toggle-btn button:hover {
-  background: rgb(104,187,228);;
+  background: #1890ff;
   margin-top: 10px;
   height: 50px !important;
   width: 100%;
@@ -92,7 +92,7 @@
 }
 
 .update-toggle-btn {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px !important;
   width: 100%;
   border: none;
@@ -100,7 +100,7 @@
 }
 
 .update-toggle-btn:focus {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px !important;
   width: 100%;
   border: none;
@@ -109,7 +109,7 @@
 }
 
 .update-toggle-btn:hover {
-  background: rgb(104,187,228);
+  background: #1890ff;
   height: 50px !important;
   width: 100%;
   border: none;
@@ -120,7 +120,7 @@
 .add-to-group, .a-responsibility {
   width: 100%;
   height:50px;
-  background: rgb(104,187,228);
+  background: #1890ff;
   border: none;
   color: #FFFFFF;
 }
@@ -136,7 +136,7 @@
 .add-to-group:hover, .a-responsibility:hover {
   width: 100%;
   height:50px;
-  background: rgb(104,187,228);
+  background: #1890ff;
   border: non;
   color: #FFFFFF;
 }
@@ -152,7 +152,7 @@
 .add-to-group:focus, .a-responsibility:focus {
   width: 100%;
   height:50px;
-  background: rgb(104,187,228);
+  background: #1890ff;
   border: none;
   color: #FFFFFF;
 }
@@ -173,7 +173,7 @@
     padding: 3px !important;
   }
   .create-toggle-btn button {
-    background: rgb(104,187,228);
+    background: #1890ff;
     margin-top: 10px;
     height: 40px !important;
     width: 100%;
@@ -181,7 +181,7 @@
   }
 
   .create-toggle-btn button:hover {
-    background: rgb(104,187,228);
+    background: #1890ff;
     margin-top: 10px;
     height: 40px !important;
     width: 100%;
@@ -196,7 +196,7 @@
   }
 
   .update-toggle-btn {
-    background: rgb(104,187,228);
+    background: #1890ff;
     margin-top: 10px;
     height: 40px !important;
     width: 100%;
@@ -204,7 +204,7 @@
   }
 
   .update-toggle-btn:focus {
-    background: rgb(104,187,228);
+    background: #1890ff;
     margin-top: 10px;
     height: 40px !important;
     width: 100%;
@@ -213,7 +213,7 @@
   }
 
   .update-toggle-btn:active {
-    background: rgb(104,187,228);
+    background: #1890ff;
     margin-top: 10px;
     height: 40px !important;
     width: 100%;
@@ -229,7 +229,7 @@
   .add-to-group, .a-responsibility {
     width: 100%;
     height:50px;
-    background: rgb(104,187,228);
+    background: #1890ff;
     border: none;
     color: #FFFFFF;
     margin-bottom: 10px;
@@ -247,7 +247,7 @@
   .add-to-group:hover, .a-responsibility:hover {
     width: 100%;
     height:50px;
-    background: rgb(104,187,228);
+    background: #1890ff;
     border: non;
     color: #FFFFFF;
     margin-bottom: 10px;
@@ -265,7 +265,7 @@
   .add-to-group:focus, .a-responsibility:focus {
     width: 100%;
     height:50px;
-    background: rgb(104,187,228);
+    background: #1890ff;
     border: none;
     color: #FFFFFF;
     margin-bottom: 10px;

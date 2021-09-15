@@ -88,7 +88,6 @@ const ChurchList = () => {
                     <li className="page-item">
                       <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
-                        
                       </span>
                     </li>
                     {paginateArr && paginateArr.map((p, i) => (

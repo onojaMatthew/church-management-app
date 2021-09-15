@@ -20,6 +20,7 @@ export const DELETE_FAILED = "DELETE_FAILED";
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
+const church = localAuth().church && localAuth().church._id;
 
 export const createStart = () => {
   return {
@@ -82,10 +83,10 @@ export const listFailed = (error) => {
   }
 }
 
-export const birthdayList = () => {
+export const birthdayList = (offset, limit) => {
   return dispatch => {
     dispatch(listStart());
-    fetch(`${BASE_URL}/birthday/all`, {
+    fetch(`${BASE_URL}/birthday/all/${church}?offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

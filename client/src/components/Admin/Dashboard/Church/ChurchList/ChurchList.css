@@ -10,18 +10,18 @@
 
 .view-church {
   cursor: pointer;
-  color: rgb(104,187,228);
+  color: #1890ff;
 }
 
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: rgb(104,187,228);
-  border-color: rgb(104,187,228);
+  background-color: #1890ff;
+  border-color: #1890ff;
 }
 
 .page-link {
-  color: rgb(104,187,228);
+  color: #1890ff;
 }
 
 @media only screen and (max-width: 768px) {

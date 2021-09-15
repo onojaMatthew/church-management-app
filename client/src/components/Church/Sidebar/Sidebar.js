@@ -53,11 +53,10 @@ const Sidebar = () => {
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="4" icon={<UsergroupAddOutlined />}>
             Group and Subgroups
           </Menu.Item>
-          <SubMenu key="sub1" icon={<BankFilled />} title="Events and Programs">
-            <Menu.Item key="6" onClick={() => navigate.push(`${match && match.url}/programs`)}>Programs</Menu.Item>
-            <Menu.Item key="7" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Birthday Events</Menu.Item>
-            <Menu.Item key="8" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Wedding Events</Menu.Item>
-          </SubMenu>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/programs`)} key="5" icon={<UsergroupAddOutlined />}>
+            Events and Activities
+          </Menu.Item>
+          
           <SubMenu key="sub2" icon={<DollarCircleFilled />} title="Finance">
             <Menu.Item key="9" onClick={() => navigate.push(`${match && match.url}/programs`)}>Offerings</Menu.Item>
             <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Tithes</Menu.Item>
