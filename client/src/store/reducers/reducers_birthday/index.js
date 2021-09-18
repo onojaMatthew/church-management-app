@@ -14,6 +14,9 @@ import {
   DELETE_START,
   DELETE_SUCCESS,
   DELETE_FAILED,
+  SEARCH_START,
+  SEARCH_SUCCESS,
+  SEARCH_FAILED,
 } from "../../actions/actions_birthday";
 
 
@@ -28,6 +31,8 @@ const initialState = {
   update_success: false,
   delete_loading: false,
   delete_success: false,
+  search_loading: false,
+  search_success: false,
   error: ""
 }
 
@@ -125,13 +130,33 @@ export const birthday = (state=initialState, action) => {
         ...state,
         delete_loading: false,
         delete_success: true,
-        birthdays: state.birthdays.docs.filter(f => f._id !== action.data._id),
+        birthday: action.data,
       }
     case DELETE_FAILED:
       return {
         ...state,
         delete_loading: false,
         delete_success: false,
+        error: action.error
+      }
+    case  SEARCH_START:
+      return {
+        ...state,
+        search_loading: true,
+        search_success: false,
+      }
+    case  SEARCH_SUCCESS:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: true,
+        birthdays: action.data,
+      }
+    case  SEARCH_FAILED:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: false,
         error: action.error
       }
     default:

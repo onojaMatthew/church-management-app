@@ -5,8 +5,6 @@ import { success, error } from "../../config/response";
 export const create = async (req, res) => {
   const { groom_first_name, groom_last_name, groom_phone_number, bride_first_name, bride_last_name, bride_phone_number, venue,date,lead_pastor, } = req.body;
   const { church } = req.query;
-  console.log(req.body, " body")
-  console.log(req.files, " files")
   try {
     const Wedding = await getModelByChurch(church, "Wedding", weddingSchema);
     const itExists = await Wedding.findOne({ "groom.phone": groom_phone_number, "bride.phone": bride_phone_number });

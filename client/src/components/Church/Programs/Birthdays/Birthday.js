@@ -1,19 +1,21 @@
-import BirthdayTable from "./BirthdayTable";
+// import BirthdayTable from "./BirthdayTable";
 import { useHistory } from "react-router-dom";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Spinner, Table } from "reactstrap";
+import { FaTrash } from "react-icons/fa"
 import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Birthday.css";
-import { birthdayList, createBirthday, deleteBirthday } from "../../../../store/actions/actions_birthday";
+import { birthdayList, createBirthday, deleteBirthday, searchBirthday } from "../../../../store/actions/actions_birthday";
 import { Button } from "antd";
 import { NewBirthday } from "./NewBirthday";
 
 const Birthday = () => {
   const dispatch = useDispatch();
-  const { birthdays, get_loading, error, create_loading, delete_loading } = useSelector(state => state.birthday);
+  const { birthdays, get_loading, error, search_loading, search_success, create_loading, delete_loading } = useSelector(state => state.birthday);
+
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
   const [ birthdayData, setBirthdayData ] = useState([{ first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "" }]);
@@ -34,7 +36,7 @@ const Birthday = () => {
   }
 
   const handleSearch = () => {
-    
+    dispatch(searchBirthday(search_term))
   }
 
   const toggle = () => {
@@ -67,7 +69,6 @@ const Birthday = () => {
   const handleNextPage = (next_page) => {
     const offset=next_page;
     const limit=10;
-    console.log(next_page, " the next page")
     dispatch(birthdayList(offset, limit));
   }
 
@@ -91,53 +92,122 @@ const Birthday = () => {
   }
 
   return (
-    <Card id="birthday-card">
-      <div>
-        <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
-      </div>
-      <CardBody>
-        <div className="search-wrapper">
-          <h1>Birthday Table</h1>
-          <Search 
-            search_term={search_term}
-            onChange={onHandleChange}
-          />
+    <div>
+      {get_loading ? (
+        <div className="text-center spin">
+          <Spinner className="my-loader">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
-        <BirthdayTable onDelete={onDelete} delete_loading={delete_loading} birthdays={birthdays} get_loading={get_loading} />
-        <div className="justify-content-center">
-          {birthdays && birthdays.totalPages && birthdays.totalPages > 1 ? (
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center mt-5">
-                <li className="page-item">
-                  <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </span>
-                </li>
-                {paginateArr && paginateArr.map((p, i) => (
-                  <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
-                ))}
-                
-                <li className="page-item">
-                  <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </span>
-                </li>
-              </ul>
-            </nav>
-          ) : null}
+      ) : (
+        <Card id="birthday-card">
+        <div>
+          <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
         </div>
-      </CardBody>
-      <NewBirthday 
-        create_loading={create_loading}
-        toggle={toggle}
-        modal={modal}
-        onHandleChange={onDataChange}
-        handleSubmit={handleSubmit}
-        // onFieldChange={onDataChange}
-        addNewData={addNewData}
-        birthdayData={birthdayData}
-      />
-    </Card>
+        <CardBody>
+          <div className="search-wrapper">
+            <h1>Birthday Table</h1>
+            <Search 
+              search_term={search_term}
+              onChange={onHandleChange}
+            />
+          </div>
+          {/* <BirthdayTable onDelete={onDelete} delete_loading={delete_loading} birthdays={birthdays} get_loading={get_loading} /> */}
+          {search_success ? (
+            <Table responsive>
+              <thead>
+                <th>S/N</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>Delete</th>
+              </thead>
+              <tbody>
+                {birthdays && birthdays.length > 0 ? birthdays.map((b, i) => {
+                  let date = new Date(b?.birth_date)
+                  return (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{b?.first_name}</td>
+                    <td>{b?.last_name}</td>
+                    <td>{date && date.toLocaleDateString()}</td>
+                    <td>{b?.email}</td>
+                    <td>{b?.sex}</td>
+                    <td>{b?.phone}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                  </tr>
+                  )}) : <h2 className="text-center mt-5">No results found</h2>}
+              </tbody>
+            </Table>
+          ) : (
+            <Table responsive>
+              <thead>
+                <th>S/N</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>Delete</th>
+              </thead>
+              <tbody>
+                {birthdays?.docs && birthdays.docs.length > 0 ? birthdays.docs.map((b, i) => {
+                  let date = new Date(b?.birth_date)
+                  return (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{b?.first_name}</td>
+                    <td>{b?.last_name}</td>
+                    <td>{date && date.toLocaleDateString()}</td>
+                    <td>{b?.email}</td>
+                    <td>{b?.sex}</td>
+                    <td>{b?.phone}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                  </tr>
+                  )}) : <h2 className="text-center">No records found</h2>}
+              </tbody>
+            </Table>
+          )}
+          <div className="justify-content-center">
+            {birthdays && birthdays.totalPages && birthdays.totalPages > 1 ? (
+              <nav aria-label="Page navigation example">
+                <ul className="pagination justify-content-center mt-5">
+                  <li className="page-item">
+                    <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </span>
+                  </li>
+                  {paginateArr && paginateArr.map((p, i) => (
+                    <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                  ))}
+                  
+                  <li className="page-item">
+                    <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </span>
+                  </li>
+                </ul>
+              </nav>
+            ) : null}
+          </div>
+        </CardBody>
+        <NewBirthday 
+          create_loading={create_loading}
+          toggle={toggle}
+          modal={modal}
+          onHandleChange={onDataChange}
+          handleSubmit={handleSubmit}
+          addNewData={addNewData}
+          birthdayData={birthdayData}
+        />
+      </Card>
+      )}
+      
+    </div>
   )
 }
 

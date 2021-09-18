@@ -17,6 +17,10 @@ export const DELETE_START = "DELETE_START";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
 export const DELETE_FAILED = "DELETE_FAILED";
 
+export const SEARCH_START = "SEARCH_START";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_FAILED = "SEARCH_FAILED";
+
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
@@ -210,27 +214,68 @@ export const deleteFailed = (error) => {
     error
   }
 }
-
-export const deleteBirthday = (data) => {
-  console.log(data)
+export const deleteBirthday = (eventId) => {
   return dispatch => {
     dispatch(deleteStart());
-    fetch(`${BASE_URL}/birthday/delete/${church}/${data}`, {
+    fetch(`${BASE_URL}/birthday/${church}/${eventId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data)
+      }
     })
       .then(response => response.json())
       .then(resp => {
         if (resp.error) return dispatch(deleteFailed(resp.message));
         dispatch(deleteSuccess(resp.results));
       })
+      .then(() => dispatch(birthdayList()))
       .catch(err => {
         dispatch(deleteFailed(err.message));
       });
- }}
+  }
+}
 
+export const searchStart = () => {
+  return {
+    type: SEARCH_START
+  }
+}
+
+export const searchSuccess = (data) => {
+  return {
+    type: SEARCH_SUCCESS,
+    data
+  }
+}
+
+
+export const searchFailed = (error) => {
+  return {
+    type: SEARCH_FAILED,
+    error
+  }
+}
+
+export const searchBirthday = (searchTerm) => {
+  return dispatch => {
+    dispatch(searchStart());
+    fetch(`${BASE_URL}/birthday/search?church=${church}&searchTerm=${searchTerm}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(searchFailed(resp.message));
+        dispatch(searchSuccess(resp.results));
+      })
+      .catch(err => {
+        dispatch(searchFailed(err.message));
+      });
+  }
+}
