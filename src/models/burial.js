@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 export const burialSchema = new Schema({
   first_name: { type: String },
@@ -9,4 +10,7 @@ export const burialSchema = new Schema({
   officiating_pastor: { type: String },
   position: { type: String },
   burial_venue: { type: String },
+  sex: { type: String },
 }, { timestamps: true });
+
+burialSchema.plugin(mongoosePaginate);

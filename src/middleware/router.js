@@ -9,6 +9,7 @@ import groupRoutes from "../controllers/groups/router";
 import serviceRoutes from "../controllers/service/router";
 import birthdayRoutes from "../controllers/birthday/router";
 import weddingRoutes from "../controllers/wedding/router";
+import burialRoutes from "../controllers/burial/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -21,5 +22,6 @@ export default (app) => {
   app.use("/api/v1", serviceRoutes);
   app.use("/api/v1", birthdayRoutes);
   app.use("/api/v1", weddingRoutes);
+  app.use("/api/v1", burialRoutes);
   app.use(error);
 }
