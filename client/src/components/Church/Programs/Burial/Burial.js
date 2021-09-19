@@ -13,7 +13,7 @@ import { NewBurial } from "./NewBurial";
 
 const Burial = () => {
   const dispatch = useDispatch();
-  const { services, get_loading, docs, error, search_success, create_success, create_loading, delete_loading } = useSelector(state => state.service);
+  const { burials, get_loading, docs, error, search_success, create_success, create_loading, delete_loading } = useSelector(state => state.burial);
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -35,7 +35,7 @@ const Burial = () => {
     setServiceData(newServiceData);
   }
 
-  const { nextPage, page, prevPage, totalPages } = services && services;
+  const { nextPage, page, prevPage, totalPages } = burials && burials;
 
   const onHandleChange = (e) => {
     const { value } = e.target;
@@ -157,7 +157,7 @@ const Burial = () => {
                 <th className="head">Delete</th>
               </thead>
               <tbody>
-                {services && services.length > 0 ? services.map((b, i) => {
+                {burials && burials.length > 0 ? burials.map((b, i) => {
                   console.log(b._id, "the id")
                   return (
                   <tr key={i}>
@@ -223,7 +223,7 @@ const Burial = () => {
             </Table>
           )}
           <div className="justify-content-center">
-            {services && services.totalPages && services.totalPages > 1 ? (
+            {burials && burials.totalPages && burials.totalPages > 1 ? (
               <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center mt-5">
                   <li className="page-item">

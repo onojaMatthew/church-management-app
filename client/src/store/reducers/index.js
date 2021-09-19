@@ -9,6 +9,7 @@ import { group } from "./reducers_group";
 import { wedding } from "./reducers_wedding";
 import { birthday } from "./reducers_birthday";
 import { service } from "./reducers_service";
+import { burial } from "./reducers_burial";
 
 export const rootReducer = combineReducers({
   account,
@@ -21,4 +22,5 @@ export const rootReducer = combineReducers({
   wedding,
   birthday,
   service,
+  burial,
 });

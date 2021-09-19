@@ -17,7 +17,7 @@ import {
   SEARCH_START,
   SEARCH_SUCCESS,
   SEARCH_FAILED,
-} from "../../actions/actions_service";
+} from "../../actions/actions_burial";
 
 const initialState = {
   burials: [],
