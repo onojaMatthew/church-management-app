@@ -1,6 +1,8 @@
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { Button } from "antd";
 
+import "./Birthday.css";
+
 export const NewBirthday = ({
   modal,
   toggle,
@@ -42,11 +44,11 @@ export const NewBirthday = ({
                   </div>
 
                   <div className="input-container">
-                    <label htmlFor="female">
-                    <input type="radio" id="female" value={"female"} name="sex" onChange={(e) => onHandleChange(e, index)} /> Female
-                    </label>
-                    <label htmlFor="male">
-                    <input type="radio" id="male" value={"male"} name="sex" onChange={(e) => onHandleChange(e, index)} /> Male
+                    
+                    <input type="radio" id="female" value={"female"} name="sex" onChange={(e) => onHandleChange(e, index)} /> 
+                    <label htmlFor="female" id="female">Female</label>
+                    
+                    <input type="radio" id="male" value={"male"} name="sex" onChange={(e) => onHandleChange(e, index)} /> <label htmlFor="male" id="male">Male
                     </label>
                   </div>
                 </>

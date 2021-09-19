@@ -60,7 +60,6 @@
 .image-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: start;
   min-height: 200px;
 }
 
