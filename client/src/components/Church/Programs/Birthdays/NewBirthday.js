@@ -42,7 +42,10 @@ export const NewBirthday = ({
                     <label htmlFor="birth_date">Date of Birth</label>
                     <input className="form-control" type="date" id="birth_date" value={field?.birth_date} name="birth_date" onChange={(e) => onHandleChange(e, index)} />
                   </div>
-
+                  <div className="input-container">
+                    <label htmlFor="venue">Date of Birth</label>
+                    <input className="form-control" id="venue" value={field?.venue} name="venue" onChange={(e) => onHandleChange(e, index)} />
+                  </div>
                   <div className="input-container">
                     
                     <input type="radio" id="female" value={"female"} name="sex" onChange={(e) => onHandleChange(e, index)} /> 

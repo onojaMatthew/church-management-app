@@ -21,6 +21,7 @@ import {
 
 const initialState = {
   services: [],
+  docs: [],
   service: {},
   create_loading: false,
   create_success: false,
@@ -48,7 +49,8 @@ export const service = (state=initialState, action) => {
         ...state,
         create_loading: false,
         create_success: true,
-        services: action.data,
+        docs: state.docs.concat(action.data),
+        services: action.data
       }
     case CREATE_SERVICE_FAILED:
       return {
@@ -69,6 +71,7 @@ export const service = (state=initialState, action) => {
         ...state,
         get_loading: false,
         get_success: true,
+        docs: action.data?.docs,
         services: action.data,
       }
     case SERVICE_LIST_FAILED:
@@ -129,7 +132,7 @@ export const service = (state=initialState, action) => {
         ...state,
         delete_loading: false,
         delete_success: true,
-        service: action.data,
+        docs: state.docs.filter(f => f._id !== action.data._id)
       }
     case DELETE_FAILED:
       return {

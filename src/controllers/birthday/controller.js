@@ -20,6 +20,7 @@ export const postBirthday = async (req, res) => {
       event.phone = celebrants[i].phone;
       event.birth_date = celebrants[i].birth_date;
       event.sex = celebrants[i].sex;
+      event.venue = celebrants[i].venue;
       
       event = await event.save();
       birthdays.push(event);

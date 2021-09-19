@@ -33,8 +33,8 @@ const Dashboard = () => {
   return (
     <>
     {loading ? 
-      <div className="text-center" style={{ marginTop: "25%"}}>
-        <Spinner size="large" color="info" animation="grow">
+      <div className="text-center spin">
+        <Spinner className="my-loader">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       </div> : 

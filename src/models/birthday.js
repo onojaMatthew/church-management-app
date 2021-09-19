@@ -10,7 +10,8 @@ export const birthdaySchema = new Schema({
   birth_date: { type: Date },
   sex: { type: String, enum: [ "male", "female" ] },
   phone: { type: String },
-  email: { type: String }
+  email: { type: String },
+  venue: { type: String },
 }, { timestamps: true });
 
 birthdaySchema.plugin(mongoosePaginate);

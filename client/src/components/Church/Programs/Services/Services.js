@@ -14,7 +14,7 @@ import { NewBirthday } from "./NewService";
 
 const Services = () => {
   const dispatch = useDispatch();
-  const { services, get_loading, error, search_success, create_loading, delete_loading } = useSelector(state => state.service);
+  const { services, get_loading, docs, error, search_success, create_loading, delete_loading } = useSelector(state => state.service);
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -28,9 +28,10 @@ const Services = () => {
   const {
     name, preacher, topic, bible_quote, men, women, children, youth, start_time, end_time
   } = serviceData
+
   const onDataChange = (e) => {
     const { name, value } = e.target;
-    const newServiceData = [ ...serviceData, { [name]: value} ];
+    const newServiceData = {...serviceData, [name]: value };
     
     setServiceData(newServiceData);
   }
@@ -169,8 +170,7 @@ const Services = () => {
                 <th>Delete</th>
               </thead>
               <tbody>
-                {services?.docs && services.docs.length > 0 ? services.docs.map((b, i) => {
-                  let date = new Date(b?.birth_date)
+                {docs && docs.length > 0 ? docs.map((b, i) => {
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>

@@ -230,7 +230,6 @@ export const deleteBirthday = (eventId) => {
         if (resp.error) return dispatch(deleteFailed(resp.message));
         dispatch(deleteSuccess(resp.results));
       })
-      .then(() => dispatch(birthdayList()))
       .catch(err => {
         dispatch(deleteFailed(err.message));
       });

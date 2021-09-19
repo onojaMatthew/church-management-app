@@ -14,11 +14,11 @@ import { NewBirthday } from "./NewBirthday";
 
 const Birthday = () => {
   const dispatch = useDispatch();
-  const { birthdays, get_loading, error, search_loading, search_success, create_loading, delete_loading } = useSelector(state => state.birthday);
+  const { birthdays, get_loading, error, b_docs, search_success, create_loading, delete_loading } = useSelector(state => state.birthday);
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
-  const [ birthdayData, setBirthdayData ] = useState([{ first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "" }]);
+  const [ birthdayData, setBirthdayData ] = useState([{ first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "", venue: "" }]);
   const history = useHistory();
   const church = localAuth().church && localAuth().church._id;
 
@@ -83,7 +83,7 @@ const Birthday = () => {
 
   const addNewData = () => {
     const newData = [ ...birthdayData ];
-    newData.push( { first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "" });
+    newData.push( { first_name: "", last_name: "", email: "", phone: "", birth_date: "", sex: "", venue: "" });
     setBirthdayData(newData);
   }
 
@@ -123,6 +123,7 @@ const Birthday = () => {
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Phone Number</th>
+                <th>Venue</th>
                 <th>Delete</th>
               </thead>
               <tbody>
@@ -137,6 +138,7 @@ const Birthday = () => {
                     <td>{b?.email}</td>
                     <td>{b?.sex}</td>
                     <td>{b?.phone}</td>
+                    <td>{b?.venue}</td>
                     <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
                   </tr>
                   )}) : <h2 className="text-center mt-5">No results found</h2>}
@@ -152,10 +154,11 @@ const Birthday = () => {
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Phone Number</th>
+                <th>Venue</th>
                 <th>Delete</th>
               </thead>
               <tbody>
-                {birthdays?.docs && birthdays.docs.length > 0 ? birthdays.docs.map((b, i) => {
+                {b_docs && b_docs.length > 0 ? b_docs.map((b, i) => {
                   let date = new Date(b?.birth_date)
                   return (
                   <tr key={i}>
@@ -166,7 +169,8 @@ const Birthday = () => {
                     <td>{b?.email}</td>
                     <td>{b?.sex}</td>
                     <td>{b?.phone}</td>
-                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                    <td>{b?.venue}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? <Spinner><span className="visually-hidden">Loading...</span></Spinner> : <FaTrash color={"#ff0000"} />}</td>
                   </tr>
                   )}) : <h2 className="text-center">No records found</h2>}
               </tbody>

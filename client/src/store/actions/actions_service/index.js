@@ -100,6 +100,7 @@ export const serviceList = (offset, limit) => {
     })
       .then(response => response.json())
       .then(resp => {
+        console.log(resp, " the data")
         if (resp.error) return dispatch(listFailed(resp.message));
         return dispatch(listSuccess(resp.results));
       })
@@ -213,10 +214,10 @@ export const deleteFailed = (error) => {
     error
   }
 }
-export const deleteService = (eventId) => {
+export const deleteService = (id) => {
   return dispatch => {
     dispatch(deleteStart());
-    fetch(`${BASE_URL}/service/${church}/${eventId}`, {
+    fetch(`${BASE_URL}/service/delete?church=${church}&serviceId${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

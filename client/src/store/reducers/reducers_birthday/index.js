@@ -23,6 +23,7 @@ import {
 const initialState = {
   birthdays: [],
   birthday: {},
+  b_docs: [],
   create_loading: false,
   create_success: false,
   get_loading: false,
@@ -49,6 +50,7 @@ export const birthday = (state=initialState, action) => {
         ...state,
         create_loading: false,
         create_success: true,
+        b_docs: state.b_docs.concat(action.data),
         birthdays: action.data,
       }
     case CREATE_BIRTHDAY_FAILED:
@@ -70,6 +72,7 @@ export const birthday = (state=initialState, action) => {
         ...state,
         get_loading: false,
         get_success: true,
+        b_docs: action.data?.docs,
         birthdays: action.data,
       }
     case BIRTHDAY_LIST_FAILED:
@@ -130,6 +133,7 @@ export const birthday = (state=initialState, action) => {
         ...state,
         delete_loading: false,
         delete_success: true,
+        b_docs: state.b_docs.filter(f => f._id !== action.data._id),
         birthday: action.data,
       }
     case DELETE_FAILED:
