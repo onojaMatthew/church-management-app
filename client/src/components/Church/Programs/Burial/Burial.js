@@ -43,7 +43,7 @@ const Burial = () => {
     age, 
     burial_date, 
     position, 
-    burial_venue 
+    burial_venue, 
   } = burialData
 
   const onDataChange = (e) => {
@@ -57,6 +57,7 @@ const Burial = () => {
 
   const onHandleChange = (e) => {
     const { value } = e.target;
+    console.log("the search value")
     setSearchTerm(value);
   }
 
@@ -178,14 +179,16 @@ const Burial = () => {
               </thead>
               <tbody>
                 {burials && burials.length > 0 ? burials.map((b, i) => {
+                  let date = new Date(b?.death_date);
+                  let b_date = new Date(b?.burial_date)
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>
                     <td>{b?.first_name}</td>
                     <td>{b?.last_name}</td>
-                    <td>{b?.death_date}</td>
+                    <td>{date && date.toLocaleDateString()}</td>
                     <td>{b?.age}</td>
-                    <td>{b?.burial_date}</td>
+                    <td>{b_date && b_date.toLocaleDateString()}</td>
                     <td>{b?.burial_venue}</td>
                     <td>{b?.sex}</td>
                     <td>{b?.position}</td>

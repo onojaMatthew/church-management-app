@@ -5,7 +5,8 @@ import { pagination } from "../../middleware/pagination";
 
 export const createBurial = async (req, res) => {
   const { church, first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, burial_date } = req.body;
-  const image_url = req.files.image_url[0] && req.files.image_url[0].location;
+  const image_url = req.files.image_url && req.files.image_url[0].location;
+
   try {
     const Burial = await getModelByChurch(church, "Burial", burialSchema)
     let burial = new Burial({ first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, image_url, burial_date });
@@ -74,5 +75,49 @@ export const deleteBurial = async (req, res) => {
     return res.json(success("Success", burial, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const searchDeathRecord = async (req, res) => {
+  const { searchTerm, church } = req.query;
+
+  try {
+    const Burial = await getModelByChurch(church, "Burial", burialSchema);
+    const searchResult = await Burial.aggregate([{ $match: {
+      $or: [
+        { first_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { last_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          burial_venue: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          sex: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          officiating_pastor: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
   }
 }

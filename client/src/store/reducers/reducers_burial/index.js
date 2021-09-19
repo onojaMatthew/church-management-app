@@ -152,7 +152,7 @@ export const burial = (state=initialState, action) => {
         ...state,
         search_loading: false,
         search_success: true,
-        services: action.data,
+        burials: action.data,
       }
     case  SEARCH_FAILED:
       return {

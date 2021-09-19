@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { Modal, ModalBody, ModalHeader, Input } from "reactstrap";
 import { BsPlus } from "react-icons/bs";
 import { useDropzone } from "react-dropzone";
@@ -24,15 +24,13 @@ export const NewBurial = ({
   burial_venue,
   image_url,
 }) => {
-  const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
-  }, []);
+  const onDrop = useCallback(acceptedFiles => {}, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
   return (
     <div>
       <Modal toggle={toggle} isOpen={modal} id="birthday-modal">
-        <ModalHeader toggle={toggle}>Create New Service</ModalHeader>
+        <ModalHeader toggle={toggle}>Create New Death Record</ModalHeader>
         <ModalBody>
           <div>
             <form onSubmit={handleSubmit}>
@@ -41,28 +39,29 @@ export const NewBurial = ({
                 <input className="form-control" id="first_name" placeholder="First name" value={first_name} name="first_name" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
-                <label htmlFor="topic">Message Title</label>
+                <label htmlFor="topic">Last Name</label>
                 <input className="form-control" id="last_name" placeholder="Last name" value={last_name} name="last_name" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
-                <label htmlFor="death_date">Bible Quote</label>
+                <label htmlFor="death_date">Enter Demise Date</label>
                 <input className="form-control" id="death_date" type="date" placeholder="Enter death date" value={death_date} name="death_date" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
-                <label htmlFor="burial_date">Enter Number of Men</label>
-                <input className="form-control" id="burial_date" value={burial_date} name="burial_date" onChange={(e) => onHandleChange(e)} />
+                <label htmlFor="burial_date">Enter Burial Date</label>
+                <input className="form-control" type="date" id="burial_date" value={burial_date} name="burial_date" onChange={(e) => onHandleChange(e)} />
               </div>
 
               <div className="input-container">
-                <label htmlFor="sex" id="female">Enter Number of Women</label>
-                <input type="select" className="form-control" id="women" name="sex" onChange={(e) => onHandleChange(e)}>
+                <label htmlFor="sex" id="female">Sex</label>
+                <Input type="select" className="form-control" id="women" name="sex" onChange={(e) => onHandleChange(e)}>
+                  <option>---Select Sex---</option>
                   <option value="female">Female</option>
                   <option value="male">Male</option>
-                </input> 
+                </Input> 
               </div>
               <div className="input-container">
                 <label htmlFor="age">Age</label>
-                <input className="form-control" type="number" id="age" value={age} name="age" onChange={(e) => onHandleChange(e)} /> 
+                <input min="1" className="form-control" type="number" id="age" value={age} name="age" onChange={(e) => onHandleChange(e)} /> 
               </div>
               <div className="input-container">
                 <label htmlFor="pastor">Officiating Pastor</label>
@@ -74,13 +73,13 @@ export const NewBurial = ({
               </div>
               <div className="input-container">
                 <label htmlFor="venue">Burial Venue</label>
-                <input className="form-control" id="venue" value={burial_venue} name="brial_venue" onChange={(e) => onHandleChange(e)} /> 
+                <input className="form-control" id="venue" value={burial_venue} name="burial_venue" onChange={(e) => onHandleChange(e)} /> 
               </div>
-              <label>Upload wedding picture</label>
+              <label>Upload picture</label>
               <div {...getRootProps()} className="text-center p-file-uploader">
                 {image_url.name && image_url.name.length > 0 ? 
-                  <Input value={image_url?.name} /> : (
-<>
+                  <Input value={image_url.name && image_url.name} /> : (
+                  <>
                     <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
                     <i className="ri-folder-reduce-fill"></i>
                     {
@@ -93,9 +92,9 @@ export const NewBurial = ({
                         </div>
                     }
                   </>
-                  )}
+                  )} 
               </div>
-              <div className="service-button-container">
+              <div className="service-button-container mt-3">
                 {create_loading ? <Button loading>Processing...</Button> : <Button onClick={handleSubmit}>Submit</Button>}
               </div>
             </form>

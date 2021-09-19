@@ -46,16 +46,27 @@ export const createFailed = (error) => {
 }
 
 export const createBurial = (data) => {
+  let formData = new FormData();
+  formData.append("first_name", data.first_name);
+  formData.append("last_name", data.last_name);
+  formData.append("age", data.age);
+  formData.append("death_date", data.death_date);
+  formData.append("burial_date", data.burial_date);
+  formData.append("image_url", data.image_url);
+  formData.append("sex", data.sex);
+  formData.append("officiating_pastor", data.officiating_pastor);
+  formData.append("burial_venue", data.burial_venue);
+  formData.append("position", data.position);
+  formData.append("church", church);
+
   return dispatch => {
     dispatch(createStart());
     fetch(`${BASE_URL}/burial/new`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify(data)
+      body: formData
     })
       .then(response => response.json())
       .then(resp => {

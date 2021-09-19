@@ -2,7 +2,7 @@ import express from "express";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
 import { upload } from "../../services/uploader";
-import { burialDetail, createBurial, death_list, deleteBurial, updateBurial } from "./controller";
+import { burialDetail, createBurial, death_list, deleteBurial, searchDeathRecord, updateBurial } from "./controller";
 
 
 const router = express.Router();
@@ -34,5 +34,6 @@ router.put("/burial/update", verifyToken, grantAccess("updateOwn", "church"), up
   { name: "burial_date", maxCount: 1 },
 ]), updateBurial);
 router.delete("/burial/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteBurial);
+router.get("/burial/search", verifyToken, grantAccess("readOwn", "church"), searchDeathRecord);
 
 export default router;
