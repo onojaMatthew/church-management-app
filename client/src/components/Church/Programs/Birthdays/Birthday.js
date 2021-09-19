@@ -1,7 +1,7 @@
 // import BirthdayTable from "./BirthdayTable";
 import { useHistory } from "react-router-dom";
 import { Card, CardBody, Spinner, Table } from "reactstrap";
-import { FaTrash } from "react-icons/fa"
+import { FaArrowLeft, FaTrash } from "react-icons/fa"
 import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
@@ -101,8 +101,9 @@ const Birthday = () => {
         </div>
       ) : (
         <Card id="birthday-card">
+          <FaArrowLeft size={30} onClick={() => history.goBack()} size={30} color="#1890ff" />
         <div>
-          <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
+          <Button onClick={toggle} className="new-event-button">Create New Service</Button>
         </div>
         <CardBody>
           <div className="search-wrapper">
@@ -112,7 +113,6 @@ const Birthday = () => {
               onChange={onHandleChange}
             />
           </div>
-          {/* <BirthdayTable onDelete={onDelete} delete_loading={delete_loading} birthdays={birthdays} get_loading={get_loading} /> */}
           {search_success ? (
             <Table responsive>
               <thead>
@@ -139,7 +139,12 @@ const Birthday = () => {
                     <td>{b?.sex}</td>
                     <td>{b?.phone}</td>
                     <td>{b?.venue}</td>
-                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? (
+                      <Spinner>
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    )
+                     : <FaTrash color={"#ff0000"} />}</td>
                   </tr>
                   )}) : <h2 className="text-center mt-5">No results found</h2>}
               </tbody>
@@ -170,7 +175,11 @@ const Birthday = () => {
                     <td>{b?.sex}</td>
                     <td>{b?.phone}</td>
                     <td>{b?.venue}</td>
-                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? <Spinner><span className="visually-hidden">Loading...</span></Spinner> : <FaTrash color={"#ff0000"} />}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? (
+                      <Spinner>
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    ) : <FaTrash color={"#ff0000"} />}</td>
                   </tr>
                   )}) : <h2 className="text-center">No records found</h2>}
               </tbody>

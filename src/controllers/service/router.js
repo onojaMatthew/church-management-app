@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.post("/service/new", verifyToken, grantAccess("createOwn", "church"), validateInput, postService);
 router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, serviceList);
-router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), validateQuery, service);
+router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), service);
 router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateService);
-router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), validateQuery, deleteService);
+router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteService);
 
 export default router;

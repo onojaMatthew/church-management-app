@@ -1,7 +1,6 @@
-// import BirthdayTable from "./BirthdayTable";
 import { useHistory } from "react-router-dom";
 import { Card, CardBody, Spinner, Table } from "reactstrap";
-import { FaTrash } from "react-icons/fa"
+import { FaArrowLeft, FaTrash } from "react-icons/fa"
 import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
@@ -14,7 +13,7 @@ import { NewBirthday } from "./NewService";
 
 const Services = () => {
   const dispatch = useDispatch();
-  const { services, get_loading, docs, error, search_success, create_loading, delete_loading } = useSelector(state => state.service);
+  const { services, get_loading, docs, error, search_success, create_success, create_loading, delete_loading } = useSelector(state => state.service);
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -102,6 +101,23 @@ const Services = () => {
     dispatch(deleteService(id));
   }
 
+  useEffect(() => {
+    if (create_success) {
+      setServiceData({
+        name: "", 
+        preacher: "", 
+        topic: "", 
+        bible_quote: "", 
+        men: "", 
+        women: "", 
+        children: "", 
+        youth: "", 
+        start_time: "", 
+        end_time: ""
+      });
+    }
+  }, [ create_success ]);
+
   return (
     <div>
       {get_loading ? (
@@ -112,43 +128,55 @@ const Services = () => {
         </div>
       ) : (
         <Card id="birthday-card">
+          <FaArrowLeft onClick={() => history.goBack()} size={30} color="#1890ff" />
         <div>
           <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
         </div>
         <CardBody>
           <div className="search-wrapper">
-            <h1>Birthday Table</h1>
+            <h1>Service Table</h1>
             <Search 
               search_term={search_term}
               onChange={onHandleChange}
             />
           </div>
-          {/* <BirthdayTable onDelete={onDelete} delete_loading={delete_loading} birthdays={birthdays} get_loading={get_loading} /> */}
           {search_success ? (
             <Table responsive>
               <thead>
-                <th>S/N</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Date of Birth</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Phone Number</th>
-                <th>Delete</th>
+                <th className="head">S/N</th>
+                <th className="head">Service</th>
+                <th className="head">Preacher</th>
+                <th className="head">Message title</th>
+                <th className="head">Bible Quote</th>
+                <th className="head">Men</th>
+                <th className="head">Women</th>
+                <th className="head">Children</th>
+                <th className="head">Youth</th>
+                <th className="head">Start Time</th>
+                <th className="head">End Time</th>
+                <th className="head">Delete</th>
               </thead>
               <tbody>
                 {services && services.length > 0 ? services.map((b, i) => {
-                  let date = new Date(b?.birth_date)
+                  console.log(b._id, "the id")
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td>{b?.first_name}</td>
-                    <td>{b?.last_name}</td>
-                    <td>{date && date.toLocaleDateString()}</td>
-                    <td>{b?.email}</td>
-                    <td>{b?.sex}</td>
-                    <td>{b?.phone}</td>
-                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                    <td>{b?.name}</td>
+                    <td>{b?.preacher}</td>
+                    <td>{b?.topic}</td>
+                    <td>{b?.bible_quote}</td>
+                    <td>{b?.attendance && b.attendance?.men}</td>
+                    <td>{b?.attendance && b.attendance?.women}</td>
+                    <td>{b?.attendance && b.attendance?.children}</td>
+                    <td>{b?.attendance && b.attendance?.youth}</td>
+                    <td>{b?.start_time}</td>
+                    <td>{b?.end_time}</td>
+                    <td onClick={() => onDelete(b?._id)}>{delete_loading ?  (
+                      <Spinner>
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    ) : <FaTrash color="#ff0000" />}</td>
                   </tr>
                   )}) : <h2 className="text-center mt-5">No results found</h2>}
               </tbody>
@@ -156,18 +184,18 @@ const Services = () => {
           ) : (
             <Table responsive>
               <thead>
-                <th>S/N</th>
-                <th>Service</th>
-                <th>Preacher</th>
-                <th>Message title</th>
-                <th>Bible Quote</th>
-                <th>Men</th>
-                <th>Women</th>
-                <th>Children</th>
-                <th>Youth</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Delete</th>
+                <th className="head">S/N</th>
+                <th className="head">Service</th>
+                <th className="head">Preacher</th>
+                <th className="head">Message title</th>
+                <th className="head">Bible Quote</th>
+                <th className="head">Men</th>
+                <th className="head">Women</th>
+                <th className="head">Children</th>
+                <th className="head">Youth</th>
+                <th className="head">Start Time</th>
+                <th className="head">End Time</th>
+                <th className="head">Delete</th>
               </thead>
               <tbody>
                 {docs && docs.length > 0 ? docs.map((b, i) => {
@@ -184,7 +212,11 @@ const Services = () => {
                     <td>{b?.attendance && b.attendance?.youth}</td>
                     <td>{b?.start_time}</td>
                     <td>{b?.end_time}</td>
-                    <td onClick={() => onDelete(b?._id)}>{delete_loading ? "Please wait..." : <FaTrash />}</td>
+                    <td onClick={() => onDelete(b._id)}>{delete_loading ?  (
+                      <Spinner>
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    ) : <FaTrash color="#ff0000" />}</td>
                   </tr>
                   )}) : <h2 className="text-center">No records found</h2>}
               </tbody>

@@ -1,9 +1,9 @@
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { Button } from "antd";
 
-import "./Service.css";
+import "./Burial.css";
 
-export const NewBirthday = ({
+export const NewBurial = ({
   modal,
   toggle,
   onHandleChange,

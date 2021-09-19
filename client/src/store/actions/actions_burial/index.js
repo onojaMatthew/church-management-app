@@ -1,15 +1,15 @@
 
 import { localAuth } from "../../../helper/authenticate";
 
-export const CREATE_SERVICE_START = "CREATE_SERVICE_START";
-export const CREATE_SERVICE_SUCCESS = "CREATE_SERVICE_SUCCESS";
-export const CREATE_SERVICE_FAILED = "CREATE_SERVICE_FAILED";
-export const SERVICE_LIST_START = "SERVICE_LIST_START";
-export const SERVICE_LIST_SUCCESS = "SERVICE_LIST_SUCCESS";
-export const SERVICE_LIST_FAILED = "SERVICE_LIST_FAILED";
-export const GET_SERVICE_START = "GET_SERVICE_START";
-export const GET_SERVICE_SUCCESS = "GET_SERVICE_SUCCESS";
-export const GET_SERVICE_FAILED = "GET_SERVICE_FAILED";
+export const CREATE_BURIAL_START = "CREATE_BURIAL_START";
+export const CREATE_BURIAL_SUCCESS = "CREATE_BURIAL_SUCCESS";
+export const CREATE_BURIAL_FAILED = "CREATE_BURIAL_FAILED";
+export const BURIAL_LIST_START = "SERVICE_LIST_START";
+export const BURIAL_LIST_SUCCESS = "BURIAL_LIST_SUCCESS";
+export const BURIAL_LIST_FAILED = "BURIAL_LIST_FAILED";
+export const GET_BURIAL_START = "GET_BURIAL_START";
+export const GET_BURIAL_SUCCESS = "GET_BURIAL_SUCCESS";
+export const GET_BURIAL_FAILED = "GET_BURIAL_FAILED";
 export const UPDATE_START = "UPDATE_START";
 export const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 export const UPDATE_FAILED = "UPDATE_FAILED";
@@ -27,28 +27,28 @@ const church = localAuth().church && localAuth().church._id;
 
 export const createStart = () => {
   return {
-    type: CREATE_SERVICE_START
+    type: CREATE_BURIAL_START
   }
 }
 
 export const createSuccess = (data) => {
   return {
-    type: CREATE_SERVICE_SUCCESS,
+    type: CREATE_BURIAL_SUCCESS,
     data
   }
 }
 
 export const createFailed = (error) => {
   return {
-    type: CREATE_SERVICE_FAILED,
+    type: CREATE_BURIAL_FAILED,
     error
   }
 }
 
-export const createService = (data) => {
+export const createBurial = (data) => {
   return dispatch => {
     dispatch(createStart());
-    fetch(`${BASE_URL}/service/new`, {
+    fetch(`${BASE_URL}/burial/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,35 +62,34 @@ export const createService = (data) => {
         if (resp.error) return dispatch(createFailed(resp.message));
         return dispatch(createSuccess(resp.results));
       })
-      // .then(() => dispatch(birthdayList()))
       .catch(err => dispatch(createFailed(err.message)));
   }
 }
 
 export const listStart = () => {
   return {
-    type: SERVICE_LIST_START
+    type: BURIAL_LIST_START
   }
 }
 
 export const listSuccess = (data) => {
   return {
-    type: SERVICE_LIST_SUCCESS,
+    type: BURIAL_LIST_SUCCESS,
     data
   }
 }
 
 export const listFailed = (error) => {
   return {
-    type: SERVICE_LIST_FAILED,
+    type: BURIAL_LIST_FAILED,
     error
   }
 }
 
-export const serviceList = (offset, limit) => {
+export const burialList = (offset, limit) => {
   return dispatch => {
     dispatch(listStart());
-    fetch(`${BASE_URL}/service/all/${church}?offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/burial/all/${church}?offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -130,10 +129,10 @@ export const updateFailed = (error) => {
   }
 }
 
-export const updateService = (data) => {
+export const updateBurial = (data) => {
   return dispatch => {
     dispatch(updateStart());
-    fetch(`${BASE_URL}/service/update`, {
+    fetch(`${BASE_URL}/burial/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -153,30 +152,30 @@ export const updateService = (data) => {
   }
 }
 
-export const serviceStart = () => {
+export const burialStart = () => {
   return {
-    type: GET_SERVICE_START
+    type: GET_BURIAL_START
   }
 }
 
-export const serviceSuccess = (data) => {
+export const burialSuccess = (data) => {
   return {
-    type: GET_SERVICE_SUCCESS,
+    type: GET_BURIAL_SUCCESS,
     data
   }
 }
 
-export const serviceFailed = (error) => {
+export const burialFailed = (error) => {
   return {
-    type: GET_SERVICE_FAILED,
+    type: GET_BURIAL_FAILED,
     error
   }
 }
 
-export const getservice = () => {
+export const getBurial = () => {
   return dispatch => {
-    dispatch(serviceStart());
-    fetch(`${BASE_URL}/service/detail`, {
+    dispatch(burialStart());
+    fetch(`${BASE_URL}/burial/detail`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -186,11 +185,11 @@ export const getservice = () => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(serviceFailed(resp.message));
-        dispatch(serviceSuccess(resp.results));
+        if (resp.error) return dispatch(burialFailed(resp.message));
+        dispatch(burialSuccess(resp.results));
       })
       .catch(err => {
-        dispatch(serviceFailed(err.message))
+        dispatch(burialFailed(err.message))
       })
   }
 }
@@ -214,10 +213,10 @@ export const deleteFailed = (error) => {
     error
   }
 }
-export const deleteService = (id) => {
+export const deleteBurial = (id) => {
   return dispatch => {
     dispatch(deleteStart());
-    fetch(`${BASE_URL}/service/delete?church=${church}&serviceId=${id}`, {
+    fetch(`${BASE_URL}/burial/delete?church=${church}&serviceId=${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -257,10 +256,10 @@ export const searchFailed = (error) => {
   }
 }
 
-export const searchService = (searchTerm) => {
+export const searchBurial = (searchTerm) => {
   return dispatch => {
     dispatch(searchStart());
-    fetch(`${BASE_URL}/service/search?church=${church}&searchTerm=${searchTerm}`, {
+    fetch(`${BASE_URL}/burial/search?church=${church}&searchTerm=${searchTerm}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

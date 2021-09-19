@@ -14,8 +14,8 @@ export const serviceSchema = new Schema({
     children: { type: Number, default: 0 },
     youth: { type: Number, default: 0 }
   },
-  start_time: { type: Date },
-  end_time: { type: Date }
+  start_time: { type: String },
+  end_time: { type: String }
 }, { timestamps: true });
 
 serviceSchema.plugin(mongoosePaginate);

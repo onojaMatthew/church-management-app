@@ -5,7 +5,7 @@ import { serviceSchema } from "../../models/service";
 
 export const postService = async (req, res) => {
   const { name, preacher, topic, bible_quote, men, women, children, start_time, end_time, church } = req.body;
-  
+  console.log(end_time, start_time)
   try {
     const Service = await getModelByChurch(church, "Service", serviceSchema);
    

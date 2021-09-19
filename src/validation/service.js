@@ -11,8 +11,7 @@ export const validateInput = [
   check("women").isInt().withMessage("Number of women in attendance is required"),
   check("children").isInt().withMessage("Number of children in attendance is required"),
   check("church").isMongoId().withMessage("Invalid church ID"),
-  // check("start_time").matches(/^(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})$/).withMessage("Service start time is required"),
-  // check("end_time").matches(/^(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})$/).withMessage("Service end time is required"),
+  
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
