@@ -14,7 +14,7 @@ import { NewBirthday } from "./NewBirthday";
 
 const Birthday = () => {
   const dispatch = useDispatch();
-  const { birthdays, get_loading, error, b_docs, search_success, create_loading, delete_loading } = useSelector(state => state.birthday);
+  const { birthdays, get_loading, error, b_docs, create_success, search_success, create_loading, delete_loading } = useSelector(state => state.birthday);
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -90,6 +90,12 @@ const Birthday = () => {
   const onDelete = (id) => {
     dispatch(deleteBirthday(id));
   }
+
+  useEffect(() => {
+    if (create_success) {
+      toggle()
+    }
+  }, [ create_success ]);
 
   return (
     <div>

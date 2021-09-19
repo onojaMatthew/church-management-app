@@ -63,7 +63,6 @@ export const createBirthday = (data) => {
         if (resp.error) return dispatch(createFailed(resp.message));
         return dispatch(createSuccess(resp.results));
       })
-      .then(() => dispatch(birthdayList()))
       .catch(err => dispatch(createFailed(err.message)));
   }
 }
