@@ -4,11 +4,11 @@ import { success, error } from "../../config/response";
 import { pagination } from "../../middleware/pagination";
 
 export const createBurial = async (req, res) => {
-  const { church, first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex } = req.body;
+  const { church, first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, burial_date } = req.body;
   const image_url = req.files.image_url[0] && req.files.image_url[0].location;
   try {
     const Burial = await getModelByChurch(church, "Burial", burialSchema)
-    let burial = new Burial({ first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, image_url });
+    let burial = new Burial({ first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, image_url, burial_date });
     burial = await burial.save();
     return res.json(success("Success", burial, res.statusCode));
   } catch (err) {
@@ -40,11 +40,12 @@ export const burialDetail = async (req, res) => {
 }
 
 export const updateBurial = async (req, res) => {
-  const { church, first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex } = req.body;
-  const image_url = req.files.image_url[0] && req.files.image_url[0].location;
+  const { first_name, last_name, age, death_date, burial_venue, officiating_pastor, position, sex, burial_date } = req.body;
+  const { church, burialId } = req.query;
+  const image_url = req.files.image_url && req.files.image_url[0] && req.files.image_url[0].location;
   try {
     const Burial = await getModelByChurch(church, "Burial", burialSchema);
-    const burial = await Burial.findById({ _id: burialId });
+    let burial = await Burial.findById({ _id: burialId });
 
     if (!burial) return res.json(success("No records found", burial, res.statusCode));
     if (first_name) burial.first_name = first_name;
@@ -56,6 +57,7 @@ export const updateBurial = async (req, res) => {
     if (position) burial.position = position;
     if (image_url) burial.image_url = image_url;
     if (sex) burial.sex = sex;
+    if (burial_date) burial.burial_date = burial_date;
 
     burial = await burial.save();
     return res.json(success("Updated successfully", burial, res.statusCode));

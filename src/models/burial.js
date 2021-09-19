@@ -11,6 +11,7 @@ export const burialSchema = new Schema({
   position: { type: String },
   burial_venue: { type: String },
   sex: { type: String },
+  burial_date: { type: Date },
 }, { timestamps: true });
 
 burialSchema.plugin(mongoosePaginate);

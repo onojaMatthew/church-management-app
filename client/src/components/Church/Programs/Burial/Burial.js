@@ -1,15 +1,15 @@
 import { useHistory } from "react-router-dom";
 import { Card, CardBody, Spinner, Table } from "reactstrap";
 import { FaArrowLeft, FaTrash } from "react-icons/fa"
-import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Burial.css";
-import { serviceList, createService, deleteService, searchService } from "../../../../store/actions/actions_service";
-import { Button } from "antd";
+import { Button, Image } from "antd";
 import { NewBurial } from "./NewBurial";
+import { burialList, createBurial, deleteBurial, searchBurial } from "../../../../store/actions/actions_burial";
+import Avatar from "antd/lib/avatar/avatar";
 
 const Burial = () => {
   const dispatch = useDispatch();
@@ -17,22 +17,40 @@ const Burial = () => {
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
-  const [ serviceData, setServiceData ] = useState({
-    name: "", preacher: "", topic: "", bible_quote: "", men: "", women: "", children: "", youth: "", start_time: "", end_time: ""
+  const [ burialData, setBurialData ] = useState({
+    first_name: "", 
+    last_name: "", 
+    officiating_pastor: "", 
+    death_date: "", 
+    sex: "", 
+    age: "", 
+    burial_date: "", 
+    position: "", 
+    burial_venue: "",
   });
 
+  const [ image_url, setImageUrl ] = useState({});
+
   const history = useHistory();
-  const church = localAuth().church && localAuth().church._id;
+  // const church = localAuth().church && localAuth().church._id;
 
   const {
-    name, preacher, topic, bible_quote, men, women, children, youth, start_time, end_time
-  } = serviceData
+    first_name, 
+    last_name, 
+    officiating_pastor, 
+    death_date, 
+    sex, 
+    age, 
+    burial_date, 
+    position, 
+    burial_venue 
+  } = burialData
 
   const onDataChange = (e) => {
     const { name, value } = e.target;
-    const newServiceData = {...serviceData, [name]: value };
+    const newBurialData = {...burialData, [name]: value };
     
-    setServiceData(newServiceData);
+    setBurialData(newBurialData);
   }
 
   const { nextPage, page, prevPage, totalPages } = burials && burials;
@@ -43,7 +61,7 @@ const Burial = () => {
   }
 
   const handleSearch = () => {
-    dispatch(searchService(search_term))
+    dispatch(searchBurial(search_term))
   }
 
   const toggle = () => {
@@ -65,7 +83,7 @@ const Burial = () => {
   useEffect(() => {
     const offset=1;
     const limit=10;
-    dispatch(serviceList(offset, limit))
+    dispatch(burialList(offset, limit))
   }, [ dispatch]);
 
   let paginateArr = [];
@@ -76,47 +94,50 @@ const Burial = () => {
   const handleNextPage = (next_page) => {
     const offset=next_page;
     const limit=10;
-    dispatch(serviceList(offset, limit));
+    dispatch(burialList(offset, limit));
   }
 
   const handleSubmit = () => {
     const data = {
-      name, 
-      preacher, 
-      topic, 
-      bible_quote, 
-      men, 
-      women, 
-      children, 
-      youth, 
-      start_time, 
-      end_time,
-      church
+      first_name, 
+      last_name, 
+      officiating_pastor, 
+      death_date, 
+      sex, 
+      age, 
+      burial_date, 
+      position, 
+      burial_venue,
+      image_url,
     };
 
-    dispatch(createService(data));
+    dispatch(createBurial(data));
   }
 
   const onDelete = (id) => {
-    dispatch(deleteService(id));
+    dispatch(deleteBurial(id));
   }
 
   useEffect(() => {
     if (create_success) {
-      setServiceData({
-        name: "", 
-        preacher: "", 
-        topic: "", 
-        bible_quote: "", 
-        men: "", 
-        women: "", 
-        children: "", 
-        youth: "", 
-        start_time: "", 
-        end_time: ""
+      setBurialData({
+        first_name: "", 
+        last_name: "", 
+        officiating_pastor: "", 
+        death_date: "", 
+        sex: "", 
+        age: "", 
+        burial_date: "", 
+        position: "", 
+        burial_venue: "",
       });
+      toggle();
     }
   }, [ create_success ]);
+
+  const handlePhoto = (e) => {
+    setImageUrl(e.target.files[0]);
+  }
 
   return (
     <div>
@@ -130,11 +151,11 @@ const Burial = () => {
         <Card id="birthday-card">
           <FaArrowLeft onClick={() => history.goBack()} size={30} color="#1890ff" />
         <div>
-          <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
+          <Button onClick={toggle} className="new-event-button">New Death Record</Button>
         </div>
         <CardBody>
           <div className="search-wrapper">
-            <h1>Service Table</h1>
+            <h1>Death Records</h1>
             <Search 
               search_term={search_term}
               onChange={onHandleChange}
@@ -144,34 +165,31 @@ const Burial = () => {
             <Table responsive>
               <thead>
                 <th className="head">S/N</th>
-                <th className="head">Service</th>
-                <th className="head">Preacher</th>
-                <th className="head">Message title</th>
-                <th className="head">Bible Quote</th>
-                <th className="head">Men</th>
-                <th className="head">Women</th>
-                <th className="head">Children</th>
-                <th className="head">Youth</th>
-                <th className="head">Start Time</th>
-                <th className="head">End Time</th>
+                <th className="head">First Name</th>
+                <th className="head">Last Name</th>
+                <th className="head">Death Date</th>
+                <th className="head">Age</th>
+                <th className="head">Burial Date</th>
+                <th className="head">Burial Venue</th>
+                <th className="head">Sex</th>
+                <th className="head">Position</th>
+                <th className="head">Photo</th>
                 <th className="head">Delete</th>
               </thead>
               <tbody>
                 {burials && burials.length > 0 ? burials.map((b, i) => {
-                  console.log(b._id, "the id")
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td>{b?.name}</td>
-                    <td>{b?.preacher}</td>
-                    <td>{b?.topic}</td>
-                    <td>{b?.bible_quote}</td>
-                    <td>{b?.attendance && b.attendance?.men}</td>
-                    <td>{b?.attendance && b.attendance?.women}</td>
-                    <td>{b?.attendance && b.attendance?.children}</td>
-                    <td>{b?.attendance && b.attendance?.youth}</td>
-                    <td>{b?.start_time}</td>
-                    <td>{b?.end_time}</td>
+                    <td>{b?.first_name}</td>
+                    <td>{b?.last_name}</td>
+                    <td>{b?.death_date}</td>
+                    <td>{b?.age}</td>
+                    <td>{b?.burial_date}</td>
+                    <td>{b?.burial_venue}</td>
+                    <td>{b?.sex}</td>
+                    <td>{b?.position}</td>
+                    <td><Avatar src={<Image src={b?.image_url} />} /></td>
                     <td onClick={() => onDelete(b?._id)}>{delete_loading ?  (
                       <Spinner>
                         <span className="visually-hidden">Loading...</span>
@@ -185,33 +203,33 @@ const Burial = () => {
             <Table responsive>
               <thead>
                 <th className="head">S/N</th>
-                <th className="head">Service</th>
-                <th className="head">Preacher</th>
-                <th className="head">Message title</th>
-                <th className="head">Bible Quote</th>
-                <th className="head">Men</th>
-                <th className="head">Women</th>
-                <th className="head">Children</th>
-                <th className="head">Youth</th>
-                <th className="head">Start Time</th>
-                <th className="head">End Time</th>
+                <th className="head">First Name</th>
+                <th className="head">Last Name</th>
+                <th className="head">Death Date</th>
+                <th className="head">Age</th>
+                <th className="head">Burial Date</th>
+                <th className="head">Burial Venue</th>
+                <th className="head">Sex</th>
+                <th className="head">Position</th>
+                <th className="head">Photo</th>
                 <th className="head">Delete</th>
               </thead>
               <tbody>
                 {docs && docs.length > 0 ? docs.map((b, i) => {
+                  let date = new Date(b?.death_date);
+                  let b_date = new Date(b?.burial_date)
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td>{b?.name}</td>
-                    <td>{b?.preacher}</td>
-                    <td>{b?.topic}</td>
-                    <td>{b?.bible_quote}</td>
-                    <td>{b?.attendance && b.attendance?.men}</td>
-                    <td>{b?.attendance && b.attendance?.women}</td>
-                    <td>{b?.attendance && b.attendance?.children}</td>
-                    <td>{b?.attendance && b.attendance?.youth}</td>
-                    <td>{b?.start_time}</td>
-                    <td>{b?.end_time}</td>
+                    <td>{b?.first_name}</td>
+                    <td>{b?.last_name}</td>
+                    <td>{date && date.toLocaleDateString()}</td>
+                    <td>{b?.age}</td>
+                    <td>{b_date && b_date.toLocaleDateString()}</td>
+                    <td>{b?.burial_venue}</td>
+                    <td>{b?.sex}</td>
+                    <td>{b?.position}</td>
+                    <td><Avatar src={<Image src={b?.image_url} />} /></td>
                     <td onClick={() => onDelete(b._id)}>{delete_loading ?  (
                       <Spinner>
                         <span className="visually-hidden">Loading...</span>
@@ -246,26 +264,26 @@ const Burial = () => {
           </div>
         </CardBody>
         <NewBurial 
-          name={name}
-          preacher={preacher}
-          topic={topic}
-          bible_quote={bible_quote}
-          men={men}
-          women={women}
-          children={children}
-          youth={youth}
-          start_time={start_time}
-          end_time={end_time}
+          first_name={first_name}
+          last_name={last_name}
+          officiating_pastor={officiating_pastor}
+          death_date={death_date}
+          sex={sex} 
+          age={age} 
+          burial_date={burial_date} 
+          position={position}
+          burial_venue={burial_venue}
+          image_url={image_url}
           create_loading={create_loading}
           toggle={toggle}
           modal={modal}
+          handlePhoto={handlePhoto}
           onHandleChange={onDataChange}
           handleSubmit={handleSubmit}
-          serviceData={serviceData}
+          burialData={burialData}
         />
       </Card>
       )}
-      
     </div>
   )
 }

@@ -1,4 +1,7 @@
-import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import { useCallback } from "react";
+import { Modal, ModalBody, ModalHeader, Input } from "reactstrap";
+import { BsPlus } from "react-icons/bs";
+import { useDropzone } from "react-dropzone";
 import { Button } from "antd";
 
 import "./Burial.css";
@@ -9,18 +12,23 @@ export const NewBurial = ({
   onHandleChange,
   create_loading,
   handleSubmit,
-  name, 
-  preacher, 
-  topic, 
-  bible_quote, 
-  men, 
-  women, 
-  children, 
-  youth, 
-  start_time, 
-  end_time
+  first_name,
+  last_name,
+  officiating_pastor,
+  death_date,
+  // sex,
+  handlePhoto,
+  age,
+  burial_date, 
+  position,
+  burial_venue,
+  image_url,
 }) => {
+  const onDrop = useCallback(acceptedFiles => {
+    // Do something with the files
+  }, []);
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
   return (
     <div>
       <Modal toggle={toggle} isOpen={modal} id="birthday-modal">
@@ -29,45 +37,63 @@ export const NewBurial = ({
           <div>
             <form onSubmit={handleSubmit}>
               <div className="input-container">
-                <label htmlFor="service">Service Name</label>
-                <input className="form-control" id="service" placeholder="Service name" value={name} name="name" onChange={(e) => onHandleChange(e)} />
-              </div>
-              <div className="input-container">
-                <label htmlFor="preacher">Preacher</label>
-                <input className="form-control" id="preacher" placeholder="Preacher name" value={preacher} name="preacher" onChange={(e) => onHandleChange(e)} />
+                <label htmlFor="first_name">First Name</label>
+                <input className="form-control" id="first_name" placeholder="First name" value={first_name} name="first_name" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
                 <label htmlFor="topic">Message Title</label>
-                <input className="form-control" id="topic" placeholder="Enter message topic" value={topic} name="topic" onChange={(e) => onHandleChange(e)} />
+                <input className="form-control" id="last_name" placeholder="Last name" value={last_name} name="last_name" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
-                <label htmlFor="bible_quote">Bible Quote</label>
-                <input className="form-control" className="form-control" id="bible_quote" placeholder="Enter bible quotation" value={bible_quote} name="bible_quote" onChange={(e) => onHandleChange(e)} />
+                <label htmlFor="death_date">Bible Quote</label>
+                <input className="form-control" id="death_date" type="date" placeholder="Enter death date" value={death_date} name="death_date" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
-                <label htmlFor="men">Enter Number of Men</label>
-                <input className="form-control" id="men" value={men} name="men" onChange={(e) => onHandleChange(e)} />
+                <label htmlFor="burial_date">Enter Number of Men</label>
+                <input className="form-control" id="burial_date" value={burial_date} name="burial_date" onChange={(e) => onHandleChange(e)} />
               </div>
 
               <div className="input-container">
-                <label htmlFor="female" id="female">Enter Number of Women</label>
-                <input type="number" className="form-control" id="women" value={women} name="women" onChange={(e) => onHandleChange(e)} /> 
+                <label htmlFor="sex" id="female">Enter Number of Women</label>
+                <input type="select" className="form-control" id="women" name="sex" onChange={(e) => onHandleChange(e)}>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                </input> 
               </div>
               <div className="input-container">
-                <label htmlFor="youth">Enter Number of Youth</label>
-                <input className="form-control" type="number" id="youth" value={youth} name="youth" onChange={(e) => onHandleChange(e)} /> 
+                <label htmlFor="age">Age</label>
+                <input className="form-control" type="number" id="age" value={age} name="age" onChange={(e) => onHandleChange(e)} /> 
               </div>
               <div className="input-container">
-                <label htmlFor="children">Enter Number of Children</label>
-                <input className="form-control" type="number" id="children" value={children} name="children" onChange={(e) => onHandleChange(e)} /> 
+                <label htmlFor="pastor">Officiating Pastor</label>
+                <input className="form-control" id="pastor" value={officiating_pastor} name="officiating_pastor" onChange={(e) => onHandleChange(e)} /> 
               </div>
               <div className="input-container">
-                <label htmlFor="start-time">Enter Service Start Time</label>
-                <input className="form-control" type="time" id="start-time" value={start_time} name="start_time" onChange={(e) => onHandleChange(e)} /> 
+                <label htmlFor="start-time">Position Held</label>
+                <input className="form-control" id="position" value={position} name="position" onChange={(e) => onHandleChange(e)} /> 
               </div>
               <div className="input-container">
-                <label htmlFor="end-time">Enter Service End Time</label>
-                <input className="form-control" type="time" id="end-time" value={end_time} name="end_time" onChange={(e) => onHandleChange(e)} /> 
+                <label htmlFor="venue">Burial Venue</label>
+                <input className="form-control" id="venue" value={burial_venue} name="brial_venue" onChange={(e) => onHandleChange(e)} /> 
+              </div>
+              <label>Upload wedding picture</label>
+              <div {...getRootProps()} className="text-center p-file-uploader">
+                {image_url.name && image_url.name.length > 0 ? 
+                  <Input value={image_url?.name} /> : (
+<>
+                    <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
+                    <i className="ri-folder-reduce-fill"></i>
+                    {
+                      isDragActive ?
+                        <p style={{ color: "#00000045"}}>Drop the files
+                         here ...</p> :
+                        <div style={{ color: "#00000045"}}>
+                          <BsPlus size={40} />
+                          <p>Upload</p>
+                        </div>
+                    }
+                  </>
+                  )}
               </div>
               <div className="service-button-container">
                 {create_loading ? <Button loading>Processing...</Button> : <Button onClick={handleSubmit}>Submit</Button>}

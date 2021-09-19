@@ -4,7 +4,7 @@ import { localAuth } from "../../../helper/authenticate";
 export const CREATE_BURIAL_START = "CREATE_BURIAL_START";
 export const CREATE_BURIAL_SUCCESS = "CREATE_BURIAL_SUCCESS";
 export const CREATE_BURIAL_FAILED = "CREATE_BURIAL_FAILED";
-export const BURIAL_LIST_START = "SERVICE_LIST_START";
+export const BURIAL_LIST_START = "BURIAL_LIST_START";
 export const BURIAL_LIST_SUCCESS = "BURIAL_LIST_SUCCESS";
 export const BURIAL_LIST_FAILED = "BURIAL_LIST_FAILED";
 export const GET_BURIAL_START = "GET_BURIAL_START";
@@ -89,7 +89,7 @@ export const listFailed = (error) => {
 export const burialList = (offset, limit) => {
   return dispatch => {
     dispatch(listStart());
-    fetch(`${BASE_URL}/burial/all/${church}?offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/burial/all?church=${church}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,6 @@ export const burialList = (offset, limit) => {
     })
       .then(response => response.json())
       .then(resp => {
-        console.log(resp, " the data")
         if (resp.error) return dispatch(listFailed(resp.message));
         return dispatch(listSuccess(resp.results));
       })
@@ -132,7 +131,7 @@ export const updateFailed = (error) => {
 export const updateBurial = (data) => {
   return dispatch => {
     dispatch(updateStart());
-    fetch(`${BASE_URL}/burial/update`, {
+    fetch(`${BASE_URL}/burial/update?church=${church}&burialId=${data.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -172,10 +171,10 @@ export const burialFailed = (error) => {
   }
 }
 
-export const getBurial = () => {
+export const getBurial = (id) => {
   return dispatch => {
     dispatch(burialStart());
-    fetch(`${BASE_URL}/burial/detail`, {
+    fetch(`${BASE_URL}/burial/detail?church=${church}&burialId=${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -216,7 +215,7 @@ export const deleteFailed = (error) => {
 export const deleteBurial = (id) => {
   return dispatch => {
     dispatch(deleteStart());
-    fetch(`${BASE_URL}/burial/delete?church=${church}&serviceId=${id}`, {
+    fetch(`${BASE_URL}/burial/delete?church=${church}&burialId=${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
