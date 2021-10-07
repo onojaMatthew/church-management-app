@@ -43,6 +43,34 @@ export const error = (message, statusCode) => {
 }
 
 /**
+ * 
+ * @param {string} message 
+ * @param {number} statusCode 
+ * @returns 
+ */
+export const alreadyExists = (message, statusCode) => {
+  return {
+    message,
+    code: statusCode,
+    error: false
+  }
+}
+
+/**
+ * 
+ * @param {string} message 
+ * @param {number} statusCode 
+ * @returns 
+ */
+export const notFound = (message, statusCode) => {
+  return {
+    message,
+    code: statusCode,
+    error: false
+  }
+}
+
+/**
  * @desc Send any validation response
  * @param {object | array} erors 
  */

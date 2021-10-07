@@ -168,11 +168,12 @@ const Burial = () => {
                 <th className="head">S/N</th>
                 <th className="head">First Name</th>
                 <th className="head">Last Name</th>
+                <th className="head">Sex</th>
                 <th className="head">Death Date</th>
                 <th className="head">Age</th>
                 <th className="head">Burial Date</th>
                 <th className="head">Burial Venue</th>
-                <th className="head">Sex</th>
+                
                 <th className="head">Position</th>
                 <th className="head">Photo</th>
                 <th className="head">Delete</th>
@@ -186,11 +187,12 @@ const Burial = () => {
                     <td>{i + 1}</td>
                     <td>{b?.first_name}</td>
                     <td>{b?.last_name}</td>
+                    <td>{b?.sex}</td>
                     <td>{date && date.toLocaleDateString()}</td>
                     <td>{b?.age}</td>
                     <td>{b_date && b_date.toLocaleDateString()}</td>
                     <td>{b?.burial_venue}</td>
-                    <td>{b?.sex}</td>
+                    
                     <td>{b?.position}</td>
                     <td><Avatar src={<Image src={b?.image_url} />} /></td>
                     <td onClick={() => onDelete(b?._id)}>{delete_loading ?  (
@@ -292,3 +294,5 @@ const Burial = () => {
 }
 
 export default Burial;
+
+// first sex age position, death date, burial date, burial venue

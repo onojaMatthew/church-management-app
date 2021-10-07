@@ -29,8 +29,8 @@ export const NewBirthday = ({
           <div>
             <form onSubmit={handleSubmit}>
               <div className="input-container">
-                <label htmlFor="service">Service Name</label>
-                <input className="form-control" id="service" placeholder="Service name" value={name} name="name" onChange={(e) => onHandleChange(e)} />
+                <label htmlFor="service">Service Type</label>
+                <input className="form-control" id="service" placeholder="Service type" value={name} name="name" onChange={(e) => onHandleChange(e)} />
               </div>
               <div className="input-container">
                 <label htmlFor="preacher">Preacher</label>
