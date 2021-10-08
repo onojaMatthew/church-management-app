@@ -1,10 +1,11 @@
-import { Schema } from "mongoose";
-import mongoosePagination from "mongoose-paginate-v2";
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
+
+const { Schema } = mongoose;
 
 export const fcategorySchema = new Schema({
   church: { type: String },
   name: { type: String },
-  service_type: { type: String},
 }, { timestamps: true });
 
-fcategorySchema.plugin(mongoosePagination);
+fcategorySchema.plugin(mongoosePaginate);
