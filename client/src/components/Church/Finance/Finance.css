@@ -1,0 +1,38 @@
+h3 {
+  color: #1890ff !important;
+  margin-bottom: 35px;
+}
+
+th {
+  color: #1890ff !important;
+  margin-bottom: 20px !important;
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: red;
+}
+
+.delete {
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.cancil {
+  background: #1890ff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.modal-title {
+  color: #1890ff;
+}
+
+#income-modal {
+  margin-top: 200px;
+}

@@ -1,9 +1,35 @@
+import { Button } from "antd";
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
-import { Card, CardBody, Col, Row, Table } from "reactstrap";
+import { Card, CardBody, Col, Row, Table, Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+
+import "./Finance.css";
 
 const Finance = () => {
+  const [ modal, setModal ] = useState(false);
+  const [ isIncomeDelete, setIncomeDelete ] = useState(false);
+  const [ isExpDelete, SetExpDelete ] = useState(false);
+  const [ message, setMessage ] = useState("");
 
+  const toggleConfirmDelete = (action) => {
+    if (action === "delete_income") {
+      setMessage("Are you sure you want to delete this income data? To delete, click CONTINUE");
+      setIncomeDelete(true);
+      setModal(true);
+    } else {
+      SetExpDelete(true);
+      setMessage("Are you sure you want to delete this Expenditure data? To delete, click CONTINUE");
+      setModal(true);
+    }
+  }
+
+  const handleDelete = (name) => {
+    if (name.includes("income")) {
+
+    } else {
+
+    }
+  }
 
   return (
     <div>
@@ -33,7 +59,7 @@ const Finance = () => {
                     <td>N 3,130,000.00</td>
                     <td>Anonymous Member</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("income_delete")} className="delete-icon" /></td>
                   </tr>
                   <tr>
                     <td>2</td>
@@ -42,7 +68,7 @@ const Finance = () => {
                     <td>N 3,130,000.00</td>
                     <td>Anonymous Member</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("income_delete")} className="delete-icon" /></td>
                   </tr>
                   <tr>
                     <td>3</td>
@@ -51,7 +77,7 @@ const Finance = () => {
                     <td>N 3,130,000.00</td>
                     <td>Anonymous Member</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("income_delete")} className="delete-icon" /></td>
                   </tr>
                 </tbody>
               </Table>
@@ -80,7 +106,6 @@ const Finance = () => {
           </div> */}
           </Card>
         </Col>
-        
       </Row>
       <Row className="mt-4">
         <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -112,7 +137,7 @@ const Finance = () => {
                     <td>Pastor Lawrence Eghene</td>
                     <td>Lawrence Eghene</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("exp_delete")} className="delete-icon" /></td>
                   </tr>
                   <tr>
                     <td>2</td>
@@ -123,7 +148,7 @@ const Finance = () => {
                     <td>Pastor Lawrence Eghene</td>
                     <td>Lawrence Eghene</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("exp_delete")} className="delete-icon" /></td>
                   </tr>
                   <tr>
                     <td>3</td>
@@ -134,7 +159,7 @@ const Finance = () => {
                     <td>Pastor Lawrence Eghene</td>
                     <td>Lawrence Eghene</td>
                     <td>03/10/2021</td>
-                    <td><FaTrash /></td>
+                    <td><FaTrash onClick={() => toggleConfirmDelete("exp_delete")} className="delete-icon" /></td>
                   </tr>
                 </tbody>
               </Table>
@@ -163,8 +188,15 @@ const Finance = () => {
           </div> */}
           </Card>
         </Col>
-        
       </Row>
+      <Modal id="income-modal" isOpen={modal} toggle={toggleConfirmDelete}>
+        <ModalHeader isOpen={modal}>Confirm Delete</ModalHeader>
+        <ModalBody>{message}</ModalBody>
+        <ModalFooter>
+          <Button onClick={() => handleDelete(`${message}`)} className="delete">Delete</Button><Button onClick={() => setModal(false)} className="cancil">Cancil</Button>
+        </ModalFooter>
+        
+      </Modal>
     </div>
   );
 }
