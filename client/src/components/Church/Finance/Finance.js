@@ -87,7 +87,7 @@ const Finance = () => {
     dispatch(fetchIncome(offset, limit));
   }
 
-  console.log(incomeId, category_list, " the docs");
+  console.log(income_list, category_list, " the docs");
   return (
     <div>
       {toggleView ? (
@@ -205,18 +205,21 @@ const Finance = () => {
                     <th>Action</th>
                   </thead>
                   <tbody>
-                    {docs?.length > 0 ? docs.map((d, i) => (
-                      <tr>
+                    {docs?.length > 0 ? docs.map((d, i) => {
+                      let date = new Date(d?.date);
+                      return (
+                        <tr>
                         <td>{i + 1}</td>
                         <td>{d?.category}</td>
                         <td>{d?.service_type}</td>
                         <td>N {d?.amount}</td>
                         <td>{d?.created_by}</td>
-                        <td>{d?.date}</td>
+                        <td>{date && date.toLocaleDateString()}</td>
                         <td><FaTrash onClick={() => toggleConfirmDelete("income_delete", d?._id)} className="delete-icon" /></td>
                       </tr>
-                    )): <h1 className="text-center">No records found</h1>}
-                    
+                    )}): <h1 className="text-center">No records found</h1>
+                  }
+                
                   </tbody>
                 </Table>
               </CardBody>
