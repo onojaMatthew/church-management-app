@@ -130,7 +130,7 @@ const Services = () => {
         <Card id="birthday-card">
           <FaArrowLeft onClick={() => history.goBack()} size={30} color="#1890ff" />
         <div>
-          <Button onClick={toggle} className="new-event-button">Create New Birthday</Button>
+          <Button onClick={toggle} className="new-event-button">Create New Program</Button>
         </div>
         <CardBody>
           <div className="search-wrapper">

@@ -5,10 +5,12 @@ import { pagination } from "../../middleware/pagination";
 
 
 export const create_finance = async (req, res) => {
-  const { church, service_type, amount, category } = req.body;
+  const { church, service_type, amount, category, date, created_by } = req.body;
+  console.log(req.body);
+  // return
   try {
     const Finance = await getModelByChurch(church, "Finance", financeSchema);
-    let income = new Finance({ church, service_type, amount, category });
+    let income = new Finance({ church, service_type, amount, category, date, created_by });
 
     income = await income.save();
     return res.json(success("Success", income, res.statusCode));

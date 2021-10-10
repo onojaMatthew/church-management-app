@@ -21,7 +21,39 @@ th {
   height: 40px;
 }
 
+.delete:hover {
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.delete:focus {
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
 .cancil {
+  background: #1890ff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.cancil:hover {
+  background: #1890ff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.cancil:focus {
   background: #1890ff;
   color: #fff;
   border: none;
@@ -35,4 +67,86 @@ th {
 
 #income-modal {
   margin-top: 200px;
+}
+
+#income-modal-body {
+  padding: 25px;
+}
+
+#income-modal-body input, select {
+  margin-bottom: 15px;
+  height: 50px;
+}
+
+#income-modal-body button {
+  margin-bottom: 15px;
+  height: 50px;
+  width: 48%;
+}
+
+#income-modal-body button:last-of-type {
+  margin-left: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  #income-modal-body button:first-of-type {
+    margin-top: 20px;
+  }
+  #income-modal-body button:last-of-type {
+    margin-left: 0px;
+  }
+
+  #income-modal-body button {
+    margin-bottom: 15px;
+    height: 50px;
+    width: 100%;
+  }.delete {
+    background: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .delete:hover {
+    background: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .delete:focus {
+    background: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .cancil {
+    background: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .cancil:hover {
+    background: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .cancil:focus {
+    background: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+  }
+
+
 }
