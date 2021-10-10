@@ -7,12 +7,10 @@ export const create_fin_category = async (req, res) => {
   console.log(req.body, " in controller")
   try {
     const FinCategory = await getModelByChurch(church, "FinCategory", fcategorySchema);
-    console.log("after getting fin category")
     const itExists = await FinCategory.findOne({ name });
     if (itExists) return res.status(407).json(alreadyExists("Finance category name already exists", res.statusCode));
     let newCategory = new FinCategory({ church: req.body.church, name });
     newCategory = await newCategory.save();
-    console.log()
     return res.json(success("Success", newCategory, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
