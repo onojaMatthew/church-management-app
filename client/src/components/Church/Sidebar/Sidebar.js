@@ -50,22 +50,23 @@ const Sidebar = () => {
             Member Management
           </Menu.Item>
           
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="4" icon={<UsergroupAddOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/groups`)} key="3" icon={<UsergroupAddOutlined />}>
             Group and Subgroups
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/programs`)} key="5" icon={<UsergroupAddOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/programs`)} key="4" icon={<UsergroupAddOutlined />}>
             Events and Activities
           </Menu.Item>
           
-          <SubMenu key="sub2" icon={<DollarCircleFilled />} title="Finance">
-            <Menu.Item key="9" onClick={() => navigate.push(`${match && match.url}/programs`)}>Offerings</Menu.Item>
-            <Menu.Item key="10" onClick={() => navigate.push(`${match && match.url}/birthdays`)}>Tithes</Menu.Item>
-            <Menu.Item key="11" onClick={() => navigate.push(`${match && match.url}/weddings`)}>Thanksgiving</Menu.Item>
-          </SubMenu>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="3" icon={<SettingFilled />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/finance`)} key="5" icon={<UsergroupAddOutlined />}>
+            Finance
+          </Menu.Item>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/report`)} key="6" icon={<UsergroupAddOutlined />}>
+            Report
+          </Menu.Item>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="7" icon={<SettingFilled />}>
             Settings
           </Menu.Item>
-          <Menu.Item onClick={onLogout} key="12" icon={<LogoutOutlined />}>
+          <Menu.Item onClick={onLogout} key="8" icon={<LogoutOutlined />}>
             Logout
           </Menu.Item>
         </Menu>

@@ -3,6 +3,7 @@ import { memberSchema } from "../../models/member";
 import { membershipCategorySchema } from "../../models/membership_category";
 import { churchSchema } from "../../models/church";
 import { getModelByChurch } from "../../utils/util";
+import { pagination } from "../../middleware/pagination";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
@@ -42,10 +43,11 @@ export const createMember = async (req, res) => {
 }
 
 export const getMembers = async (req, res) => {
+  const { limit, offset } = pagination(req.query);
   const { church } = req.params;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    const members = await Member.paginate({});
+    const members = await Member.paginate({}, { limit, offset });
     if (!members) return res.json(success("No records found", members, res.statusCode));
     return res.json(success("Success", members, res.statusCode));
   } catch (err) {

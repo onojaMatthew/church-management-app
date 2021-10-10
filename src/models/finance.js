@@ -6,6 +6,7 @@ export const financeSchema = new Schema({
   amount: { type: Number, },
   service_type: { type: String },
   church: { type: String },
+  createdBy: { type: String },
 }, { timestamps: true });
 
 financeSchema.plugin(mongoosePagination);

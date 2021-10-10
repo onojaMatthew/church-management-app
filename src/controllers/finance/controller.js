@@ -1,6 +1,7 @@
 import { financeSchema } from "../../models/finance";
 import { getModelByChurch } from "../../utils/util";
 import { success, error, notFound } from "../../config/response";
+import { pagination } from "../../middleware/pagination";
 
 
 export const create_finance = async (req, res) => {
@@ -17,10 +18,11 @@ export const create_finance = async (req, res) => {
 }
 
 export const get_income_list = async (req, res) => {
+  const { limit, offset } = pagination(req.query);
   const { church } = req.query;
   try {
     const Finance = await getModelByChurch(church, "Finance", financeSchema);
-    const income = await Finance.find({});
+    const income = await Finance.paginate({}, { offset, limit });
     if (!income) return res.json(success("No records found", income, res.statusCode));
     return res.json(success("Success", income, res.statusCode));
   } catch (err) {

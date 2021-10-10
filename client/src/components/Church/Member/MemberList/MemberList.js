@@ -104,7 +104,7 @@ const MemberList = () => {
 
   useEffect(() => {
     if (id && id.length > 0) {
-      const selectedMember = members && members.find(m => m._id === id);
+      const selectedMember = members && members?.docs.find(m => m._id === id);
       setCurrentMember(selectedMember);
     }
   }, [ id, members ]);
