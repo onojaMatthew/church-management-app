@@ -31,7 +31,7 @@ export const IncomeModal = ({ category_list, handleChange, handleSubmit, resetFo
           </div>
 
           <div>
-            <label htmlFor="created_by">Created By</label>
+            <label htmlFor="created_by">Entered By</label>
             <input id="created_by" type="text" name="created_by" onChange={(e) => handleChange(e)} value={created_by} placeholder="Enter Your Name" className="form-control" />
           </div>
 
@@ -45,5 +45,5 @@ export const IncomeModal = ({ category_list, handleChange, handleSubmit, resetFo
         </form>
       </ModalBody>
     </Modal>
-  )
+  );
 }

@@ -8,12 +8,14 @@ import { Card, CardBody, Col, Row, Table, Modal, ModalBody, ModalHeader, ModalFo
 
 import "./Finance.css";
 import { IncomeModal } from "./IncomeModal";
+import { ExpenditureModal } from "./ExpenditureModal";
 
 const Finance = () => {
   const church = localAuth().church && localAuth().church._id;
   const dispatch = useDispatch()
-  const { create_loading, category_list, delete_loading, income_list, docs } = useSelector(state => state.finance)
+  const { create_loading, create_success, category_list, delete_loading, income_list, docs } = useSelector(state => state.finance)
   const [ values, setValues ] = useState({ category: "", service_type: "", amount: "", created_by: "", date: "" });
+  const [ expValues, setExpValues ] = useState({ cost: "", item: "", unit_price: "", quantity: "", authorized_by: "", purchased_by: "", time: "" });
   const [ modal, setModal ] = useState(false);
   const [ incomeModal, setIncomeModal ] = useState(false);
   const [ expenditureModal, setExpenditureModal ] = useState(false);
@@ -26,6 +28,8 @@ const Finance = () => {
   const { service_type, amount, created_by, date, category } = values;
 
   const { nextPage, prevPage, page, totalPages } = income_list;
+
+  const { item, cost, unit_price, quantity, authorized_by, purchased_by, time } = expValues;
 
   const toggleConfirmDelete = (action, id) => {
     if (action === "income_delete") {
@@ -52,21 +56,39 @@ const Finance = () => {
     setIncomeModal(!incomeModal);
   }
 
+  const toggleExpenditure = () => {
+    setExpenditureModal(!expenditureModal);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { category, service_type, amount, created_by, date, church } ;
-    dispatch(createIncome(data))
+    if (expenditureModal) {
+      const data = { item, cost, unit_price, quantity, authorized_by, purchased_by, time };
+      console.log(data, "the data")
+    } else {
+      const data = { category, service_type, amount, created_by, date, church } ;
+      dispatch(createIncome(data))
+    }
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newValues = {...values, [name]: value };
-    setValues(newValues); 
+    if (expenditureModal) {
+      const exp_values = {...expValues, [name]: value };
+      setExpValues(exp_values);
+    } else {
+      let newValues = {...values, [name]: value };
+      setValues(newValues); 
+    }
   }
 
   const resetForm = () => {
-    setValues({ category: "", service_type: "", amount: "", created_by: "", date: "" });
-    toggleIncome();
+    if (expenditureModal) {
+      setExpValues({ item: "", unit_price: "", quantity: "", authorized_by: "", purchased_by: "", date: "" });
+    } else {
+      setValues({ category: "", service_type: "", amount: "", created_by: "", date: "" });
+      toggleIncome();
+    }
   }
 
   useEffect(() => {
@@ -87,7 +109,12 @@ const Finance = () => {
     dispatch(fetchIncome(offset, limit));
   }
 
-  console.log(income_list, category_list, " the docs");
+  useEffect(() => {
+    if (create_success) {
+      setValues({ category: "", service_type: "", amount: "", created_by: "", date: "" });
+    }
+  }, [ create_success ]);
+
   return (
     <div>
       {toggleView ? (
@@ -96,7 +123,7 @@ const Finance = () => {
             <Row>
               <Col xs="12" sm="12" md="12" lg="8"></Col>
               <Col xs="12" sm="12" md="12" lg="2">
-                <Button className="action-btn" onClick={toggleIncome}>Create Expenditure</Button>
+                <Button className="action-btn" onClick={toggleExpenditure}>Create Expenditure</Button>
               </Col>
               <Col xs="12" sm="12" md="12" lg="2">
                 <Button className="action-btn" onClick={() => setToggleView(false)}>View Income</Button>
@@ -283,6 +310,20 @@ const Finance = () => {
         handleSubmit={handleSubmit}
         create_loading={create_loading}
         category_list={category_list}
+      />
+      <ExpenditureModal
+        item={item} 
+        cost={cost} 
+        unit_price={unit_price} 
+        quantity={quantity} 
+        authorized_by={authorized_by} 
+        purchased_by={purchased_by} 
+        time={time}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        modal={expenditureModal}
+        toggle={toggleExpenditure}
+        resetForm={resetForm}
       />
     </div>
   );
