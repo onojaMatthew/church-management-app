@@ -141,13 +141,13 @@ export const updateExpenditure = (data) => {
   }
 }
 
-export const creadeleteExpenditureStart = () => {
+export const deleteExpenditureStart = () => {
   return {
     type: CREATE_EXPENDITURE_START
   }
 }
 
-export const creadeleteExpenditureSuccess = (data) => {
+export const deleteExpenditureSuccess = (data) => {
   return {
     type: CREATE_EXPENDITURE_SUCCESS,
     data

@@ -12,6 +12,7 @@ import weddingRoutes from "../controllers/wedding/router";
 import burialRoutes from "../controllers/burial/router";
 import fin_categoryRoutes from "../controllers/fincategory/router";
 import financeRoutes from "../controllers/finance/router";
+import expenditureRoutes from "../controllers/expenditure/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -27,5 +28,6 @@ export default (app) => {
   app.use("/api/v1", burialRoutes);
   app.use("/api/v1", fin_categoryRoutes);
   app.use("/api/v1", financeRoutes);
+  app.use("/api/v1", expenditureRoutes);
   app.use(error);
 }
