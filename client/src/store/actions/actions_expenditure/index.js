@@ -12,6 +12,12 @@ export const UPDATE_EXPENDITURE_FAILED = "UPDATE_EXPENDITURE_FAILED";
 export const DELETE_EXPENDITURE_START = "DELETE_EXPENDITURE_START";
 export const DELETE_EXPENDITURE_SUCCESS = "DELETE_EXPENDITURE_SUCCESS";
 export const DELETE_EXPENDITURE_FAILED = "DELETE_EXPENDITURE_FAILED";
+export const FILTER_START = "FILTER_START";
+export const FILTER_SUCCESS = "FILTER_SUCCESS";
+export const FILTER_FAILED = "FILTER_FAILED";
+export const SEARCH_START = "SEARCH_START";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_FAILED = "SEARCH_FAILED";
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -178,5 +184,89 @@ export const deleteExpenditure = (data) => {
         dispatch(deleteExpenditureSuccess(result.results));
       })
       .catch(err => dispatch(deleteExpenditureFailed(err.message)));
+  }
+}
+
+export const filterStart = () => {
+  return {
+    type: FILTER_START
+  }
+}
+
+export const filterSuccess = (data) => {
+  return {
+    type: FILTER_SUCCESS,
+    data
+  }
+}
+
+export const filterFailed = (error) => {
+  return {
+    type: FILTER_FAILED,
+    error
+  }
+}
+
+export const filter_expenditure = (time_range) => {
+  return dispatch => {
+    dispatch(filterStart());
+    fetch(`${BASE_URL}/expenditure/filter?church=${church}&time_range${time_range}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(filterFailed(resp.message));
+        dispatch(filterSuccess(resp.results));
+      })
+      .catch(err => {
+        dispatch(filterFailed(err.message));
+      });
+  }
+}
+
+export const searchStart = () => {
+  return {
+    type: FILTER_START
+  }
+}
+
+export const searchSuccess = (data) => {
+  return {
+    type: FILTER_SUCCESS,
+    data
+  }
+}
+
+export const searchFailed = (error) => {
+  return {
+    type: FILTER_FAILED,
+    error
+  }
+}
+
+export const search_expenditure = (searchTerm) => {
+  return dispatch => {
+    dispatch(searchStart());
+    fetch(`${BASE_URL}/expenditure/filter?church=${church}&searchTerm${searchTerm}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(searchFailed(resp.message));
+        dispatch(searchSuccess(resp.results));
+      })
+      .catch(err => {
+        dispatch(searchFailed(err.message));
+      });
   }
 }
