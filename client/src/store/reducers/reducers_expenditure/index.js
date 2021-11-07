@@ -22,7 +22,7 @@ import {
 const initialState = {
   expenditures: [],
   expenditure: {},
-  docs: [],
+  exp_docs: [],
   expenditure_create_loading: false,
   expenditure_create_success: false,
   expend_list_loading: false,
@@ -51,8 +51,7 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         expenditure_create_loading: false,
         expenditure_create_success: true,
-        expenditures: state.expenditures.concat(action.data),
-        docs: state.docs.concat(action.data.docs),
+        exp_docs: state.exp_docs.concat(action.data),
       }
     case CREATE_EXPENDITURE_FAILED:
       return {
@@ -73,7 +72,7 @@ export const expenditureReducer = (state=initialState, action) => {
         expend_list_loading: false,
         expend_list_success: true,
         expenditures: action.data,
-        docs: action.data.docs,
+        exp_docs: action.data.docs,
       }
     case FETCH_EXPENDITURE_FAILED:
       return {
@@ -113,7 +112,7 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         expend_delete_loading: false,
         expend_delete_success: true,
-        docs: state.docs.filter(d => d._id !== action.data._id),
+        exp_docs: state.exp_docs.filter(d => d._id !== action.data._id),
       }
     case DELETE_EXPENDITURE_FAILED:
       return {
@@ -133,7 +132,7 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         filter_loading: false,
         filter_success: true,
-        docs: action.data.docs,
+        exp_docs: action.data.docs,
         expenditures: action.data,
       }
     case FILTER_FAILED:
@@ -154,7 +153,7 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         search_loading: false,
         search_success: true,
-        docs: action.data.docs,
+        exp_docs: action.data.docs,
         expenditures: action.data,
       }
     case SEARCH_FAILED:

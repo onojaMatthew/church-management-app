@@ -50,7 +50,9 @@ export const expenditure = async (req, res) => {
 }
 
 export const expenditure_filter = async (req, res) => {
+  // const { offset, limit } = pagination(req.query);
   const { time_range, church } = req.query;
+  console.log(req.query);
 
   try {
 
@@ -69,16 +71,17 @@ export const expenditure_filter = async (req, res) => {
     }
 
     const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
-    const expenditure = await Expenditure.find({ createAt: { $gte: date_ago }});
+    const expenditure = await Expenditure.find({ createdAt: { $gte: date_ago }});
     return res.json(success("Success", expenditure, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
 export const search_expenditure = async (req, res) => {
   const { searchTerm, page, limit, church } = req.query;
-  
+  console.log(req.query)
   try {
     const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
     const searchResult = await Expenditure.aggregate([{ $match: {

@@ -23,9 +23,9 @@ export const ExpenditureModal = ({
     <Modal id="income-modal" isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle}>New Income</ModalHeader>
       <ModalBody id="income-modal-body">
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="item">Income Type</label>
+            <label htmlFor="item">Name of Item</label>
             <input id="item" type="text" value={item} placeholder="Enter item name" onChange={(e) => handleChange(e)} name="item" className="form-control" />
           </div>
 
@@ -59,7 +59,8 @@ export const ExpenditureModal = ({
             <input type="date" name="time" onChange={(e) => handleChange(e)} value={time} className="form-control" />
           </div>
           <button type="reset" onClick={resetForm} className="delete">Cancil</button>
-          {expenditure_create_loading ? <Button className="cancil" loading>Loading...</Button> : <button type="submit" className="cancil">Submit</button>}
+          <button onClick={handleSubmit} type="submit" className="cancil">Submit</button>
+          {/* {expenditure_create_loading ? <Button className="cancil" loading>Loading...</Button> :} */}
           
         </form>
       </ModalBody>

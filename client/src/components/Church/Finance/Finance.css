@@ -8,6 +8,28 @@ th {
   margin-bottom: 20px !important;
 }
 
+.search-container {
+  padding: 15px;
+  background: #001529;
+  margin-bottom: 30px;
+}
+
+.filter-container {
+  padding: 15px;
+  background: #001529;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#filter-select {
+  width: 90%;
+  height: 50px;
+  border-radius: 25px;
+  margin-bottom: 0;
+}
+
 .delete-icon {
   cursor: pointer;
   color: red;

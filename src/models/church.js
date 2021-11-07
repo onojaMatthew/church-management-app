@@ -24,9 +24,16 @@ export const churchSchema = new Schema({
   },
   officers: [{ type: ObjectId, ref: "Officer" }],
   office: [{ type: ObjectId, ref: "Office" }],
-  members: [ {type: ObjectId, ref: "Member" }],
+  members: [{type: ObjectId, ref: "Member" }],
   head_pastor: { type: String },
   password: { type: String },
+  coordinator: { 
+    first_name: { type: String },
+    last_name: { type: String },
+    email: { type: String },
+    phone: { type: String },
+    _id: { type: ObjectId },
+},
 }, { timestamps: true });
 
 churchSchema.plugin(mongoosePaginate);

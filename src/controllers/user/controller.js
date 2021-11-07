@@ -14,11 +14,11 @@ export const createUser = async (req, res) => {
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
-    const isAdmin = await Admin.findOne({ email }); 
+    const isAdmin = await Admin.findOne({ email });
     const role_data = await Role.findById({ _id: role });
     if (isAdmin) return res.status(400).json(error("Email already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 12);
-    let newAdmin = new Admin({ first_name, last_name, email, password: hash, phone, role: role });
+    let newAdmin = new Admin({ first_name, last_name, email, password: hash, phone });
 
     newAdmin.role.role_id = role_data && role_data._id;
     newAdmin.role.role_name = role_data && role_data.name;

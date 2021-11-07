@@ -85,17 +85,16 @@ export const fetchExpenditureFailed = (error) => {
   }
 }
 
-export const fetchExpenditure = (data) => {
+export const fetchExpenditure = (offset, limit) => {
   return dispatch => {
     dispatch(fetchExpenditureStart());
-    fetch(`${BASE_URL}/expenditure/all?church=${church}`, {
-      method: "POST",
+    fetch(`${BASE_URL}/expenditure/all?church=${church}&offset=${offset}&limit=${limit}`, {
+      method: "GET",
       headers: {
         ACCEPT: "application/json",
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data)
+      }
     })
       .then(response => response.json())
       .then(result => {
@@ -149,28 +148,28 @@ export const updateExpenditure = (data) => {
 
 export const deleteExpenditureStart = () => {
   return {
-    type: CREATE_EXPENDITURE_START
+    type: DELETE_EXPENDITURE_START
   }
 }
 
 export const deleteExpenditureSuccess = (data) => {
   return {
-    type: CREATE_EXPENDITURE_SUCCESS,
+    type: DELETE_EXPENDITURE_SUCCESS,
     data
   }
 }
 
 export const deleteExpenditureFailed = (error) => {
   return {
-    type: CREATE_EXPENDITURE_FAILED,
+    type: DELETE_EXPENDITURE_FAILED,
     error
   }
 }
 
-export const deleteExpenditure = (data) => {
+export const deleteExpenditure = (id) => {
   return dispatch => {
     dispatch(deleteExpenditureStart());
-    fetch(`${BASE_URL}/expenditure/new`, {
+    fetch(`${BASE_URL}/expenditure/delete?church=${church}&expenditure_id=${id}`, {
       method: "DELETE",
       headers: {
         ACCEPT: "application/json",
@@ -210,7 +209,7 @@ export const filterFailed = (error) => {
 export const filter_expenditure = (time_range) => {
   return dispatch => {
     dispatch(filterStart());
-    fetch(`${BASE_URL}/expenditure/filter?church=${church}&time_range${time_range}`, {
+    fetch(`${BASE_URL}/expenditure/filter?church=${church}&time_range=${time_range}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -231,20 +230,20 @@ export const filter_expenditure = (time_range) => {
 
 export const searchStart = () => {
   return {
-    type: FILTER_START
+    type: SEARCH_START
   }
 }
 
 export const searchSuccess = (data) => {
   return {
-    type: FILTER_SUCCESS,
+    type: SEARCH_SUCCESS,
     data
   }
 }
 
 export const searchFailed = (error) => {
   return {
-    type: FILTER_FAILED,
+    type: SEARCH_FAILED,
     error
   }
 }
@@ -252,7 +251,7 @@ export const searchFailed = (error) => {
 export const search_expenditure = (searchTerm) => {
   return dispatch => {
     dispatch(searchStart());
-    fetch(`${BASE_URL}/expenditure/filter?church=${church}&searchTerm${searchTerm}`, {
+    fetch(`${BASE_URL}/expenditure/search?church=${church}&searchTerm=${searchTerm}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

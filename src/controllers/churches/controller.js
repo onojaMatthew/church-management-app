@@ -10,6 +10,7 @@ import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 import { chartData } from "../../utils/computation";
 import { pagination } from "../../middleware/pagination";
+import { zonalCoordinatorSchema } from "../../models/zonal_coordinator";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -122,7 +123,7 @@ export const churchList = async (req, res) => {
 export const churchDetails = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const church = await Church.findById({ _id: req.params.churchId }).populate("office").populate("officers").populate("memebers");
+    const church = await Church.findById({ _id: req.params.churchId });
     if (!church) return res.json(success("Record not found", church, res.statusCode));
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {
