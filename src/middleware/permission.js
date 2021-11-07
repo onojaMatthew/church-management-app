@@ -7,7 +7,7 @@ export const roles = () => {
 
   ac.grant("church").createOwn("church").readOwn("church").updateOwn("church").deleteOwn("church");
 
-  ac.grant("zonal_coordinator").extend("church").updateOwn("zonal_coordinator");
+  ac.grant("zonal_coordinator").extend("church").readOwn("zonal_coordinator").updateOwn("zonal_coordinator");
 
   ac.grant("admin").extend("user").extend("church").extend("zonal_coordinator").readOwn("admin").readAny("admin").updateOwn("admin");
   
