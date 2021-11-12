@@ -39,6 +39,7 @@ const initialState = {
 }
 
 export const expenditureReducer = (state=initialState, action) => {
+  console.log(action.data)
   switch (action.type) {
     case CREATE_EXPENDITURE_START:
       return {
@@ -132,7 +133,7 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         filter_loading: false,
         filter_success: true,
-        exp_docs: action.data.docs,
+        exp_docs: action.data,
         expenditures: action.data,
       }
     case FILTER_FAILED:

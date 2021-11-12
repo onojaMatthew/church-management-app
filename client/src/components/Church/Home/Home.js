@@ -10,6 +10,7 @@ import Settings from "../settings/Settings";
 import Groups from "../Groups/Groups";
 import Container from "../Programs/Container";
 import Finance from "../Finance/Finance";
+import { ReportList } from "../Reports/Report_list/Reports";
 
 
 const { Content, Footer } = Layout;
@@ -28,6 +29,7 @@ const ChurchHomePage = (props) => {
             <Route path={`${match.url}/groups`} render={(props) => <Groups {...props} />} />
             <Route path={`${match.url}/programs`} render={(props) => <Container {...props} />} />
             <Route path={`${match.url}/finance`} render={(props) => <Finance {...props} />} />
+            <Route path={`${match.url}/reports`} render={(props) => <ReportList {...props} />} />
             <Route exact path={`${match.url}/settings`} render={(props) => <Settings {...props} />} />
           </div>
         </Content>

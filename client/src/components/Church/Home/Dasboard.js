@@ -24,11 +24,16 @@ const Dashboard = () => {
     if (error && error.length > 0) {
       if (error.includes("Failed to fetch")) {
         errorMsg("Request failed. Network Error occured")
+      } else if (error === "Invalid token"){
+        errorMsg(error);
+        setTimeout(() => {
+          window.location.href = "/church-login"
+        }, 2000);
       } else {
         errorMsg(error);
       }
     }
-  });
+  }, []);
 
   return (
     <>

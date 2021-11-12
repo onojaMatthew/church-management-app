@@ -8,6 +8,9 @@ import {
   CHURCH_LOGIN_START,
   CHURCH_LOGIN_SUCCESS,
   CHURCH_LOGIN_FAILED,
+  CHURCH_DETAILS_START,
+  CHURCH_DETAILS_SUCCESS,
+  CHURCH_DETAILS_FAILED,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -19,6 +22,8 @@ const initialState = {
   allSuccess: false,
   loginLoading: false,
   loginSuccess: false,
+  church_details_loading: false,
+  chruch_details_success: false,
   error: ""
 }
 
@@ -82,6 +87,26 @@ export const church = (state=initialState, action) => {
         ...state,
         loginLoading: false,
         loginSuccess: false,
+        error: action.error
+      }
+    case CHURCH_DETAILS_START:
+      return {
+        ...state,
+        church_details_loading: true,
+        chruch_details_success: false,
+      }
+    case CHURCH_DETAILS_SUCCESS:
+      return {
+        ...state,
+        church_details_loading: false,
+        chruch_details_success: true,
+        church: action.data,
+      }
+    case CHURCH_DETAILS_FAILED:
+      return {
+        ...state,
+        church_details_loading: false,
+        chruch_details_success: false,
         error: action.error
       }
     default:

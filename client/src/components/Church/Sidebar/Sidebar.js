@@ -60,7 +60,7 @@ const Sidebar = () => {
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/finance`)} key="5" icon={<UsergroupAddOutlined />}>
             Finance
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/report`)} key="6" icon={<UsergroupAddOutlined />}>
+          <Menu.Item onClick={() => navigate.push(`${match && match.url}/reports`)} key="6" icon={<UsergroupAddOutlined />}>
             Report
           </Menu.Item>
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="7" icon={<SettingFilled />}>

@@ -13,6 +13,10 @@ export const CHURCH_LOGIN_START = "CHURCH_LOGIN_START";
 export const CHURCH_LOGIN_SUCCESS = "CHURCH_LOGIN_SUCCESS";
 export const CHURCH_LOGIN_FAILED = "CHURCH_LOGIN_FAILED";
 
+export const CHURCH_DETAILS_START = "CHURCH_DETAILS_START";
+export const CHURCH_DETAILS_SUCCESS = "CHURCH_DETAILS_SUCCESS";
+export const CHURCH_DETAILS_FAILED = "CHURCH_DETAILS_FAILED";
+
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -138,5 +142,45 @@ export const churchLogin = (data) => {
         dispatch(churchLoginSuccess(resp.results));
       })
       .catch(err => dispatch(churchLoginFailed("Network error")));
+  }
+}
+
+export const churchDetailsStart = () => {
+  return {
+    type: CHURCH_DETAILS_START
+  }
+}
+
+export const churchDetailsSuccess = (data) => {
+  return {
+    type: CHURCH_DETAILS_SUCCESS,
+    data
+  }
+}
+
+export const churchDetailsFailed = (error) => {
+  return {
+    type: CHURCH_DETAILS_FAILED,
+    error
+  }
+}
+
+export const churchDetails = (church) => {
+  return dispatch => {
+    dispatch(churchDetailsStart());
+    fetch(`${BASE_URL}/church/detail/${church}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(churchDetailsFailed(resp.message));
+        return dispatch(churchDetailsSuccess(resp.results));
+      })
+      .catch(err => dispatch(churchDetailsFailed(err.message)));
   }
 }

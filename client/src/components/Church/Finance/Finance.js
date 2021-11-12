@@ -17,7 +17,7 @@ const Finance = () => {
   const church = localAuth().church && localAuth().church._id;
   const dispatch = useDispatch()
   const { create_loading, create_success, category_list, delete_loading, income_list, docs } = useSelector(state => state.finance);
-  const { expenditures, exp_docs, expenditure_create_success } = useSelector(state => state.expenditureReducer);
+  const { expenditures, exp_docs, expenditure_create_success, expend_delete_success } = useSelector(state => state.expenditureReducer);
   const [ values, setValues ] = useState({ category: "", service_type: "", amount: "", created_by: "", date: "" });
   const [ expValues, setExpValues ] = useState({ cost: "", item: "", unit_price: "", quantity: "", authorized_by: "", purchased_by: "", time: "" });
   const [ filterDate, setFilterDate ] = useState("");
@@ -175,7 +175,11 @@ const Finance = () => {
     }
   }, [ dispatch, filterDate ]);
 
-  console.log(exp_docs, " the new exp docs")
+  useEffect(() => {
+    if (expend_delete_success) {
+      setExpenditureModal(false)
+    }
+  }, [ expend_delete_success ]);
 
   return (
     <div>

@@ -41,7 +41,6 @@ export const reportReducers = (state=initialState, action) => {
         ...state,
         create_loading: false,
         create_success: true,
-        reports: state.reports.concat(action.data),
         report_docs: state.report_docs.concat(action.data.docs),
       }
     case CREATE_REPORT_FAILED:

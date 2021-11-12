@@ -99,10 +99,10 @@ export const churchLogin = async (req, res) => {
     if (!isChurch) return res.status(404).json(error("This church account does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isChurch.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));
-    const { email, subdomain_name, phone, _id, role } = isChurch;
-    const token = jwt.sign({ _id, subdomain_name, email, role }, process.env.SECRET_KEY, { expiresIn: "1days"});
+    const { email, subdomain_name, phone, _id, role, coordinator } = isChurch;
+    const token = jwt.sign({ _id, subdomain_name, email, role, }, process.env.SECRET_KEY, { expiresIn: "1days"});
     res.cookie("token", `Bearer ${token}`, { expires: new Date(new Date() + 64800000)});
-    return res.header("authorization", `Bearer ${token}`).json(success("Login success", { token, church: { email, subdomain_name, role, phone, _id }}, res.statusCode));
+    return res.header("authorization", `Bearer ${token}`).json(success("Login success", { token, church: { email, subdomain_name, role, phone, _id, coordinator }}, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
