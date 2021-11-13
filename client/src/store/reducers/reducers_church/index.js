@@ -11,6 +11,9 @@ import {
   CHURCH_DETAILS_START,
   CHURCH_DETAILS_SUCCESS,
   CHURCH_DETAILS_FAILED,
+  ALL_CHURCH_LIST_START,
+  ALL_CHURCH_LIST_SUCCESS,
+  ALL_CHURCH_LIST_FAILED,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -22,6 +25,8 @@ const initialState = {
   allSuccess: false,
   loginLoading: false,
   loginSuccess: false,
+  allListSuccess: false,
+  allListLoading: false,
   church_details_loading: false,
   chruch_details_success: false,
   error: ""
@@ -107,6 +112,26 @@ export const church = (state=initialState, action) => {
         ...state,
         church_details_loading: false,
         chruch_details_success: false,
+        error: action.error
+      }
+    case ALL_CHURCH_LIST_START:
+      return {
+        ...state,
+        allListLoading: true,
+        allListSuccess: false,
+      }
+    case ALL_CHURCH_LIST_SUCCESS:
+      return {
+        ...state,
+        allListLoading: false,
+        allListSuccess: true,
+        churches: action.data,
+      }
+    case ALL_CHURCH_LIST_FAILED:
+      return {
+        ...state,
+        allListLoading: false,
+        allListSuccess: false,
         error: action.error
       }
     default:

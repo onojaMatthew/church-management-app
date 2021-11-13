@@ -120,6 +120,17 @@ export const churchList = async (req, res) => {
   }
 }
 
+export const allChurches = async (req, res) => {
+  try {
+    const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
+    const churchList = await Church.find({});
+    if (!churchList) return res.json(success("No records found", churchList, res.statusCode))
+    return res.json(success("Success", churchList, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
 export const churchDetails = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);

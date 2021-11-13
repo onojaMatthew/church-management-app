@@ -7,11 +7,10 @@ import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
 import NewChurch from "../Church/NewChurch/NewChurch";
 import ChurchList from "../Church/ChurchList/ChurchList";
-import { CoordinatorList } from "../Coordinator/CoordinatorList";
 
 const { Content, Footer } = Layout;
 
-const Home = (props) => {
+const CoordinatorHome = (props) => {
   const { match } = props; 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -23,7 +22,6 @@ const Home = (props) => {
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
             <Route exact path={`${match.url}/create-church`} render={(props) => <NewChurch {...props} />} />
             <Route exact path={`${match.url}/church-list`} render={(props) => <ChurchList {...props} />} />
-            <Route exact path={`${match.url}/coordinators`} render={(props) => <CoordinatorList {...props} />} />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>©2021 Developed by Onoja Igoche Matthew</Footer>
@@ -32,4 +30,4 @@ const Home = (props) => {
   );
 }
 
-export default Home;
+export default CoordinatorHome;

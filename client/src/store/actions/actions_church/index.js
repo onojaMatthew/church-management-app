@@ -17,6 +17,10 @@ export const CHURCH_DETAILS_START = "CHURCH_DETAILS_START";
 export const CHURCH_DETAILS_SUCCESS = "CHURCH_DETAILS_SUCCESS";
 export const CHURCH_DETAILS_FAILED = "CHURCH_DETAILS_FAILED";
 
+export const ALL_CHURCH_LIST_START = "ALL_CHURCH_LIST_START";
+export const ALL_CHURCH_LIST_SUCCESS = "ALL_CHURCH_LIST_SUCCESS";
+export const ALL_CHURCH_LIST_FAILED = "ALL_CHURCH_LIST_FAILED";
+
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -182,5 +186,45 @@ export const churchDetails = (church) => {
         return dispatch(churchDetailsSuccess(resp.results));
       })
       .catch(err => dispatch(churchDetailsFailed(err.message)));
+  }
+}
+
+export const all_church_list_start = () => {
+  return {
+    type: ALL_CHURCH_LIST_START
+  }
+}
+
+export const all_church_list_success = (data) => {
+  return {
+    type: ALL_CHURCH_LIST_SUCCESS,
+    data
+  }
+}
+
+export const all_church_list_failed = (error) => {
+  return {
+    type: ALL_CHURCH_LIST_FAILED,
+    error
+  }
+}
+
+export const fetch_all_church = () => {
+  return dispatch => {
+    dispatch(all_church_list_start());
+  fetch(`${BASE_URL}/church/all/list`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ACCEPT: "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .then(resp => {
+      if (resp.error) return dispatch(all_church_list_failed(resp.message));
+      return dispatch(all_church_list_success(resp.results));
+    })
+    .catch(err => dispatch(all_church_list_failed(err.message)));
   }
 }
