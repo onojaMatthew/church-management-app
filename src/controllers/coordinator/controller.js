@@ -137,3 +137,15 @@ export const delete_coordinator = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+export const coordinating_church_list = async (req, res) => {
+  const { coordinatorId } = req.query;
+  try {
+    const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
+    const church_list = await Church.find({ "coordinator._id": coordinatorId });
+
+    return res.json(success("Success", church_list, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
