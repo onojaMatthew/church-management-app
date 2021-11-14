@@ -13,6 +13,7 @@ import { burial } from "./reducers_burial";
 import { finance } from "./reducers_income";
 import { expenditureReducer } from "./reducers_expenditure";
 import { reportReducers } from "./reducers_reports";
+import { coordinatorReducer } from "./reducers_coordinator";
 
 export const rootReducer = combineReducers({
   account,
@@ -29,4 +30,5 @@ export const rootReducer = combineReducers({
   finance,
   expenditureReducer,
   reportReducers,
+  coordinatorReducer
 });

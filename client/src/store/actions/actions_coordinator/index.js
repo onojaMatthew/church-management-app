@@ -96,7 +96,6 @@ export const coordinator_list = (offset, limit) => {
         ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify(data)
     })
       .then(response => response.json())
       .then(resp => {
@@ -127,7 +126,7 @@ export const coordinator_churches_failed = (error) => {
   }
 }
 
-export const coordinating_church_list = () => {
+export const coordinating_church_list = (offset, limit) => {
   return dispatch => {
     dispatch(coordinator_churches_start());
     fetch(`${BASE_URL}/coordinator/church_list?offset=${offset}&limit=${limit}`, {
@@ -137,7 +136,6 @@ export const coordinating_church_list = () => {
         ACCEPT: "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify(data)
     })
       .then(response => response.json())
       .then(resp => {
@@ -168,7 +166,7 @@ export const assign_church_failed = (error) => {
   }
 }
 
-export const assign_church = () => {
+export const assign_church = (data) => {
   return dispatch => {
     dispatch(assign_church_start());
     fetch(`${BASE_URL}/coordinator/assign_church`, {

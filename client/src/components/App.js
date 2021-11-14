@@ -22,10 +22,10 @@ function App() {
         <PrivateRoute path="/coordinator" render={(props) => <CoordinatorHome {...props} />} />
         <Route path="/church-login" render={(props) => <ChurchLogin {...props} />} />
         <PrivateRoute path="/church/:subdomain" render={(props) => <ChurchHomePage {...props} />} />
-        <Route path="/*" render={() => 
+        {/* <Route path="/*" render={() => 
           <div>
             <h3 className="text-center">Page Not Found!</h3>
-          </div>} />
+          </div>} /> */}
       </BrowserRouter>
     </div>
   );

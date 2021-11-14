@@ -39,7 +39,7 @@ const initialState = {
   error: "",
 }
 
-export const coodinatorReducer = (state=initialState, action) => {
+export const coordinatorReducer = (state=initialState, action) => {
   switch(action.type) { 
     case ADD_COORDINATOR_START:
       return {
@@ -70,16 +70,16 @@ export const coodinatorReducer = (state=initialState, action) => {
     case COORDINATOR_LIST_SUCCESS:
       return {
         ...state,
-        add_loading: false,
-        add_success: true,
+        list_loading: false,
+        list_success: true,
         coordinators: action.data,
         coordinator_docs: action.data.docs
       }
     case COORDINATOR_LIST_FAILED:
       return {
         ...state,
-        add_loading: false,
-        add_success: false,
+        list_loading: false,
+        list_success: false,
         error: action.error
       }
     case ASSIGN_CHURCH_START:
