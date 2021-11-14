@@ -210,10 +210,10 @@ export const coordinator_report_failed = (error) => {
   }
 }
 
-export const coordinator_reports = (id) => {
+export const coordinator_reports = (id, offset, limit) => {
   return dispatch => {
     dispatch(coordinator_report_start());
-    fetch(`${BASE_URL}/report/details?reportId=${id}`, {
+    fetch(`${BASE_URL}/report/coordinator_reports?coordinatorId=${id}&limit=${limit}&offset=${offset}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
