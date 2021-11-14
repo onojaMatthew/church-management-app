@@ -11,6 +11,9 @@ import {
   CHURCH_REPORTS_START,
   CHURCH_REPORTS_SUCCESS,
   CHURCH_REPORTS_FAILED,
+  COORDINATOR_REPORT_START,
+  COORDINATOR_REPORT_SUCCESS,
+  COORDINATOR_REPORT_FAILED,
 } from "../../actions/actions_report";
 
 const initialState = {
@@ -25,6 +28,8 @@ const initialState = {
   details_success: false,
   church_report_loading: false,
   church_report_success: false,
+  coordinator_reports_loading: false,
+  coordinator_reports_success: false,
   error: "",
 }
 
@@ -110,6 +115,24 @@ export const reportReducers = (state=initialState, action) => {
         ...state,
         church_reports_loading: false,
         church_reports_success: false,
+        error: action.error
+      }
+    case COORDINATOR_REPORT_START:
+      return {
+        coordinator_reports_loading: true,
+        coordinator_reports_success: false,
+      }
+    case COORDINATOR_REPORT_SUCCESS:
+      return {
+        coordinator_reports_loading: false,
+        coordinator_reports_success: true,
+        report_docs: action.data.docs,
+        reports: action.data
+      }
+    case COORDINATOR_REPORT_FAILED:
+      return {
+        coordinator_reports_loading: false,
+        coordinator_reports_success: false,
         error: action.error
       }
     default:

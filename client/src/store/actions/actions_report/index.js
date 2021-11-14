@@ -12,6 +12,9 @@ export const REPORT_DETAIL_FAILED = "REPORT_DETAIL_FAILED";
 export const CHURCH_REPORTS_START = "CHURCH_REPORTS_START";
 export const CHURCH_REPORTS_SUCCESS = "CHURCH_REPORTS_SUCCESS";
 export const CHURCH_REPORTS_FAILED = "CHURCH_REPORTS_FAILED";
+export const COORDINATOR_REPORT_START = "COORDINATOR_REPORT_START";
+export const COORDINATOR_REPORT_SUCCESS = "COORDINATOR_REPORT_SUCCESS";
+export const COORDINATOR_REPORT_FAILED = "COORDINATOR_REPORT_FAILED";
 
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().church && localAuth().church._id;
@@ -183,6 +186,48 @@ export const reportDetails = (id) => {
       })
       .catch(err => {
         dispatch(reportDetailsFailed(err.message));
+      });
+  }
+}
+
+export const coordinator_report_start = () => {
+  return {
+    type: COORDINATOR_REPORT_START
+  }
+}
+
+export const coordinator_report_success = (data) => {
+  return {
+    type: COORDINATOR_REPORT_SUCCESS,
+    data
+  }
+}
+
+export const coordinator_report_failed = (error) => {
+  return {
+    type: COORDINATOR_REPORT_FAILED,
+    error
+  }
+}
+
+export const coordinator_reports = (id) => {
+  return dispatch => {
+    dispatch(coordinator_report_start());
+    fetch(`${BASE_URL}/report/details?reportId=${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(coordinator_report_failed(resp.message));
+        dispatch(coordinator_report_success(resp.results));
+      })
+      .catch(err => {
+        dispatch(coordinator_report_failed(err.message));
       });
   }
 }
