@@ -81,7 +81,7 @@ export const coordinatore_list = async (req, res) => {
 }
 
 export const assign_churches = async (req, res) => {
-  const { church, coordinatorId } = req.query;
+  const { church, coordinatorId } = req.body;
   try {
     const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
@@ -114,7 +114,7 @@ export const assign_churches = async (req, res) => {
 }
 
 export const update_coordinator = async (req, res) => {
-  const { coordinatorId } = req.query;
+  const { coordinatorId } = req.body;
   try {
     const Coordinator = await getModelByChurch("hostdatabase", Coordinator, zonalCoordinatorSchema);
     const coordinator = await Coordinator.findByIdAndUpdate({ _id: coordinatorId }, req.body, { new: true });
@@ -140,9 +140,10 @@ export const delete_coordinator = async (req, res) => {
 
 export const coordinating_church_list = async (req, res) => {
   const { coordinatorId } = req.query;
+  const { offset, limit } = pagination(req.query);
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const church_list = await Church.find({ "coordinator._id": coordinatorId });
+    const church_list = await Church.paginate({ "coordinator._id": coordinatorId }, { offset, limit });
 
     return res.json(success("Success", church_list, res.statusCode));
   } catch (err) {
