@@ -3,20 +3,23 @@ import { Card, CardBody, Col, Row, Input, Spinner } from "reactstrap";
 import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { NewCoordinator } from "./NewCoordinator";
 import { useDispatch, useSelector } from "react-redux";
 import { CoordinatorDetails } from "./CoordinatorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { coordinator_list, delete_coordinator } from "../../../../store/actions/actions_coordinator";
+import { assign_church, coordinator_list, delete_coordinator } from "../../../../store/actions/actions_coordinator";
 
 import "./Coordinator.css";
+import { roleList } from "../../../../store/actions/actions_role";
 
 export const CoordinatorList = () => {
   const dispatch = useDispatch();
+  const { roles } = useSelector(state => state.role);
   const { churches, error } = useSelector(state => state.church); 
-  const { coordinators, coordinator_docs, list_loading } = useSelector(state => state.coordinatorReducer);
-  const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "" })
+  const { coordinators, coordinator_docs, assign_loading, list_loading } = useSelector(state => state.coordinatorReducer);
+  const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
+  const [ church, setChurch ] = useState("");
   const [ search_term, setSearchTerm ] = useState("");
   const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
@@ -26,7 +29,7 @@ export const CoordinatorList = () => {
     setModal(!modal);
   }
 
-  const { first_name, last_name, phone, email, password } = values;
+  const { first_name, last_name, phone, email, password, role } = values;
 
   const handleFilterChange = (e) => {
 
@@ -38,13 +41,20 @@ export const CoordinatorList = () => {
     setValues(newValues);
   }
 
-  const handleSubmit = (e) => {}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      first_name, last_name, phone, email, password, role
+    }
+    console.log(data, " data in handle submit")
+  }
 
   useEffect(() => {
     const limit = 10,
       offset = 1
     dispatch(fetch_all_church());
-    dispatch(coordinator_list(offset, limit))
+    dispatch(coordinator_list(offset, limit));
+    dispatch(roleList());
   }, [ dispatch ]);
 
   const handleNextPage = (page) => {
@@ -74,6 +84,21 @@ export const CoordinatorList = () => {
     dispatch(delete_coordinator(id));
   }
 
+  const handleChurchChange =  (e) => {
+    setChurch(e.target.value);
+  }
+
+  const handleChurchSubmit = () => {
+    const data = { church, coordinatorId: coordinatorDetail&& coordinatorDetail._id }
+    console.log(data, " the data")
+    if (church.length > 0) {
+      dispatch(assign_church(data));
+    } else {
+      message.error("You must select a church to continue")
+    }
+  }
+
+  console.log(roles, " the roles")
   return (
     <div>
       {isView ? 
@@ -82,6 +107,9 @@ export const CoordinatorList = () => {
           isView={isView}
           coordinatorDetail={coordinatorDetail}
           church={churches}
+          assign_loading={assign_loading}
+          handleChurchSubmit={handleChurchSubmit}
+          handleChurchChange={handleChurchChange}
         /> : (
         <Row>
           <Col xs="12" sm="12" md="12" lg="12" xl="12">
@@ -175,6 +203,7 @@ export const CoordinatorList = () => {
         last_name={last_name}
         email={email}
         password={password}
+        roles={roles}
         phone={phone}
         handleSubmit={handleSubmit}
         handleChange={handleChange}

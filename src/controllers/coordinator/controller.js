@@ -89,14 +89,27 @@ export const assign_churches = async (req, res) => {
     let church_details = await Church.findById({ _id: church });
 
     const data = {
-      _id: church_details._id,
-      branch: church_details.branch,
+      _id: church_details && church_details._id,
+      branch: church_details && church_details.branch,
+      phone: church_details && church_details.phone,
+      email: church_details && church_details.email,
+      head_pastor: church_details && church_details.head_pastor,
     }
 
-    const coordinator = await Coordinator.findByIdAndUpdate({ _id: coordinatorId }, { $push: { churches: data }}, { new: true });
+    let coordinator = await Coordinator.findById({ _id: coordinatorId });
 
     if (!coordinator) return res.status(404).json(error("Coordinator not found", res.statusCode));
+    const findChurch = coordinator && coordinator.churches.findIndex(i => {
+      console.log()
+      return i._id.toString() === church.toString();
+    });
 
+    
+    if (findChurch >= 0) return res.status(400).json(error("Church selected already assigned to this coordinator", res.statusCode));
+
+    coordinator.churches.push(data);
+
+    await coordinator.save();
     const church_data = {
       first_name: coordinator && coordinator.first_name,
       last_name: coordinator && coordinator.last_name,

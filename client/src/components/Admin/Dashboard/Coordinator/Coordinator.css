@@ -163,8 +163,18 @@
 }
 
 .t-row {
-  /* background: #F05366; */
   margin-bottom: 20px !important;
   border-bottom: 4px solid #FFFFFF;
   border-radius: 5px;
+}
+
+.ch-list-td {
+  padding: 10px;
+  min-width: 150px;
+}
+
+.close {
+ font-weight: bolder;
+ cursor: pointer;
+ color: #F05366;
 }

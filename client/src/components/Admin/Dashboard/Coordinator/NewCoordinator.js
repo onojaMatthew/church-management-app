@@ -11,12 +11,13 @@ export const NewCoordinator = ({
   phone,
   password,
   email,
-  create_loading
+  create_loading,
+  roles,
 }) => {
   
   return (
     <Modal id="income-modal" isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>New Income</ModalHeader>
+      <ModalHeader toggle={toggle}>New Coordinator</ModalHeader>
       <ModalBody id="income-modal-body">
         <form onSubmit={handleSubmit}>
           <div>
@@ -42,6 +43,17 @@ export const NewCoordinator = ({
           <div className="mb-4">
             <label htmlFor="phone">Phone</label>
             <input id="phone" type="text" name="phone" onChange={(e) => handleChange(e)} value={phone} placeholder="080123..." className="form-control" />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="phone">Role</label>
+            <Input id="phone" type="select" name="role" onChange={(e) => handleChange(e)} className="form-control">
+              <option>----------------------------Choose a Role-------------------------------</option>
+              {roles && roles.length > 0 && roles.map((role, i) => (
+                <option value={role?._id}>{role?.name}</option>
+              ))}
+              
+            </Input>
           </div>
           <button type="reset" className="delete">Cancil</button>
           

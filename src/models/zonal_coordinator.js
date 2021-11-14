@@ -10,7 +10,10 @@ export const zonalCoordinatorSchema = new Schema({
   phone: { type: String },
   churches: [{ 
     _id: Object,
-    branch: String
+    branch: String,
+    phone: String,
+    email: String,
+    head_pastor: String
   }],
   role: { 
     role_id: { type: ObjectId, ref: "Role" },
