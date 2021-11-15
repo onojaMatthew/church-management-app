@@ -56,13 +56,19 @@ export const CoordinatorDetails = ({
                 <>
                 <Divider plain>Assigned Church List</Divider>
                 <Table responsive striped>
+                  <tr>
+                    <th className="th">Head Pastor</th>
+                    <th className="th">Branch Name</th>
+                    <th className="th">Email Address</th>
+                    <th className="th">Phone Number</th>
+                  </tr>
                   <tbody>
                     {churches && churches.length > 0 && churches.map((c, i) => (
                       <tr className="t-row" key={i}>
-                        <tb className="ch-list-td">{c?.head_pastor}</tb>
-                        <tb className="ch-list-td">{c?.branch}</tb>
-                        <tb className="ch-list-td">{c?.email}</tb>
-                        <tb className="ch-list-td">{c?.phone}</tb>
+                        <td className="ch-list-td">{c?.head_pastor}</td>
+                        <td className="ch-list-td">{c?.branch}</td>
+                        <td className="ch-list-td">{c?.email}</td>
+                        <td className="ch-list-td">{c?.phone}</td>
                       </tr>
                     ))}
                   </tbody>

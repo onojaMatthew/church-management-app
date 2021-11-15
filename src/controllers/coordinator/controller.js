@@ -163,3 +163,71 @@ export const coordinating_church_list = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+export const searchCoordinator = async (req, res) => {
+  const { searchTerm } = req.query;
+
+  try {
+    const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
+    const searchResult = await Coordinator.aggregate([{ $match: {
+      $or: [
+          { first_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          email: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          phone: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          last_name: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
+  }
+}
+
+export const coordinator_filter = async (req, res) => {
+  const { time_range } = req.query;
+  console.log(req.query);
+
+  try {
+
+    const time_data = time_range.split(" ");
+    const time_length = Number(time_data[0]);
+    const time_param = time_data[1];
+    const date = new Date();
+    let date_ago;
+
+    if (time_param === "days") {
+      date_ago = date.setDate(date.getDate() - time_length);
+    } else if (time_param === "weeks") {
+      date_ago = date.setDate(date.getDate() - (time_length * 7));
+    } else if (time_param === "months") {
+      date_ago = date.setDate(date.getDate() - (time_length * 30));
+    }
+
+    const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
+    const coordinator = await Coordinator.find({ createdAt: { $gte: date_ago }});
+    return res.json(success("Success", coordinator, res.statusCode));
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}

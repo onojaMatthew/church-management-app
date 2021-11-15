@@ -17,6 +17,12 @@ import {
   UPDATE_COORDINATOR_START,
   UPDATE_COORDINATOR_SUCCESS,
   UPDATE_COORDINATOR_FAILED,
+  SEARCH_START,
+  SEARCH_SUCCESS,
+  SEARCH_FAILED,
+  FILTER_START,
+  FILTER_SUCCESS,
+  FILTER_FAILED,
 } from "../../actions/actions_coordinator";
 
 const initialState = {
@@ -36,6 +42,10 @@ const initialState = {
   church_list_success: false,
   update_loading: false,
   update_suucess: false,
+  filter_loading: false,
+  filter_success: false,
+  search_loading: false,
+  search_success: false,
   error: "",
 }
 
@@ -107,21 +117,19 @@ export const coordinatorReducer = (state=initialState, action) => {
         ...state,
         delete_loading: true,
         delete_success: false,
-        coordinators: action.data,
-        coordinator_docs: state.coordinator_docs.concat(action.data)
       }
     case DELETE_COORDINATOR_SUCCESS:
       return {
         ...state,
-        delete_loading: true,
-        delete_success: false,
+        delete_loading: false,
+        delete_success: true,
         coordinator_docs: state.coordinator_docs.filter(f => f._id !== action.data._id)
       }
     case DELETE_COORDINATOR_FAILED:
       return {
         ...state,
         delete_loading: false,
-        delete_success: true,
+        delete_success: false,
         error: action.error
       }
     case COORDINATING_CHURCH_LIST_START:
@@ -161,6 +169,48 @@ export const coordinatorReducer = (state=initialState, action) => {
         ...state,
         update_loading: true,
         update_success: false,
+        error: action.error
+      }
+    case SEARCH_START:
+      return {
+        ...state,
+        search_loading: true,
+        search_success: false,
+      }
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: true,
+        coordinator_docs: action.data,
+        coordinators: action.data,
+      }
+    case SEARCH_FAILED:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: false,
+        error: action.error
+      }
+    case FILTER_START:
+      return {
+        ...state,
+        filter_loading: true,
+        filter_success: false,
+      }
+    case FILTER_SUCCESS:
+      return {
+        ...state,
+        filter_loading: false,
+        filter_success: true,
+        coordinator_docs: action.data,
+        coordinators: action.data,
+      }
+    case FILTER_FAILED:
+      return {
+        ...state,
+        filter_loading: true,
+        filter_success: false,
         error: action.error
       }
     default: 

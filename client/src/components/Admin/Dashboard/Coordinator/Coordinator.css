@@ -178,3 +178,40 @@
  cursor: pointer;
  color: #F05366;
 }
+
+.th {
+  color: #F05366 !important;
+}
+
+.coord-action-btn {
+  background: #F05366;
+  color: #FFFFFF;
+  height: 50px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  margin-top: 15px;
+}
+
+.coord-action-btn:hover {
+  background: #F05366;
+  color: #FFFFFF;
+  height: 50px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  margin-top: 15px;
+}
+
+.coord-action-btn:focus {
+  background: #F05366;
+  color: #FFFFFF;
+  height: 50px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  margin-top: 15px;
+}
+
+.coord-header {
+  font: normal normal normal 44px/54px Manrope;
+  color: #F05366;
+  font-weight: bolder;
+}

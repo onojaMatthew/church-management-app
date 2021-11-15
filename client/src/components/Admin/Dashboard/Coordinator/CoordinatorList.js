@@ -8,7 +8,7 @@ import { NewCoordinator } from "./NewCoordinator";
 import { useDispatch, useSelector } from "react-redux";
 import { CoordinatorDetails } from "./CoordinatorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { assign_church, coordinator_list, delete_coordinator } from "../../../../store/actions/actions_coordinator";
+import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
 
 import "./Coordinator.css";
 import { roleList } from "../../../../store/actions/actions_role";
@@ -17,13 +17,21 @@ export const CoordinatorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches, error } = useSelector(state => state.church); 
-  const { coordinators, coordinator_docs, assign_loading, list_loading } = useSelector(state => state.coordinatorReducer);
+  const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
+  const [ filterData, setFilterData ] = useState("")
   const [ search_term, setSearchTerm ] = useState("");
   const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
   const [ modal, setModal ] = useState(false);
+
+  // const { prevPage, nextPage, page, totalPages } = coordinators;
+
+  const prevPage = coordinators && coordinators.prevPage,
+    nextPage = coordinators && coordinators.nextPage,
+    page = coordinators && coordinators.page,
+    totalPages = coordinators && coordinators.totalPages;
 
   const toggle = () => {
     setModal(!modal);
@@ -32,8 +40,22 @@ export const CoordinatorList = () => {
   const { first_name, last_name, phone, email, password, role } = values;
 
   const handleFilterChange = (e) => {
+    const { value } = e.target;
 
+    setFilterData(value)
   }
+
+  const filters = [
+    { name: "All", value: "all"},
+    { name: "24 hours", value: "1 days" },
+    { name: "Last 1 week", value: "1 weeks" },
+    { name: "Last 2 week", value: "2 weeks" },
+    { name: "Last 3 week", value: "3 weeks" },
+    { name: "1 month ago", value: "1 months" },
+    { name: "3 months ago", value: "3 months" },
+    { name: "6 months ago", value: "6 months" },
+    { name: "1 year ago", value: "12 months" }
+  ];
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -46,7 +68,7 @@ export const CoordinatorList = () => {
     const data = {
       first_name, last_name, phone, email, password, role
     }
-    console.log(data, " data in handle submit")
+    dispatch(add_coordinator(data));
   }
 
   useEffect(() => {
@@ -62,8 +84,7 @@ export const CoordinatorList = () => {
     const limit = 10;
     dispatch(coordinator_list(offset, limit));
   }
-
-  const { prevPage, nextPage, page, totalPages } = coordinators;
+  
   let coord_pagination = [];
   
   for (let i = 1; i <= totalPages; i++) {
@@ -80,7 +101,8 @@ export const CoordinatorList = () => {
     setIsView(!isView);
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = (e,id) => {
+    e.preventDefault();
     dispatch(delete_coordinator(id));
   }
 
@@ -97,6 +119,29 @@ export const CoordinatorList = () => {
       message.error("You must select a church to continue")
     }
   }
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  }
+
+  useEffect(() => {
+    if (add_success) {
+      setValues({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
+      setModal(false);
+    }
+  }, [ add_success ]);
+
+  useEffect(() => {
+    if (search_term.length > 0) {
+      dispatch(search_coordinators(search_term))
+    }
+  }, [ search_term ]);
+
+  useEffect(() => {
+    if (filterData.length > 0) {
+      dispatch(filter_coordinators(filterData));
+    }
+  }, [ filterData ]);
 
   console.log(roles, " the roles")
   return (
@@ -117,27 +162,27 @@ export const CoordinatorList = () => {
               <Col xs="12" sm="12" md="12" lg="8"></Col>
               <Col xs="12" sm="12" md="12" lg="2"></Col>
               <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="action-btn">Create Coordinator</Button>
+                <Button onClick={() => toggle()} className="coord-action-btn">Create Coordinator</Button>
               </Col>
             </Row>
             <Card id="income-card">
               <CardBody>
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <h1>Reports</h1>
+                  <p className="coord-header">Coordinators</p>
                   </Col>
                   <Col xs="12" sm="12" md="12" lg="6" xl="6">
                     <div className="search-container">
-                      <Search search_term={search_term} />
+                      <Search search_term={search_term} onChange={handleSearch} />
                     </div>
                   </Col>
                   <Col xs="12" sm="12" md="12" lg="3" xl="3">
                     <div className="filter-container">
                       <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
                         <option disabled={true}>Filter expenditure</option>
-                        {/* {filters.map((t, i) => (
+                        {filters.map((t, i) => (
                           <option value={t.value} key={i}>{t.name}</option>
-                        ))} */}
+                        ))}
                       </Input>
                       <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
                     </div>
@@ -162,7 +207,13 @@ export const CoordinatorList = () => {
                             <p className='coord-phone'>{c?.phone}</p>
                             <div className='icon-cont'>
                               <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
-                              <p onClick={() => handleDelete(c._id)} className="trash-btn"><FaTrash /></p>
+                              <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
+                                {delete_loading ? (
+                                  <Spinner color="#fff">
+                                    <span className="visually-hidden">Deleting...</span>
+                                  </Spinner>
+                                ) : <FaTrash />}
+                              </p>
                             </div>
                           </div>
                         </Col>
@@ -173,7 +224,7 @@ export const CoordinatorList = () => {
                 </div>
               </CardBody>
               <div className="justify-content-center">
-                {coordinators && coordinators.totalPages && coordinators.totalPages > 1 ? (
+                {totalPages && totalPages > 1 ? (
                   <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center mt-5">
                       <li className="page-item">
@@ -209,6 +260,7 @@ export const CoordinatorList = () => {
         handleChange={handleChange}
         modal={modal}
         toggle={toggle}
+        add_loading={add_loading}
       />
     </div>
   );

@@ -11,7 +11,7 @@ export const NewCoordinator = ({
   phone,
   password,
   email,
-  create_loading,
+  add_loading,
   roles,
 }) => {
   
@@ -58,7 +58,7 @@ export const NewCoordinator = ({
           <button type="reset" className="delete">Cancil</button>
           
           {
-            create_loading ? <Button className="cancil" loading>Loading...</Button> : 
+            add_loading ? <Button className="cancil" loading>Loading...</Button> : 
             <button onClick={handleSubmit} type="submit" className="cancil">Submit</button>
           }
            

@@ -19,6 +19,12 @@ export const COORDINATING_CHURCH_LIST_FAILED = "COORDINATING_CHURCH_LIST_FAILED"
 export const UPDATE_COORDINATOR_START = "UPDATE_COORDINATOR_START";
 export const UPDATE_COORDINATOR_SUCCESS = "UPDATE_COORDINATOR_SUCCESS";
 export const UPDATE_COORDINATOR_FAILED = "UPDATE_COORDINATOR_FAILED";
+export const SEARCH_START = "SEARCH_START";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_FAILED = "SEARCH_FAILED";
+export const FILTER_START = "FILTER_START";
+export const FILTER_SUCCESS = "FILTER_SUCCESS";
+export const FILTER_FAILED = "FILTER_FAILED";
 
  
 const BASE_URL = process.env.REACT_APP_URL;
@@ -265,5 +271,85 @@ export const delete_coordinator = (id) => {
         return dispatch(delete_coordinator_success(resp.results));
       })
       .catch(err => dispatch(delete_coordinator_failed(err.message)));
+  }
+}
+
+export const search_start = () => {
+  return {
+    type: SEARCH_START
+  }
+}
+
+export const search_success = (data) => {
+  return {
+    type: SEARCH_SUCCESS,
+    data
+  }
+}
+
+export const search_failed = (error) => {
+  return {
+    type: SEARCH_FAILED,
+    error
+  }
+}
+
+export const search_coordinators = (search_term) => {
+  return dispatch => {
+    dispatch(search_start());
+    fetch(`${BASE_URL}/coordinator/search?searchTerm=${search_term}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(search_failed(resp.message));
+        return dispatch(search_success(resp.results));
+      })
+      .catch(err => dispatch(search_failed(err.message)));
+  }
+}
+
+export const filter_start = () => {
+  return {
+    type: FILTER_START
+  }
+}
+
+export const filter_success = (data) => {
+  return {
+    type: FILTER_SUCCESS,
+    data
+  }
+}
+
+export const filter_failed = (error) => {
+  return {
+    type: FILTER_FAILED,
+    error
+  }
+}
+
+export const filter_coordinators = (data) => {
+  return dispatch => {
+    dispatch(filter_start());
+    fetch(`${BASE_URL}/coordinator/filter?time_range=${data}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(filter_failed(resp.message));
+        return dispatch(filter_success(resp.results));
+      })
+      .catch(err => dispatch(filter_failed(err.message)));
   }
 }
