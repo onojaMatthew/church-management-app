@@ -15,6 +15,9 @@ export const CHURCH_REPORTS_FAILED = "CHURCH_REPORTS_FAILED";
 export const COORDINATOR_REPORT_START = "COORDINATOR_REPORT_START";
 export const COORDINATOR_REPORT_SUCCESS = "COORDINATOR_REPORT_SUCCESS";
 export const COORDINATOR_REPORT_FAILED = "COORDINATOR_REPORT_FAILED";
+export const DELETE_REPORT_START = "DELETE_REPORT_START";
+export const DELETE_REPORT_SUCCESS = "DELETE_REPORT_SUCCESS";
+export const DELETE_REPORT_FAILED = "DELETE_REPORT_SFAILED";
 
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().church && localAuth().church._id;
@@ -228,6 +231,47 @@ export const coordinator_reports = (id, offset, limit) => {
       })
       .catch(err => {
         dispatch(coordinator_report_failed(err.message));
+      });
+  }
+}
+
+export const delete_report_start = () => {
+  return {
+    type: DELETE_REPORT_START
+  }
+}
+
+export const delete_report_success = (data) => {
+  return {
+    type: DELETE_REPORT_SUCCESS,
+    data
+  }
+}
+export const delete_report_failed = (error) => {
+  return {
+    type: DELETE_REPORT_FAILED,
+    error
+  }
+}
+
+export const deleteReport = (id) => {
+  return dispatch => {
+    dispatch(delete_report_start());
+    fetch(`${BASE_URL}/report/delete?reportId=${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(delete_report_failed(resp.message));
+        dispatch(delete_report_success(resp.results));
+      })
+      .catch(err => {
+        dispatch(delete_report_failed(err.message));
       });
   }
 }

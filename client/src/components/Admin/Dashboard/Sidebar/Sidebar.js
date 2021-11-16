@@ -49,7 +49,10 @@ const Sidebar = () => {
           <Menu.Item key="4" onClick={() => history.push("/dashboard/church-list")} icon={<FileOutlined />}>
             Church List
           </Menu.Item>
-          <Menu.Item onClick={onLogout} key="5" icon={<LogoutOutlined />}>
+          <Menu.Item key="5" onClick={() => history.push("/dashboard/reports")} icon={<FileOutlined />}>
+            Reports
+          </Menu.Item>
+          <Menu.Item onClick={onLogout} key="6" icon={<LogoutOutlined />}>
             Logout
           </Menu.Item>
         </Menu>
