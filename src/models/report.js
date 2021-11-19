@@ -13,11 +13,11 @@ export const reportSchema = new Schema({
     email: String,
     phone: String,
   },
-  coordinator_remark: { type: String },
+  coordinator_remark: { type: String, default: "" },
   coordinator_approval: { type: Boolean, default: false },
   gco_approval_remark: {
     approved: { type: Boolean, default: false },
-    remark: { type: String },
+    remark: { type: String, default: "" },
   },
   church: { 
     _id: ObjectId,

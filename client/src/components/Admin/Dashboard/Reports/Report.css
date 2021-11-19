@@ -155,3 +155,21 @@
   color: #F05366;
   font-weight: bolder;
 }
+
+.remarks {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.coordinator-remark, .go-remark {
+  color: #979dac;
+  width: 300px;
+}
+
+.remark-label {
+  color: #000;
+  margin-bottom: -20px;
+  
+}

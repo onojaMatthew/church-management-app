@@ -33,7 +33,7 @@ export const churchSchema = new Schema({
     email: { type: String },
     phone: { type: String },
     _id: { type: ObjectId },
-},
+  },
 }, { timestamps: true });
 
 churchSchema.plugin(mongoosePaginate);
