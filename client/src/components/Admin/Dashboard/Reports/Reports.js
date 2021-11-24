@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { filter_report, go_remark, reportList, searchReport } from "../../../../store/actions/actions_report";
+import { filter_report, go_remark, reportList, searchReport, deleteReport } from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 
 export const Reports = () => {
@@ -41,7 +41,9 @@ export const Reports = () => {
     }
   };
 
-  const handleDelete = () => {};
+  const handleDelete = (id) => {
+    dispatch(deleteReport(id))
+  };
 
   const handleNextPage = (page) => {
     const offset = page,
@@ -159,7 +161,7 @@ export const Reports = () => {
                             <p className='coord-phone'>{c?.church && c?.church.branch}</p>
                             <div className='icon-cont'>
                               <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
-                              <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
+                              <p onClick={() => handleDelete(c._id)} className="trash-btn">
                                 {delete_loading ? (
                                   <Spinner color="#fff">
                                     <span className="visually-hidden">Deleting...</span>
