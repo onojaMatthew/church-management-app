@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { go_remark, reportList, searchReport } from "../../../../store/actions/actions_report";
+import { filter_report, go_remark, reportList, searchReport } from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 
 export const Reports = () => {
@@ -13,6 +13,7 @@ export const Reports = () => {
   const { reports, report_docs, delete_loading, list_loading, remark_loading } = useSelector(state => state.reportReducers);
   const [ search_term, setSearchTerm ] = useState("");
   const [ values, setValue ] = useState({ remark: "", approval: false });
+  const [ filterData, setFilterData ] = useState("");
   const [ report, setReport ] = useState({});
   const [ view, setView ] = useState(false);
 
@@ -27,7 +28,9 @@ export const Reports = () => {
     report_paginate.push(i);
   }
 
-  const handleFilterChange = () => {};
+  const handleFilterChange = (e) => {
+    setFilterData(e.target.value);
+  };
 
   const handleChange = (e) => {
     const { name } = e.target;
@@ -79,7 +82,6 @@ export const Reports = () => {
       reportId: report && report?._id
     }
 
-    console.log(data, " the data")
 
     dispatch(go_remark(data));
   }
@@ -89,6 +91,12 @@ export const Reports = () => {
       dispatch(searchReport(search_term));
     }
   }, [ dispatch, search_term ]);
+
+  useEffect(() => {
+    if (filterData.length > 0) {
+      dispatch(filter_report(filterData));
+    }
+  }, [ dispatch, filterData ]);
 
   return (
     <div>

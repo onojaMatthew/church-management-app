@@ -22,7 +22,6 @@ export const ReportDetails = ({
   const converted_date = new Date(date);
   const converted_time = time && time.toString()
   
-  console.log(report);
   return (
     <div className="coord-body">
       <div className="cord-detail-card">
@@ -59,10 +58,19 @@ export const ReportDetails = ({
               <p><FaInfo className="approval-info-icon" /> <span className="info-note">You can click on the check box to approve report only if you're satisfied with the it else, you can just leave a comment</span></p>
               
               <label> 
-                <Input className="go-check" type='checkbox' name="approval" onChange={(e) => handleChange(e)} /> G.O
+                {report.gco_approval_remark?.approved ? 
+                <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} name="approval" onChange={(e) => handleChange(e)} /> :
+                <Input className="go-check" type='checkbox' name="approval" onChange={(e) => handleChange(e)} />
+
+                }
+                 G.O
               </label> {" "}
               <label>
-                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> Coordinator
+                { report?.coordinator_approval ? 
+                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> :
+                <Input className="coordinator-check" type='checkbox' /> 
+              } Coordinator
+                
               </label><br /><br />
               {remark_loading ? <Button loading className='remart-btn'>Processing...</Button> : 
               <Button onClick={handleSubmit} type="submit" className='remart-btn'>Send</Button>}

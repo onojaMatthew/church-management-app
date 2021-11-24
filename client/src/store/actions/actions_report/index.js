@@ -441,11 +441,11 @@ export const filter_report = (data) => {
   return dispatch => {
     dispatch(filter_start());
     fetch(`${BASE_URL}/report/filter?time_range=${data}`, {
-      method: "PUT",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
-        "Authorizaiton": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
     })
       .then(response => response.json())
