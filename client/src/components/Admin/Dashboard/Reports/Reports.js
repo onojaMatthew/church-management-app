@@ -43,7 +43,11 @@ export const Reports = () => {
 
   const handleDelete = () => {};
 
-  const handleNextPage = () => {};
+  const handleNextPage = (page) => {
+    const offset = page,
+    limit = 10;
+    dispatch(reportList(offset, limit));
+  };
 
   const toggle = () => {
     setView(!view);
@@ -55,7 +59,9 @@ export const Reports = () => {
   }
 
   useEffect(() => {
-    dispatch(reportList())
+    const offset = 1;
+    const limit = 10
+    dispatch(reportList(offset, limit))
   }, [ dispatch ]);
 
   const filters = [

@@ -28,7 +28,6 @@ export const create_expenditure = async (req, res) => {
 
 export const expenditure_list = async (req, res) => {
   const { offset, limit } = pagination(req.query);
-  console.log()
   try {
     const Expenditure = await getModelByChurch(req.query.church, "Expenditure", expenditureSchema);
     const expenditure = await Expenditure.paginate({ church: req.query.church }, { offset, limit });

@@ -101,10 +101,10 @@ export const reportListFailed = (error) => {
   }
 }
 
-export const reportList = () => {
+export const reportList = (offset, limit) => {
   return dispatch => {
     dispatch(reportListStart());
-    fetch(`${BASE_URL}/report/all`, {
+    fetch(`${BASE_URL}/report/all?offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -437,10 +437,10 @@ export const filter_failed = (error) => {
 }
 
 
-export const filter_report = (data) => {
+export const filter_report = (data, offset, limit) => {
   return dispatch => {
     dispatch(filter_start());
-    fetch(`${BASE_URL}/report/filter?time_range=${data}`, {
+    fetch(`${BASE_URL}/report/filter?time_range=${data}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
