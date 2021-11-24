@@ -12,9 +12,11 @@ export const Reports = () => {
   const dispatch = useDispatch();
   const { reports, report_docs, delete_loading, list_loading } = useSelector(state => state.reportReducers);
   const [ search_term, setSearchTerm ] = useState("");
+  const [ values, setValue ] = useState({ remark: "", approval: false });
   const [ report, setReport ] = useState({});
   const [ view, setView ] = useState(false);
 
+  const { remark, approval } = values;
   const page = reports && reports.page,
     totalPages = reports && reports.totalPages,
     nextPage = reports && reports.nextPage,
@@ -26,12 +28,24 @@ export const Reports = () => {
   }
 
   const handleFilterChange = () => {};
-  const handleChange = () => {};
+
+  const handleChange = (e) => {
+    const { name } = e.target;
+    if (name === "remark") {
+      setValue({ ...values, "remark": e.target.value });
+    } else {
+      setValue({ ...values, "approval": e.target.checked });
+    }
+  };
+
   const handleDelete = () => {};
+
   const handleNextPage = () => {};
+
   const toggle = () => {
     setView(!view);
   }
+
   const handleSearch = () => {}
 
   useEffect(() => {
@@ -56,12 +70,23 @@ export const Reports = () => {
     setView(!view);
   }
 
+  const handleSubmit = () => {
+    const data = {
+      remark, approval,
+      reportId: report && report?._id
+    }
+  }
+  
   return (
     <div>
       {view ? 
         <ReportDetails 
           toggle={toggle}
           report={report}
+          remark={remark}
+          approval={approval}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
         /> : (
         <Row>
           <Col xs="12" sm="12" md="12" lg="12" xl="12">

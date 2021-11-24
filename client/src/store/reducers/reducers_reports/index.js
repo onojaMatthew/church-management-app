@@ -17,6 +17,12 @@ import {
   DELETE_REPORT_START,
   DELETE_REPORT_SUCCESS,
   DELETE_REPORT_FAILED,
+  GO_REMARK_START,
+  GO_REMARK_SUCCESS,
+  GO_REMARK_FAILED,
+  COORDINATOR_REMARK_START,
+  COORDINATOR_REMARK_SUCCESS,
+  COORDINATOR_REMARK_FAILED,
 } from "../../actions/actions_report";
 
 const initialState = {
@@ -35,6 +41,8 @@ const initialState = {
   coordinator_reports_success: false,
   delete_loading: false,
   delete_success: false,
+  remark_loading: false,
+  remark_success: false,
   error: "",
 }
 
@@ -159,6 +167,46 @@ export const reportReducers = (state=initialState, action) => {
         delete_loading: false,
         delete_success: false,
         error: action.data,
+      }
+    case GO_REMARK_START:
+      return {
+        ...state,
+        remark_loading: true,
+        remark_success: false,
+      }
+    case GO_REMARK_SUCCESS:
+      return {
+        ...state,
+        remark_loading: false,
+        remark_success: true,
+        report: action.data,
+      }
+    case GO_REMARK_FAILED:
+      return {
+        ...state,
+        remark_loading: false,
+        remark_success: false,
+        error: action.error
+      }
+    case COORDINATOR_REMARK_START:
+      return {
+        ...state,
+        remark_loading: true,
+        remark_success: false,
+      }
+    case COORDINATOR_REMARK_SUCCESS:
+      return {
+        ...state,
+        remark_loading: false,
+        remark_success: true,
+        report: action.data,
+      }
+    case COORDINATOR_REMARK_FAILED:
+      return {
+        ...state,
+        remark_loading: false,
+        remark_success: false,
+        error: action.error
       }
     default:
       return state;

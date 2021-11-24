@@ -19,6 +19,13 @@ export const DELETE_REPORT_START = "DELETE_REPORT_START";
 export const DELETE_REPORT_SUCCESS = "DELETE_REPORT_SUCCESS";
 export const DELETE_REPORT_FAILED = "DELETE_REPORT_SFAILED";
 
+export const GO_REMARK_START = "GO_REMARK_START";
+export const GO_REMARK_SUCCESS = "GO_REMARK_SUCCESS";
+export const GO_REMARK_FAILED = "GO_REMARK_FAILED";
+export const COORDINATOR_REMARK_START = "COORDINATOR_REMARK_START";
+export const COORDINATOR_REMARK_SUCCESS = "COORDINATOR_REMARK_SUCCESS";
+export const COORDINATOR_REMARK_FAILED = "COORDINATOR_REMARK_FAILED";
+
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().church && localAuth().church._id;
 
@@ -273,5 +280,89 @@ export const deleteReport = (id) => {
       .catch(err => {
         dispatch(delete_report_failed(err.message));
       });
+  }
+}
+
+export const go_remark_start = () => {
+  return {
+    type: GO_REMARK_START
+  }
+}
+
+export const go_remark_success = (data) => {
+  return {
+    type: GO_REMARK_SUCCESS,
+    data
+  }
+}
+
+export const go_remark_failed = (error) => {
+  return {
+    type: GO_REMARK_FAILED,
+    error
+  }
+}
+
+
+export const go_remark = (data) => {
+  return dispatch => {
+    dispatch(go_remark_start());
+    fetch(`${BASE_URL}/report/go_remark`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorizaiton": `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(go_remark_failed(resp.message));
+        dispatch(go_remark_success(resp.results));
+      })
+      .catch(err => dispatch(go_remark_failed(err.message)));
+  }
+}
+
+export const coordinator_remark_start = () => {
+  return {
+    type: COORDINATOR_REMARK_START
+  }
+}
+
+export const coordinator_remark_success = (data) => {
+  return {
+    type: COORDINATOR_REMARK_SUCCESS,
+    data
+  }
+}
+
+export const coordinator_remark_failed = (error) => {
+  return {
+    type: COORDINATOR_REMARK_FAILED,
+    error
+  }
+}
+
+
+export const coordinator_remark = (data) => {
+  return dispatch => {
+    dispatch(coordinator_remark_start());
+    fetch(`${BASE_URL}/report/coordinator_remark`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorizaiton": `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(coordinator_remark_failed(resp.message));
+        dispatch(coordinator_remark_success(resp.results));
+      })
+      .catch(err => dispatch(coordinator_remark_failed(err.message)));
   }
 }

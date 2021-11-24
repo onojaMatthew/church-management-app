@@ -11,7 +11,7 @@ router.get("/report/details", verifyToken, grantAccess("readOwn", "church"), rep
 router.get("/report/coordinator_reports", verifyToken, grantAccess("readOwn", "zonal_coordinator"), report_by_coordinator);
 router.get("/report/church_reports", verifyToken, grantAccess("readOwn", "church"), report_by_church);
 router.put("/report/coordinator_remark", verifyToken, grantAccess("updateAny", "coordinator"), coordinator_remark);
-router.put("/report/gco_remark", verifyToken, grantAccess("updateAny", "super admin"), gco_remark);
+router.put("/report/go_remark", verifyToken, grantAccess("updateAny", "super admin"), gco_remark);
 router.delete("/report/delete", verifyToken, grantAccess("deleteAny", "super admin"), delete_report);
 
 export default router;

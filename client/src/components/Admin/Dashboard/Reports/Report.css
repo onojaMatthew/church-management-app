@@ -165,11 +165,209 @@
 
 .coordinator-remark, .go-remark {
   color: #979dac;
-  width: 300px;
+  width: 100%;
 }
 
 .remark-label {
   color: #000;
-  margin-bottom: -20px;
+  /* margin-bottom: -20px; */
   
+}
+
+.church-details {
+  border: 1px solid #979dac;
+}
+
+.coordinator-details {
+  border: 1px solid #979dac;
+  border-left: none;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.comment-input:focus {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.comment-input:hover {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.report-head {
+  font: normal normal normal 24px/38px Manrope;
+  font-weight: bolder;
+}
+
+.remart-btn {
+  background: #F05366;
+  height: 40px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.remart-btn:hover {
+  background: #F05366;
+  height: 40px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.remart-btn:focus {
+  background: #F05366;
+  height: 40px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.info-note {
+  color: #979dac;
+  font: normal normal normal 12px/20px Manrope;
+  font-size: 12px;
+}
+
+.approval-info-icon {
+  color: #FFFFFF;
+  background: #F05366;
+  padding: 5px;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.coordinator-check {
+  height: 20px !important;
+  width: 20px !important;
+  margin-left: 40px;
+}
+
+.go-check {
+  height: 20px !important;
+  width: 20px !important;
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .coord-header {
+    font: normal normal normal 36px/44px Manrope;
+    color: #F05366;
+    font-weight: bolder;
+  }
+  .detail-name {
+    height: 27px;
+    text-align: left;
+    font: normal normal bold 34px/42px Manrope;
+    letter-spacing: 0px;
+    color: #F05366;
+    opacity: 1;
+    margin-bottom: 20px;
+  }
+  
+  .cord-detail-card {
+    margin-top: -40px !important;
+    width: 350px !important;
+    min-height: 500px;
+    padding: 15px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 20px 20px 50px #00000029;
+    border-radius: 8px;
+    opacity: 1;
+  }
+  .coordinator-details {
+    border: 1px solid #979dac;
+    margin-top: 10px;
+  }
+
+  .detail-email {
+    /* margin-top: -20px; */
+    font: normal normal normal 16px/28px Manrope;
+  }
+
+  .comment-input {
+    /* display: block; */
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .comment-input:focus {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .comment-input:hover {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
 }
