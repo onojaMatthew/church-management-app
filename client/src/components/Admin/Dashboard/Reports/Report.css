@@ -166,6 +166,7 @@
 .coordinator-remark, .go-remark {
   color: #979dac;
   width: 100%;
+  margin-top: -15px;
 }
 
 .remark-label {

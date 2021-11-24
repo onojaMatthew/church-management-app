@@ -30,6 +30,9 @@ export const create_report = async (req, res) => {
     const church_data = {
       _id: church_details && church_details._id,
       branch: church_details && church_details.branch,
+      head_pastor: church_details && church_details.head_pastor,
+      email: church_details && church_details.email,
+      phone: church_details && church_details.phone
     }
 
     let report = new Report({ church: church_data, subject, to, message, coordinator: data });
@@ -133,6 +136,95 @@ export const delete_report = async (req, res) => {
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
     let report = await Report.findByIdAndDelete({ _id: reportId });
+    return res.json(success("Success", report, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const searchReport = async (req, res) => {
+  const { searchTerm } = req.query;
+
+  try {
+    const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
+    const searchResult = await Report.aggregate([{ $match: {
+      $or: [
+          { "church.head_pastor": {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          "church.branch": {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          "church.email": {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          "church.phone": {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { "coordinator.name": {
+          $regex: searchTerm,
+          $options: "i"
+        }
+      },
+      { 
+        "coordinator.email": {
+          $regex: searchTerm,
+          $options: "i"
+        },
+      },
+      { 
+        "coordninator.phone": {
+          $regex: searchTerm,
+          $options: "i"
+        },
+      },
+      { 
+        subject: {
+          $regex: searchTerm,
+          $options: "i"
+        },
+      },
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
+  }
+}
+
+export const report_filter = async (req, res) => {
+  const { time_range } = req.query;
+
+  try {
+
+    const time_data = time_range.split(" ");
+    const time_length = Number(time_data[0]);
+    const time_param = time_data[1];
+    const date = new Date();
+    let date_ago;
+
+    if (time_param === "days") {
+      date_ago = date.setDate(date.getDate() - time_length);
+    } else if (time_param === "weeks") {
+      date_ago = date.setDate(date.getDate() - (time_length * 7));
+    } else if (time_param === "months") {
+      date_ago = date.setDate(date.getDate() - (time_length * 30));
+    }
+
+    const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
+    const report = await Report.find({ createdAt: { $gte: date_ago }});
     return res.json(success("Success", report, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

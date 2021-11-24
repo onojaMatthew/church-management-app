@@ -23,6 +23,12 @@ import {
   COORDINATOR_REMARK_START,
   COORDINATOR_REMARK_SUCCESS,
   COORDINATOR_REMARK_FAILED,
+  SEARCH_START,
+  SEARCH_SUCCESS,
+  SEARCH_FAILED,
+  FILTER_START,
+  FILTER_SUCCESS,
+  FILTER_FAILED,
 } from "../../actions/actions_report";
 
 const initialState = {
@@ -43,6 +49,10 @@ const initialState = {
   delete_success: false,
   remark_loading: false,
   remark_success: false,
+  search_loading: false,
+  search_success: false,
+  filter_loading: false,
+  filter_success: false,
   error: "",
 }
 
@@ -206,6 +216,48 @@ export const reportReducers = (state=initialState, action) => {
         ...state,
         remark_loading: false,
         remark_success: false,
+        error: action.error
+      }
+    case SEARCH_START:
+      return {
+        ...state,
+        search_loading: true,
+        search_success: false,
+      }
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: true,
+        report_docs: action.data,
+        reports: action.data,
+      }
+    case SEARCH_FAILED:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: false,
+        error: action.error
+      }
+    case FILTER_START:
+      return {
+        ...state,
+        filter_loading: true,
+        filter_success: false,
+      }
+    case FILTER_SUCCESS:
+      return {
+        ...state,
+        filter_loading: false,
+        filter_success: true,
+        report_docs: action.data,
+        reports: action.data,
+      }
+    case FILTER_FAILED:
+      return {
+        ...state,
+        filter_loading: false,
+        filter_success: false,
         error: action.error
       }
     default:

@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { go_remark, reportList } from "../../../../store/actions/actions_report";
+import { go_remark, reportList, searchReport } from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 
 export const Reports = () => {
@@ -46,7 +46,10 @@ export const Reports = () => {
     setView(!view);
   }
 
-  const handleSearch = () => {}
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setSearchTerm(value);
+  }
 
   useEffect(() => {
     dispatch(reportList())
@@ -81,7 +84,11 @@ export const Reports = () => {
     dispatch(go_remark(data));
   }
 
-  console.log(report)
+  useEffect(() => {
+    if (search_term.length > 0) {
+      dispatch(searchReport(search_term));
+    }
+  }, [ dispatch, search_term ]);
 
   return (
     <div>

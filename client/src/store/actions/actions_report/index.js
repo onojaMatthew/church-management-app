@@ -26,6 +26,13 @@ export const COORDINATOR_REMARK_START = "COORDINATOR_REMARK_START";
 export const COORDINATOR_REMARK_SUCCESS = "COORDINATOR_REMARK_SUCCESS";
 export const COORDINATOR_REMARK_FAILED = "COORDINATOR_REMARK_FAILED";
 
+export const SEARCH_START = "SEARCH_START";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_FAILED = "SEARCH_FAILED";
+export const FILTER_START = "FILTER_START";
+export const FILTER_SUCCESS = "FILTER_SUCCESS";
+export const FILTER_FAILED = "FILTER_FAILED";
+
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().church && localAuth().church._id;
 
@@ -355,7 +362,7 @@ export const coordinator_remark = (data) => {
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
-        "Authorizaiton": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data)
     })
@@ -365,5 +372,87 @@ export const coordinator_remark = (data) => {
         dispatch(coordinator_remark_success(resp.results));
       })
       .catch(err => dispatch(coordinator_remark_failed(err.message)));
+  }
+}
+
+export const search_start = () => {
+  return {
+    type: SEARCH_START
+  }
+}
+
+export const search_success = (data) => {
+  return {
+    type: SEARCH_SUCCESS,
+    data
+  }
+}
+
+export const search_failed = (error) => {
+  return {
+    type: SEARCH_FAILED,
+    error
+  }
+}
+
+
+export const searchReport = (searchTerm) => {
+  return dispatch => {
+    dispatch(search_start());
+    fetch(`${BASE_URL}/report/search?searchTerm=${searchTerm}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(search_failed(resp.message));
+        dispatch(search_success(resp.results));
+      })
+      .catch(err => dispatch(search_failed(err.message)));
+  }
+}
+
+export const filter_start = () => {
+  return {
+    type: FILTER_START
+  }
+}
+
+export const filter_success = (data) => {
+  return {
+    type: FILTER_SUCCESS,
+    data
+  }
+}
+
+export const filter_failed = (error) => {
+  return {
+    type: FILTER_FAILED,
+    error
+  }
+}
+
+
+export const filter_report = (data) => {
+  return dispatch => {
+    dispatch(filter_start());
+    fetch(`${BASE_URL}/report/filter?time_range=${data}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorizaiton": `Bearer ${token}`
+      },
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(filter_failed(resp.message));
+        dispatch(filter_success(resp.results));
+      })
+      .catch(err => dispatch(filter_failed(err.message)));
   }
 }

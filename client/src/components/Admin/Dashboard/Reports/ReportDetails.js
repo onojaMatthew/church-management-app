@@ -70,7 +70,7 @@ export const ReportDetails = ({
             </Col>
             <Col xs='12' sm='12' md='12' lg='6' xl='6'>
               <p className="remark-label"><strong>Coordinator remark</strong></p>
-              <p className='coordinator-remark'> jskdjskdjskjskjskjdks slkslkdsn lksdskjk ksjksj kjdksjs{report?.coordinator_remark}</p>
+              <p className='coordinator-remark'>{report.coordinator_remark ? report.coordinator_remark : "No remark"}</p>
               <p className="remark-label"><strong>G.O remark</strong></p>
               <p className='go-remark'>{report?.gco_approval_remark?.remark}</p>
             </Col>

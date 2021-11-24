@@ -21,7 +21,10 @@ export const reportSchema = new Schema({
   },
   church: { 
     _id: ObjectId,
-    branch: String
+    branch: String,
+    head_pastor: String,
+    email: String,
+    phone: String
   }
 }, { timestamps: true });
 
