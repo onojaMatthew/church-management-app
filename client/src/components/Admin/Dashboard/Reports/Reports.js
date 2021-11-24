@@ -5,12 +5,12 @@ import { Button } from "antd";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { reportList } from "../../../../store/actions/actions_report";
+import { go_remark, reportList } from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 
 export const Reports = () => {
   const dispatch = useDispatch();
-  const { reports, report_docs, delete_loading, list_loading } = useSelector(state => state.reportReducers);
+  const { reports, report_docs, delete_loading, list_loading, remark_loading } = useSelector(state => state.reportReducers);
   const [ search_term, setSearchTerm ] = useState("");
   const [ values, setValue ] = useState({ remark: "", approval: false });
   const [ report, setReport ] = useState({});
@@ -75,18 +75,25 @@ export const Reports = () => {
       remark, approval,
       reportId: report && report?._id
     }
+
+    console.log(data, " the data")
+
+    dispatch(go_remark(data));
   }
-  
+
+  console.log(report)
+
   return (
     <div>
-      {view ? 
-        <ReportDetails 
+      {view ?
+        <ReportDetails
           toggle={toggle}
           report={report}
           remark={remark}
           approval={approval}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          remark_loading={remark_loading}
         /> : (
         <Row>
           <Col xs="12" sm="12" md="12" lg="12" xl="12">

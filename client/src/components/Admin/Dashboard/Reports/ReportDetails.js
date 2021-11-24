@@ -10,7 +10,7 @@ export const ReportDetails = ({
   toggle,
   handleSubmit,
   remark,
-  approval,
+  remark_loading,
   handleChange,
   report,
 }) => {
@@ -64,13 +64,15 @@ export const ReportDetails = ({
               <label>
                 <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> Coordinator
               </label><br /><br />
-              <Button onClick={handleSubmit} type="submit" className='remart-btn'>Send</Button>
+              {remark_loading ? <Button loading className='remart-btn'>Processing...</Button> : 
+              <Button onClick={handleSubmit} type="submit" className='remart-btn'>Send</Button>}
+              
             </Col>
             <Col xs='12' sm='12' md='12' lg='6' xl='6'>
               <p className="remark-label"><strong>Coordinator remark</strong></p>
               <p className='coordinator-remark'> jskdjskdjskjskjskjdks slkslkdsn lksdskjk ksjksj kjdksjs{report?.coordinator_remark}</p>
               <p className="remark-label"><strong>G.O remark</strong></p>
-              <p className='go-remark'> jskdjskdjskjskjskjdks slkslkdsn lksdskjk ksjksj kjdksjs jskdjskdjs kjskjskjdks slkslkdsn lksdskjk ksjksj{report?.coordinator_remark}</p>
+              <p className='go-remark'>{report?.gco_approval_remark?.remark}</p>
             </Col>
           </Row>
         </div>

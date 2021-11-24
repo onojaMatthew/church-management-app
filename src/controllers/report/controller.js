@@ -110,7 +110,8 @@ export const coordinator_remark = async (req, res) => {
 }
 
 export const gco_remark = async (req, res) => {
-  const { reportId, remark, approval } = req.query;
+  const { reportId, remark, approval } = req.body;
+  console.log(req.body, " the request body")
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
     let report = await Report.findOne({ _id: reportId });

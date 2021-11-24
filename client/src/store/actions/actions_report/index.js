@@ -305,6 +305,7 @@ export const go_remark_failed = (error) => {
 
 
 export const go_remark = (data) => {
+  console.log(data, " the data")
   return dispatch => {
     dispatch(go_remark_start());
     fetch(`${BASE_URL}/report/go_remark`, {
@@ -312,7 +313,7 @@ export const go_remark = (data) => {
       headers: {
         "Content-Type": "application/json",
         ACCEPT: "application/json",
-        "Authorizaiton": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data)
     })
