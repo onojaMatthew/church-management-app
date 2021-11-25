@@ -23,6 +23,9 @@ import {
   FILTER_START,
   FILTER_SUCCESS,
   FILTER_FAILED,
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
 } from "../../actions/actions_coordinator";
 
 const initialState = {
@@ -30,6 +33,8 @@ const initialState = {
   coordinator_docs: [],
   church_list: [],
   coordinator: {},
+  login_loading: false,
+  login_success: false,
   add_loading: false,
   add_success: false,
   list_loading: false,
@@ -50,7 +55,27 @@ const initialState = {
 }
 
 export const coordinatorReducer = (state=initialState, action) => {
-  switch(action.type) { 
+  switch(action.type) {
+    case LOGIN_START:
+      return {
+        ...state,
+        login_loading: true,
+        login_success: false,
+      }
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        login_loading: false,
+        login_success: true,
+        coordinator: action.data,
+      }
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        login_loading: false,
+        login_success: false,
+        error: action.error
+      }
     case ADD_COORDINATOR_START:
       return {
         ...state,
@@ -144,6 +169,7 @@ export const coordinatorReducer = (state=initialState, action) => {
         church_list_loading: false,
         church_list_success: true,
         church_list: action.data,
+        coordinator_docs: action.data.docs
       }
     case COORDINATING_CHURCH_LIST_FAILED:
       return {

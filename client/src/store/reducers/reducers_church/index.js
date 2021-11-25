@@ -18,6 +18,7 @@ import {
 
 const initialState = {
   churches: [],
+  church_docs: [],
   church: {},
   postLoading: false,
   postSuccess: false,
@@ -46,6 +47,7 @@ export const church = (state=initialState, action) => {
         allLoading: false,
         allSuccess: true,
         churches: action.data,
+        church_docs: action.data.docs,
       }
     case ALL_CHURCH_FAILED:
       return {
@@ -66,6 +68,7 @@ export const church = (state=initialState, action) => {
         postLoading: false,
         postSuccess: true,
         churches: action.data,
+        church_docs: state.church_docs.concat(action.data),
       }
     case CREATE_CHURCH_FAILED:
       return {
@@ -126,6 +129,7 @@ export const church = (state=initialState, action) => {
         allListLoading: false,
         allListSuccess: true,
         churches: action.data,
+        church_docs: action.data.docs
       }
     case ALL_CHURCH_LIST_FAILED:
       return {

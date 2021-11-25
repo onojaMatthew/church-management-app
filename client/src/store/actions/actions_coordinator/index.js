@@ -26,10 +26,56 @@ export const FILTER_START = "FILTER_START";
 export const FILTER_SUCCESS = "FILTER_SUCCESS";
 export const FILTER_FAILED = "FILTER_FAILED";
 
+export const LOGIN_START = "LOGIN_START";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
  
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
+const id = localAuth() && localAuth().user?._id;
+
+export const loginStart = () => {
+  return {
+    type: LOGIN_START
+  }
+}
+
+export const loginSuccess = (data) => {
+  return {
+    type: LOGIN_SUCCESS,
+    data
+  }
+}
+
+export const loginFailed = (error) => {
+  return {
+    type: LOGIN_FAILED,
+    error
+  }
+}
+
+export const coordinatorLogin = (data) => {
+  return dispatch => {
+    dispatch(loginStart());
+    fetch(`${BASE_URL}/coordinator/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(loginFailed(resp.message));
+        Auth.authenticateUser(JSON.stringify(resp.results));
+        dispatch(loginSuccess(resp.results));
+      })
+      .catch(err => dispatch(loginFailed(err.message)));
+  }
+}
+
 
 export const add_coordinator_start = () => {
   return {
@@ -135,7 +181,7 @@ export const coordinator_churches_failed = (error) => {
 export const coordinating_church_list = (offset, limit) => {
   return dispatch => {
     dispatch(coordinator_churches_start());
-    fetch(`${BASE_URL}/coordinator/church_list?offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/coordinator/church_list?coordinatorId=${id}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

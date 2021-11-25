@@ -24,6 +24,33 @@
   color: #1890ff;
 }
 
+.church-branch {
+  height: 27px;
+  text-align: left;
+  font: normal normal bold 38px/47px Manrope;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+}
+
+.church-email {
+  text-align: left;
+  font: normal normal normal 22px/34px Manrope;
+  letter-spacing: 0px;
+  color: #FFFFFF59;
+  opacity: 1;
+}
+
+.church-phone {
+  text-align: left;
+  font: normal normal normal 22px/34px Manrope;
+  letter-spacing: 0px;
+  color: #FFFFFF59;
+  margin-top: -10px;
+  line-height: 0.001px;
+  opacity: 1;
+}
+
 @media only screen and (max-width: 768px) {
   .church-card {
     min-height: 80vh !important;

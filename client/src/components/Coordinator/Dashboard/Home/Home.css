@@ -41,6 +41,10 @@
   margin-bottom: 5px;
 }
 
+.coord-church-table {
+  padding: 30px !important;
+}
+
 .rp-container {
   min-height: 500px;
 }
