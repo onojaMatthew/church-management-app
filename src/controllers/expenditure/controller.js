@@ -1,6 +1,8 @@
 import { error, success } from "../../config/response";
+import { formatMoney } from "../../middleware/num_formatter";
 import { paginated_data, pagination } from "../../middleware/pagination";
 import { expenditureSchema } from "../../models/expenditure";
+import { financeSchema } from "../../models/finance";
 import { getModelByChurch } from "../../utils/util";
 
 
@@ -51,8 +53,20 @@ export const expenditure = async (req, res) => {
 export const total_finance = async (req, res) => {
   const { church } = req.query;
   try {
+    const Finance = await getModelByChurch(church, "Finance", financeSchema);
     const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
+
+    const finance = await Finance.find({});
     const expenditure = await Expenditure.find({});
+    let exp_arr = [];
+    let income_arr = [];
+    finance && finance.forEach(i => income_arr.push(i.amount))
+    expenditure && expenditure.forEach(e => exp_arr.push(e.cost));
+    const result = {
+      expenses: formatMoney(exp_arr.reduce((a,b) => a + b, 0)),
+      income: formatMoney(income_arr.reduce((a,b) => a + b, 0))
+    }
+    return res.json(success("Success", result, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
