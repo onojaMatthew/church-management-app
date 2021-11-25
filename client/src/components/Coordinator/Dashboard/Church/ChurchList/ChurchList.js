@@ -5,6 +5,7 @@ import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { coordinating_church_list } from "../../../../../store/actions/actions_coordinator";
 import Search from "../../../../SearchComponent/Search";
+import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
 
@@ -85,28 +86,30 @@ const ChurchList = () => {
       <Card className="church-card">
         <CardBody>
           
-            <Row>
-              <Col xs="12" sm="12" md="12" lg="3" xl="3">
-              <p className="coord-header">Church List</p>
-              </Col>
-              <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                <div className="search-container">
-                  <Search search_term={search_term} onChange={handleSearch} />
-                </div>
-              </Col>
-              <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                <div className="filter-container">
-                  <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
-                    <option disabled={true}>Filter expenditure</option>
-                    {filters.map((t, i) => (
-                      <option value={t.value} key={i}>{t.name}</option>
-                    ))}
-                  </Input>
-                  <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
-                </div>
-              </Col>
-            </Row>
-            <div>
+            {isView ? <Church detail={detail} /> : (
+              <>
+              <Row>
+                <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                <p className="coord-header">Church List</p>
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                  <div className="search-container">
+                    <Search search_term={search_term} onChange={handleSearch} />
+                  </div>
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                  <div className="filter-container">
+                    <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
+                      <option disabled={true}>Filter expenditure</option>
+                      {filters.map((t, i) => (
+                        <option value={t.value} key={i}>{t.name}</option>
+                      ))}
+                    </Input>
+                    <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
+                  </div>
+                </Col>
+              </Row>
+              <div>
               {church_list_loading ? (
                 <div className="text-center spin">
                   <Spinner className="my-loader">
@@ -118,10 +121,10 @@ const ChurchList = () => {
                   <Row>
                   {coordinator_docs && coordinator_docs.length > 0 ? coordinator_docs.map((c, i) => (
                     <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
-                      <div className="coord-list-card" key>
-                        <p className="church-branch">{c?.head_pastor}</p>
-                        <p className='church-email'>{c?.branch}</p>
-                        <p className='church-phone'>{c?.email}</p>
+                      <div className="church-list-card" key>
+                        <p className="church-name">{c?.head_pastor}</p>
+                        <p className='church-branch'>{c?.branch}</p>
+                        <p className='church-email'>{c?.email}</p>
                         <p className='church-phone'>{c?.phone}</p>
                         <div className='icon-cont'>
                           <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
@@ -132,29 +135,31 @@ const ChurchList = () => {
                   </Row>
                 </div>
               )}
-            </div>
-            <div className="justify-content-center">
-              {totalPages > 1 ? (
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-center mt-5">
-                    <li className="page-item">
-                      <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </span>
-                    </li>
-                    {paginateArr && paginateArr.map((p, i) => (
-                      <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
-                    ))}
-                    
-                    <li className="page-item">
-                      <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </span>
-                    </li>
-                  </ul>
-                </nav>
-              ) : null}
-            </div>
+              </div>
+              <div className="justify-content-center">
+                {totalPages > 1 ? (
+                  <nav aria-label="Page navigation example">
+                    <ul className="pagination justify-content-center mt-5">
+                      <li className="page-item">
+                        <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </span>
+                      </li>
+                      {paginateArr && paginateArr.map((p, i) => (
+                        <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                      ))}
+                      
+                      <li className="page-item">
+                        <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </nav>
+                ) : null}
+              </div>
+            </>
+          )}
         </CardBody>  
       </Card>
     </div>

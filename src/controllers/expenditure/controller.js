@@ -48,13 +48,21 @@ export const expenditure = async (req, res) => {
   }
 }
 
+export const total_finance = async (req, res) => {
+  const { church } = req.query;
+  try {
+    const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
+    const expenditure = await Expenditure.find({});
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
 export const expenditure_filter = async (req, res) => {
   // const { offset, limit } = pagination(req.query);
   const { time_range, church } = req.query;
-  console.log(req.query);
 
   try {
-
     const time_data = time_range.split(" ");
     const time_length = Number(time_data[0]);
     const time_param = time_data[1];
@@ -73,14 +81,12 @@ export const expenditure_filter = async (req, res) => {
     const expenditure = await Expenditure.find({ createdAt: { $gte: date_ago }});
     return res.json(success("Success", expenditure, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
 export const search_expenditure = async (req, res) => {
   const { searchTerm, page, limit, church } = req.query;
-  console.log(req.query)
   try {
     const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
     const searchResult = await Expenditure.aggregate([{ $match: {

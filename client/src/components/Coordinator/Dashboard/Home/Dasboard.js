@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, Card, CardBody, Table } from "reactstrap";
-import { FaEye } from "react-icons/fa"
+import { Row, Col, Card, CardBody } from "reactstrap";
 import { Avatar, Image } from "antd";
 import { localAuth } from "../../../../helper/authenticate";
 import User from "../../../../assets/images/User.jpeg";
@@ -28,7 +27,6 @@ const Dashboard = () => {
           <h1>Hello {admin && admin.first_name} {admin && admin.last_name}</h1>
           <p>Welcome to your admin dashboard</p>
         </Col>
-        
       </Row>
       <Row>
         <Col xs="12" sm="12" md="12" lg="3" xl="3"  className="fcard">
