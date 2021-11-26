@@ -79,10 +79,10 @@ export const fetchIncomeFailed = (error) => {
   }
 }
 
-export const fetchIncome = (offset, limit) => {
+export const fetchIncome = (churchId, offset, limit) => {
   return dispatch => {
     dispatch(fetchIncomeStart());
-    fetch(`${BASE_URL}/finance/all?church=${church}&offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/finance/all?church=${churchId}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         ACCEPT: "application/json",

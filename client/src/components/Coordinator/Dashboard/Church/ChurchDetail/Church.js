@@ -9,9 +9,12 @@ export const Church = ({
   expenditure,
   nextAttr,
   exp_docs,
+  handleNextExp
 }) => {
 
   console.log(detail, expenditure, " the detail in detail");
+  let exp_cost_arr = [];
+  exp_docs && exp_docs.forEach(e => exp_cost_arr.push(e.cost));
   const date = new Date(detail?.createdAt);
   return (
     <div>
@@ -128,7 +131,7 @@ export const Church = ({
             </Table>
             <div className="chevron">
               <div>
-                <FaChevronLeft /><FaChevronRight />
+                <FaChevronLeft id="chev-left" /><FaChevronRight id="chev-right" />
               </div>
             </div>
           </div>
@@ -136,6 +139,7 @@ export const Church = ({
         <Col xs="12" sm="12" md="12" lg="6" xl="6">
           <div className="expenditure-col">
             <p className="income-table-title">Expenditure Table</p>
+            <p >Total: <strong>{exp_cost_arr && exp_cost_arr.reduce((a, b) => a + b, 0)}</strong></p>
             <Table bordered responsive>
               <thead className="my-table">
                 <th>Item</th>
@@ -147,22 +151,27 @@ export const Church = ({
                 <th>Date</th>
               </thead>
               <tbody>
-                {exp_docs?.length > 0 ? exp_docs.map((e,i) => (
-                  <tr key={i}>
+                {exp_docs?.length > 0 ? exp_docs.map((e,i) => {
+                  const e_date = new Date(e?.createdAt);
+                  return (
+                    <tr key={i}>
                     <td>{e?.item}</td>
                     <td>{e?.unit_price}</td>
                     <td>{e?.quantity}</td>
                     <td>{e?.cost}</td>
                     <td>{e?.authorized_by}</td>
                     <td>{e?.purchased_by}</td>
+                    <td>{e_date.toLocaleDateString()}</td>
                   </tr>
-                )) : <h4 className="text-center">No Records</h4>}
+                  )}  
+                ) : <h4 className="text-center">No Records</h4>}
                 
               </tbody>
             </Table>
             <div className="chevron">
               <div>
-                <FaChevronLeft /><FaChevronRight />
+                <p>Page <strong>{nextAttr?.page}</strong> of <strong>{nextAttr?.totalPages}</strong></p>
+                <FaChevronLeft onClick={() => handleNextExp(nextAttr?.page - 1)} id="chev-left" /><FaChevronRight onClick={() => handleNextExp(nextAttr?.page + 1)} id="chev-right" />
               </div>
             </div>
           </div>

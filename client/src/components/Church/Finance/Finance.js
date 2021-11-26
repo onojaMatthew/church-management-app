@@ -114,9 +114,9 @@ const Finance = () => {
   useEffect(() => {
     const offset=1;
     const limit=10;
-    dispatch(fetchIncome(offset, limit));
+    dispatch(fetchIncome(church, offset, limit));
     dispatch(fetchIncomeCategory());
-    dispatch(fetchExpenditure(offset, limit));
+    dispatch(fetchExpenditure(church,offset, limit));
   }, [ dispatch ]);
 
   let paginateArr = [];

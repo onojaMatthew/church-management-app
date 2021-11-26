@@ -84,3 +84,14 @@
   color: #a5aaad !important;
   padding: 10px !important;
 }
+
+#chev-left, #chev-right {
+  margin-right: 10px;
+  font-size: 22px;
+}
+
+#chev-left:hover, #chev-right:hover {
+  margin-right: 10px;
+  font-size: 22px;
+  color: #F05366;
+}

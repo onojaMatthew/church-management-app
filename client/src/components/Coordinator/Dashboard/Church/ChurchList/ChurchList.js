@@ -10,11 +10,13 @@ import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
 import { fetchExpenditure, getTotal } from "../../../../../store/actions/actions_expenditure";
+import { fetchIncome } from "../../../../../store/actions/actions_finance";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
   const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
+  const { docs } = useSelector(state => state.finance);
   const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
@@ -90,9 +92,10 @@ const ChurchList = () => {
   useEffect(() => {
     if (detail && detail._id?.length > 0) {
       const offset = 1;
-      const limit = 10;
+      const limit = 2;
       dispatch(getTotal(detail?._id));
       dispatch(fetchExpenditure(detail?._id, offset, limit));
+      dispatch(fetchIncome(detail?._id, offset, limit));
     }
   }, [ dispatch, detail ]);
 
@@ -107,8 +110,8 @@ const ChurchList = () => {
     }
   }, [ expenditures ])
 
-  const handleNextExp = () => {
-    const offset = page, limit = 10;
+  const handleNextExp = (page) => {
+    const offset = page, limit = 2;
     dispatch(fetchExpenditure(detail?._id, offset, limit))
   }
   console.log(expenditures, " the expenditures")
@@ -118,7 +121,7 @@ const ChurchList = () => {
       <Card className="church-card">
         <CardBody>
           
-            {isView ? <Church detail={detail} expenditure={expenditure} nextAttr={nextAttr} exp_docs={exp_docs} /> : (
+            {isView ? <Church detail={detail} expenditure={expenditure} handleNextExp={handleNextExp} nextAttr={nextAttr} exp_docs={exp_docs} /> : (
               <>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="3" xl="3">
