@@ -3,26 +3,30 @@ import { Card, CardBody, Spinner, Input, Row, Col } from "reactstrap";
 import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { localAuth } from "../../../../../helper/authenticate";
 import { coordinating_church_list } from "../../../../../store/actions/actions_coordinator";
 import Search from "../../../../SearchComponent/Search";
 import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
-import { getTotal } from "../../../../../store/actions/actions_expenditure";
+import { fetchExpenditure, getTotal } from "../../../../../store/actions/actions_expenditure";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
   const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
-  const { expenditure } = useSelector(state => state.expenditureReducer);
+  const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
   const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
+  const [ nextAttr, setNextArr ] = useState({ totalPages: "", page: "", nextPage: "", prevPage: "" });
+  const [ userId, setUserId ] = useState("");
   const [ isView, setIsView ] = useState(false);
 
   useEffect(() => {
     const offset = 1;
     const limit = 10;
-    // const data = { offset, limit }
+    const id = localAuth()?.user?._id;
+    setUserId(id);
     dispatch(coordinating_church_list(offset, limit));
   }, [ dispatch ]);
 
@@ -85,16 +89,36 @@ const ChurchList = () => {
 
   useEffect(() => {
     if (detail && detail._id?.length > 0) {
-      dispatch(getTotal(detail?._id))
+      const offset = 1;
+      const limit = 10;
+      dispatch(getTotal(detail?._id));
+      dispatch(fetchExpenditure(detail?._id, offset, limit));
     }
   }, [ dispatch, detail ]);
 
+  useEffect(() => {
+    if (expenditures) {
+      setNextArr({
+        page: expenditures?.page,
+        totalPages: expenditures?.totalPages,
+        nextPage: expenditures?.nextPage,
+        prevPage: expenditures?.nextPage
+      })
+    }
+  }, [ expenditures ])
+
+  const handleNextExp = () => {
+    const offset = page, limit = 10;
+    dispatch(fetchExpenditure(detail?._id, offset, limit))
+  }
+  console.log(expenditures, " the expenditures")
+  console.log(nextAttr, " the pagination attrinuts")
   return (
     <div>
       <Card className="church-card">
         <CardBody>
           
-            {isView ? <Church detail={detail} expenditure={expenditure} /> : (
+            {isView ? <Church detail={detail} expenditure={expenditure} nextAttr={nextAttr} exp_docs={exp_docs} /> : (
               <>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="3" xl="3">

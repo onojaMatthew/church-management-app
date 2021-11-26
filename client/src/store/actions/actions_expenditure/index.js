@@ -88,10 +88,10 @@ export const fetchExpenditureFailed = (error) => {
   }
 }
 
-export const fetchExpenditure = (offset, limit) => {
+export const fetchExpenditure = (churchId, offset, limit) => {
   return dispatch => {
     dispatch(fetchExpenditureStart());
-    fetch(`${BASE_URL}/expenditure/all?church=${church}&offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/expenditure/all?church=${churchId}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         ACCEPT: "application/json",

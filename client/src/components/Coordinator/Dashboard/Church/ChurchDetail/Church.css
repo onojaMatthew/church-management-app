@@ -37,7 +37,6 @@
 }
 
 .data {
-  width: 30px !important;
   height: 29px !important;
   text-align: left;
   font: normal normal medium 24px/29px Montserrat !important;
@@ -47,4 +46,41 @@
   letter-spacing: 0.48px;
   color: #000000!important;
   opacity: 1;
+}
+
+.currency {
+  font-size: 24px;
+  color: #F05366;
+  font-weight: bolder;
+}
+
+.income-table-title {
+  font-size: 28px;
+  color: #F05366 !important;
+}
+
+.chevron {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.church-info, .income-col, .expenditure-col {
+  min-height: 100px;
+  min-width: 100%;
+  padding: 15px;
+  margin-top: 25px !important;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 4px 20px #0000001A;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.my-table {
+  font-size: 14px !important;
+}
+
+.my-table th {
+  color: #a5aaad !important;
+  padding: 10px !important;
 }

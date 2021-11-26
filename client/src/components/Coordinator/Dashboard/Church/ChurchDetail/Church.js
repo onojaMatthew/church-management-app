@@ -1,15 +1,18 @@
 import React from "react";
-import { FaUsers } from "react-icons/fa";
-import { Col, Row } from "reactstrap";
+import { FaChevronLeft, FaChevronRight, FaUsers } from "react-icons/fa";
+import { Col, Row, Table } from "reactstrap";
 
 import "./Church.css";
 
 export const Church = ({
   detail,
   expenditure,
+  nextAttr,
+  exp_docs,
 }) => {
 
   console.log(detail, expenditure, " the detail in detail");
+  const date = new Date(detail?.createdAt);
   return (
     <div>
       <Row>
@@ -38,7 +41,7 @@ export const Church = ({
               </Col>
               <Col xs="9" sm="9" md="9" lg="9" className="pt-3">
                 <p className="data-label">Income</p>
-                <p className="data">{expenditure?.income}</p>
+                <p className="data"><span className="currency">&#8358;</span> {expenditure?.income}</p>
               </Col>
             </Row>
           </div>
@@ -53,7 +56,7 @@ export const Church = ({
               </Col>
               <Col xs="9" sm="9" md="9" lg="9" className="pt-3">
                 <p className="data-label">Expenditure</p>
-                <p className="data">{expenditure?.expenses}</p>
+                <p className="data"><span className="currency">&#8358;</span> {expenditure?.expenses}</p>
               </Col>
             </Row>
           </div>
@@ -71,6 +74,97 @@ export const Church = ({
                 <p className="data">{detail?.officers?.length}</p>
               </Col>
             </Row>
+          </div>
+        </Col>
+      </Row>
+      <div className="church-info">
+        <Row className="4">
+          <Col xs="12" sm="12" md="12" lg="12" xl="12">
+            <Table bordered>
+              <thead className="my-table">
+                <th>Head Pastor</th>
+                <th>Branch</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Bank Name</th>
+                <th>Acct. No</th>
+                <th>Acct. Holder</th>
+                <th>Created At</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{detail?.head_pastor}</td>
+                  <td>{detail?.branch}</td>
+                  <td>{detail?.address?.state}</td>
+                  <td>{detail?.address?.city}</td>
+                  <td>{detail?.address?.street}</td>
+                  <td>{detail?.email}</td>
+                  <td>{detail?.phone}</td>
+                  <td>{detail?.bank?.bank_name}</td>
+                  <td>{detail?.bank?.acct_no}</td>
+                  <td>{detail?.bank?.acct_name}</td>
+                  <td>{date.toLocaleDateString()}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </div>
+      <Row className="mt-4">
+        <Col xs="12" sm="12" md="12" lg="6" xl="6">
+          <div className="income-col">
+            <p className="income-table-title">Income Table</p>
+            <Table bordered responsive>
+              <thead className="my-table">
+                <th>Income Category</th>
+                <th>Service Type</th>
+                <th>Amount</th>
+                <th>Created By</th>
+                <th>Date</th>
+              </thead>
+            </Table>
+            <div className="chevron">
+              <div>
+                <FaChevronLeft /><FaChevronRight />
+              </div>
+            </div>
+          </div>
+        </Col>
+        <Col xs="12" sm="12" md="12" lg="6" xl="6">
+          <div className="expenditure-col">
+            <p className="income-table-title">Expenditure Table</p>
+            <Table bordered responsive>
+              <thead className="my-table">
+                <th>Item</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Authorized By</th>
+                <th>Purchased By</th>
+                <th>Date</th>
+              </thead>
+              <tbody>
+                {exp_docs?.length > 0 ? exp_docs.map((e,i) => (
+                  <tr key={i}>
+                    <td>{e?.item}</td>
+                    <td>{e?.unit_price}</td>
+                    <td>{e?.quantity}</td>
+                    <td>{e?.cost}</td>
+                    <td>{e?.authorized_by}</td>
+                    <td>{e?.purchased_by}</td>
+                  </tr>
+                )) : <h4 className="text-center">No Records</h4>}
+                
+              </tbody>
+            </Table>
+            <div className="chevron">
+              <div>
+                <FaChevronLeft /><FaChevronRight />
+              </div>
+            </div>
           </div>
         </Col>
       </Row>
