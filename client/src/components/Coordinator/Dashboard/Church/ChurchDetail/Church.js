@@ -9,13 +9,18 @@ export const Church = ({
   expenditure,
   nextAttr,
   exp_docs,
-  handleNextExp
+  handleNextExp,
+  docs,
+  income_list,
+  handleNextInc,
 }) => {
 
-  console.log(detail, expenditure, " the detail in detail");
   let exp_cost_arr = [];
   exp_docs && exp_docs.forEach(e => exp_cost_arr.push(e.cost));
   const date = new Date(detail?.createdAt);
+
+  let fin_cost_arr = [];
+  docs && docs.forEach(f => fin_cost_arr.push(f.amount))
   return (
     <div>
       <Row>
@@ -120,6 +125,7 @@ export const Church = ({
         <Col xs="12" sm="12" md="12" lg="6" xl="6">
           <div className="income-col">
             <p className="income-table-title">Income Table</p>
+            <p>Total: <strong>&#8358; {fin_cost_arr.reduce((a, b) => a + b, 0)}</strong></p>
             <Table bordered responsive>
               <thead className="my-table">
                 <th>Income Category</th>
@@ -128,10 +134,25 @@ export const Church = ({
                 <th>Created By</th>
                 <th>Date</th>
               </thead>
+              <tbody>
+                {docs && docs.length > 0 ? docs.map((d, i) => {
+                  const c_date = new Date(d?.date)
+                  return (
+                    <tr key={i}>
+                      <td>{d?.category}</td>
+                      <td>{d?.service_type}</td>
+                      <td>{d?.amount}</td>
+                      <td>{d?.createdBy}</td>
+                      <td>{c_date.toLocaleDateString()}</td>
+                    </tr>
+                  )
+                }) : <h4 className="text-center">No Records</h4>}
+              </tbody>
             </Table>
             <div className="chevron">
               <div>
-                <FaChevronLeft id="chev-left" /><FaChevronRight id="chev-right" />
+                <p>Page <strong>{income_list?.page}</strong> of <strong>{income_list?.totalPages}</strong></p>
+                <FaChevronLeft onClick={() => handleNextInc(income_list?.page - 1)} id="chev-left" /><FaChevronRight onClick={() => handleNextInc(income_list?.page + 1)} id="chev-right" />
               </div>
             </div>
           </div>
@@ -139,7 +160,7 @@ export const Church = ({
         <Col xs="12" sm="12" md="12" lg="6" xl="6">
           <div className="expenditure-col">
             <p className="income-table-title">Expenditure Table</p>
-            <p >Total: <strong>{exp_cost_arr && exp_cost_arr.reduce((a, b) => a + b, 0)}</strong></p>
+            <p >Total: <strong>&#8358; {exp_cost_arr && exp_cost_arr.reduce((a, b) => a + b, 0)}</strong></p>
             <Table bordered responsive>
               <thead className="my-table">
                 <th>Item</th>

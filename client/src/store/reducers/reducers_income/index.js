@@ -66,7 +66,6 @@ export const finance = (state=initialState, action) => {
         list_success: true,
         income_list: action.data,
         docs: action.data.docs,
-        error: action.error
       }
     case FETCH_LIST_INCOME_FAILED:
       return {

@@ -16,7 +16,7 @@ const ChurchList = () => {
   const dispatch = useDispatch();
   const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
-  const { docs } = useSelector(state => state.finance);
+  const { docs, income_list } = useSelector(state => state.finance);
   const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
@@ -114,20 +114,33 @@ const ChurchList = () => {
     const offset = page, limit = 2;
     dispatch(fetchExpenditure(detail?._id, offset, limit))
   }
-  console.log(expenditures, " the expenditures")
-  console.log(nextAttr, " the pagination attrinuts")
+  
+  const handleNextInc = (page) => {
+    const offset = page, limit = 2;
+    dispatch(fetchIncome(detail?._id, offset, limit));
+  }
+
   return (
     <div>
       <Card className="church-card">
         <CardBody>
-          
-            {isView ? <Church detail={detail} expenditure={expenditure} handleNextExp={handleNextExp} nextAttr={nextAttr} exp_docs={exp_docs} /> : (
-              <>
+          {isView ? 
+            <Church 
+              detail={detail} 
+              expenditure={expenditure} 
+              handleNextExp={handleNextExp} 
+              nextAttr={nextAttr} 
+              exp_docs={exp_docs} 
+              docs={docs}
+              income_list={income_list}
+              handleNextInc={handleNextInc}
+            /> : (
+            <>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="3" xl="3">
                 <p className="coord-header">Church List</p>
                 </Col>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                {/* <Col xs="12" sm="12" md="12" lg="6" xl="6">
                   <div className="search-container">
                     <Search search_term={search_term} onChange={handleSearch} />
                   </div>
@@ -142,7 +155,7 @@ const ChurchList = () => {
                     </Input>
                     <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               <div>
               {church_list_loading ? (

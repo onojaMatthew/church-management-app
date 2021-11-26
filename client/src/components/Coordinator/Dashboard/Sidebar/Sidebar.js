@@ -40,7 +40,7 @@ const Sidebar = () => {
           <Menu.Item onClick={() => history.push("/coordinator")} key="1" icon={<DashboardOutlined />}>
             Churches
           </Menu.Item>
-          <Menu.Item key="5" onClick={() => history.push("/coordinator/church-list")} icon={<FileOutlined />}>
+          <Menu.Item key="5" onClick={() => history.push("/coordinator/reports")} icon={<FileOutlined />}>
             Reports
           </Menu.Item>
           
