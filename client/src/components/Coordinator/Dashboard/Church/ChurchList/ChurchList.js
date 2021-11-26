@@ -174,7 +174,7 @@ const ChurchList = () => {
                         <p className='church-branch'>{c?.branch}</p>
                         <p className='church-email'>{c?.email}</p>
                         <p className='church-phone'>{c?.phone}</p>
-                        <div className='icon-cont'>
+                        <div className='icon-conts'>
                           <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
                         </div>
                       </div>

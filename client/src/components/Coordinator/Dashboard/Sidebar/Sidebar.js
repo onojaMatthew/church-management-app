@@ -4,7 +4,6 @@ import { Avatar, Image, Layout, Menu } from 'antd';
 import {
   DashboardOutlined,
   FileOutlined,
-  BankFilled,
   LogoutOutlined
 } from '@ant-design/icons';
 import Logo from "../../../../assets/images/User.jpeg";
@@ -26,7 +25,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      history.push("/");
+      history.push("/coordinator-login");
     }
   }, [ logoutSuccess, history ]);
 

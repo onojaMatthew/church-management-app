@@ -142,7 +142,7 @@ export const Church = ({
                       <td>{d?.category}</td>
                       <td>{d?.service_type}</td>
                       <td>{d?.amount}</td>
-                      <td>{d?.createdBy}</td>
+                      <td>{d?.created_by}</td>
                       <td>{c_date.toLocaleDateString()}</td>
                     </tr>
                   )

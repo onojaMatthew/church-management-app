@@ -62,7 +62,7 @@ export const report_by_coordinator = async (req, res) => {
   const { offset, limit } = pagination(req.query);
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
-    const reports = await Report.paginate({ "coordinator._id": coordinatorId }, { offset, limit });
+    const reports = await Report.paginate({ to: coordinatorId }, { offset, limit });
     return res.json(success("Success", reports, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

@@ -69,7 +69,7 @@ export const Reports = () => {
     if (coordinatorId?.length > 0) {
       const offset = 1;
       const limit = 10;
-      dispatch(coordinator_reports(offset, limit));
+      dispatch(coordinator_reports(coordinatorId, offset, limit));
     }
   }, [ dispatch, coordinatorId ]);
 
