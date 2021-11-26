@@ -60,7 +60,7 @@ export const total_finance = async (req, res) => {
     const expenditure = await Expenditure.find({});
     let exp_arr = [];
     let income_arr = [];
-    finance && finance.forEach(i => income_arr.push(i.amount))
+    finance && finance.forEach(i => income_arr.push(i.amount));
     expenditure && expenditure.forEach(e => exp_arr.push(e.cost));
     const result = {
       expenses: formatMoney(exp_arr.reduce((a,b) => a + b, 0)),

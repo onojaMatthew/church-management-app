@@ -18,6 +18,9 @@ export const FILTER_FAILED = "FILTER_FAILED";
 export const SEARCH_START = "SEARCH_START";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILED = "SEARCH_FAILED";
+export const TOTAL_START = "TOTAL_START";
+export const TOTAL_SUCCESS = "TOTAL_SUCCESS";
+export const TOTAL_FAILED = "TOTAL_FAILED";
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -267,5 +270,45 @@ export const search_expenditure = (searchTerm) => {
       .catch(err => {
         dispatch(searchFailed(err.message));
       });
+  }
+}
+
+export const totalStart = () => {
+  return {
+    type: TOTAL_START
+  }
+}
+
+export const totalSuccess = (data) => {
+  return {
+    type: TOTAL_SUCCESS,
+    data
+  }
+}
+
+export const totalFailed = (error) => {
+  return {
+    type: TOTAL_FAILED,
+    error
+  }
+}
+
+export const getTotal = (church) => {
+  return dispatch => {
+    dispatch(totalStart());
+    fetch(`${BASE_URL}/expenditure/total?church=${church}`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(totalFailed(resp.message));
+        dispatch(totalSuccess(resp.results));
+      })
+      .catch(err => dispatch(totalFailed(err.message)));
   }
 }

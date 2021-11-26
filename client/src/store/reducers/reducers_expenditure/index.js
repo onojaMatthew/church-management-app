@@ -17,12 +17,18 @@ import {
   SEARCH_START,
   SEARCH_SUCCESS,
   SEARCH_FAILED,
+  TOTAL_START,
+  TOTAL_SUCCESS,
+  TOTAL_FAILED,
+
 } from "../../actions/actions_expenditure";
 
 const initialState = {
   expenditures: [],
   expenditure: {},
   exp_docs: [],
+  loading: false,
+  success: false,
   expenditure_create_loading: false,
   expenditure_create_success: false,
   expend_list_loading: false,
@@ -162,6 +168,26 @@ export const expenditureReducer = (state=initialState, action) => {
         ...state,
         search_loading: false,
         search_success: false,
+        error: action.error
+      }
+    case TOTAL_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case TOTAL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        expenditure: action.data,
+      }
+    case TOTAL_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
         error: action.error
       }
     default:

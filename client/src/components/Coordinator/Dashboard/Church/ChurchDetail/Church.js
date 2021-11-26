@@ -5,10 +5,11 @@ import { Col, Row } from "reactstrap";
 import "./Church.css";
 
 export const Church = ({
-  detail
+  detail,
+  expenditure,
 }) => {
 
-  console.log(detail, " the detail in detail");
+  console.log(detail, expenditure, " the detail in detail");
   return (
     <div>
       <Row>
@@ -37,7 +38,7 @@ export const Church = ({
               </Col>
               <Col xs="9" sm="9" md="9" lg="9" className="pt-3">
                 <p className="data-label">Income</p>
-                <p className="data">30</p>
+                <p className="data">{expenditure?.income}</p>
               </Col>
             </Row>
           </div>
@@ -52,7 +53,7 @@ export const Church = ({
               </Col>
               <Col xs="9" sm="9" md="9" lg="9" className="pt-3">
                 <p className="data-label">Expenditure</p>
-                <p className="data">30</p>
+                <p className="data">{expenditure?.expenses}</p>
               </Col>
             </Row>
           </div>

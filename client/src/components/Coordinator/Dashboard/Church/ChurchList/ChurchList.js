@@ -8,10 +8,12 @@ import Search from "../../../../SearchComponent/Search";
 import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
+import { getTotal } from "../../../../../store/actions/actions_expenditure";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
   const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
+  const { expenditure } = useSelector(state => state.expenditureReducer);
   const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
@@ -81,12 +83,18 @@ const ChurchList = () => {
     { name: "1 year ago", value: "12 months" }
   ];
 
+  useEffect(() => {
+    if (detail && detail._id?.length > 0) {
+      dispatch(getTotal(detail?._id))
+    }
+  }, [ dispatch, detail ]);
+
   return (
     <div>
       <Card className="church-card">
         <CardBody>
           
-            {isView ? <Church detail={detail} /> : (
+            {isView ? <Church detail={detail} expenditure={expenditure} /> : (
               <>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="3" xl="3">
