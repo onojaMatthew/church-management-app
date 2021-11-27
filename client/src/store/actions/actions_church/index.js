@@ -25,6 +25,13 @@ export const SEARCH_START = "SEARCH_START";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILED = "SEARCH_FAILED";
 
+export const FILTER_START = "FILTER_START";
+export const FILTER_SUCCESS = "FILTER_SUCCESS";
+export const FILTER_FAILED = "FILTER_FAILED";
+
+export const DELETE_START = "DELETE_START";
+export const DELETE_SUCCESS = "DELETE_SUCCESS";
+export const DELETE_FAILED = "DELETE_FAILED";
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -271,5 +278,84 @@ export const search_church = (searchTerm) => {
       })
       .catch(err => dispatch(search_failed(err.message)));
   }
-  
+}
+
+export const filter_start = () => {
+  return {
+    type: FILTER_START
+  }
+}
+
+export const filter_success = (data) => {
+  return {
+    type: FILTER_SUCCESS,
+    data
+  }
+}
+
+export const filter_failed = (error) => {
+  return {
+    type: FILTER_FAILED,
+    error
+  }
+}
+
+export const filter_church = (data) => {
+  return dispatch => {
+    dispatch(filter_start());
+    fetch(`${BASE_URL}/church/filter?time_range=${data}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(filter_failed(resp.message));
+        return dispatch(filter_success(resp.results));
+      })
+      .catch(err => dispatch(filter_failed(err.message)));
+  }
+}
+
+export const delete_start = () => {
+  return {
+    type: DELETE_START
+  }
+}
+
+export const delete_success = (data) => {
+  return {
+    type: DELETE_SUCCESS,
+    data
+  }
+}
+
+export const delete_failed = (error) => {
+  return {
+    type: DELETE_FAILED,
+    error
+  }
+}
+
+export const delete_church = (id) => {
+  return dispatch => {
+    dispatch(delete_start());
+    fetch(`${BASE_URL}/church/delete?church=${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(delete_failed(resp.message));
+        return dispatch(delete_success(resp.results));
+      })
+      .catch(err => dispatch(delete_failed(err.message)));
+  }
 }

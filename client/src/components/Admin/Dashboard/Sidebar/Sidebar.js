@@ -6,7 +6,7 @@ import {
   FileOutlined,
   LogoutOutlined
 } from '@ant-design/icons'; 
-import { FaUserFriends } from "react-icons/fa"
+import { FaUserFriends, FaChurch } from "react-icons/fa"
 import Logo from "../../../../assets/images/User.jpeg";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +34,7 @@ const Sidebar = () => {
     <div className="side-container">
       <Sider>
         <div className="text-center mt-5 mb-4">
-          <Avatar src={<Image src={Logo} />} size={90}/>
+          <Avatar src={<FaChurch size="large" />} size={90}/>
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item onClick={() => history.push("/dashboard")} key="1" icon={<DashboardOutlined />}>
@@ -43,10 +43,10 @@ const Sidebar = () => {
           <Menu.Item key="2" onClick={() => history.push("/dashboard/coordinators")} icon={<FaUserFriends />}>
             Coordinator
           </Menu.Item>
-          <Menu.Item onClick={() => history.push("/dashboard/create-church")} key="3" icon={<FileOutlined />}>
+          <Menu.Item onClick={() => history.push("/dashboard/create-church")} key="3" icon={<FaChurch />}>
             Create Church
           </Menu.Item>
-          <Menu.Item key="4" onClick={() => history.push("/dashboard/church-list")} icon={<FileOutlined />}>
+          <Menu.Item key="4" onClick={() => history.push("/dashboard/church-list")} icon={<FaChurch />}>
             Church List
           </Menu.Item>
           <Menu.Item key="5" onClick={() => history.push("/dashboard/reports")} icon={<FileOutlined />}>

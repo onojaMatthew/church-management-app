@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Spinner, Input, Row, Col } from "reactstrap";
 import { AiOutlineFilter } from "react-icons/ai";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 // import { localAuth } from "../../../../../helper/authenticate";
 import Search from "../../../../SearchComponent/Search";
@@ -10,11 +10,11 @@ import { Church } from "../ChurchDetail/Church";
 import "./ChurchList.css";
 import { fetchExpenditure, getTotal } from "../../../../../store/actions/actions_expenditure";
 import { fetchIncome } from "../../../../../store/actions/actions_finance";
-import { churchList, search_church } from "../../../../../store/actions/actions_church";
+import { churchList, delete_church, filter_church, search_church } from "../../../../../store/actions/actions_church";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
-  const { churches, church_docs, allLoading } = useSelector(state => state.church);
+  const { churches, church_docs, delete_loading, allLoading } = useSelector(state => state.church);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
   const { docs, income_list } = useSelector(state => state.finance);
   const [ filterData, setFilterData ] = useState("");
@@ -120,6 +120,22 @@ const ChurchList = () => {
     dispatch(fetchIncome(detail?._id, offset, limit));
   }
 
+  useEffect(() => {
+    if (search_term?.length > 0) {
+      dispatch(search_church(search_term));
+    }
+  }, [ dispatch, search_church ]);
+
+  useEffect(() => {
+    if (filterData?.length > 0) {
+      dispatch(filter_church(filterData));
+    }
+  }, [ dispatch, filterData ]);
+
+  const handleDelete = (id) => {
+    dispatch(delete_church(id));
+  }
+
   return (
     <div>
       <Card className="church-card">
@@ -174,8 +190,15 @@ const ChurchList = () => {
                         <p className='church-branch'>{c?.branch}</p>
                         <p className='church-email'>{c?.email}</p>
                         <p className='church-phone'>{c?.phone}</p>
-                        <div className='icon-conts'>
+                        <div className='icon-cont'>
                           <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
+                          <p onClick={() => handleDelete(c._id)} className="trash-btn">
+                            {delete_loading ? (
+                              <Spinner color="#fff">
+                                <span className="visually-hidden">Deleting...</span>
+                              </Spinner>
+                            ) : <FaTrash />}
+                          </p>
                         </div>
                       </div>
                     </Col>

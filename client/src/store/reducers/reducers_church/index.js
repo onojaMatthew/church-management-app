@@ -17,6 +17,12 @@ import {
   SEARCH_START,
   SEARCH_SUCCESS,
   SEARCH_FAILED,
+  FILTER_START,
+  FILTER_SUCCESS,
+  FILTER_FAILED,
+  DELETE_START,
+  DELETE_SUCCESS,
+  DELETE_FAILED,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -35,6 +41,10 @@ const initialState = {
   chruch_details_success: false,
   search_loading: false,
   search_success: false,
+  filter_loading: false,
+  filter_success: false,
+  delete_loading: false,
+  delete_success: false,
   error: ""
 }
 
@@ -154,7 +164,7 @@ export const church = (state=initialState, action) => {
         ...state,
         search_loading: false,
         search_success: true,
-        church_docs: action.data.docs,
+        church_docs: action.data,
         churches: action.data,
       }
     case SEARCH_FAILED:
@@ -163,6 +173,46 @@ export const church = (state=initialState, action) => {
         search_loading: false,
         search_success: false,
         error: action.error
+      }
+    case FILTER_START:
+      return {
+        ...state,
+        filter_loading: true,
+        filter_success: false,
+      }
+    case FILTER_SUCCESS:
+      return {
+        ...state,
+        filter_loading: false,
+        filter_success: true,
+        church_docs: action.data,
+      }
+    case FILTER_FAILED:
+      return {
+        ...state,
+        filter_loading: false,
+        filter_success: false,
+        error: action.error,
+      }
+    case DELETE_START:
+      return {
+        ...state,
+        delete_loading: true,
+        delete_success: false,
+      }
+    case DELETE_SUCCESS:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: true,
+        church_docs: state.church_docs.filter(f => f._id !== action.data._id),
+      }
+    case DELETE_FAILED:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: false,
+        error: action.error,
       }
     default:
       return state;

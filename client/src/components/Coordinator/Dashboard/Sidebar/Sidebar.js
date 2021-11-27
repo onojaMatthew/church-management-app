@@ -10,6 +10,7 @@ import Logo from "../../../../assets/images/User.jpeg";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../../store/actions/actions_login";
+import { FaChurch } from "react-icons/fa";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -33,7 +34,7 @@ const Sidebar = () => {
     <div className="side-container">
       <Sider>
         <div className="text-center mt-5 mb-4">
-          <Avatar src={<Image src={Logo} />} size={90}/>
+          <Avatar src={<FaChurch size="large" />} size={90}/>
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item onClick={() => history.push("/coordinator")} key="1" icon={<DashboardOutlined />}>
