@@ -95,10 +95,10 @@ export const report_details = async (req, res) => {
 }
 
 export const coordinator_remark = async (req, res) => {
-  const { reportId, coordinatorId, remark, approval } = req.query;
+  const { reportId, coordinatorId, remark, approval } = req.body;
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
-    let report = await Report.findOne({ _id: reportId, "coordinator._id": coordinatorId });
+    let report = await Report.findOne({ _id: reportId, to: coordinatorId });
     if (!report) return res.status(404).json(error("Report does not exist", res.statusCode));
 
     if (remark) report.coordinator_remark = remark;

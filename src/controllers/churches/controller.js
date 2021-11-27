@@ -10,7 +10,6 @@ import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 import { chartData } from "../../utils/computation";
 import { pagination } from "../../middleware/pagination";
-import { zonalCoordinatorSchema } from "../../models/zonal_coordinator";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -192,8 +191,8 @@ export const dashboardData = async (req, res) => {
   }
 }
 
-export const searchMember = async (req, res) => {
-  const { searchTerm, church } = req.query;
+export const searchChurch = async (req, res) => {
+  const { searchTerm } = req.query;
 
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);

@@ -21,6 +21,10 @@ export const ALL_CHURCH_LIST_START = "ALL_CHURCH_LIST_START";
 export const ALL_CHURCH_LIST_SUCCESS = "ALL_CHURCH_LIST_SUCCESS";
 export const ALL_CHURCH_LIST_FAILED = "ALL_CHURCH_LIST_FAILED";
 
+export const SEARCH_START = "SEARCH_START";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_FAILED = "SEARCH_FAILED";
+
 
 const BASE_URL = process.env.REACT_APP_URL;
 
@@ -212,19 +216,60 @@ export const all_church_list_failed = (error) => {
 export const fetch_all_church = () => {
   return dispatch => {
     dispatch(all_church_list_start());
-  fetch(`${BASE_URL}/church/all/list`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      ACCEPT: "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .then(resp => {
-      if (resp.error) return dispatch(all_church_list_failed(resp.message));
-      return dispatch(all_church_list_success(resp.results));
+    fetch(`${BASE_URL}/church/all/list`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
     })
-    .catch(err => dispatch(all_church_list_failed(err.message)));
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(all_church_list_failed(resp.message));
+        return dispatch(all_church_list_success(resp.results));
+      })
+      .catch(err => dispatch(all_church_list_failed(err.message)));
   }
+}
+
+export const search_start = () => {
+  return {
+    type: SEARCH_START
+  }
+}
+
+export const search_success = (data) => {
+  return {
+    type: SEARCH_SUCCESS,
+    data
+  }
+}
+
+export const search_failed = (error) => {
+  return {
+    type: SEARCH_FAILED,
+    error
+  }
+}
+
+export const search_church = (searchTerm) => {
+  return dispatch => {
+    dispatch(search_start());
+    fetch(`${BASE_URL}/church/search?searchTerm=${searchTerm}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(search_failed(resp.message));
+        return dispatch(search_success(resp.results));
+      })
+      .catch(err => dispatch(search_failed(err.message)));
+  }
+  
 }

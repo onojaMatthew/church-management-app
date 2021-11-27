@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Table, Spinner, Input, Row, Col } from "reactstrap";
-import { EyeOutlined } from "@ant-design/icons";
+import { Card, CardBody, Spinner, Input, Row, Col } from "reactstrap";
+import { AiOutlineFilter } from "react-icons/ai";
+import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { churchList } from "../../../../../store/actions/actions_church";
+// import { localAuth } from "../../../../../helper/authenticate";
+import Search from "../../../../SearchComponent/Search";
+import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
+import { fetchExpenditure, getTotal } from "../../../../../store/actions/actions_expenditure";
+import { fetchIncome } from "../../../../../store/actions/actions_finance";
+import { churchList, search_church } from "../../../../../store/actions/actions_church";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
-  const [ searchTerm, setSearchTerm ] = useState("");
-  const { churches, allLoading } = useSelector(state => state.church);
+  const { churches, church_docs, allLoading } = useSelector(state => state.church);
+  const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
+  const { docs, income_list } = useSelector(state => state.finance);
+  const [ filterData, setFilterData ] = useState("");
+  const [ detail, setChurchDetail ] = useState({});
+  const [ search_term, setSearchTerm ] = useState("");
+  const [ nextAttr, setNextArr ] = useState({ totalPages: "", page: "", nextPage: "", prevPage: "" });
+  const [ isView, setIsView ] = useState(false);
+  
 
   useEffect(() => {
     const offset = 1;
@@ -25,6 +38,7 @@ const ChurchList = () => {
     dispatch(churchList(data));
   }
 
+
   const totalPages = churches?.totalPages;
   const page = churches?.page;
   const prevPage = churches?.prevPage;
@@ -35,74 +49,165 @@ const ChurchList = () => {
     paginateArr.push(i);
   }
 
+  const toggleView = (id) => {
+    const detail = church_docs.find(f => f._id === id);
+    setChurchDetail(detail);
+    setIsView(!isView);
+  }
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  }
+
+  useEffect(() => {
+    if (search_term.length > 0) {
+      dispatch(search_church(search_term))
+    }
+  }, [ search_term ]);
+
+  useEffect(() => {
+    if (filterData.length > 0) {
+      // dispatch(filter_coordinators(filterData));
+    }
+  }, [ filterData ]);
+
+  const handleFilterChange = (e) => {
+    const { value } = e.target;
+
+    setFilterData(value)
+  }
+
+  const filters = [
+    { name: "All", value: "all"},
+    { name: "24 hours", value: "1 days" },
+    { name: "Last 1 week", value: "1 weeks" },
+    { name: "Last 2 week", value: "2 weeks" },
+    { name: "Last 3 week", value: "3 weeks" },
+    { name: "1 month ago", value: "1 months" },
+    { name: "3 months ago", value: "3 months" },
+    { name: "6 months ago", value: "6 months" },
+    { name: "1 year ago", value: "12 months" }
+  ];
+
+  useEffect(() => {
+    if (detail && detail._id?.length > 0) {
+      const offset = 1;
+      const limit = 2;
+      dispatch(getTotal(detail?._id));
+      dispatch(fetchExpenditure(detail?._id, offset, limit));
+      dispatch(fetchIncome(detail?._id, offset, limit));
+    }
+  }, [ dispatch, detail ]);
+
+  useEffect(() => {
+    if (expenditures) {
+      setNextArr({
+        page: expenditures?.page,
+        totalPages: expenditures?.totalPages,
+        nextPage: expenditures?.nextPage,
+        prevPage: expenditures?.nextPage
+      })
+    }
+  }, [ expenditures ])
+
+  const handleNextExp = (page) => {
+    const offset = page, limit = 2;
+    dispatch(fetchExpenditure(detail?._id, offset, limit))
+  }
+  
+  const handleNextInc = (page) => {
+    const offset = page, limit = 2;
+    dispatch(fetchIncome(detail?._id, offset, limit));
+  }
+
   return (
     <div>
       <Card className="church-card">
         <CardBody>
-          <Row>
-            <Col xs="12" sm="12" md="12" lg="3" xl="3">
-              <h1>Church List</h1>  
-            </Col>
-            <Col xs="12" sm="12" md="12" lg="9" xl="9">
-              <Input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search..." />
-            </Col>
-          </Row>
-          <Table responsive>
-            <thead>
-              <th>S/N</th>
-              <th>Head Pastor</th>
-              <th>Branch</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Street</th>
-              <th>City</th>
-              <th>State</th>
-              <th>View Detail</th>
-            </thead>
-            <tbody className="mt-4">
-              {allLoading ? 
-                <div className="text-center">
-                  <Spinner animation="grow" color="info">
+          {isView ? 
+            <Church 
+              detail={detail} 
+              expenditure={expenditure} 
+              handleNextExp={handleNextExp} 
+              nextAttr={nextAttr} 
+              exp_docs={exp_docs} 
+              docs={docs}
+              income_list={income_list}
+              handleNextInc={handleNextInc}
+            /> : (
+            <>
+              <Row>
+                <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                <p className="coord-header">Church List</p>
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                  <div className="search-container">
+                    <Search search_term={search_term} onChange={handleSearch} />
+                  </div>
+                </Col>
+                <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                  <div className="filter-container">
+                    <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
+                      <option disabled={true}>Filter expenditure</option>
+                      {filters.map((t, i) => (
+                        <option value={t.value} key={i}>{t.name}</option>
+                      ))}
+                    </Input>
+                    <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
+                  </div>
+                </Col>
+              </Row>
+              <div>
+              {allLoading ? (
+                <div className="text-center spin">
+                  <Spinner className="my-loader">
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
-                </div> : 
-                churches && churches.docs && churches.docs.length > 0 ? churches.docs.map((church, i) => (
-                  <tr key={church && church._id}>
-                    <td>{i+1}</td>
-                    <td>{church && church.head_pastor}</td>
-                    <td>{church && church.branch}</td>
-                    <td>{church && church.email}</td>
-                    <td>{church && church.phone}</td>
-                    <td>{church && church.address && church.address.street}</td>
-                    <td>{church && church.address && church.address.city}</td>
-                    <td>{church && church.address && church.address.state}</td>
-                    <td className="view-church" onClick={() => window.location.href=`/church/${church && church.subdomain_name}`}>View <EyeOutlined size="large" /></td>
-                  </tr>
-                )) : <h2 className="text-center mt-5">No records found</h2>}
-            </tbody>
-          </Table>
-            <div className="justify-content-center">
-              {churches && churches.totalPages && churches.totalPages > 1 ? (
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-center mt-5">
-                    <li className="page-item">
-                      <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </span>
-                    </li>
-                    {paginateArr && paginateArr.map((p, i) => (
-                      <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
-                    ))}
-                    
-                    <li className="page-item">
-                      <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </span>
-                    </li>
-                  </ul>
-                </nav>
-              ) : null}
-            </div>
+                </div>
+              ) : (
+                <div>
+                  <Row>
+                  {church_docs && church_docs.length > 0 ? church_docs.map((c, i) => (
+                    <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
+                      <div className="church-list-card" key>
+                        <p className="church-name">{c?.head_pastor}</p>
+                        <p className='church-branch'>{c?.branch}</p>
+                        <p className='church-email'>{c?.email}</p>
+                        <p className='church-phone'>{c?.phone}</p>
+                        <div className='icon-conts'>
+                          <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
+                        </div>
+                      </div>
+                    </Col>
+                  )) : <h2 className="text-center">No Records Found</h2>}
+                  </Row>
+                </div>
+              )}
+              </div>
+              <div className="justify-content-center">
+                {totalPages > 1 ? (
+                  <nav aria-label="Page navigation example">
+                    <ul className="pagination justify-content-center mt-5">
+                      <li className="page-item">
+                        <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </span>
+                      </li>
+                      {paginateArr && paginateArr.map((p, i) => (
+                        <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                      ))}
+                      
+                      <li className="page-item">
+                        <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </nav>
+                ) : null}
+              </div>
+            </>
+          )}
         </CardBody>  
       </Card>
     </div>

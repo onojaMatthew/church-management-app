@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router";
 import styled from 'styled-components';
 import Burger from './Burger';
+import { FaChurch } from "react-icons/fa";
 
 const Nav = styled.nav`
   width: 100%;
@@ -18,13 +20,19 @@ const Nav = styled.nav`
     height: 60px;
     box-shadow: 0px 1px rgba(0, 0, 0, 0.125);
   }
+  .church-icon {
+    width: 50px;
+    height: 35px;
+    cursor: pointer;
+  }
 `
 
 const Navbar = () => {
+  const history = useHistory();
   return (
     <Nav>
       <div className="logo">
-        Nav Bar
+        <FaChurch onClick={() => history.push("/coordinator")} className="church-icon" />
       </div>
       <Burger />
     </Nav>

@@ -4,7 +4,7 @@ import { Card, CardBody, Col, Row, Input, Spinner } from "reactstrap";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { filter_report, go_remark, reportList, searchReport, deleteReport, coordinator_reports } from "../../../../store/actions/actions_report";
+import { filter_report, coordinator_remark, reportList, searchReport, deleteReport, coordinator_reports } from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 import { localAuth } from "../../../../helper/authenticate";
 
@@ -93,12 +93,14 @@ export const Reports = () => {
 
   const handleSubmit = () => {
     const data = {
-      remark, approval,
-      reportId: report && report?._id
+      remark, 
+      approval,
+      reportId: report && report?._id,
+      coordinatorId,
     }
 
 
-    dispatch(go_remark(data));
+    dispatch(coordinator_remark(data));
   }
 
   useEffect(() => {
@@ -210,7 +212,6 @@ export const Reports = () => {
           </Col>
         </Row> 
       )}
-      
     </div>
   );
 }

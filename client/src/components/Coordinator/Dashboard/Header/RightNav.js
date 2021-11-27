@@ -43,16 +43,14 @@ const RightNav = ({ open }) => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      history.push("/");
+      history.push("/coordinator-login");
     }
   }, [ logoutSuccess, history ]);
 
   return (
     <Ul open={open}>
-      <li onClick={() => history.push("/dashboard")}>Dashboard</li>
-      <li onClick={() => history.push("/dashboard/admins")}>Manage Admins</li>
-      <li onClick={() => history.push("/dashboard/create-church")}>Create Church</li>
-      <li onClick={() => history.push("/dashboard/church-list")}>Church List</li>
+      <li onClick={() => history.push("/coordinator")}>Dashboard</li>
+      <li onClick={() => history.push("/coordinator/reports")}>Reports</li>
       <li onClick={onLogout}>Logout</li>
     </Ul>
   )

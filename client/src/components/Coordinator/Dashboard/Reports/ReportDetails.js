@@ -14,8 +14,7 @@ export const ReportDetails = ({
   handleChange,
   report,
 }) => {
-  const [ isOpen, setIsOpen ] = useState(false);
-  console.log(report, " report details")
+  
   const date_data = report && report.createdAt.split("T");
   const date = date_data[0];
   const time = date_data[1];
@@ -58,17 +57,14 @@ export const ReportDetails = ({
               <p><FaInfo className="approval-info-icon" /> <span className="info-note">You can click on the check box to approve report only if you're satisfied with the it else, you can just leave a comment</span></p>
               
               <label> 
-                {report.gco_approval_remark?.approved ? 
-                <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} name="approval" onChange={(e) => handleChange(e)} /> :
-                <Input className="go-check" type='checkbox' name="approval" onChange={(e) => handleChange(e)} />
-
-                }
+                <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} /> 
+                
                  G.O
               </label> {" "}
               <label>
                 { report?.coordinator_approval ? 
                 <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> :
-                <Input className="coordinator-check" type='checkbox' /> 
+                <Input className="coordinator-check" type='checkbox' name="approval" onChange={(e) => handleChange(e)} /> 
               } Coordinator
                 
               </label><br /><br />

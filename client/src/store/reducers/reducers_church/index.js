@@ -14,6 +14,9 @@ import {
   ALL_CHURCH_LIST_START,
   ALL_CHURCH_LIST_SUCCESS,
   ALL_CHURCH_LIST_FAILED,
+  SEARCH_START,
+  SEARCH_SUCCESS,
+  SEARCH_FAILED,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -30,6 +33,8 @@ const initialState = {
   allListLoading: false,
   church_details_loading: false,
   chruch_details_success: false,
+  search_loading: false,
+  search_success: false,
   error: ""
 }
 
@@ -136,6 +141,27 @@ export const church = (state=initialState, action) => {
         ...state,
         allListLoading: false,
         allListSuccess: false,
+        error: action.error
+      }
+    case SEARCH_START:
+      return {
+        ...state,
+        search_loading: true,
+        search_success: false
+      }
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: true,
+        church_docs: action.data.docs,
+        churches: action.data,
+      }
+    case SEARCH_FAILED:
+      return {
+        ...state,
+        search_loading: false,
+        search_success: false,
         error: action.error
       }
     default:
