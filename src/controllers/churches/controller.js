@@ -33,7 +33,7 @@ export const createChurch = async (req, res) => {
     const roleData = await Role.findById({ _id: role });
     const isExists = await Church.findOne({ email });
     const subdomain_name = branch.split(" ").join("-");
-    const subdomain_link = `https://${req.hostname}/church`;
+    const subdomain_link = `https://${req.hostname}/church-login`;
     if (isExists) return res.status(400).json(error("Church already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 15);
     let church = new Church({ 
@@ -111,7 +111,7 @@ export const churchList = async (req, res) => {
   const { offset, limit } = pagination(req.query);
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const churchList = await Church.paginate({}, { offset, limit });
+    const churchList = await Church.paginate({}, { offset, limit, sort: { createdAt: -1 } });
     if (!churchList) return res.json(success("No records found", churchList, res.statusCode))
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
@@ -122,7 +122,7 @@ export const churchList = async (req, res) => {
 export const allChurches = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const churchList = await Church.find({});
+    const churchList = await Church.find({}).sort({ createdAt: -1 });
     if (!churchList) return res.json(success("No records found", churchList, res.statusCode))
     return res.json(success("Success", churchList, res.statusCode));
   } catch (err) {
@@ -233,7 +233,7 @@ export const searchChurch = async (req, res) => {
           },
         }
       ]
-    }}]);
+    }}]).sort({ createdAt: -1 });
 
     return res.json(success("Success", searchResult, res.statusCode));
   } catch (err) {
@@ -261,7 +261,7 @@ export const church_filter = async (req, res) => {
     }
 
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const church = await Church.find({ createdAt: { $gte: date_ago }});
+    const church = await Church.find({ createdAt: { $gte: date_ago }}).sort({ createdAt: -1 });
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

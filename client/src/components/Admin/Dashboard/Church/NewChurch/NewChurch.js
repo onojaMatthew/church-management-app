@@ -38,7 +38,6 @@ const NewChurch = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name==="state") {
-      console.log(value, " the handle change")
       const state_split = value.split(" ");
       setStateCode(state_split[state_split.length - 1]);
     }
@@ -82,7 +81,6 @@ const NewChurch = () => {
   const allStates = State.getStatesOfCountry("NG");
   const cities = City.getCitiesOfState("NG", stateCode && stateCode)
 
-  console.log(cities);
   return (
     <div>
       <Row className="mt-3">
