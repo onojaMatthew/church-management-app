@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { roleList } from "../../../../../store/actions/actions_role";
 import { success, errorMsg } from "../../../../../helper/message";
 import { post_church } from "../../../../../store/actions/actions_church";
+import { State, City } from "country-state-city";
 
 const NewChurch = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
+  const [ stateCode, setStateCode ] = useState("");
   const { postLoading, postSuccess, error } = useSelector(state => state.church);
   const history = useHistory();
   const [ values, setValues ] = useState({ 
@@ -35,6 +37,11 @@ const NewChurch = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name==="state") {
+      console.log(value, " the handle change")
+      const state_split = value.split(" ");
+      setStateCode(state_split[state_split.length - 1]);
+    }
     setValues({ ...values, [name]: value });
   }
 
@@ -72,6 +79,10 @@ const NewChurch = () => {
     dispatch(post_church(data));
   }
 
+  const allStates = State.getStatesOfCountry("NG");
+  const cities = City.getCitiesOfState("NG", stateCode && stateCode)
+
+  console.log(cities);
   return (
     <div>
       <Row className="mt-3">
@@ -100,17 +111,27 @@ const NewChurch = () => {
               </Row>
               <Row>
                 <Col xs="12" sm="12" md="12" lg="4" xl="4">
+                  <label>State *</label>
+                  <Input type="select" onChange={(e) => handleChange(e)} name="state">
+                    <option>State</option>
+                    {allStates && allStates.map((s, i) => {
+                      return <option key={i} value={`${s.name} ${s.isoCode}`}>{s.name}</option>
+                    })}
+                  </Input>
+                </Col> 
+                <Col xs="12" sm="12" md="12" lg="4" xl="4">
+                  <label>Select City</label>
+                  <Input type="select" onChange={(e) => handleChange(e)} name="city">
+                    <option>City</option>
+                    {cities && cities.map((s, i) => {
+                      return <option key={i} value={s.name}>{s.name}</option>
+                    })}
+                  </Input>
+                </Col> 
+                <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Street</label>
                   <Input placeholder="Enter street" onChange={(e) => handleChange(e)} value={street} name="street" />
                 </Col>
-                <Col xs="12" sm="12" md="12" lg="4" xl="4">
-                  <label>City</label>
-                  <Input placeholder="Enter city name" onChange={(e) => handleChange(e)} value={city} name="city" />
-                </Col> 
-                <Col xs="12" sm="12" md="12" lg="4" xl="4">
-                  <label>State</label>
-                  <Input placeholder="Enter state" onChange={(e) => handleChange(e)} value={state} name="state" />
-                </Col> 
               </Row>
               
               <Row>

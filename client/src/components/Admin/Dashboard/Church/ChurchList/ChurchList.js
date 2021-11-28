@@ -148,6 +148,7 @@ const ChurchList = () => {
               nextAttr={nextAttr} 
               exp_docs={exp_docs} 
               docs={docs}
+              toggleView={toggleView}
               income_list={income_list}
               handleNextInc={handleNextInc}
             /> : (

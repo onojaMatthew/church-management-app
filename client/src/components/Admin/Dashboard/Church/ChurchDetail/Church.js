@@ -1,5 +1,5 @@
 import React from "react";
-import { FaChevronLeft, FaChevronRight, FaUsers } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaUsers, FaArrowCircleLeft } from "react-icons/fa";
 import { Col, Row, Table } from "reactstrap";
 
 import "./Church.css";
@@ -13,6 +13,7 @@ export const Church = ({
   docs,
   income_list,
   handleNextInc,
+  toggleView,
 }) => {
 
   let exp_cost_arr = [];
@@ -23,6 +24,7 @@ export const Church = ({
   docs && docs.forEach(f => fin_cost_arr.push(f.amount))
   return (
     <div>
+      <FaArrowCircleLeft onClick={() => toggleView(false)} style={{ fontSize: 30, marginBottom: 15, cursor: "pointer" }} />
       <Row>
         <Col xs="12" sm="12" md="12" lg="3" xl="3" className="church-det-col">
           <div className="detail-card">
