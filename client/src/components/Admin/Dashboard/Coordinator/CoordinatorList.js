@@ -143,7 +143,6 @@ export const CoordinatorList = () => {
     }
   }, [ filterData ]);
 
-  console.log(roles, " the roles")
   return (
     <div>
       {isView ? 
