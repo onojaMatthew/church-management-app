@@ -13,6 +13,7 @@ import {
   updateChurch,
   searchChurch,
   church_filter,
+  adminData,
 } from "./controller";
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get("/church/all", verifyToken, grantAccess("readAny", "super admin"), ch
 router.get("/church/dashbord_data", verifyToken, grantAccess("readOwn", "church"), dashboardData)
 router.get("/church/detail/:churchId", verifyToken, grantAccess("readAny", "super admin"), churchDetails);
 router.get("/church/search", verifyToken, grantAccess("readAny", "super admin"), searchChurch);
+router.get("/church/admin_data", verifyToken, grantAccess("readAny", "super admin"), adminData);
 router.get("/church/filter", verifyToken, grantAccess("readAny", "super admin"), church_filter);
 router.get("/church/all/list", verifyToken, grantAccess("readAny", "super admin"), allChurches);
 router.put("/church/update/:churchId", verifyToken, grantAccess("updateAny", "super admin"), updateChurch);

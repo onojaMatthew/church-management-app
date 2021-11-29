@@ -5,11 +5,15 @@ import { churchSchema } from "../../models/church";
 import { memberSchema } from "../../models/member";
 import { officeSchema } from "../../models/office";
 import { groupSchema } from "../../models/group";
+import { zonalCoordinatorSchema } from "../../models/zonal_coordinator";
 import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 import { chartData } from "../../utils/computation";
 import { pagination } from "../../middleware/pagination";
+import { financeSchema } from "../../models/finance";
+import { expenditureSchema } from "../../models/expenditure";
+import { expenditure } from "../expenditure/controller";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -268,3 +272,64 @@ export const church_filter = async (req, res) => {
   }
 }
 
+export const adminData = async (req, res) => {
+  try {
+    let incomeObj = {};
+    let expenditureObj = {};
+    let coordinatorObj = {};
+    let memberObj = {};
+    let members = [];
+    let income = [];
+    let expenditure = [];
+    let income_arr = [];
+    let expenditure_arr = [];
+
+    const Church = await getModelByChurch( "hostdatabase", "Church", churchSchema);    
+
+    let churches = await Church.find({});
+
+    const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
+    const coordinators = await Coordinator.find({});
+
+    if (churches.length > 0) {
+      for (let church of churches) {
+        const id = church && church._id;
+        const Member = await getModelByChurch( id, "Member", memberSchema);
+        const Income = await getModelByChurch(id, "Finance", financeSchema);
+        const Expenditure = await getModelByChurch(id, "Expenditure", expenditureSchema);
+        const church_expenses = await Expenditure.find({});
+        const church_members = await Member.find({});
+        const church_income = await Income.find({});
+        if (church_members) members.push(church_members);
+        if (church_income) income.push(church_income);
+        if (church_expenses) expenditure.push(church_expenses);
+      }
+    }
+
+    const flattened_income = income.flat();
+    const flattened_expenses = expenditure.flat();
+    flattened_income.forEach(i => {
+      income_arr.push(i.amount);
+    });
+
+    flattened_expenses.forEach(e => {
+      expenditure_arr.push(e.cost);
+    });
+    
+    incomeObj["totalIncome"] = income_arr.reduce((a,b) => a + b, 0);
+    expenditureObj["totalExpenses"] = expenditure_arr.reduce((a,b) => a + b, 0);
+    const flattened_members = members.flat();
+    if (coordinators) coordinatorObj["totalCoordinator"] = coordinators && coordinators.length;
+
+    memberObj["totalMember"] = flattened_members.length;
+
+    const male_members = flattened_members && flattened_members.filter(m => m.sex === "male");
+    const female_members = flattened_members && flattened_members.filter(m => m.sex === "female");
+    const chart_data = chartData({ male_members, female_members });
+    const result = { coordinatorObj, expenditureObj, incomeObj, memberObj, chart_data };
+
+    return res.json(success("Success", result, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
