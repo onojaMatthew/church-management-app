@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Row, Col, Card, CardBody } from "reactstrap";
-import { Avatar, Image } from "antd";
+import { Row, Col, Card, CardBody, Spinner } from "reactstrap";
+import { Avatar, Image, message } from "antd";
 import Charts from "../../../Chart/Chart";
 import { localAuth } from "../../../../helper/authenticate";
 import User from "../../../../assets/images/User.jpeg";
@@ -8,14 +8,26 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "./Home.css";
 import { churchList } from "../../../../store/actions/actions_church";
+import { admin_data } from "../../../../store/actions/actions_dashboard_data";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { churches } = useSelector(state => state.church);
+  const { loading, error, data } = useSelector(state => state.dashboard_data);
   const admin = localAuth() && localAuth().user;
   useEffect(() => {
     dispatch(churchList());
+    dispatch(admin_data());
   }, [ dispatch ]);
+
+  useEffect(() => {
+    if (error?.length > 0) {
+      message.error(error);
+    }
+  });
+
+  console.log(data, " dasboard data");
+  const { chart_data, coordinatorObj, memberObj, churchObj, expenditureObj, incomeObj } = data;
 
   return (
     <div>
@@ -38,7 +50,7 @@ const Dashboard = () => {
                   <div className="fcard-p">Number of Churches</div>
                 </Col>
                 <Col xs="3" sm="3" md="3" lg="3">
-                  <span className="c-number">{churches && churches.length > 0 ? churches.length : 0}</span>
+                  <span className="c-number">{churchObj && churchObj.totalChurch ? churchObj.totalChurch : 0}</span>
                 </Col>
               </Row>
             </CardBody>
@@ -49,10 +61,10 @@ const Dashboard = () => {
             <CardBody>
               <Row>
                 <Col xs="9" sm="9" md="9" lg="9">
-                  <div className="fcard-p">Times of Watching</div>
+                  <div className="fcard-p">Number of Members</div>
                 </Col>
                 <Col xs="3" sm="3" md="3" lg="3">
-                  <span className="c-number">100</span>
+                  <span className="c-number">{memberObj && memberObj.totalMember ? memberObj.totalMember : 0}</span>
                 </Col>
               </Row>
             </CardBody>
@@ -63,16 +75,16 @@ const Dashboard = () => {
             <CardBody>
               <Row>
                 <Col xs="9" sm="9" md="9" lg="9">
-                  <div className="fcard-p">Upcoming Programs</div>
+                  <div className="fcard-p">number of Coordinators</div>
                 </Col>
                 <Col xs="3" sm="3" md="3" lg="3">
-                  <span className="c-number">100</span>
+                  <span className="c-number">{coordinatorObj && coordinatorObj.totalCoordinator ? coordinatorObj.totalCoordinator : 0}</span>
                 </Col>
               </Row>
             </CardBody>
           </Card>
         </Col>
-        <Col xs="12" sm="12" md="12" lg="3" xl="3" className="fcard">
+        {/* <Col xs="12" sm="12" md="12" lg="3" xl="3" className="fcard">
           <Card>
             <CardBody>
               <Row>
@@ -85,84 +97,75 @@ const Dashboard = () => {
               </Row>
             </CardBody>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
 
-      <Row className="mt-4">
-        <Col className="chart-area" xs="12" sm="12" md="12" lg="6" xl="6">
-          <Card className="rp-container">
-            <CardBody>
-              <Row>
-                <Col className="report-card" xs="10" sm="10" md="10" lg="10">
-                  <h1 className="">Monthly Report</h1>
-                </Col>
-                <Col xs="2" sm="2" md="2" lg="2">
-                  {/* <span className="c-number">100</span> */}
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Charts />
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        </Col>
+      {loading ?
+        <div className="text-center spin">
+          <Spinner className="my-loader">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div> : (
+          <Row className="mt-4">
+          <Col className="chart-area" xs="12" sm="12" md="12" lg="6" xl="6">
+            <Card className="rp-container">
+              <CardBody>
+                <Row>
+                  <Col>
+                    <Charts chart_data={chart_data} />
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
 
-        <Col className="report-l" xs="12" sm="12" md="12" lg="6" xl="6">
-          <Card className="rp-container">
-            <CardBody>
-              <Row className="mb-5">
-                <Col className="report-card" xs="10" sm="10" md="10" lg="10">
-                  <h1 className="">Summary of Reports</h1>
-                </Col>
-                <Col xs="2" sm="2" md="2" lg="2">
-                  {/* <p className="">100</p> */}
-                </Col>
-              </Row>
+          <Col className="report-l" xs="12" sm="12" md="12" lg="6" xl="6">
+            <Card className="rp-container">
+              <CardBody>
+                <Row>
+                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                    <Card className="st-card">
+                      <CardBody>
+                        <h1 className="text-center">Income</h1>
+                        <p className="text-center">&#8358;{incomeObj?.totalIncome}</p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                    <Card className="st-card2">
+                      <CardBody>
+                        <h1 className="text-center">Expenses</h1>
+                        <p className="text-center">{expenditureObj?.totalExpenses}</p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
 
-              <Row>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <Card className="st-card">
-                    <CardBody>
-                      <h1 className="text-center">Income</h1>
-                      <p className="text-center">&#8358;8,833,000</p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <Card className="st-card2">
-                    <CardBody>
-                      <h1 className="text-center">Admins</h1>
-                      <p className="text-center">40</p>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
+                <Row className="mt-4">
+                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                    <Card className="st-card3">
+                      <CardBody>
+                        <h1 className="text-center">Branches</h1>
+                        <p className="text-center">300</p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                    <Card className="st-card4">
+                      <CardBody>
+                        <h1 className="text-center">Members</h1>
+                        <p className="text-center">{memberObj?.totalMember}</p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
 
-              <Row className="mt-4">
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <Card className="st-card3">
-                    <CardBody>
-                      <h1 className="text-center">Branches</h1>
-                      <p className="text-center">300</p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <Card className="st-card4">
-                    <CardBody>
-                      <h1 className="text-center">Members</h1>
-                      <p className="text-center">34000</p>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>  
+        )}
+      
     </div>
   );
 }

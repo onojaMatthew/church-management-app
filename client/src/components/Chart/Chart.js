@@ -2,9 +2,10 @@ import React from "react";
 
 import { Chart } from "react-google-charts";
 
-const Charts = ({data}) => {
-  const female_chart_arr = data && data.female_chart_arr;
-  const male_chart_arr = data && data.male_chart_arr;
+const Charts = (data) => {
+  console.log(data, " the chart data")
+  const female_chart_arr = data?.chart_data && data.chart_data?.female_chart_arr;
+  const male_chart_arr = data?.chart_data && data.chart_data?.male_chart_arr;
 
   const chartData = [
     ['Label', 'Female Members', 'Male Members'],

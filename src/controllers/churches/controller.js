@@ -13,7 +13,7 @@ import { chartData } from "../../utils/computation";
 import { pagination } from "../../middleware/pagination";
 import { financeSchema } from "../../models/finance";
 import { expenditureSchema } from "../../models/expenditure";
-import { expenditure } from "../expenditure/controller";
+import { formatMoney } from "../../middleware/num_formatter";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -283,6 +283,7 @@ export const adminData = async (req, res) => {
     let expenditure = [];
     let income_arr = [];
     let expenditure_arr = [];
+    let churchObj = {};
 
     const Church = await getModelByChurch( "hostdatabase", "Church", churchSchema);    
 
@@ -316,17 +317,17 @@ export const adminData = async (req, res) => {
       expenditure_arr.push(e.cost);
     });
     
-    incomeObj["totalIncome"] = income_arr.reduce((a,b) => a + b, 0);
-    expenditureObj["totalExpenses"] = expenditure_arr.reduce((a,b) => a + b, 0);
+    incomeObj["totalIncome"] = formatMoney(income_arr.reduce((a,b) => a + b, 0));
+    expenditureObj["totalExpenses"] = formatMoney(expenditure_arr.reduce((a,b) => a + b, 0));
     const flattened_members = members.flat();
     if (coordinators) coordinatorObj["totalCoordinator"] = coordinators && coordinators.length;
 
     memberObj["totalMember"] = flattened_members.length;
-
+    churchObj["totalChurch"] = churches && churches.length;
     const male_members = flattened_members && flattened_members.filter(m => m.sex === "male");
     const female_members = flattened_members && flattened_members.filter(m => m.sex === "female");
     const chart_data = chartData({ male_members, female_members });
-    const result = { coordinatorObj, expenditureObj, incomeObj, memberObj, chart_data };
+    const result = { coordinatorObj, expenditureObj, incomeObj, memberObj, chart_data, churchObj };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {

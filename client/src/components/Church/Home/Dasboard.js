@@ -129,16 +129,8 @@ const Dashboard = () => {
               <Card className="rp-container">
                 <CardBody>
                   <Row>
-                    <Col className="report-card" xs="10" sm="10" md="10" lg="10">
-                      <h1 className="">Monthly Report</h1>
-                    </Col>
-                    <Col xs="2" sm="2" md="2" lg="2">
-                      {/* <span className="c-number">100</span> */}
-                    </Col>
-                  </Row>
-                  <Row>
                     <Col>
-                      <Charts data={data && data.chart_data} />
+                      <Charts chart_data={data && data.chart_data} />
                     </Col>
                   </Row>
                 </CardBody>
@@ -148,15 +140,6 @@ const Dashboard = () => {
             <Col className="report-l" xs="12" sm="12" md="12" lg="6" xl="6">
               <Card className="rp-container">
                 <CardBody>
-                  <Row className="mb-5">
-                    <Col className="report-card" xs="10" sm="10" md="10" lg="10">
-                      <h1 className="">Summary of Reports</h1>
-                    </Col>
-                    <Col xs="2" sm="2" md="2" lg="2">
-                      {/* <p className="">100</p> */}
-                    </Col>
-                  </Row>
-    
                   <Row>
                     <Col xs="12" sm="12" md="12" lg="6" xl="6">
                       <Card className="st-card">
