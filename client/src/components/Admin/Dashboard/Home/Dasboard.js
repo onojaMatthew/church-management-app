@@ -146,7 +146,7 @@ const Dashboard = () => {
                     <Card className="st-card3">
                       <CardBody>
                         <h1 className="text-center">Branches</h1>
-                        <p className="text-center">300</p>
+                        <p className="text-center">{churchObj?.totalChurch}</p>
                       </CardBody>
                     </Card>
                   </Col>
