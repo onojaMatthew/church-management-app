@@ -15,6 +15,7 @@ import financeRoutes from "../controllers/finance/router";
 import expenditureRoutes from "../controllers/expenditure/router";
 import coordinatorRoutes from "../controllers/coordinator/router";
 import reportRoutes from "../controllers/report/router";
+import pastorRoutes from "../controllers/resident_pastor/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -33,5 +34,6 @@ export default (app) => {
   app.use("/api/v1", expenditureRoutes);
   app.use("/api/v1", coordinatorRoutes);
   app.use("/api/v1", reportRoutes);
+  app.use("/api/v1", pastorRoutes);
   app.use(error);
 }

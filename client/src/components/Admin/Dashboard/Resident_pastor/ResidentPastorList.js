@@ -20,13 +20,11 @@ export const ResidentPastorList = () => {
   const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
-  const [ filterData, setFilterData ] = useState("")
+  const [ filterData, setFilterData ] = useState("");
   const [ search_term, setSearchTerm ] = useState("");
   const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
   const [ modal, setModal ] = useState(false);
-
-  // const { prevPage, nextPage, page, totalPages } = coordinators;
 
   const prevPage = coordinators && coordinators.prevPage,
     nextPage = coordinators && coordinators.nextPage,
@@ -42,7 +40,7 @@ export const ResidentPastorList = () => {
   const handleFilterChange = (e) => {
     const { value } = e.target;
 
-    setFilterData(value)
+    setFilterData(value);
   }
 
   const filters = [
