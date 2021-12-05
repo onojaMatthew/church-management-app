@@ -20,10 +20,10 @@ router.post("/regional_pastor/new", verifyToken, grantAccess("createAny", "super
 router.post("/regional_pastor/login", login);
 router.get("/regional_pastor/all", verifyToken, grantAccess("readAny", "super admin"), regional_pastor_list);
 router.put("/regional_pastor/assign_church", verifyToken, grantAccess("updateAny", "super admin"), assign_churches);
-router.get("/regional_pastor/church_list", verifyToken, grantAccess("readOwn", "zonal_coordinator"), region_church_list);
+router.get("/regional_pastor/church_list", verifyToken, grantAccess("readOwn", "regional pastor"), region_church_list);
 router.get("/regional_pastor/search", verifyToken, grantAccess("readAny", "super admin"), search_regional_pastor);
 router.get("/regional_pastor/filter", verifyToken, grantAccess("readAny", "super admin"), region_pastor_filter);
-router.put("/regional_pastor/update", verifyToken, grantAccess("updateOwn", "zonal_coordinator"), update_regional_pastor);
+router.put("/regional_pastor/update", verifyToken, grantAccess("updateOwn", "regional pastor"), update_regional_pastor);
 router.delete("/regional_pastor/delete", verifyToken, grantAccess("deleteAny", "super admin"), delete_regional_pastor);
 
 export default router;

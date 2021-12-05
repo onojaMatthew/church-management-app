@@ -7,7 +7,11 @@ export const roles = () => {
 
   ac.grant("church").createOwn("church").readOwn("church").updateOwn("church").deleteOwn("church");
 
-  ac.grant("zonal_coordinator").extend("church").readOwn("zonal_coordinator").updateOwn("zonal_coordinator");
+  ac.grant("resident pastor").extend("church").readOwn("resident pastor").updateOwn("resident pastor");
+
+  ac.grant("zonal pastor").extend("church").extend("resident pastor").readOwn("zonal pastor").updateOwn("zonal pastor");
+
+  ac.grant("regional pastor").extend("church").extend("zonal pastor").extend("resident pastor").readOwn("regional pastor").updateOwn("regional pastor");
 
   ac.grant("admin").extend("user").extend("church").extend("zonal_coordinator").readOwn("admin").readAny("admin").updateOwn("admin");
   
