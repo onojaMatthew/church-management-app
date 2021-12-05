@@ -5,7 +5,7 @@ import { churchSchema } from "../../models/church";
 import { memberSchema } from "../../models/member";
 import { officeSchema } from "../../models/office";
 import { groupSchema } from "../../models/group";
-import { zonalCoordinatorSchema } from "../../models/zonal_coordinator";
+import { zonalCoordinatorSchema } from "../../models/zonal_pastor";
 import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";

@@ -2,7 +2,7 @@ import { success, error } from "../../config/response";
 import { getModelByChurch } from "../../utils/util";
 import { reportSchema } from "../../models/report";
 import { pagination } from "../../middleware/pagination";
-import { zonalCoordinatorSchema } from "../../models/zonal_coordinator"
+import { zonalCoordinatorSchema } from "../../models/zonal_pastor"
 import { churchSchema } from "../../models/church";
 
 export const create_report = async (req, res) => {

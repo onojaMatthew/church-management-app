@@ -13,7 +13,7 @@ import burialRoutes from "../controllers/burial/router";
 import fin_categoryRoutes from "../controllers/fincategory/router";
 import financeRoutes from "../controllers/finance/router";
 import expenditureRoutes from "../controllers/expenditure/router";
-import coordinatorRoutes from "../controllers/coordinator/router";
+import coordinatorRoutes from "../controllers/zonal_pastor/router";
 import reportRoutes from "../controllers/report/router";
 import pastorRoutes from "../controllers/resident_pastor/router";
 
@@ -36,4 +36,4 @@ export default (app) => {
   app.use("/api/v1", reportRoutes);
   app.use("/api/v1", pastorRoutes);
   app.use(error);
-}
+};

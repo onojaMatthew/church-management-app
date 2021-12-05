@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { success, error } from "../../config/response";
-import { zonalCoordinatorSchema } from "../../models/zonal_coordinator";
+import { zonalCoordinatorSchema } from "../../models/zonal_pastor";
 import { getModelByChurch } from "../../utils/util";
 import { sendEmail } from "../../services/mailer";
 import { pagination } from "../../middleware/pagination";

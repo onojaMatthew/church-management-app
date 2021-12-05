@@ -1,7 +1,17 @@
 import express from "express";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
-import { assign_churches, coordinatore_list, create_coordinator, delete_coordinator, login, update_coordinator, coordinating_church_list, searchCoordinator, coordinator_filter } from "./controller";
+import { 
+  assign_churches, 
+  coordinatore_list, 
+  create_coordinator, 
+  delete_coordinator, 
+  login, 
+  update_coordinator, 
+  coordinating_church_list, 
+  searchCoordinator, 
+  coordinator_filter 
+} from "./controller";
 
 
 const router = express.Router();
