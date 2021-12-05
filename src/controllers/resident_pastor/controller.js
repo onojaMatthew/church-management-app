@@ -56,7 +56,7 @@ export const update_detail = async (req, res) => {
 export const delete_pastor = async (req, res) => {
   try {
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
-    const pastor = await ResidentPastor.findByIdAndDelete({ _id: req.body.id });
+    const pastor = await ResidentPastor.findByIdAndDelete({ _id: req.query.id });
     return res.json(success("Success", pastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
