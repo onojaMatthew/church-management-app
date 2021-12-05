@@ -16,6 +16,8 @@ import expenditureRoutes from "../controllers/expenditure/router";
 import coordinatorRoutes from "../controllers/zonal_pastor/router";
 import reportRoutes from "../controllers/report/router";
 import pastorRoutes from "../controllers/resident_pastor/router";
+import zonalPastorRoutes from "../controllers/zonal_pastor/router";
+import regionalPastorRoutes from "../controllers/regional_pastor/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -35,5 +37,6 @@ export default (app) => {
   app.use("/api/v1", coordinatorRoutes);
   app.use("/api/v1", reportRoutes);
   app.use("/api/v1", pastorRoutes);
+  app.use("/api/v1", zonalPastorRoutes);
   app.use(error);
 };

@@ -3,27 +3,27 @@ import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
 import { 
   assign_churches, 
-  coordinatore_list, 
-  create_coordinator, 
-  delete_coordinator, 
+  zonal_pastor_list, 
+  create_zonal_pastor, 
+  delete_zonal_pastor, 
   login, 
-  update_coordinator, 
-  coordinating_church_list, 
-  searchCoordinator, 
-  coordinator_filter 
+  update_zonal_pastor, 
+  zone_church_list, 
+  search_zonal_pastor, 
+  zonal_pastor_filter 
 } from "./controller";
 
 
 const router = express.Router();
 
-router.post("/coordinator/new", verifyToken, grantAccess("createAny", "super admin"), create_coordinator);
-router.post("/coordinator/login", login);
-router.get("/coordinator/all", verifyToken, grantAccess("readAny", "super admin"), coordinatore_list);
-router.put("/coordinator/assign_church", verifyToken, grantAccess("updateAny", "super admin"), assign_churches);
-router.get("/coordinator/church_list", verifyToken, grantAccess("readOwn", "zonal_coordinator"), coordinating_church_list);
-router.get("/coordinator/search", verifyToken, grantAccess("readAny", "super admin"), searchCoordinator);
-router.get("/coordinator/filter", verifyToken, grantAccess("readAny", "super admin"), coordinator_filter);
-router.put("/coordinator/update", verifyToken, grantAccess("updateOwn", "zonal_coordinator"), update_coordinator);
-router.delete("/coordinator/delete", verifyToken, grantAccess("deleteAny", "super admin"), delete_coordinator);
+router.post("/zonal_pastor/new", verifyToken, grantAccess("createAny", "super admin"), create_zonal_pastor);
+router.post("/zonal_pastor/login", login);
+router.get("/zonal_pastor/all", verifyToken, grantAccess("readAny", "super admin"), zonal_pastor_list);
+router.put("/zonal_pastor/assign_church", verifyToken, grantAccess("updateAny", "super admin"), assign_churches);
+router.get("/zonal_pastor/church_list", verifyToken, grantAccess("readOwn", "zonal_coordinator"), zone_church_list);
+router.get("/zonal_pastor/search", verifyToken, grantAccess("readAny", "super admin"), search_zonal_pastor);
+router.get("/zonal_pastor/filter", verifyToken, grantAccess("readAny", "super admin"), zonal_pastor_filter);
+router.put("/zonal_pastor/update", verifyToken, grantAccess("updateOwn", "zonal_coordinator"), update_zonal_pastor);
+router.delete("/zonal_pastor/delete", verifyToken, grantAccess("deleteAny", "super admin"), delete_zonal_pastor);
 
 export default router;

@@ -3,7 +3,7 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 const { Schema, ObjectId } = mongoose;
 
-export const zonalCoordinatorSchema = new Schema({
+export const zonalPastorSchema = new Schema({
   first_name: { type: String },
   last_name: { type: String },
   email: { type: String, unique: true },
@@ -13,13 +13,14 @@ export const zonalCoordinatorSchema = new Schema({
     branch: String,
     phone: String,
     email: String,
-    head_pastor: String
+    resident_pastor: String
   }],
   role: { 
     role_id: { type: ObjectId, ref: "Role" },
     role_name: { type: String }
   },
-  password: { type: String }
+  password: { type: String },
+  zone: { type: String },
 }, { timestamps: true });
 
-zonalCoordinatorSchema.plugin(mongoosePaginate);
+zonalPastorSchema.plugin(mongoosePaginate);
