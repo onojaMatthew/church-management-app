@@ -24,7 +24,6 @@ const mongoOptions = {
   useFindAndModify: false,
   autoIndex: true,
   poolSize: 10,
-  // bufferMaxEntries: 0,
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
 };

@@ -38,5 +38,6 @@ export default (app) => {
   app.use("/api/v1", reportRoutes);
   app.use("/api/v1", pastorRoutes);
   app.use("/api/v1", zonalPastorRoutes);
+  app.use("/api/v1", regionalPastorRoutes);
   app.use(error);
 };

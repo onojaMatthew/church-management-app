@@ -8,7 +8,7 @@ export const grantAccess = (action, resource) => {
       if (!permission.granted) {
         return res.status(401).json(error("You don't have enough permission to perform this action", res.statusCode));
       }
-      next()
+      next();
     } catch (error) {
       next(error)
     }
