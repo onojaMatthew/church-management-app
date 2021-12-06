@@ -9,7 +9,7 @@ import { churchSchema } from "../../models/church";
 import { roleSchema } from "../../models/role";
 
 export const create_regional_pastor = async (req, res) => {
-  const { first_name, last_name, email, phone, password, role, zone } = req.body;
+  const { first_name, last_name, email, phone, password, role, region } = req.body;
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "Regionalpastor", regionalPastorSchema);
     const itExists = await RegionalPastor.findOne({ email });
@@ -21,7 +21,7 @@ export const create_regional_pastor = async (req, res) => {
     if (!role) return res.status(404).json(error("Role not found", ))
     const hash = bcrypt.hashSync(password, 12);
     
-    let newRegionalpastor = new ZonalPastor({ first_name, last_name, email, password: hash && hash, phone, region });
+    let newRegionalpastor = new RegionalPastor({ first_name, last_name, email, password: hash && hash, phone, region });
     newRegionalpastor = await newRegionalpastor.save();
     newRegionalpastor.role.role_id = role_data && role_data._id;
     newRegionalpastor.role.role_name = role_data && role_data.name;
@@ -32,11 +32,11 @@ export const create_regional_pastor = async (req, res) => {
     const receiver = newRegionalpastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
-    const message = `<h3>Hello dear,</h3> \n 
-    Your account has been created successfully. You can login to the account by visiting: ${link} and using: \n
-    Email: ${newRegionalpastor.email} \n
-    Password: ${password}\n\n
-    Thanks.`;
+    const message = `<h3>Hello dear,</h3> 
+    <p>Your account has been created successfully. You can login to the account by visiting: ${link}</p>
+    <p><strong>Email</strong>: ${newRegionalpastor.email}</p>
+    <p><strong>Password</strong>: ${password}</p>
+    <p>Thanks.</p>`;
 
     const data = {
       receiver,
@@ -71,9 +71,19 @@ export const login = async (req, res) => {
 export const regional_pastor_list = async (req, res) => {
   const { offset, limit } = pagination(req.query);
   try {
-    const Regional = await getModelByChurch("hostdatabase", "Regional", regionalPastorSchema);
+    const Regional = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     const regionalPastor = await Regional.paginate({}, { offset, limit });
 
+    return res.json(success("Success", regionalPastor, res.statusidCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const regional_pastor_details = async (req, res) => {
+  try {
+    const Regional = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
+    const regionalPastor = await Regional.findById({ _id: req.query.id });
     return res.json(success("Success", regionalPastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
@@ -141,7 +151,7 @@ export const delete_regional_pastor = async (req, res) => {
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const regional_pastor = await RegionalPastor.findByIdAndDelete({ _id: zonal_pastor_id });
+    const regional_pastor = await RegionalPastor.findByIdAndDelete({ _id: regional_pastor_id });
     await Church.findOneAndUpdate({ "regional_pastor._id": regional_pastor_id }, { $set: { regional_pastor: null }}, { new: true });
 
     return res.json(success("Success", regional_pastor, res.statusCode));
@@ -167,8 +177,8 @@ export const search_regional_pastor = async (req, res) => {
   const { searchTerm } = req.query;
 
   try {
-    const ZonalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
-    const searchResult = await ZonalPastor.aggregate([{ $match: {
+    const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
+    const searchResult = await RegionalPastor.aggregate([{ $match: {
       $or: [
           { first_name: {
             $regex: searchTerm,

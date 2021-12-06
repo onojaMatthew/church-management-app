@@ -15,7 +15,7 @@ export const roles = () => {
 
   ac.grant("admin").extend("user").extend("church").extend("zonal pastor").readOwn("admin").readAny("admin").updateOwn("admin");
   
-  ac.grant("super admin").extend("user").extend("admin").extend("church").readAny("super admin").updateAny("super admin").createAny("super admin").deleteAny("super admin");
+  ac.grant("super admin").extend("regional pastor").extend("zonal pastor").extend("resident pastor").extend("user").extend("admin").extend("church").readAny("super admin").updateAny("super admin").createAny("super admin").deleteAny("super admin");
 
   return ac;
 };

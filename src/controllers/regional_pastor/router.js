@@ -10,7 +10,8 @@ import {
   update_regional_pastor, 
   region_church_list, 
   search_regional_pastor, 
-  region_pastor_filter
+  region_pastor_filter,
+  regional_pastor_details,
 } from "./controller";
 
 
@@ -21,6 +22,7 @@ router.post("/regional_pastor/login", login);
 router.get("/regional_pastor/all", verifyToken, grantAccess("readAny", "super admin"), regional_pastor_list);
 router.put("/regional_pastor/assign_church", verifyToken, grantAccess("updateAny", "super admin"), assign_churches);
 router.get("/regional_pastor/church_list", verifyToken, grantAccess("readOwn", "regional pastor"), region_church_list);
+router.get("/regional_pastor/details", verifyToken, grantAccess("readOwn", "regional pastor"), regional_pastor_details);
 router.get("/regional_pastor/search", verifyToken, grantAccess("readAny", "super admin"), search_regional_pastor);
 router.get("/regional_pastor/filter", verifyToken, grantAccess("readAny", "super admin"), region_pastor_filter);
 router.put("/regional_pastor/update", verifyToken, grantAccess("updateOwn", "regional pastor"), update_regional_pastor);
