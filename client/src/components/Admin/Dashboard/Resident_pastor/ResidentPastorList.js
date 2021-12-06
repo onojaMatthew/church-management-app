@@ -4,19 +4,19 @@ import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search";
 import { Button, message } from "antd";
-import { NewCoordinator } from "./NewResidentPastor";
+import { NewResidentPastor } from "./NewResidentPastor";
 import { useDispatch, useSelector } from "react-redux";
-import { CoordinatorDetails } from "./ResidentPastorDetails";
+import { ResidentPastorDetails } from "./ResidentPastorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
 import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
 
-import "./Coordinator.css";
+import "./Residence.css";
 import { roleList } from "../../../../store/actions/actions_role";
 
 export const ResidentPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
-  const { churches, error } = useSelector(state => state.church); 
+  const { churches } = useSelector(state => state.church); 
   const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
@@ -144,7 +144,7 @@ export const ResidentPastorList = () => {
   return (
     <div>
       {isView ? 
-        <CoordinatorDetails
+        <ResidentPastorDetails
           viewToggle={viewToggle}
           isView={isView}
           coordinatorDetail={coordinatorDetail}
@@ -166,7 +166,7 @@ export const ResidentPastorList = () => {
               <CardBody>
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <p className="coord-header">Coordinators</p>
+                  <p className="coord-header">Resident Pastors</p>
                   </Col>
                   <Col xs="12" sm="12" md="12" lg="6" xl="6">
                     <div className="search-container">
@@ -246,7 +246,7 @@ export const ResidentPastorList = () => {
           </Col>
         </Row> 
       )}
-      <NewCoordinator
+      <NewResidentPastor
         first_name={first_name}
         last_name={last_name}
         email={email}

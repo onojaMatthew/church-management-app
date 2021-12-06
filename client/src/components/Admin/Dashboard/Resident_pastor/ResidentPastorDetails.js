@@ -1,7 +1,7 @@
 import { Input, Row, Col, Table } from "reactstrap";
 import { Button, Divider } from "antd";
 
-import "./Coordinator.css";
+import "./Residence.css";
 import { useState } from "react";
 
 export const ResidentPastorDetails = ({

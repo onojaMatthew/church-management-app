@@ -17,7 +17,7 @@ export const NewResidentPastor = ({
   
   return (
     <Modal id="income-modal" isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>New Coordinator</ModalHeader>
+      <ModalHeader toggle={toggle}>New Residnet Pastor</ModalHeader>
       <ModalBody id="income-modal-body">
         <form onSubmit={handleSubmit}>
           <div>

@@ -7,9 +7,9 @@ import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
 import NewChurch from "../Church/NewChurch/NewChurch";
 import ChurchList from "../Church/ChurchList/ChurchList";
-// import { CoordinatorList } from "../Coordinator/CoordinatorList";
 import { Reports } from "../Reports/Reports";
 import { ZonalPastorList } from "../ZonalPastor/ZonalPastorList";
+import { ResidentPastorList } from "../Resident_pastor/ResidentPastorList";
 
 const { Content, Footer } = Layout;
 
@@ -25,6 +25,7 @@ const Home = (props) => {
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
             <Route exact path={`${match.url}/create-church`} render={(props) => <NewChurch {...props} />} />
             <Route exact path={`${match.url}/church-list`} render={(props) => <ChurchList {...props} />} />
+            <Route exact path={`${match.url}/resident_pastors`} render={(props) => <ResidentPastorList {...props} />} />
             <Route exact path={`${match.url}/zonal_pastors`} render={(props) => <ZonalPastorList {...props} />} />
             <Route exact path={`${match.url}/reports`} render={(props) => <Reports {...props} />} />
           </div>
