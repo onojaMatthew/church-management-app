@@ -18,7 +18,7 @@ export const createRole = async (req, res) => {
 export const fetchRoles = async (req, res) => {
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
-    const roles = await Role.find();
+    const roles = await Role.find().sort({ name: 1 });
     return res.json(success("Success", roles, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));

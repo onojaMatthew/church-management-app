@@ -58,7 +58,7 @@ export const loginFailed = (error) => {
 export const coordinatorLogin = (data) => {
   return dispatch => {
     dispatch(loginStart());
-    fetch(`${BASE_URL}/coordinator/login`, {
+    fetch(`${BASE_URL}/zonal_pastor/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export const add_coordinator_failed = (error) => {
 export const add_coordinator = (data) => {
   return dispatch => {
     dispatch(add_coordinator_start());
-    fetch(`${BASE_URL}/coordinator/new`, {
+    fetch(`${BASE_URL}/zonal_pastor/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export const coordinator_list_failed = (error) => {
 export const coordinator_list = (offset, limit) => {
   return dispatch => {
     dispatch(coordinator_list_start());
-    fetch(`${BASE_URL}/coordinator/all?offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/zonal_pastor/all?offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -181,7 +181,7 @@ export const coordinator_churches_failed = (error) => {
 export const coordinating_church_list = (offset, limit) => {
   return dispatch => {
     dispatch(coordinator_churches_start());
-    fetch(`${BASE_URL}/coordinator/church_list?coordinatorId=${id}&offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/zonal_pastor/church_list?coordinatorId=${id}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -221,7 +221,7 @@ export const assign_church_failed = (error) => {
 export const assign_church = (data) => {
   return dispatch => {
     dispatch(assign_church_start());
-    fetch(`${BASE_URL}/coordinator/assign_church`, {
+    fetch(`${BASE_URL}/zonal_pastor/assign_church`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -262,7 +262,7 @@ export const update_coordinator_failed = (error) => {
 export const update_coordinator = (data) => {
   return dispatch => {
     dispatch(update_coordinator_start());
-    fetch(`${BASE_URL}/coordinator/update`, {
+    fetch(`${BASE_URL}/zonal_pastor/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -303,7 +303,7 @@ export const delete_coordinator_failed = (error) => {
 export const delete_coordinator = (id) => {
   return dispatch => {
     dispatch(delete_coordinator_start());
-    fetch(`${BASE_URL}/coordinator/delete?coordinatorId=${id}`, {
+    fetch(`${BASE_URL}/zonal_pastor/delete?zonal_pastor_id=${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -343,7 +343,7 @@ export const search_failed = (error) => {
 export const search_coordinators = (search_term) => {
   return dispatch => {
     dispatch(search_start());
-    fetch(`${BASE_URL}/coordinator/search?searchTerm=${search_term}`, {
+    fetch(`${BASE_URL}/zonal_pastor/search?searchTerm=${search_term}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -383,7 +383,7 @@ export const filter_failed = (error) => {
 export const filter_coordinators = (data) => {
   return dispatch => {
     dispatch(filter_start());
-    fetch(`${BASE_URL}/coordinator/filter?time_range=${data}`, {
+    fetch(`${BASE_URL}/zonal_pastor/filter?time_range=${data}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import { churchSchema } from "../../models/church";
 import { memberSchema } from "../../models/member";
 import { officeSchema } from "../../models/office";
 import { groupSchema } from "../../models/group";
-import { zonalCoordinatorSchema } from "../../models/zonal_pastor";
+import { zonalPastorSchema } from "../../models/zonal_pastor";
 import { error, success } from "../../config/response";
 import { roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
@@ -289,7 +289,7 @@ export const adminData = async (req, res) => {
 
     let churches = await Church.find({});
 
-    const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
+    const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const coordinators = await Coordinator.find({});
 
     if (churches.length > 0) {
@@ -331,6 +331,7 @@ export const adminData = async (req, res) => {
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
+
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

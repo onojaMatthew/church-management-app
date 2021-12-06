@@ -32,10 +32,10 @@ export const create_zonal_pastor = async (req, res) => {
     const receiver = newZonalPastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
-    const message = `<h3>Hello dear,</h3> \n 
-    Your account has been created successfully. You can login to the account by visiting: ${link} and using: \n
-    Email: ${newZonalPastor.email} \n
-    Password: ${password}\n\n
+    const message = `<h3>Hello dear,</h3>  
+    <p>Your account has been created successfully. You can login to the account by visiting: ${link}</p>
+    <p><strong>Email</strong>: ${newZonalPastor.email}</p>
+    <p><strong>Password</strong>: ${password}</p>
     Thanks.`;
 
     const data = {
