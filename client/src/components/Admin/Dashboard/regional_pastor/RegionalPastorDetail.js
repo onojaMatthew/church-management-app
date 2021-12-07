@@ -1,10 +1,10 @@
 import { Input, Row, Col, Table } from "reactstrap";
 import { Button, Divider } from "antd";
 
-import "./Coordinator.css";
+import "./RegionalPastor.css";
 import { useState } from "react";
 
-export const CoordinatorDetails = ({
+export const RegionalPastorDetails = ({
   assign_loading,
   handleChurchChange,
   handleChurchSubmit,

@@ -8,26 +8,26 @@ export const ResidentPastorDetails = ({
   assign_loading,
   handleChurchChange,
   handleChurchSubmit,
-  coordinatorDetail,
+  pastorDetail,
   church,
   viewToggle,
 }) => {
   const [ isOpen, setIsOpen ] = useState(false);
-  let role = coordinatorDetail.role && coordinatorDetail.role?.role_name;
+  let role = pastorDetail.role && pastorDetail.role?.role_name;
   const rolesplit = role.split("_");
   const role1 = rolesplit[0];
   const role2 = rolesplit[1];
-  const churches = coordinatorDetail?.churches;
+  const churches = pastorDetail?.churches;
   return (
     <div className="coord-body">
       <div className="cord-detail-card">
         <span className="close" onClick={() => viewToggle()}>X</span>
         <div className="coord-detail-inner-container">
-          <p className="detail-name">{coordinatorDetail?.first_name}{" "}{coordinatorDetail?.last_name}</p>
-          <p className="detail-email"><strong>Email</strong>: {coordinatorDetail?.email}</p>
-          <p className="detail-email"><strong>Phone</strong>: {coordinatorDetail?.phone}</p>
+          <p className="detail-name">{pastorDetail?.first_name}{" "}{pastorDetail?.last_name}</p>
+          <p className="detail-email"><strong>Email</strong>: {pastorDetail?.email}</p>
+          <p className="detail-email"><strong>Phone</strong>: {pastorDetail?.phone}</p>
           <p className="detail-email"><strong>Role</strong>: {role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
-          <p className="detail-email"><strong>No. of churches</strong>: {coordinatorDetail?.churches.length}</p>
+          <p className="detail-email"><strong>No. of churches</strong>: {pastorDetail?.churches?.length}</p>
           <hr />
           <Row>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">

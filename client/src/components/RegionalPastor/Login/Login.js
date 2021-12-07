@@ -4,7 +4,7 @@ import { Avatar, Button, Image, message } from "antd";
 import User from "../../../assets/images/User.jpeg";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { coordinatorLogin } from "../../../store/actions/actions_coordinator";
+import { coordinatorLogin } from "../../../store/actions/actions_zonal_pastor";
 
 const Regional_pastor_login = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const Regional_pastor_login = () => {
   const { email, password } = values;
   useEffect(() => {
     if( /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      setMobile(true)
+      setMobile(true);
      }
   }, []);
 

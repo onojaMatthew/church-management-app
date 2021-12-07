@@ -7,7 +7,14 @@ import { Button, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { ZonalPastorDetail } from "./ZonalPastorDetail";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
+import { 
+  add_coordinator, 
+  assign_church, 
+  coordinator_list, 
+  delete_coordinator, 
+  search_coordinators, 
+  filter_coordinators 
+} from "../../../../store/actions/actions_zonal_pastor";
 
 import "./ZonalPastor.css";
 
@@ -181,7 +188,7 @@ export const ZonalPastorList = () => {
               <Col xs="12" sm="12" md="12" lg="8"></Col>
               <Col xs="12" sm="12" md="12" lg="2"></Col>
               <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="coord-action-btn">Create Coordinator</Button>
+                <Button onClick={() => toggle()} className="coord-action-btn">Create Zonal Pastor</Button>
               </Col>
             </Row>
             <Card id="income-card">

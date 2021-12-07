@@ -1,7 +1,7 @@
 import { Modal, ModalBody, ModalHeader, Input } from "reactstrap";
 import { Button } from "antd";
 
-export const NewCoordinator = ({
+export const NewRegionalPastor = ({
   modal,
   toggle,
   handleChange,

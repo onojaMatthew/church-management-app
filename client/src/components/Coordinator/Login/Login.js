@@ -4,7 +4,7 @@ import { Avatar, Button, Image, message } from "antd";
 import User from "../../../assets/images/User.jpeg";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { coordinatorLogin } from "../../../store/actions/actions_coordinator";
+import { coordinatorLogin } from "../../../store/actions/actions_zonal_pastor";
 
 const Login = () => {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { localAuth } from "../../../../../helper/authenticate";
-import { coordinating_church_list } from "../../../../../store/actions/actions_coordinator";
+import { coordinating_church_list } from "../../../../../store/actions/actions_zonal_pastor";
 import Search from "../../../../SearchComponent/Search";
 import { Church } from "../ChurchDetail/Church";
 

@@ -4,16 +4,23 @@ import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search";
 import { Button, message } from "antd";
-import { NewCoordinator } from "./NewCoordinator";
 import { useDispatch, useSelector } from "react-redux";
-import { CoordinatorDetails } from "./CoordinatorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
+import { 
+  add_coordinator, 
+  assign_church, 
+  coordinator_list, 
+  delete_coordinator, 
+  search_coordinators, 
+  filter_coordinators 
+} from "../../../../store/actions/actions_zonal_pastor";
 
-import "./Coordinator.css";
+import "./RegionalPastor.css";
 import { roleList } from "../../../../store/actions/actions_role";
+import { RegionalPastorDetails } from "./RegionalPastorDetail";
+import { NewRegionalPastor } from "./NewRegionalPastor";
 
-export const CoordinatorList = () => {
+export const RegionalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches, error } = useSelector(state => state.church); 
@@ -25,8 +32,6 @@ export const CoordinatorList = () => {
   const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
   const [ modal, setModal ] = useState(false);
-
-  // const { prevPage, nextPage, page, totalPages } = coordinators;
 
   const prevPage = coordinators && coordinators.prevPage,
     nextPage = coordinators && coordinators.nextPage,
@@ -146,7 +151,7 @@ export const CoordinatorList = () => {
   return (
     <div>
       {isView ? 
-        <CoordinatorDetails
+        <RegionalPastorDetails
           viewToggle={viewToggle}
           isView={isView}
           coordinatorDetail={coordinatorDetail}
@@ -161,14 +166,14 @@ export const CoordinatorList = () => {
               <Col xs="12" sm="12" md="12" lg="8"></Col>
               <Col xs="12" sm="12" md="12" lg="2"></Col>
               <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="coord-action-btn">Create Coordinator</Button>
+                <Button onClick={() => toggle()} className="coord-action-btn">Create Regional Pastor</Button>
               </Col>
             </Row>
             <Card id="income-card">
               <CardBody>
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <p className="coord-header">Coordinators</p>
+                  <p className="coord-header">Regional Pastors</p>
                   </Col>
                   <Col xs="12" sm="12" md="12" lg="6" xl="6">
                     <div className="search-container">
@@ -248,7 +253,7 @@ export const CoordinatorList = () => {
           </Col>
         </Row> 
       )}
-      <NewCoordinator
+      <NewRegionalPastor
         first_name={first_name}
         last_name={last_name}
         email={email}

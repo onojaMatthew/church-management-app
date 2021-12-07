@@ -8,7 +8,7 @@ import { NewCoordinator } from "./NewCoordinator";
 import { useDispatch, useSelector } from "react-redux";
 import { CoordinatorDetails } from "./CoordinatorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
+import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_zonal_pastor";
 
 import "./Coordinator.css";
 import { roleList } from "../../../../store/actions/actions_role";

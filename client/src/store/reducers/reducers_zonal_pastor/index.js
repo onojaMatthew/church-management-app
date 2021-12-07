@@ -26,7 +26,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
-} from "../../actions/actions_coordinator";
+} from "../../actions/actions_zonal_pastor";
 
 const initialState = {
   coordinators: [],

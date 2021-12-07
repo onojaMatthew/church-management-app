@@ -56,8 +56,74 @@ export const update_detail = async (req, res) => {
 export const delete_pastor = async (req, res) => {
   try {
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
-    const pastor = await ResidentPastor.findByIdAndDelete({ _id: req.query.id });
+    const pastor = await ResidentPastor.findByIdAndDelete({ _id: req.query.resident_pastor_id });
     return res.json(success("Success", pastor, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const search_resident_pastor = async (req, res) => {
+  const { searchTerm } = req.query;
+
+  try {
+    const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
+    const searchResult = await ResidentPastor.aggregate([{ $match: {
+      $or: [
+          { first_name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          email: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          phone: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          last_name: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    return res.json(success("Success", searchResult, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode))
+  }
+}
+
+export const resident_pastor_filter = async (req, res) => {
+  const { time_range } = req.query;
+
+  try {
+
+    const time_data = time_range.split(" ");
+    const time_length = Number(time_data[0]);
+    const time_param = time_data[1];
+    const date = new Date();
+    let date_ago;
+
+    if (time_param === "days") {
+      date_ago = date.setDate(date.getDate() - time_length);
+    } else if (time_param === "weeks") {
+      date_ago = date.setDate(date.getDate() - (time_length * 7));
+    } else if (time_param === "months") {
+      date_ago = date.setDate(date.getDate() - (time_length * 30));
+    }
+
+    const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
+    const residentPastor = await ResidentPastor.find({ createdAt: { $gte: date_ago }});
+    return res.json(success("Success", residentPastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }

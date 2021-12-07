@@ -85,7 +85,7 @@ export const residentPastorReducer = (state=initialState, action) => {
         list_loading: false,
         list_success: true,
         resident_pastors: action.data,
-        pastor_docs: action.data.docs
+        pastor_docs: action.data
       }
     case RESIDENT_PASTOR_LIST_FAILED:
       return {

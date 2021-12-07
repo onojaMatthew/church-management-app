@@ -13,7 +13,7 @@ import { burial } from "./reducers_burial";
 import { finance } from "./reducers_income";
 import { expenditureReducer } from "./reducers_expenditure";
 import { reportReducers } from "./reducers_reports";
-import { coordinatorReducer } from "./reducers_coordinator";
+import { coordinatorReducer } from "./reducers_zonal_pastor";
 import { residentPastorReducer } from "./reducers_resident_pastor"
 
 export const rootReducer = combineReducers({

@@ -54,7 +54,7 @@ export const add_resident_pastor_failed = (error) => {
 export const add_resident_pastor = (data) => {
   return dispatch => {
     dispatch(add_resident_pastor_start());
-    fetch(`${BASE_URL}/zonal_pastor/new`, {
+    fetch(`${BASE_URL}/resident_pastor/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export const resident_pastor_list_failed = (error) => {
 export const resident_pastor_list = (offset, limit) => {
   return dispatch => {
     dispatch(resident_pastor_list_start());
-    fetch(`${BASE_URL}/zonal_pastor/all?offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/resident_pastor/all?offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export const resident_pastor_churches_failed = (error) => {
 export const church_list = (offset, limit) => {
   return dispatch => {
     dispatch(resident_pastor_churches_start());
-    fetch(`${BASE_URL}/zonal_pastor/church_list?coordinatorId=${id}&offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/resident_pastor/church_list?resident_pastor_id=${id}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

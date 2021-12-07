@@ -8,34 +8,35 @@ import { NewResidentPastor } from "./NewResidentPastor";
 import { useDispatch, useSelector } from "react-redux";
 import { ResidentPastorDetails } from "./ResidentPastorDetails";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
-import { add_coordinator, assign_church, coordinator_list, delete_coordinator, search_coordinators, filter_coordinators } from "../../../../store/actions/actions_coordinator";
 
 import "./Residence.css";
+
 import { roleList } from "../../../../store/actions/actions_role";
+import { add_resident_pastor, delete_resident_pastor, filter_resident_pastors, resident_pastor_list, search_resident_pastor } from "../../../../store/actions/actions_resident_pastor";
 
 export const ResidentPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches } = useSelector(state => state.church); 
-  const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
+  const { resident_pastors, pastor_docs, assign_loading, assign_church, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.residentPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
   const [ filterData, setFilterData ] = useState("");
   const [ search_term, setSearchTerm ] = useState("");
-  const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
+  const [ pastorDetail, setPastorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
   const [ modal, setModal ] = useState(false);
 
-  const prevPage = coordinators && coordinators.prevPage,
-    nextPage = coordinators && coordinators.nextPage,
-    page = coordinators && coordinators.page,
-    totalPages = coordinators && coordinators.totalPages;
+  const prevPage = resident_pastors && resident_pastors.prevPage,
+    nextPage = resident_pastors && resident_pastors.nextPage,
+    page = resident_pastors && resident_pastors.page,
+    totalPages = resident_pastors && resident_pastors.totalPages;
 
   const toggle = () => {
     setModal(!modal);
   }
 
-  const { first_name, last_name, phone, email, password, role } = values;
+  const { first_name, last_name, phone, email, role } = values;
 
   const handleFilterChange = (e) => {
     const { value } = e.target;
@@ -64,23 +65,23 @@ export const ResidentPastorList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      first_name, last_name, phone, email, password, role
+      first_name, last_name, phone, email, role
     }
-    dispatch(add_coordinator(data));
+    dispatch(add_resident_pastor(data));
   }
 
   useEffect(() => {
     const limit = 10,
       offset = 1
     dispatch(fetch_all_church());
-    dispatch(coordinator_list(offset, limit));
+    dispatch(resident_pastor_list(offset, limit));
     dispatch(roleList());
   }, [ dispatch ]);
 
   const handleNextPage = (page) => {
     const offset = page;
     const limit = 10;
-    dispatch(coordinator_list(offset, limit));
+    dispatch(resident_pastor_list(offset, limit));
   }
   
   let coord_pagination = [];
@@ -90,8 +91,8 @@ export const ResidentPastorList = () => {
   }
 
   const toggleView = (id) => {
-    const detail = coordinator_docs.find(f => f._id === id);
-    setCoordinatorDetail(detail);
+    const detail = pastor_docs.find(f => f._id === id);
+    setPastorDetail(detail);
     setIsView(!isView);
   }
 
@@ -101,7 +102,7 @@ export const ResidentPastorList = () => {
 
   const handleDelete = (e,id) => {
     e.preventDefault();
-    dispatch(delete_coordinator(id));
+    dispatch(delete_resident_pastor(id));
   }
 
   const handleChurchChange =  (e) => {
@@ -109,7 +110,7 @@ export const ResidentPastorList = () => {
   }
 
   const handleChurchSubmit = () => {
-    const data = { church, coordinatorId: coordinatorDetail&& coordinatorDetail._id }
+    const data = { church, coordinatorId: pastorDetail && pastorDetail._id }
     console.log(data, " the data")
     if (church.length > 0) {
       dispatch(assign_church(data));
@@ -131,13 +132,13 @@ export const ResidentPastorList = () => {
 
   useEffect(() => {
     if (search_term.length > 0) {
-      dispatch(search_coordinators(search_term))
+      dispatch(search_resident_pastor(search_term))
     }
   }, [ search_term ]);
 
   useEffect(() => {
     if (filterData.length > 0) {
-      dispatch(filter_coordinators(filterData));
+      dispatch(filter_resident_pastors(filterData));
     }
   }, [ filterData ]);
 
@@ -147,7 +148,7 @@ export const ResidentPastorList = () => {
         <ResidentPastorDetails
           viewToggle={viewToggle}
           isView={isView}
-          coordinatorDetail={coordinatorDetail}
+          pastorDetail={pastorDetail}
           church={churches}
           assign_loading={assign_loading}
           handleChurchSubmit={handleChurchSubmit}
@@ -159,7 +160,7 @@ export const ResidentPastorList = () => {
               <Col xs="12" sm="12" md="12" lg="8"></Col>
               <Col xs="12" sm="12" md="12" lg="2"></Col>
               <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="coord-action-btn">Create Coordinator</Button>
+                <Button onClick={() => toggle()} className="coord-action-btn">Create Resident Pastor</Button>
               </Col>
             </Row>
             <Card id="income-card">
@@ -196,7 +197,7 @@ export const ResidentPastorList = () => {
                   ) : (
                     <div>
                       <Row>
-                      {coordinator_docs && coordinator_docs.length > 0 ? coordinator_docs.map((c, i) => (
+                      {pastor_docs && pastor_docs.length > 0 ? pastor_docs.map((c, i) => (
                         <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
                           <div className="coord-list-card" key>
                             <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
@@ -250,7 +251,6 @@ export const ResidentPastorList = () => {
         first_name={first_name}
         last_name={last_name}
         email={email}
-        password={password}
         roles={roles}
         phone={phone}
         handleSubmit={handleSubmit}
