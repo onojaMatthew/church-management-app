@@ -26,12 +26,13 @@ export const churchSchema = new Schema({
   officers: [{ type: ObjectId, ref: "Officer" }],
   office: [{ type: ObjectId, ref: "Office" }],
   members: [{type: ObjectId, ref: "Member" }],
-  resident_pastor: { 
+  head_pastor: { 
     _id: { type: ObjectId },
     first_name: { type: String },
     last_name: { type: String },
     email: { type: String },
     phone: { type: String },
+    default: {}
   },
   regional_pastor: {
     _id: { type: ObjectId },

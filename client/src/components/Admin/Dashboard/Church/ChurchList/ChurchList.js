@@ -187,7 +187,7 @@ const ChurchList = () => {
                   {church_docs && church_docs.length > 0 ? church_docs.map((c, i) => (
                     <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
                       <div className="church-list-card" key>
-                        <p className="church-name">{c?.head_pastor}</p>
+                        <p className="church-name">{c?.head_pastor?.first_name} {c?.head_pastor?.last_name}</p>
                         <p className='church-branch'>{c?.branch}</p>
                         <p className='church-email'>{c?.email}</p>
                         <p className='church-phone'>{c?.phone}</p>

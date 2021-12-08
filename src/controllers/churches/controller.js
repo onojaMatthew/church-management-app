@@ -14,6 +14,7 @@ import { pagination } from "../../middleware/pagination";
 import { financeSchema } from "../../models/finance";
 import { expenditureSchema } from "../../models/expenditure";
 import { formatMoney } from "../../middleware/num_formatter";
+import { residentPastorSchema } from "../../models/residence_pastor";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -34,6 +35,16 @@ export const createChurch = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
+    const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
+    const resident_pastor = await ResidentPastor.findById({ _id: head_pastor });
+    const head_pastor_name = {
+      first_name: resident_pastor && resident_pastor.first_name, 
+      last_name: resident_pastor && resident_pastor.last_name,
+      email: resident_pastor && resident_pastor.email,
+      phone: resident_pastor && resident_pastor.phone,
+    }
+      
+    if (!resident_pastor) return res.status(404).json(error("Resident does not exist", res.statusCode));
     const roleData = await Role.findById({ _id: role });
     const isExists = await Church.findOne({ email });
     const subdomain_name = branch.split(" ").join("-");
@@ -55,7 +66,7 @@ export const createChurch = async (req, res) => {
       subdomain_name,
       subdomain_link,
       branch,
-      head_pastor
+      head_pastor: head_pastor_name
     });
 
     church = await church.save();

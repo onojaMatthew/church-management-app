@@ -7,12 +7,14 @@ import { roleList } from "../../../../../store/actions/actions_role";
 import { success, errorMsg } from "../../../../../helper/message";
 import { post_church } from "../../../../../store/actions/actions_church";
 import { State, City } from "country-state-city";
+import { resident_pastor_list } from "../../../../../store/actions/actions_resident_pastor";
 
 const NewChurch = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const [ stateCode, setStateCode ] = useState("");
   const { postLoading, postSuccess, error } = useSelector(state => state.church);
+  const { pastor_docs } = useSelector(state => state.residentPastorReducer);
   const history = useHistory();
   const [ values, setValues ] = useState({ 
     email: "", 
@@ -33,6 +35,7 @@ const NewChurch = () => {
 
   useEffect(() => {
     dispatch(roleList());
+    dispatch(resident_pastor_list());
   }, [ dispatch ]);
 
   const handleChange = (e) => {
@@ -80,7 +83,6 @@ const NewChurch = () => {
 
   const allStates = State.getStatesOfCountry("NG");
   const cities = City.getCitiesOfState("NG", stateCode && stateCode)
-
   return (
     <div>
       <Row className="mt-3">
@@ -91,7 +93,14 @@ const NewChurch = () => {
               <Row>
                 <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Head Pastor</label>
-                  <Input placeholder="Enter head pastor name" onChange={(e) => handleChange(e)} value={head_pastor} name="head_pastor" />
+                  <Input type="select" placeholder="Enter head pastor name" onChange={(e) => handleChange(e)} value={head_pastor} name="head_pastor">
+                    <option disabled={true}>Select a pastor</option>
+                    {pastor_docs?.length > 0 && pastor_docs.map((p, i) => {
+                      return (
+                        <option key={i} value={p._id}>{p.first_name}{" "}{p.last_name}</option>
+                      )
+                    })}
+                  </Input>
                 </Col>
                 <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Branch Name</label>

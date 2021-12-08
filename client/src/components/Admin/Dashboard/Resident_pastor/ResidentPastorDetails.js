@@ -27,9 +27,9 @@ export const ResidentPastorDetails = ({
           <p className="detail-email"><strong>Email</strong>: {pastorDetail?.email}</p>
           <p className="detail-email"><strong>Phone</strong>: {pastorDetail?.phone}</p>
           <p className="detail-email"><strong>Role</strong>: {role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
-          <p className="detail-email"><strong>No. of churches</strong>: {pastorDetail?.churches?.length}</p>
+          {/* <p className="detail-email"><strong>No. of churches</strong>: {pastorDetail?.churches?.length}</p> */}
           <hr />
-          <Row>
+          {/* <Row>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
               <Input type="select" name="church" onChange={(e) => handleChurchChange(e)} >
                 <option>---Select a Church---</option>
@@ -49,8 +49,8 @@ export const ResidentPastorDetails = ({
               <Button onClick={() => setIsOpen(!isOpen)} className="church-view">Hide Church List</Button> : 
               <Button onClick={() => setIsOpen(!isOpen)} className="church-view">View Church List</Button>}
             </Col>
-          </Row>
-          <Row className="mt-5">
+          </Row> */}
+          {/* <Row className="mt-5">
             <Col xs="12" sm="12" md="12" lg="12" xl="12">
               {isOpen ? (
                 <>
@@ -76,7 +76,7 @@ export const ResidentPastorDetails = ({
                 </>
               ) : null}
             </Col>
-          </Row>
+          </Row> */}
         </div>
       </div>
 

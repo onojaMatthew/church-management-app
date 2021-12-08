@@ -65,7 +65,7 @@ export const ZonalPastorDetail = ({
                   <tbody>
                     {churches && churches.length > 0 && churches.map((c, i) => (
                       <tr className="t-row" key={i}>
-                        <td className="ch-list-td">{c?.head_pastor}</td>
+                        <td className="ch-list-td">{c?.head_pastor?.first_name} {c?.head_pastor?.last_name}</td>
                         <td className="ch-list-td">{c?.branch}</td>
                         <td className="ch-list-td">{c?.email}</td>
                         <td className="ch-list-td">{c?.phone}</td>
