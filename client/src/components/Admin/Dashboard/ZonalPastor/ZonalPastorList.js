@@ -25,7 +25,7 @@ export const ZonalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches } = useSelector(state => state.church); 
-  const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
+  const { coordinators, coordinator_docs, error, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ 
     first_name: "", 
     last_name: "", 
@@ -169,6 +169,12 @@ export const ZonalPastorList = () => {
       dispatch(filter_coordinators(filterData));
     }
   }, [ dispatch, filterData ]);
+
+  useEffect(() => {
+    if (error?.length > 0) {
+      message.error(error);
+    }
+  }, [ error ]);
 
   return (
     <div>

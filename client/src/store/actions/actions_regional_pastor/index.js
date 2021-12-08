@@ -302,7 +302,7 @@ export const delete_regional_pastor_failed = (error) => {
 export const delete_regional_pastor = (id) => {
   return dispatch => {
     dispatch(delete_regional_pastor_start());
-    fetch(`${BASE_URL}/regional_pastor/delete?zonal_pastor_id=${id}`, {
+    fetch(`${BASE_URL}/regional_pastor/delete?regional_pastor_id=${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

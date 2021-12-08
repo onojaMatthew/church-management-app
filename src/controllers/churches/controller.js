@@ -15,6 +15,7 @@ import { financeSchema } from "../../models/finance";
 import { expenditureSchema } from "../../models/expenditure";
 import { formatMoney } from "../../middleware/num_formatter";
 import { residentPastorSchema } from "../../models/residence_pastor";
+import { regionalPastorSchema } from "../../models/regional_pastor";
 
 export const createChurch = async (req, res) => {
   const { 
@@ -29,14 +30,14 @@ export const createChurch = async (req, res) => {
     password, 
     role,
     branch,
-    head_pastor,
+    resident_pastor_id,
   } = req.body;
 
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
-    const resident_pastor = await ResidentPastor.findById({ _id: head_pastor });
+    const resident_pastor = await ResidentPastor.findById({ _id: resident_pastor_id });
     const head_pastor_name = {
       first_name: resident_pastor && resident_pastor.first_name, 
       last_name: resident_pastor && resident_pastor.last_name,
@@ -168,8 +169,21 @@ export const updateChurch = async (req, res) => {
 
 export const deleteChurch = async (req, res) => {
   try {
+    const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
+    const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
+    let regionalPastor = await RegionalPastor.find({});
+    let zonalPastor = await ZonalPastor.find({});
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const church = await Church.findByIdAndRemove({ _id: req.query.church });
+    for (let region_pastor of regionalPastor) {
+      region_pastor.churches.splice(region_pastor.churches[church._id], 1);
+      await regionalPastor.save();
+    }
+
+    for (let zone_pastor of zonalPastor) {
+      zone_pastor.churches.splice(zone_pastor.churches[church._id], 1);
+      await zonalPastor.save();
+    }
     return res.json(success("Church account deleted", church, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

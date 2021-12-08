@@ -117,7 +117,7 @@ export const assign_churches = async (req, res) => {
       _id: zonalPastor && zonalPastor._id,
     }
 
-    church_details.zonalPastor = church_data;
+    church_details.zonal_pastor = church_data;
     church_details = await church_details.save();
     return res.json(success("Success", zonalPastor, res.statusCode));
   } catch (err) {
@@ -141,7 +141,7 @@ export const delete_zonal_pastor = async (req, res) => {
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const zonal_pastor = await ZonalPastor.findByIdAndDelete({ _id: zonal_pastor_id });
+    const zonal_pastor = await ZonalPastor.findByIdAndDelete({ _id: zonal_pastor_id }, { new: true });
     await Church.findOneAndUpdate({ "zonal_pastor._id": zonal_pastor_id }, { $set: { zonal_pastor: null }}, { new: true });
 
     return res.json(success("Success", zonal_pastor, res.statusCode));

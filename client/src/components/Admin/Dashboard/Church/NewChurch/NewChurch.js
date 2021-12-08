@@ -31,7 +31,7 @@ const NewChurch = () => {
     head_pastor: "",
   });
 
-  const {head_pastor, email, password, branch, city, street, bank_name, acct_name, acct_no, state, phone, role } = values;
+  const { head_pastor, email, password, branch, city, street, bank_name, acct_name, acct_no, state, phone, role } = values;
 
   useEffect(() => {
     dispatch(roleList());
@@ -40,6 +40,7 @@ const NewChurch = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value, " input change")
     if (name==="state") {
       const state_split = value.split(" ");
       setStateCode(state_split[state_split.length - 1]);
@@ -75,7 +76,7 @@ const NewChurch = () => {
       state, 
       phone, 
       role,
-      head_pastor,
+      resident_pastor_id: head_pastor,
     }
 
     dispatch(post_church(data));
@@ -93,7 +94,7 @@ const NewChurch = () => {
               <Row>
                 <Col xs="12" sm="12" md="12" lg="4" xl="4">
                   <label>Head Pastor</label>
-                  <Input type="select" placeholder="Enter head pastor name" onChange={(e) => handleChange(e)} value={head_pastor} name="head_pastor">
+                  <Input type="select" onChange={(e) => handleChange(e)} name="head_pastor">
                     <option disabled={true}>Select a pastor</option>
                     {pastor_docs?.length > 0 && pastor_docs.map((p, i) => {
                       return (
