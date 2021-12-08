@@ -14,7 +14,8 @@ import { finance } from "./reducers_income";
 import { expenditureReducer } from "./reducers_expenditure";
 import { reportReducers } from "./reducers_reports";
 import { coordinatorReducer } from "./reducers_zonal_pastor";
-import { residentPastorReducer } from "./reducers_resident_pastor"
+import { residentPastorReducer } from "./reducers_resident_pastor";
+import { regionalPastorReducer } from "./reducer_regional_pastor";
 
 export const rootReducer = combineReducers({
   account,
@@ -32,5 +33,6 @@ export const rootReducer = combineReducers({
   expenditureReducer,
   residentPastorReducer,
   reportReducers,
-  coordinatorReducer
+  coordinatorReducer,
+  regionalPastorReducer,
 });

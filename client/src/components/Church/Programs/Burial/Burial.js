@@ -61,9 +61,6 @@ const Burial = () => {
     setSearchTerm(value);
   }
 
-  const handleSearch = () => {
-    dispatch(searchBurial(search_term))
-  }
 
   const toggle = () => {
     setModal(!modal);
@@ -73,13 +70,13 @@ const Burial = () => {
     if (error && error === "Invalid token") {
       history.push("/church-login")
     }
-  }, [ error ]);
+  }, [ error, history ]);
 
   useEffect(() => {
     if (search_term.length > 0) {
-      handleSearch();
+      dispatch(searchBurial(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     const offset=1;
@@ -132,7 +129,7 @@ const Burial = () => {
         position: "", 
         burial_venue: "",
       });
-      toggle();
+      setModal(!modal);
     }
   }, [ create_success ]);
 

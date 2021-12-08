@@ -63,7 +63,7 @@ const ChurchList = () => {
     if (search_term.length > 0) {
       dispatch(search_church(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     if (filterData.length > 0) {
@@ -124,7 +124,7 @@ const ChurchList = () => {
     if (search_term?.length > 0) {
       dispatch(search_church(search_term));
     }
-  }, [ dispatch, search_church ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     if (filterData?.length > 0) {

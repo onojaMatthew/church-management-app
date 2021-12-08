@@ -11,13 +11,14 @@ export const NewRegionalPastor = ({
   phone,
   password,
   email,
+  region,
   add_loading,
   roles,
 }) => {
   
   return (
     <Modal id="income-modal" isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>New Coordinator</ModalHeader>
+      <ModalHeader toggle={toggle}>New Regional Pastor</ModalHeader>
       <ModalBody id="income-modal-body">
         <form onSubmit={handleSubmit}>
           <div>
@@ -43,6 +44,11 @@ export const NewRegionalPastor = ({
           <div className="mb-4">
             <label htmlFor="phone">Phone</label>
             <input id="phone" type="text" name="phone" onChange={(e) => handleChange(e)} value={phone} placeholder="080123..." className="form-control" />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="region">Region</label>
+            <input id="region" type="text" name="region" onChange={(e) => handleChange(e)} value={region} placeholder="Region" className="form-control" />
           </div>
 
           <div className="mb-4">

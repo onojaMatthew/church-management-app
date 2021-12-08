@@ -134,13 +134,13 @@ export const ResidentPastorList = () => {
     if (search_term.length > 0) {
       dispatch(search_resident_pastor(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     if (filterData.length > 0) {
       dispatch(filter_resident_pastors(filterData));
     }
-  }, [ filterData ]);
+  }, [ dispatch, filterData ]);
 
   return (
     <div>

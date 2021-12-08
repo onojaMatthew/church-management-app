@@ -1,5 +1,5 @@
-import { Modal, ModalBody, ModalHeader, Input } from "reactstrap";
-import { Button } from "antd";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
+// import { Button } from "antd";
 
 import "./Finance.css";
 

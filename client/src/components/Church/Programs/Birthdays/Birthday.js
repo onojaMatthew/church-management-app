@@ -35,9 +35,9 @@ const Birthday = () => {
     setSearchTerm(value);
   }
 
-  const handleSearch = () => {
-    dispatch(searchBirthday(search_term))
-  }
+  // const handleSearch = () => {
+    
+  // }
 
   const toggle = () => {
     setModal(!modal);
@@ -47,13 +47,13 @@ const Birthday = () => {
     if (error && error === "Invalid token") {
       history.push("/church-login")
     }
-  }, [ error ]);
+  }, [ error, history ]);
 
   useEffect(() => {
     if (search_term.length > 0) {
-      handleSearch();
+      dispatch(searchBirthday(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     const offset=1;

@@ -7,13 +7,13 @@ import { Button, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetch_all_church } from "../../../../store/actions/actions_church";
 import { 
-  add_coordinator, 
+  add_regional_pastor, 
   assign_church, 
-  coordinator_list, 
-  delete_coordinator, 
-  search_coordinators, 
-  filter_coordinators 
-} from "../../../../store/actions/actions_zonal_pastor";
+  regional_pastor_list, 
+  delete_regional_pastor, 
+  search_regional_pastors, 
+  filter_regional_pastors 
+} from "../../../../store/actions/actions_regional_pastor";
 
 import "./RegionalPastor.css";
 import { roleList } from "../../../../store/actions/actions_role";
@@ -23,26 +23,26 @@ import { NewRegionalPastor } from "./NewRegionalPastor";
 export const RegionalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
-  const { churches, error } = useSelector(state => state.church); 
-  const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
-  const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
+  const { churches } = useSelector(state => state.church); 
+  const { regional_pastors, regional_pastor_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.regionalPastorReducer);
+  const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", region: "", role: "" });
   const [ church, setChurch ] = useState("");
   const [ filterData, setFilterData ] = useState("")
   const [ search_term, setSearchTerm ] = useState("");
-  const [ coordinatorDetail, setCoordinatorDetail ] = useState({});
+  const [ regionalPastorDetail, setRegionalPastorDetail ] = useState({});
   const [ isView, setIsView ] = useState(false);
   const [ modal, setModal ] = useState(false);
 
-  const prevPage = coordinators && coordinators.prevPage,
-    nextPage = coordinators && coordinators.nextPage,
-    page = coordinators && coordinators.page,
-    totalPages = coordinators && coordinators.totalPages;
+  const prevPage = regional_pastors && regional_pastors.prevPage,
+    nextPage = regional_pastors && regional_pastors.nextPage,
+    page = regional_pastors && regional_pastors.page,
+    totalPages = regional_pastors && regional_pastors.totalPages;
 
   const toggle = () => {
     setModal(!modal);
   }
 
-  const { first_name, last_name, phone, email, password, role } = values;
+  const { first_name, last_name, phone, email, password, role, region } = values;
 
   const handleFilterChange = (e) => {
     const { value } = e.target;
@@ -71,23 +71,29 @@ export const RegionalPastorList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      first_name, last_name, phone, email, password, role
+      first_name, 
+      last_name, 
+      phone, 
+      email, 
+      password, 
+      role, 
+      region
     }
-    dispatch(add_coordinator(data));
+    dispatch(add_regional_pastor(data));
   }
 
   useEffect(() => {
     const limit = 10,
       offset = 1
     dispatch(fetch_all_church());
-    dispatch(coordinator_list(offset, limit));
+    dispatch(regional_pastor_list(offset, limit));
     dispatch(roleList());
   }, [ dispatch ]);
 
   const handleNextPage = (page) => {
     const offset = page;
     const limit = 10;
-    dispatch(coordinator_list(offset, limit));
+    dispatch(regional_pastor_list(offset, limit));
   }
   
   let coord_pagination = [];
@@ -97,8 +103,8 @@ export const RegionalPastorList = () => {
   }
 
   const toggleView = (id) => {
-    const detail = coordinator_docs.find(f => f._id === id);
-    setCoordinatorDetail(detail);
+    const detail = regional_pastor_docs.find(f => f._id === id);
+    setRegionalPastorDetail(detail);
     setIsView(!isView);
   }
 
@@ -108,7 +114,7 @@ export const RegionalPastorList = () => {
 
   const handleDelete = (e,id) => {
     e.preventDefault();
-    dispatch(delete_coordinator(id));
+    dispatch(delete_regional_pastor(id));
   }
 
   const handleChurchChange =  (e) => {
@@ -116,8 +122,7 @@ export const RegionalPastorList = () => {
   }
 
   const handleChurchSubmit = () => {
-    const data = { church, coordinatorId: coordinatorDetail&& coordinatorDetail._id }
-    console.log(data, " the data")
+    const data = { church, regional_pastor_id: regionalPastorDetail && regionalPastorDetail._id }
     if (church.length > 0) {
       dispatch(assign_church(data));
     } else {
@@ -131,22 +136,31 @@ export const RegionalPastorList = () => {
 
   useEffect(() => {
     if (add_success) {
-      setValues({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
+      setValues({ 
+        first_name: "", 
+        last_name: "", 
+        phone: "", 
+        email: "", 
+        password: "", 
+        role: "", 
+        region: "" 
+      });
+
       setModal(false);
     }
   }, [ add_success ]);
 
   useEffect(() => {
     if (search_term.length > 0) {
-      dispatch(search_coordinators(search_term))
+      dispatch(search_regional_pastors(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     if (filterData.length > 0) {
-      dispatch(filter_coordinators(filterData));
+      dispatch(filter_regional_pastors(filterData));
     }
-  }, [ filterData ]);
+  }, [ dispatch, filterData ]);
 
   return (
     <div>
@@ -154,7 +168,7 @@ export const RegionalPastorList = () => {
         <RegionalPastorDetails
           viewToggle={viewToggle}
           isView={isView}
-          coordinatorDetail={coordinatorDetail}
+          regionalPastorDetail={regionalPastorDetail}
           church={churches}
           assign_loading={assign_loading}
           handleChurchSubmit={handleChurchSubmit}
@@ -203,7 +217,7 @@ export const RegionalPastorList = () => {
                   ) : (
                     <div>
                       <Row>
-                      {coordinator_docs && coordinator_docs.length > 0 ? coordinator_docs.map((c, i) => (
+                      {regional_pastor_docs && regional_pastor_docs.length > 0 ? regional_pastor_docs.map((c, i) => (
                         <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
                           <div className="coord-list-card" key>
                             <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
@@ -260,6 +274,7 @@ export const RegionalPastorList = () => {
         password={password}
         roles={roles}
         phone={phone}
+        region={region}
         handleSubmit={handleSubmit}
         handleChange={handleChange}
         modal={modal}

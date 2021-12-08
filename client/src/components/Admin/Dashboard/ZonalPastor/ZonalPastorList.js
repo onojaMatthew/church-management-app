@@ -24,7 +24,7 @@ import { NewZonalPastor } from "./NewZonalPastor";
 export const ZonalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
-  const { churches, error } = useSelector(state => state.church); 
+  const { churches } = useSelector(state => state.church); 
   const { coordinators, coordinator_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ 
     first_name: "", 
@@ -132,7 +132,7 @@ export const ZonalPastorList = () => {
   }
 
   const handleChurchSubmit = () => {
-    const data = { church, coordinatorId: coordinatorDetail&& coordinatorDetail._id }
+    const data = { church, zonal_pastor_id: coordinatorDetail&& coordinatorDetail._id }
     if (church.length > 0) {
       dispatch(assign_church(data));
     } else {
@@ -162,13 +162,13 @@ export const ZonalPastorList = () => {
     if (search_term.length > 0) {
       dispatch(search_coordinators(search_term))
     }
-  }, [ search_term ]);
+  }, [ dispatch, search_term ]);
 
   useEffect(() => {
     if (filterData.length > 0) {
       dispatch(filter_coordinators(filterData));
     }
-  }, [ filterData ]);
+  }, [ dispatch, filterData ]);
 
   return (
     <div>

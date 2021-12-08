@@ -12,7 +12,7 @@ import { admin_data } from "../../../../store/actions/actions_dashboard_data";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { churches } = useSelector(state => state.church);
+  // const { churches } = useSelector(state => state.church);
   const { loading, error, data } = useSelector(state => state.dashboard_data);
   const admin = localAuth() && localAuth().user;
   useEffect(() => {

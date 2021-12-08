@@ -6,7 +6,7 @@ import ChurchHomePage from "./Church/Home/Home";
 import ChurchLogin from "./Church/Login/Login";
 import CoordinatorLogin from "./Coordinator/Login/Login";
 import CoordinatorHome from "./Coordinator/Dashboard/Home/Home";
-import Regional_pastor_login from "./RegionalPastor/Login/Login";
+import RegionalPastorLogin from "./RegionalPastor/Login/Login";
 import RegionalPastor from "./RegionalPastor/Dashboard/Home/Home";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <PrivateRoute path="/regional_pastor" render={(props) => <RegionalPastor {...props} />} />
         <Route path="/coordinator-login" render={(props) => <CoordinatorLogin {...props} />} />
         <PrivateRoute path="/church/:subdomain" render={(props) => <ChurchHomePage {...props} />} />
-        <Route path="/regional_pastor_login" render={(props) => <Regional_pastor_login {...props} />} />
+        <Route path="/regional_pastor_login" render={(props) => <RegionalPastorLogin {...props} />} />
       </BrowserRouter>
     </div>
   );

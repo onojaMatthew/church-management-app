@@ -33,7 +33,7 @@ const Dashboard = () => {
         errorMsg(error);
       }
     }
-  }, []);
+  }, [ error ]);
 
   return (
     <>

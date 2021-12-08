@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Spinner, Input, Row, Col } from "reactstrap";
-import { AiOutlineFilter } from "react-icons/ai";
+import { Card, CardBody, Spinner, Row, Col } from "reactstrap";
+// import { AiOutlineFilter } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { localAuth } from "../../../../../helper/authenticate";
 import { coordinating_church_list } from "../../../../../store/actions/actions_zonal_pastor";
-import Search from "../../../../SearchComponent/Search";
+// import Search from "../../../../SearchComponent/Search";
 import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
@@ -21,14 +21,14 @@ const ChurchList = () => {
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
   const [ nextAttr, setNextArr ] = useState({ totalPages: "", page: "", nextPage: "", prevPage: "" });
-  const [ userId, setUserId ] = useState("");
+  // const [ userId, setUserId ] = useState("");
   const [ isView, setIsView ] = useState(false);
 
   useEffect(() => {
     const offset = 1;
     const limit = 10;
     const id = localAuth()?.user?._id;
-    setUserId(id);
+    // setUserId(id);
     dispatch(coordinating_church_list(offset, limit));
   }, [ dispatch ]);
 
@@ -55,9 +55,9 @@ const ChurchList = () => {
     setIsView(!isView);
   }
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  }
+  // const handleSearch = (e) => {
+  //   setSearchTerm(e.target.value);
+  // }
 
   useEffect(() => {
     if (search_term.length > 0) {
@@ -71,11 +71,11 @@ const ChurchList = () => {
     }
   }, [ filterData ]);
 
-  const handleFilterChange = (e) => {
-    const { value } = e.target;
+  // const handleFilterChange = (e) => {
+  //   const { value } = e.target;
 
-    setFilterData(value)
-  }
+  //   setFilterData(value)
+  // }
 
   const filters = [
     { name: "All", value: "all"},

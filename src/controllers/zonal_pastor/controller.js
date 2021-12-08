@@ -121,6 +121,7 @@ export const assign_churches = async (req, res) => {
     church_details = await church_details.save();
     return res.json(success("Success", zonalPastor, res.statusCode));
   } catch (err) {
+    console.log(err.message)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

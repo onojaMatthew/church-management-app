@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "antd";
 import { Col, Row, Input } from "reactstrap";
 import { FaInfo } from "react-icons/fa";
@@ -19,7 +19,7 @@ export const ReportDetails = ({
   const date = date_data[0];
   const time = date_data[1];
   const converted_date = new Date(date);
-  const converted_time = time && time.toString()
+  // const converted_time = time && time.toString()
   
   return (
     <div className="coord-body">

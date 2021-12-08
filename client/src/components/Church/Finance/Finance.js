@@ -25,8 +25,8 @@ const Finance = () => {
   const [ incomeModal, setIncomeModal ] = useState(false);
   const [ expenditureModal, setExpenditureModal ] = useState(false);
   const [ toggleView, setToggleView ] = useState(false);
-  const [ isIncomeDelete, setIncomeDelete ] = useState(false);
-  const [ isExpDelete, SetExpDelete ] = useState(false);
+  // const [ isIncomeDelete, setIncomeDelete ] = useState(false);
+  // const [ isExpDelete, SetExpDelete ] = useState(false);
   const [ search_term, setSearchTerm ] = useState("");
   const [ message, setMessage ] = useState("");
   const [ incomeId, setIncomeId ] = useState("");
@@ -53,12 +53,12 @@ const Finance = () => {
   const toggleConfirmDelete = (action, id) => {
     if (action === "income_delete") {
       setMessage("Are you sure you want to delete this income data? To delete, click CONTINUE");
-      setIncomeDelete(true);
+      // setIncomeDelete(true);
       setModal(true);
       setIncomeId(id);
     } else {
       setExpenditureId(id)
-      SetExpDelete(true);
+      // SetExpDelete(true);
       setMessage("Are you sure you want to delete this Expenditure data? To delete, click CONTINUE");
       setModal(true);
     }
@@ -117,7 +117,7 @@ const Finance = () => {
     dispatch(fetchIncome(church, offset, limit));
     dispatch(fetchIncomeCategory());
     dispatch(fetchExpenditure(church,offset, limit));
-  }, [ dispatch ]);
+  }, [ dispatch, church ]);
 
   let paginateArr = [];
   for (let i = 1; i <= totalPages; i++) {
