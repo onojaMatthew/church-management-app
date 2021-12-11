@@ -62,8 +62,8 @@ export const Reports = () => {
 
   useEffect(() => {
     const offset = 1;
-    const limit = 10
-    dispatch(reportList(offset, limit))
+    const limit = 10;
+    dispatch(reportList(offset, limit));
   }, [ dispatch ]);
 
   const filters = [

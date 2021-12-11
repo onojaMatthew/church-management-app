@@ -1,8 +1,9 @@
 import { success, error } from "../../config/response";
 import { getModelByChurch } from "../../utils/util";
 import { reportSchema } from "../../models/report";
+import { regionalPastorSchema } from "../../models/regional_pastor";
 import { pagination } from "../../middleware/pagination";
-import { zonalCoordinatorSchema } from "../../models/zonal_pastor"
+import { zonalPastorSchema } from "../../models/zonal_pastor"
 import { churchSchema } from "../../models/church";
 
 export const create_report = async (req, res) => {
@@ -10,7 +11,7 @@ export const create_report = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
-    const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalCoordinatorSchema);
+    const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     const church_details = await Church.findById({ _id: church });
 
@@ -30,7 +31,7 @@ export const create_report = async (req, res) => {
 
     const regionPastorData = {
       _id: regionalPastor && regionalPastor._id,
-      name: `${first_name} ${last_name}`,
+      name: `${regionalPastor.first_name} ${regionalPastor.last_name}`,
       email: regionalPastor && regionalPastor.email,
       phone: regionalPastor && regionalPastor.phone,
     }
@@ -46,7 +47,7 @@ export const create_report = async (req, res) => {
 
     let report = new Report({ 
       church: church_data, subject, 
-      regional_pastion: regionPastorData, 
+      regional_pastor: regionPastorData, 
       to: zonal_pastor, 
       message, 
       coordinator: data 
@@ -56,6 +57,7 @@ export const create_report = async (req, res) => {
 
     return res.json(success("Success", report, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
