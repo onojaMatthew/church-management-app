@@ -49,24 +49,20 @@ export const ReportDetails = ({
 
           <Row>
             <Col xs='12' sm='12' md='12' lg='6' xl='6'>
-              <h4><strong>Remark</strong></h4>
-              {/* <textarea name="remark" value={remark} onChange={(e) => handleChange(e)} className="comment-input" placeholder="What's on your mind?" /> <br /> */}
-              {/* <p><FaInfo className="approval-info-icon" /> <span className="info-note">You can click on the check box to approve report only if you're satisfied with the it else, you can just leave a comment</span></p> */}
-              
+              <h4><strong>Approval</strong></h4>
               <label> 
-                
                 <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} name="approval" />
                  G.O
               </label> {" "}
               <label>
                
-                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} />
-               Zonal Pastor
+                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} />{" "}{" "}
+                Zonal Pastor
               </label><br /><br />
 
                <label> 
                 <Input className="go-check" type='checkbox' checked={report?.coordinator_approval} />
-               Regional Pastor
+                Regional Pastor
               </label><br /><br />
               
             </Col>

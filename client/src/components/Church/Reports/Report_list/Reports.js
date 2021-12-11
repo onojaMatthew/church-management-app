@@ -158,7 +158,7 @@ export const ReportList  = () => {
     <div>
       {view ?
         <ReportDetails
-          toggle={toggle}
+          toggle={toggleView}
           report={report}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
