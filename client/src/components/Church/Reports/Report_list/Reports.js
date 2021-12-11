@@ -17,6 +17,7 @@ export const ReportList  = () => {
   // const { church } = useSelector(state => state.church);
   const [ coordinator, setCoordinator ] = useState({ first_name: "", last_name: "", _id: "" });
   const [ filterData, setFilterData ] = useState("");
+  const [ regionalPastor, setRegionalPastor ] = useState({ first_name: "", last_name: "", _id: "" });
   const [ values, setValues ] = useState({ message: "", subject: "" });
   const [ id, setId ] = useState("");
   const [ search_term, setSearchTerm ] = useState("");
@@ -53,19 +54,23 @@ export const ReportList  = () => {
     if (localAuth().church && localAuth().church._id) {
       setId(localAuth().church && localAuth().church._id);
       setCoordinator({ 
-        first_name: localAuth().church && localAuth().church.coordinator?.first_name, 
-        last_name: localAuth().church && localAuth().church.coordinator?.last_name, 
-        _id: localAuth().church && localAuth().church.coordinator?._id
+        first_name: localAuth().church && localAuth().church.zonal_pastor?.first_name, 
+        last_name: localAuth().church && localAuth().church.zonal_pastor?.last_name, 
+        _id: localAuth().church && localAuth().church.zonal_pastor?._id
+      });
+      setRegionalPastor({ 
+        first_name: localAuth().church && localAuth().church.regional_pastor?.first_name, 
+        last_name: localAuth().church && localAuth().church.regional_pastor?.last_name, 
+        _id: localAuth().church && localAuth().church.regional_pastor?._id
       });
     }
-  }, [ dispatch ]);
+  }, []);
 
   useEffect(() => {
     const offset = 1;
     const limit = 10;
     if (id.length > 0) {
       dispatch(churchReports(id, offset, limit));
-      // dispatch(churchDetails(id));
     }
   }, [ id, dispatch ]);
 
@@ -91,7 +96,8 @@ export const ReportList  = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      to: coordinator && coordinator._id,
+      regional_pastor: "",
+      zonal_pastor: coordinator && coordinator._id,
       subject,
       message,
       church: id
@@ -196,6 +202,7 @@ export const ReportList  = () => {
         subject={subject}
         message={message}
         create_loading={create_loading}
+        regionalPastor={regionalPastor}
       />
     </div>   
   )

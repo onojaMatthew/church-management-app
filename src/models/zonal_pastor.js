@@ -13,11 +13,11 @@ export const zonalPastorSchema = new Schema({
     branch: String,
     phone: String,
     email: String,
-    resident_pastor: String
+    head_pastor: { first_name: String, last_name: String },
   }],
   role: { 
     role_id: { type: ObjectId, ref: "Role" },
-    role_name: { type: String }
+    role_name: { type: String },
   },
   password: { type: String },
   zone: { type: String },

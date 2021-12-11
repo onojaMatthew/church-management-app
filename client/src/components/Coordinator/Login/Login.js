@@ -33,7 +33,7 @@ const Login = () => {
 
   useEffect(() => {
     if (login_success) {
-      window.location.href = "/coordinator";
+      window.location.href = "/zonal_pastor";
     }
   }, [ login_success ]);
 

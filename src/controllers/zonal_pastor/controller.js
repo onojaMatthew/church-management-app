@@ -93,7 +93,8 @@ export const assign_churches = async (req, res) => {
       branch: church_details && church_details.branch,
       phone: church_details && church_details.phone,
       email: church_details && church_details.email,
-      head_pastor: church_details && church_details.head_pastor,
+      "head_pastor.first_name": church_details && church_details.head_pastor && church_details.head_pastor.first_name,
+      "head_pastor.last_name": church_details && church_details.head_pastor && church_details.head_pastor.last_name,
     }
 
     let zonalPastor = await ZonalPastor.findById({ _id: zonal_pastor_id });
@@ -141,7 +142,7 @@ export const delete_zonal_pastor = async (req, res) => {
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const zonal_pastor = await ZonalPastor.findByIdAndDelete({ _id: zonal_pastor_id }, { new: true });
+    const zonal_pastor = await ZonalPastor.findByIdAndDelete({ _id: zonal_pastor_id });
     await Church.findOneAndUpdate({ "zonal_pastor._id": zonal_pastor_id }, { $set: { zonal_pastor: null }}, { new: true });
 
     return res.json(success("Success", zonal_pastor, res.statusCode));

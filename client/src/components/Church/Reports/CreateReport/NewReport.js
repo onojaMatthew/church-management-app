@@ -9,7 +9,8 @@ export const NewReport = ({
   coordinator,
   subject,
   message,
-  create_loading
+  create_loading,
+  regionalPastor,
 }) => {
   
   return (
@@ -23,8 +24,13 @@ export const NewReport = ({
           </div>
 
           <div>
-            <label htmlFor="unit_price">Coordinator</label>
-            <input id="unit_price" type="text" name="unit_price" onChange={(e) => handleChange(e)} value={coordinator.first_name + " " + coordinator.last_name} className="form-control" />
+            <label htmlFor="unit_price">Zonal Pastor</label>
+            <input id="unit_price" type="text" name="unit_price" value={coordinator.first_name + " " + coordinator.last_name} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor="unit_price">regional Pastor</label>
+            <input id="unit_price" type="text" name="unit_price" value={regionalPastor.first_name + " " + regionalPastor.last_name} className="form-control" />
           </div>
 
           <div className="mb-4">

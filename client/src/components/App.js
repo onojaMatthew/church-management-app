@@ -22,10 +22,10 @@ function App() {
       <BrowserRouter>
         <Route exact path="/" render={(props) => <Login {...props} />} />
         <PrivateRoute path="/dashboard" render={(props) => <Home {...props} />} />
-        <PrivateRoute path="/coordinator" render={(props) => <CoordinatorHome {...props} />} />
+        <PrivateRoute path="/zonal_pastor" render={(props) => <CoordinatorHome {...props} />} />
         <Route path="/church-login" render={(props) => <ChurchLogin {...props} />} />
         <PrivateRoute path="/regional_pastor" render={(props) => <RegionalPastor {...props} />} />
-        <Route path="/coordinator-login" render={(props) => <CoordinatorLogin {...props} />} />
+        <Route path="/zonal_pastor_login" render={(props) => <CoordinatorLogin {...props} />} />
         <PrivateRoute path="/church/:subdomain" render={(props) => <ChurchHomePage {...props} />} />
         <Route path="/regional_pastor_login" render={(props) => <RegionalPastorLogin {...props} />} />
       </BrowserRouter>
