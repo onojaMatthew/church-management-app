@@ -4,7 +4,7 @@ import { Avatar, Button, Image, message } from "antd";
 import User from "../../../assets/images/User.jpeg";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { coordinatorLogin } from "../../../store/actions/actions_zonal_pastor";
+import { regionalPastorLogin } from "../../../store/actions/actions_regional_pastor";
 
 const Regional_pastor_login = () => {
   const dispatch = useDispatch();
@@ -28,12 +28,12 @@ const Regional_pastor_login = () => {
   const handleSubmit = () => {
     console.log(values, " values")
     const data = { email, password };
-    dispatch(coordinatorLogin(data));
+    dispatch(regionalPastorLogin(data));
   }
 
   useEffect(() => {
     if (login_success) {
-      window.location.href = "/coordinator";
+      window.location.href = "/regional_pastor";
     }
   }, [ login_success ]);
 

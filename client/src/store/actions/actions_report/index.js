@@ -26,6 +26,13 @@ export const COORDINATOR_REMARK_START = "COORDINATOR_REMARK_START";
 export const COORDINATOR_REMARK_SUCCESS = "COORDINATOR_REMARK_SUCCESS";
 export const COORDINATOR_REMARK_FAILED = "COORDINATOR_REMARK_FAILED";
 
+export const REGIONAL_PASTOR_REMARK_START = "REGIONAL_PASTOR_REMARK_START";
+export const REGIONAL_PASTOR_REMARK_SUCCESS = "REGIONAL_PASTOR_REMARK_SUCCESS";
+export const REGIONAL_PASTOR_REMARK_FAILED = "REGIONAL_PASTOR_REMARK_FAILED";
+export const REGIONAL_PASTOR_REPORT_START = "REGIONAL_PASTOR_REPORT_START";
+export const REGIONAL_PASTOR_REPORT_SUCCESS = "REGIONAL_PASTOR_REPORT_SUCCESS";
+export const REGIONAL_PASTOR_REPORT_FAILED = "REGIONAL_PASTOR_REPORT_FAILED";
+
 export const SEARCH_START = "SEARCH_START";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILED = "SEARCH_FAILED";
@@ -249,6 +256,48 @@ export const coordinator_reports = (id, offset, limit) => {
   }
 }
 
+export const regional_pastor_report_start = () => {
+  return {
+    type: REGIONAL_PASTOR_REPORT_START
+  }
+}
+
+export const regional_pastor_report_success = (data) => {
+  return {
+    type: REGIONAL_PASTOR_REPORT_SUCCESS,
+    data
+  }
+}
+
+export const regional_pastor_report_failed = (error) => {
+  return {
+    type: REGIONAL_PASTOR_REPORT_FAILED,
+    error
+  }
+}
+
+export const regional_pastor_reports = (id, offset, limit) => {
+  return dispatch => {
+    dispatch(regional_pastor_report_start());
+    fetch(`${BASE_URL}/report/regional_pastor_reports?regional_pastor_id=${id}&limit=${limit}&offset=${offset}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(regional_pastor_report_failed(resp.message));
+        dispatch(regional_pastor_report_success(resp.results));
+      })
+      .catch(err => {
+        dispatch(regional_pastor_report_failed(err.message));
+      });
+  }
+}
+
 export const delete_report_start = () => {
   return {
     type: DELETE_REPORT_START
@@ -372,6 +421,48 @@ export const coordinator_remark = (data) => {
         dispatch(coordinator_remark_success(resp.results));
       })
       .catch(err => dispatch(coordinator_remark_failed(err.message)));
+  }
+}
+
+export const regional_pastor_remark_start = () => {
+  return {
+    type: REGIONAL_PASTOR_REMARK_START
+  }
+}
+
+export const regional_pastor_remark_success = (data) => {
+  return {
+    type: REGIONAL_PASTOR_REMARK_SUCCESS,
+    data
+  }
+}
+
+export const regional_pastor_remark_failed = (error) => {
+  return {
+    type: REGIONAL_PASTOR_REMARK_FAILED,
+    error
+  }
+}
+
+
+export const regional_pastor_remark = (data) => {
+  return dispatch => {
+    dispatch(regional_pastor_remark_start());
+    fetch(`${BASE_URL}/report/regional_pastor_remark`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(regional_pastor_remark_failed(resp.message));
+        dispatch(regional_pastor_remark_success(resp.results));
+      })
+      .catch(err => dispatch(regional_pastor_remark_failed(err.message)));
   }
 }
 

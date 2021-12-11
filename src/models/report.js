@@ -14,6 +14,14 @@ export const reportSchema = new Schema({
     phone: String,
   },
   coordinator_remark: { type: String, default: "" },
+  regional_pastor: {
+    _id: ObjectId,
+    name: String,
+    email: String,
+    phone: String,
+  },
+  regional_pastor_remark: { type: String, default: "" },
+  regional_pastor_approval: { type: Boolean, default: false },
   coordinator_approval: { type: Boolean, default: false },
   gco_approval_remark: {
     approved: { type: Boolean, default: false },
@@ -22,7 +30,10 @@ export const reportSchema = new Schema({
   church: { 
     _id: ObjectId,
     branch: String,
-    head_pastor: String,
+    head_pastor: { 
+      first_name: String, 
+      last_name: String 
+    },
     email: String,
     phone: String
   }

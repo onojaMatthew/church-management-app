@@ -97,13 +97,16 @@ export const assign_churches = async (req, res) => {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
 
     let church_details = await Church.findById({ _id: church });
-
+    const head_pastor = {
+      first_name: church_details && church_details.head_pastor && church_details.head_pastor.first_name,
+      last_name: church_details && church_details.head_pastor && church_details.head_pastor.last_name
+    }
     const data = {
       _id: church_details && church_details._id,
       branch: church_details && church_details.branch,
       phone: church_details && church_details.phone,
       email: church_details && church_details.email,
-      head_pastor: church_details && church_details.head_pastor,
+      head_pastor,
     }
 
     let regionalPastor = await RegionalPastor.findById({ _id: regional_pastor_id });

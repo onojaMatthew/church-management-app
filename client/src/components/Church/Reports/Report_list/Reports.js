@@ -98,6 +98,7 @@ export const ReportList  = () => {
     const data = {
       regional_pastor: "",
       zonal_pastor: coordinator && coordinator._id,
+      regional_pastor: regionalPastor._id,
       subject,
       message,
       church: id

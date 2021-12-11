@@ -12,7 +12,10 @@ export const regionalPastorSchema = new Schema({
     branch: String,
     phone: String,
     email: String,
-    resident_pastor: String,
+    head_pastor: { 
+      first_name: String, 
+      last_name: String
+    },
     zonal_pastor: String
   }],
   role: { 

@@ -71,7 +71,6 @@ const Dashboard = () => {
             </CardBody>
           </Card>
         </Col>
-        
       </Row>
       <ChurchList />
       

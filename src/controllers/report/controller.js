@@ -6,17 +6,18 @@ import { zonalCoordinatorSchema } from "../../models/zonal_pastor"
 import { churchSchema } from "../../models/church";
 
 export const create_report = async (req, res) => {
-  const { church, subject, to, message } = req.body;
+  const { church, subject, zonal_pastor, regional_pastor, message } = req.body;
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
-    const Coordinator = await getModelByChurch("hostdatabase", "Coordinator", zonalCoordinatorSchema);
-
+    const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalCoordinatorSchema);
+    const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     const church_details = await Church.findById({ _id: church });
 
     if (!church_details) return res.status(404).json(error("Church does not exist", res.statusCode));
 
-    let coordinator = await Coordinator.findById({ _id: to });
+    let coordinator = await Coordinator.findById({ _id: zonal_pastor });
+    let regionalPastor = await RegionalPastor.findById({ _id: regional_pastor });
 
     const first_name = coordinator && coordinator.first_name;
     const last_name = coordinator && coordinator.last_name;
@@ -27,15 +28,29 @@ export const create_report = async (req, res) => {
       phone: coordinator && coordinator.phone,
     }
 
+    const regionPastorData = {
+      _id: regionalPastor && regionalPastor._id,
+      name: `${first_name} ${last_name}`,
+      email: regionalPastor && regionalPastor.email,
+      phone: regionalPastor && regionalPastor.phone,
+    }
+
     const church_data = {
       _id: church_details && church_details._id,
       branch: church_details && church_details.branch,
-      head_pastor: church_details && church_details.head_pastor,
+      "head_pastor.first_name": church_details && church_details.head_pastor && church_details.head_pastor.first_name,
+      "head_pastor.last_name": church_details && church_details.head_pastor && church_details.head_pastor.last_name,
       email: church_details && church_details.email,
       phone: church_details && church_details.phone
     }
 
-    let report = new Report({ church: church_data, subject, to, message, coordinator: data });
+    let report = new Report({ 
+      church: church_data, subject, 
+      regional_pastion: regionPastorData, 
+      to: zonal_pastor, 
+      message, 
+      coordinator: data 
+    });
 
     report = await report.save();
 
@@ -69,13 +84,25 @@ export const report_by_coordinator = async (req, res) => {
   }
 }
 
+export const report_by_regional_pastor = async (req, res) => {
+  const { regional_pastor_id } = req.query;
+  const { offset, limit } = pagination(req.query);
+  try {
+    const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
+    const reports = await Report.paginate({ "regional_pastor._id": regional_pastor_id }, { offset, limit, sort: { createdAt: -1 } });
+    return res.json(success("Success", reports, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
 export const report_by_church = async (req, res) => {
   const { church } = req.query;
   const { offset, limit } = pagination(req.query);
 
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
-    const reports = await Report.paginate({ "church._id": church }, { offset, limit });
+    const reports = await Report.paginate({ "church._id": church }, { offset, limit, sort: { createdAt: -1 } });
     return res.json(success("Success", reports, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
@@ -103,6 +130,24 @@ export const coordinator_remark = async (req, res) => {
 
     if (remark) report.coordinator_remark = remark;
     if (approval) report.coordinator_approval = approval;
+
+    report = await report.save();
+
+    return res.json(success("Success", report, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const regional_pastor_remark = async (req, res) => {
+  const { reportId, regional_pastor_id, remark, approval } = req.body;
+  try {
+    const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
+    let report = await Report.findOne({ _id: reportId, "regional_pastor._id": regional_pastor_id });
+    if (!report) return res.status(404).json(error("Report does not exist", res.statusCode));
+
+    if (remark) report.regional_pastor_remark = remark;
+    if (approval) report.regional_pastor_approval = approval;
 
     report = await report.save();
 
