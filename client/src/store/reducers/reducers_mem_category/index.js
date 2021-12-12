@@ -5,6 +5,15 @@ import {
   CATEGORY_LIST_START,
   CATEGORY_LIST_SUCCESS,
   CATEGORY_LIST_FAILED,
+  CREATE_CATEGORY_START,
+  CREATE_CATEGORY_SUCCESS,
+  CREATE_CATEGORY_FAILED,
+  UPDATE_CATEGORY_START,
+  UPDATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_FAILED,
+  DELETE_CATEGORY_START,
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_FAILED,
 } from "../../actions/actions_mem_category";
 
 const initialState = {
@@ -14,6 +23,12 @@ const initialState = {
   categorySuccess: false,
   categoryListLoading: false,
   categoryListSuccess: false,
+  create_loading: false,
+  create_success: false,
+  delete_loading: false,
+  delete_success: false,
+  update_loading: false,
+  update_success: false,
   error: ""
 }
 
@@ -57,6 +72,68 @@ export const category = (state=initialState, action) => {
         ...state,
         categoryListLoading: false,
         categoryListSuccess: false,
+        error: action.error
+      }
+    case CREATE_CATEGORY_START:
+      return {
+        ...state,
+        create_loading: true,
+        create_success: false,
+      }
+    case CREATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        create_loading: false,
+        create_success: true,
+        categories: state.categories.concat(action.data),
+      }
+    case CREATE_CATEGORY_FAILED:
+      return {
+        ...state,
+        create_loading: false,
+        create_success: false,
+        error: action.error
+      }
+    case UPDATE_CATEGORY_START:
+      return {
+        ...state,
+        update_loading: true,
+        update_success: false,
+      }
+    case UPDATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        update_loading: false,
+        update_success: true,
+        category: action.data,
+      }
+    case UPDATE_CATEGORY_FAILED:
+      return {
+        ...state,
+        create_loading: false,
+        create_success: false,
+        error: action.error
+      }
+    case DELETE_CATEGORY_START:
+      return {
+        ...state,
+        delete_loading: true,
+        delete_success: false,
+        categories: state.categories.concat(action.data),
+        error: action.error
+      }
+    case DELETE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: true,
+        categories: state.categories.filter(d => d._id !== action.data._id),
+      }
+    case DELETE_CATEGORY_FAILED:
+      return {
+        ...state,
+        delete_loading: false,
+        delete_success: false,
         error: action.error
       }
     default:
