@@ -86,10 +86,10 @@ export const categoryListFailed = (error) => {
 }
 
 
-export const categoryList = () => {
+export const categoryList = (churchId) => {
   return dispatch => {
     dispatch(categoryListStart());
-    fetch(`${BASE_URL}/mem_category/all/${id}`, {
+    fetch(`${BASE_URL}/mem_category/all/${churchId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export const create_failed = (error) => {
 export const createCategory = (data) => {
   return dispatch => {
     dispatch(create_start());
-    fetch(`${BASE_URL}/mem_category/new/${id}`, {
+    fetch(`${BASE_URL}/mem_category/new/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -170,7 +170,7 @@ export const update_failed = (error) => {
 export const updateCategory = (data) => {
   return dispatch => {
     dispatch(update_start());
-    fetch(`${BASE_URL}/mem_category/update/${id}`, {
+    fetch(`${BASE_URL}/mem_category/update/${data.id}/${data.churchId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -208,10 +208,10 @@ export const delete_failed = (error) => {
   }
 }
 
-export const deleteCategory = () => {
+export const deleteCategory = (id,churchId) => {
   return dispatch => {
     dispatch(delete_start());
-    fetch(`${BASE_URL}/mem_category/delete/${id}`, {
+    fetch(`${BASE_URL}/mem_category/delete/${id}/${churchId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

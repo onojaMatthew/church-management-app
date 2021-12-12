@@ -25,7 +25,7 @@ const NewMember = ({
 }) => {
 
   const allStates = State.getStatesOfCountry("NG");
-  
+  console.log(categories, " the categorys")
   return (
     <Modal id="member-detail-modal" isOpen={isOpen} toggle={toggleOpen}>
       <ModalHeader toggle={toggleOpen}>New Member Information</ModalHeader>
@@ -63,9 +63,9 @@ const NewMember = ({
             <Input placeholder="City" onChange={(e) => handleChange(e)} name="city" value={city} />
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <label>State *</label>
+            <label>State of Residence *</label>
             <Input type="select" onChange={(e) => handleChange(e)} name="state">
-              <option>State</option>
+              <option disabled={true}>Select State of Residence</option>
               {allStates && allStates.map((s, i) => (
                 <option key={i} value={s.name}>{s.name}</option>
               ))}
@@ -81,13 +81,14 @@ const NewMember = ({
 
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <label>State of Origin *</label>
-            <Input onChange={(e) => handleChange(e)} name="state_of_origin">
-              <option>State of Origin</option>
+          <label>State of Origin *</label>
+            <Input type="select" onChange={(e) => handleChange(e)} name="state_of_origin">
+              <option disabled={true}>Select a State</option>
               {allStates && allStates.map((s, i) => (
                 <option key={i} value={s.name}>{s.name}</option>
               ))}
             </Input>
+            
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Occupation *</label>

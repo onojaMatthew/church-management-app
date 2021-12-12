@@ -105,7 +105,7 @@ export const category = (state=initialState, action) => {
         ...state,
         update_loading: false,
         update_success: true,
-        category: action.data,
+        categoryInfo: action.data,
       }
     case UPDATE_CATEGORY_FAILED:
       return {
@@ -119,8 +119,6 @@ export const category = (state=initialState, action) => {
         ...state,
         delete_loading: true,
         delete_success: false,
-        categories: state.categories.concat(action.data),
-        error: action.error
       }
     case DELETE_CATEGORY_SUCCESS:
       return {

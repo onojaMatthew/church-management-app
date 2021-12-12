@@ -15,7 +15,7 @@ import { localAuth } from "../../../../helper/authenticate";
 const MemberList = () => {
   const dispatch = useDispatch();
   const church = localAuth() && localAuth().church && localAuth().church._id;
-  const { listLoading, members, postSuccess, updateLoading, postLoading, error } = useSelector(state => state.member);
+  const { listLoading, members, postSuccess, updateLoading, member_docs, postLoading, error } = useSelector(state => state.member);
   const { categories, categoryInfo, categorySuccess } = useSelector(state => state.category);
   const [ values, setValues ] = useState({ 
     first_name: "",
@@ -69,7 +69,7 @@ const MemberList = () => {
 
   useEffect(() => {
     dispatch(memberList());
-    dispatch(categoryList())
+    dispatch(categoryList(church))
   }, [ dispatch ]);
 
   useEffect(() => {
@@ -204,9 +204,9 @@ const MemberList = () => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div> : 
-                members && members.length > 0 ? (
+                
                   <tbody>
-                    {members && members.map((m, i) => (
+                    {member_docs?.length > 0 ? member_docs.map((m, i) => (
                       <tr key={m._id}>
                         <td>{i+1}</td>
                         <td>{m && m.first_name}</td>
@@ -218,27 +218,10 @@ const MemberList = () => {
                         <td>{m && m.marital_status}</td>
                         <td className="view-member-button" onClick={() => toggle(m._id)}><EyeOutlined size="large" /> View</td>
                       </tr>
-                    ))}
+                    )): <p className="text-center mt-5">No records found</p>}
                   </tbody>
-                 ) :
-                 members && members.docs && members.docs.length > 0 ? (
-                  <tbody>
-                    {members && members.docs && members.docs.map((m, i) => (
-                      <tr key={m._id}>
-                        <td>{i+1}</td>
-                        <td>{m && m.first_name}</td>
-                        <td>{m && m.last_name}</td>
-                        <td>{m && m.email}</td>
-                        <td>{m && m.phone}</td>
-                        <td>{m && m.state_of_origin}</td>
-                        <td>{m && m.occupation}</td>
-                        <td>{m && m.marital_status}</td>
-                        <td className="view-member-button" onClick={() => toggle(m._id)}><EyeOutlined size="large" /> View</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                 ) : 
-                 <p className="text-center mt-5">No records found</p>}
+                  
+                 }
                 
               </Table>
             </Col>

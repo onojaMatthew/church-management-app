@@ -18,6 +18,7 @@ import {
 
 const initialState = {
   members: [],
+  member_docs: [],
   member: {},
   listLoading: false,
   listSuccess: false,
@@ -48,6 +49,7 @@ export const member = (state=initialState, action) => {
         listLoading: false,
         listSuccess: true,
         members: action.data,
+        member_docs: action.data.docs
       }
     case MEMBER_LIST_FAILED:
       return {
@@ -68,6 +70,7 @@ export const member = (state=initialState, action) => {
         postLoading: false,
         postSuccess: true,
         members: state.members.concat(action.data),
+        member_docs: state.member_docs.concat(action.data)
       }
     case POST_MEMBER_FAILED:
       return {
@@ -88,6 +91,7 @@ export const member = (state=initialState, action) => {
         searchLoading: false,
         searchSuccess: true,
         members: action.data,
+        member_docs: action.data
       }
     case SEARCH_FAILED:
       return {
@@ -128,6 +132,7 @@ export const member = (state=initialState, action) => {
         deleteLoading: false,
         deleteSuccess: true,
         members: state.members.filter(m => m._id !== action.data._id),
+        member_docs: state.member_docs.filter(m => m._id !== action.data._id)
       }
     case DELETE_MEMBER_FAILED:
       return {
