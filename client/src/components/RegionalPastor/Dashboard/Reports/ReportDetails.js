@@ -51,44 +51,46 @@ export const ReportDetails = ({
           </Row>
 
           <Row>
-            <Col xs='12' sm='12' md='12' lg='6' xl='6'>
+            <Col xs='12' sm='12' md='12' lg='12' xl='12'>
+              <p className="remark-label mt-4"><strong>Zonal pastor remark</strong></p>
+              <p className='coordinator-remark'>{report.coordinator_remark ? report.coordinator_remark : "No remark"}</p>
+
+              <p className="remark-label mt-4"><strong>Regional pastor remark</strong></p>
+              <p className='coordinator-remark'>{report.regional_pastor_remark ? report.regional_pastor_remark : "No remark"}</p>
+
+              <p className="remark-label mt-4"><strong>General Overseer remark</strong></p>
+              <p className='go-remark'>{report?.gco_approval_remark.remark ? report?.gco_approval_remark.remark : "No remark"}</p>
+            </Col>
+          </Row>
+
+          <Row className="mt-4">
+            <Col xs='12' sm='12' md='12' lg='12' xl='12'>
               <h4><strong>Remark</strong></h4>
               <textarea name="remark" value={remark} onChange={(e) => handleChange(e)} className="comment-input" placeholder="What's on your mind?" /> <br />
               <p><FaInfo className="approval-info-icon" /> <span className="info-note">You can click on the check box to approve report only if you're satisfied with the it else, you can just leave a comment</span></p>
               
-              <label> 
-                <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} /> 
-                
-                 G.O
-              </label> {" "}
+              
               <label>
-                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> {" "}
-                Coordinator
-              </label><br /><br />
-
+                <Input className="coordinator-check" type='checkbox' checked={report?.coordinator_approval} /> &nbsp;
+                Zonal pastor
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <label>
                 {report?.regional_pastor_approval && report?.coordinator_approval ? 
                 <Input className="go-check" type='checkbox' checked={report?.regional_pastor_approval} /> :
                 report.coordinator_approval === false &&  report.regional_pastor_approval === false?
                 <Input className="go-check" type='checkbox' checked={report?.regional_pastor_approval} /> :
                 <Input className="go-check" type='checkbox' name="approval" onChange={(e) => handleChange(e)} /> 
-              } Regional pastor
-              </label><br /><br />
-
+                } Regional pastor
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label> 
+                <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} /> 
+                 G.O
+              </label> <br /><br />
               {remark_loading ? <Button loading className='remart-btn'>Processing...</Button> : 
               <Button onClick={handleSubmit} type="submit" className='remart-btn'>Send</Button>}
               
             </Col>
-            <Col xs='12' sm='12' md='12' lg='6' xl='6'>
-              <p className="remark-label"><strong>Coordinator remark</strong></p>
-              <p className='coordinator-remark'>{report.coordinator_remark ? report.coordinator_remark : "No remark"}</p>
-
-              <p className="remark-label"><strong>Regional pastor remark</strong></p>
-              <p className='coordinator-remark'>{report.regional_pastor_remark ? report.regional_pastor_remark : "No remark"}</p>
-
-              <p className="remark-label"><strong>G.O remark</strong></p>
-              <p className='go-remark'>{report?.gco_approval_remark.remark ? report?.gco_approval_remark.remark : "No remark"}</p>
-            </Col>
+            
           </Row>
         </div>
       </div>

@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <Nav>
       <div className="logo">
-        <FaChurch onClick={() => history.push("/coordinator")} className="church-icon" />
+        <FaChurch onClick={() => history.push("/regional_pastor")} className="church-icon" />
       </div>
       <Burger />
     </Nav>

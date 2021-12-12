@@ -32,7 +32,7 @@ const Ul = styled.ul`
   }
 `;
 
-const RightNav = ({ open }) => {
+const RightNav = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { logoutSuccess } = useSelector(state => state.account);
@@ -43,14 +43,25 @@ const RightNav = ({ open }) => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      history.push("/coordinator-login");
+      history.push("/regional_pastor_login");
+      setOpen(!open)
     }
   }, [ logoutSuccess, history ]);
 
+  const onReport = () => {
+    history.push("/regional_pastor/reports");
+    setOpen(!open);
+  }
+
+  const onDashboard = () => {
+    history.push("/regional_pastor");
+    setOpen(!open);
+  }
+
   return (
     <Ul open={open}>
-      <li onClick={() => history.push("/coordinator")}>Dashboard</li>
-      <li onClick={() => history.push("/coordinator/reports")}>Reports</li>
+      <li onClick={onDashboard}>Dashboard</li>
+      <li onClick={onReport}>Reports</li>
       <li onClick={onLogout}>Logout</li>
     </Ul>
   )
