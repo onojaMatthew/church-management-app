@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Spinner, Input, Row, Col } from "reactstrap";
-import { AiOutlineFilter } from "react-icons/ai";
+import { Card, CardBody, Spinner, Row, Col } from "reactstrap";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { localAuth } from "../../../../../helper/authenticate";
 import { coordinating_church_list } from "../../../../../store/actions/actions_zonal_pastor";
-import Search from "../../../../SearchComponent/Search";
 import { Church } from "../ChurchDetail/Church";
 
 import "./ChurchList.css";
@@ -17,18 +14,13 @@ const ChurchList = () => {
   const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
   const { docs, income_list } = useSelector(state => state.finance);
-  const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
-  const [ search_term, setSearchTerm ] = useState("");
   const [ nextAttr, setNextArr ] = useState({ totalPages: "", page: "", nextPage: "", prevPage: "" });
-  const [ userId, setUserId ] = useState("");
   const [ isView, setIsView ] = useState(false);
 
   useEffect(() => {
     const offset = 1;
     const limit = 10;
-    const id = localAuth()?.user?._id;
-    setUserId(id);
     dispatch(coordinating_church_list(offset, limit));
   }, [ dispatch ]);
 
@@ -54,40 +46,6 @@ const ChurchList = () => {
     setChurchDetail(detail);
     setIsView(!isView);
   }
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  }
-
-  useEffect(() => {
-    if (search_term.length > 0) {
-      // dispatch(chur(search_term))
-    }
-  }, [ search_term ]);
-
-  useEffect(() => {
-    if (filterData.length > 0) {
-      // dispatch(filter_coordinators(filterData));
-    }
-  }, [ filterData ]);
-
-  const handleFilterChange = (e) => {
-    const { value } = e.target;
-
-    setFilterData(value)
-  }
-
-  const filters = [
-    { name: "All", value: "all"},
-    { name: "24 hours", value: "1 days" },
-    { name: "Last 1 week", value: "1 weeks" },
-    { name: "Last 2 week", value: "2 weeks" },
-    { name: "Last 3 week", value: "3 weeks" },
-    { name: "1 month ago", value: "1 months" },
-    { name: "3 months ago", value: "3 months" },
-    { name: "6 months ago", value: "6 months" },
-    { name: "1 year ago", value: "12 months" }
-  ];
 
   useEffect(() => {
     if (detail && detail._id?.length > 0) {
@@ -140,22 +98,6 @@ const ChurchList = () => {
                 <Col xs="12" sm="12" md="12" lg="3" xl="3">
                 <p className="coord-header">Church List</p>
                 </Col>
-                {/* <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <div className="search-container">
-                    <Search search_term={search_term} onChange={handleSearch} />
-                  </div>
-                </Col>
-                <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <div className="filter-container">
-                    <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
-                      <option disabled={true}>Filter expenditure</option>
-                      {filters.map((t, i) => (
-                        <option value={t.value} key={i}>{t.name}</option>
-                      ))}
-                    </Input>
-                    <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
-                  </div>
-                </Col> */}
               </Row>
               <div>
               {church_list_loading ? (

@@ -228,21 +228,21 @@ export const reportReducers = (state=initialState, action) => {
     case REGIONAL_PASTOR_REMARK_START:
       return {
         ...state,
-        list_loading: true,
-        list_success: false,
+        remark_loading: true,
+        remark_success: false,
       }
     case REGIONAL_PASTOR_REMARK_SUCCESS:
       return {
         ...state,
-        list_loading: false,
-        list_success: true,
+        remark_loading: false,
+        remark_success: true,
         report: action.data,
       }
     case REGIONAL_PASTOR_REMARK_FAILED:
       return {
         ...state,
-        list_loading: false,
-        list_success: false,
+        remark_loading: false,
+        remark_success: false,
         error: action.error
       }
     case REGIONAL_PASTOR_REPORT_START:
@@ -250,26 +250,20 @@ export const reportReducers = (state=initialState, action) => {
         ...state,
         list_loading: true,
         list_success: false,
-        report_docs: action.data,
-        reports: action.data,
-        error: action.error
       }
     case REGIONAL_PASTOR_REPORT_SUCCESS:
       return {
         ...state,
-        list_loading: true,
-        list_success: false,
-        report_docs: action.data,
+        list_loading: false,
+        list_success: true,
+        report_docs: action.data.docs,
         reports: action.data,
-        error: action.error
       }
     case REGIONAL_PASTOR_REPORT_FAILED:
       return {
         ...state,
-        list_loading: true,
+        list_loading: false,
         list_success: false,
-        report_docs: action.data,
-        reports: action.data,
         error: action.error
       }
     case SEARCH_START:

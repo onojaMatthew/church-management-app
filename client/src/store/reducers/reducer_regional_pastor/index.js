@@ -31,7 +31,7 @@ import {
 const initialState = {
   regional_pastors: [],
   regional_pastor_docs: [],
-  church_list: [],
+  region_church_list: [],
   regional_pastor: {},
   login_loading: false,
   login_success: false,
@@ -168,7 +168,7 @@ export const regionalPastorReducer = (state = initialState, action) => {
         ...state,
         church_list_loading: false,
         church_list_success: true,
-        church_list: action.data,
+        region_church_list: action.data,
         regional_pastor_docs: action.data.docs
       }
     case CHURCH_LIST_FAILED:

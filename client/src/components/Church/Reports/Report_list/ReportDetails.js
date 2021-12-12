@@ -41,7 +41,7 @@ export const ReportDetails = ({
             </Col>
           </Row>
           <Row>
-            <Col xs='12' sm='12' md='12' lg='6' xl='6'>
+            <Col xs='12' sm='12' md='12' lg='12' xl='12'>
               <p className="report-head mt-4">Report</p>
               <p className="detail-email">{report?.message}</p>
             </Col>
@@ -49,7 +49,7 @@ export const ReportDetails = ({
 
           <Row>
             <Col xs='12' sm='12' md='12' lg='6' xl='6'>
-              <h4><strong>Approval</strong></h4>
+              <h4><strong>Approvals</strong></h4>
               <label> 
                 <Input className="go-check" type='checkbox' checked={report.gco_approval_remark?.approved} name="approval" />
                  G.O

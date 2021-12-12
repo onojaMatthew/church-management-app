@@ -3,23 +3,19 @@ import {
   useRouteMatch,
   useHistory,
 } from "react-router-dom"
-import { Avatar, Image, Layout, Menu } from 'antd';
+import { Avatar, Layout, Menu } from 'antd';
 import {
   DashboardOutlined,
-  BankFilled,
   LogoutOutlined,
-  DollarCircleFilled,
   UsergroupAddOutlined,
   SettingFilled
 } from '@ant-design/icons';
-import Logo from "../../../assets/images/User.jpeg";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/actions/actions_login";
 import { FaChurch } from "react-icons/fa";
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 const Sidebar = () => {
   const match = useRouteMatch();

@@ -45,7 +45,7 @@ export const ReportDetails = ({
             </Col>
           </Row>
           <Row>
-            <Col xs='12' sm='12' md='12' lg='6' xl='6'>
+            <Col xs='12' sm='12' md='12' lg='12' xl='12'>
               <p className="report-head mt-4">Report</p>
               <p className="detail-email">{report?.message}</p>
             </Col>

@@ -30,9 +30,10 @@
   margin-bottom: 70px;
 }
 
-.detail-email {
-  margin-top: -20px;
+.detail-email-reg {
   font: normal normal normal 22px/34px Manrope;
+  font-size: 16px;
+  line-height: 2px;
 }
 
 .assign-btn {
@@ -179,9 +180,19 @@
   border: 1px solid #979dac;
 }
 
+.church-details h2 {
+  font-size: 24px;
+  margin-bottom: 15px !important;
+}
+
 .coordinator-details {
   border: 1px solid #979dac;
   border-left: none;
+}
+
+.coordinator-details h2 {
+  font-size: 24px;
+  margin-bottom: 15px !important;
 }
 
 .comment-input {
@@ -318,9 +329,10 @@
     margin-top: 10px;
   }
 
-  .detail-email {
-    /* margin-top: -20px; */
+  .detail-email-reg {
     font: normal normal normal 16px/28px Manrope;
+    font-size: 14px !important;
+    line-height: 1.9;
   }
 
   .comment-input {

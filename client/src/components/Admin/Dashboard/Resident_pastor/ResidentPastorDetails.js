@@ -1,23 +1,23 @@
-import { Input, Row, Col, Table } from "reactstrap";
-import { Button, Divider } from "antd";
+// import { Input, Row, Col, Table } from "reactstrap";
+// import { Button, Divider } from "antd";
 
 import "./Residence.css";
-import { useState } from "react";
+// import { useState } from "react";
 
 export const ResidentPastorDetails = ({
-  assign_loading,
-  handleChurchChange,
-  handleChurchSubmit,
+  // assign_loading,
+  // handleChurchChange,
+  // handleChurchSubmit,
   pastorDetail,
-  church,
+  // church,
   viewToggle,
 }) => {
-  const [ isOpen, setIsOpen ] = useState(false);
+  // const [ isOpen, setIsOpen ] = useState(false);
   let role = pastorDetail.role && pastorDetail.role?.role_name;
   const rolesplit = role.split("_");
   const role1 = rolesplit[0];
   const role2 = rolesplit[1];
-  const churches = pastorDetail?.churches;
+  // const churches = pastorDetail?.churches;
   return (
     <div className="coord-body">
       <div className="cord-detail-card">

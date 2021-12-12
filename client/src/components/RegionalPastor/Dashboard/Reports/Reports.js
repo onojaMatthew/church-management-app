@@ -4,7 +4,13 @@ import { Card, CardBody, Col, Row, Input, Spinner } from "reactstrap";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Search from "../../../SearchComponent/Search"
 import { useDispatch, useSelector } from "react-redux";
-import { filter_report, coordinator_remark, reportList, searchReport, deleteReport, coordinator_reports } from "../../../../store/actions/actions_report";
+import { 
+  filter_report, 
+  regional_pastor_remark, 
+  reportList, searchReport, 
+  deleteReport, 
+  regional_pastor_reports
+} from "../../../../store/actions/actions_report";
 import { ReportDetails } from "./ReportDetails";
 import { localAuth } from "../../../../helper/authenticate";
 
@@ -16,7 +22,7 @@ export const Reports = () => {
   const [ filterData, setFilterData ] = useState("");
   const [ report, setReport ] = useState({});
   const [ view, setView ] = useState(false);
-  const [ coordinatorId, setCoordinatorId ] = useState("");
+  const [ regionalPastorId, setRegionalPastorId ] = useState("");
 
   const { remark, approval } = values;
   const page = reports && reports.page,
@@ -62,16 +68,16 @@ export const Reports = () => {
   }
 
   useEffect(() => {
-    setCoordinatorId(localAuth().user?._id);
+    setRegionalPastorId(localAuth().user?._id);
   }, []);
 
   useEffect(() => {
-    if (coordinatorId?.length > 0) {
+    if (regionalPastorId?.length > 0) {
       const offset = 1;
       const limit = 10;
-      dispatch(coordinator_reports(coordinatorId, offset, limit));
+      dispatch(regional_pastor_reports(regionalPastorId, offset, limit));
     }
-  }, [ dispatch, coordinatorId ]);
+  }, [ dispatch, regionalPastorId ]);
 
   const filters = [
     { name: "All", value: "all"},
@@ -96,11 +102,11 @@ export const Reports = () => {
       remark, 
       approval,
       reportId: report && report?._id,
-      coordinatorId,
+      regional_pastor_id: regionalPastorId,
     }
 
-
-    dispatch(coordinator_remark(data));
+    console.log(data);
+    dispatch(regional_pastor_remark(data));
   }
 
   useEffect(() => {

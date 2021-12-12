@@ -11,38 +11,39 @@ import { Church } from "../ChurchDetail/Church";
 import "./ChurchList.css";
 import { fetchExpenditure, getTotal } from "../../../../../store/actions/actions_expenditure";
 import { fetchIncome } from "../../../../../store/actions/actions_finance";
+import { church_list } from "../../../../../store/actions/actions_regional_pastor";
 
 const ChurchList = () => {
   const dispatch = useDispatch();
-  const { church_list_loading, church_list, coordinator_docs } = useSelector(state => state.coordinatorReducer);
+  const { regional_pastor, region_church_list, church_list_loading, regional_pastor_docs } = useSelector(state => state.regionalPastorReducer);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
   const { docs, income_list } = useSelector(state => state.finance);
   const [ filterData, setFilterData ] = useState("");
   const [ detail, setChurchDetail ] = useState({});
   const [ search_term, setSearchTerm ] = useState("");
   const [ nextAttr, setNextArr ] = useState({ totalPages: "", page: "", nextPage: "", prevPage: "" });
-  // const [ userId, setUserId ] = useState("");
+  const [ userId, setUserId ] = useState("");
   const [ isView, setIsView ] = useState(false);
 
   useEffect(() => {
     const offset = 1;
     const limit = 10;
     const id = localAuth()?.user?._id;
-    // setUserId(id);
-    dispatch(coordinating_church_list(offset, limit));
+    setUserId(id);
+    dispatch(church_list(offset, limit));
   }, [ dispatch ]);
 
   const handleNextPage = (page_number) => {
     const offset = page_number;
     const limit = 10;
     const data = { offset, limit };
-    dispatch(coordinating_church_list(data));
+    dispatch(church_list(data));
   }
 
-  const totalPages = church_list?.totalPages;
-  const page = church_list?.page;
-  const prevPage = church_list?.prevPage;
-  const nextPage = church_list?.nextPage;
+  const totalPages = region_church_list?.totalPages;
+  const page = region_church_list?.page;
+  const prevPage = region_church_list?.prevPage;
+  const nextPage = region_church_list?.nextPage;
 
   let paginateArr = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -50,7 +51,7 @@ const ChurchList = () => {
   }
 
   const toggleView = (id) => {
-    const detail = coordinator_docs.find(f => f._id === id);
+    const detail = regional_pastor_docs.find(f => f._id === id);
     setChurchDetail(detail);
     setIsView(!isView);
   }
@@ -167,7 +168,7 @@ const ChurchList = () => {
               ) : (
                 <div>
                   <Row>
-                  {coordinator_docs && coordinator_docs.length > 0 ? coordinator_docs.map((c, i) => (
+                  {regional_pastor_docs && regional_pastor_docs.length > 0 ? regional_pastor_docs.map((c, i) => (
                     <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
                       <div className="church-list-card" key>
                         <p className="church-name">{c?.head_pastor}</p>
