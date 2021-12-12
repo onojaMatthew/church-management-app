@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      history.push("/coordinator-login");
+      history.push("/zonal_pastor_login");
     }
   }, [ logoutSuccess, history ]);
 
@@ -37,10 +37,10 @@ const Sidebar = () => {
           <Avatar src={<FaChurch size="large" />} size={90}/>
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item onClick={() => history.push("/coordinator")} key="1" icon={<DashboardOutlined />}>
+          <Menu.Item onClick={() => history.push("/zonal_pastor")} key="1" icon={<DashboardOutlined />}>
             Churches
           </Menu.Item>
-          <Menu.Item key="5" onClick={() => history.push("/coordinator/reports")} icon={<FileOutlined />}>
+          <Menu.Item key="5" onClick={() => history.push("/zonal_pastor/reports")} icon={<FileOutlined />}>
             Reports
           </Menu.Item>
           

@@ -1,19 +1,17 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Avatar, Image, Layout, Menu } from 'antd';
+import { Avatar, Layout, Menu } from 'antd';
 import {
   DashboardOutlined,
   FileOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
-import Logo from "../../../../assets/images/User.jpeg";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../../store/actions/actions_login";
 import { FaChurch } from "react-icons/fa";
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -26,7 +24,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (logoutSuccess) {
-      history.push("/regional_pastor_login");
+      window.location.href = "/regional_pastor_login";
     }
   }, [ logoutSuccess, history ]);
 

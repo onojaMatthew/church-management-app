@@ -35,10 +35,11 @@
   color: #1890ff;
 }
 
-.church-name {
+.church-name-reg {
   height: 27px;
   text-align: left;
   font: normal normal bold 38px/47px Manrope;
+  font-size: 28px;
   letter-spacing: 0px;
   color: #FFFFFF;
   opacity: 1;

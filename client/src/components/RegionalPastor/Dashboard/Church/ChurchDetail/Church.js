@@ -49,7 +49,7 @@ export const Church = ({
               </Col>
               <Col xs="9" sm="9" md="9" lg="9" className="pt-3">
                 <p className="data-label">Income</p>
-                <p className="data"><span className="currency">&#8358;</span> {expenditure?.income}</p>
+                <p className="data"><span className="currency">&#8358;</span> {expenditure?.income ? expenditure?.income : "0.00"}</p>
               </Col>
             </Row>
           </div>
@@ -91,6 +91,7 @@ export const Church = ({
             <Table bordered responsive>
               <thead className="my-table">
                 <th>Head Pastor</th>
+                <th>Zonal Pastor</th>
                 <th>Branch</th>
                 <th>State</th>
                 <th>City</th>
@@ -104,7 +105,8 @@ export const Church = ({
               </thead>
               <tbody>
                 <tr>
-                  <td>{detail?.head_pastor}</td>
+                  <td>{detail?.head_pastor?.first_name} {detail?.head_pastor?.last_name}</td>
+                  <td>{detail?.zonal_pastor?.first_name} {detail?.zonal_pastor?.last_name}</td>
                   <td>{detail?.branch}</td>
                   <td>{detail?.address?.state}</td>
                   <td>{detail?.address?.city}</td>

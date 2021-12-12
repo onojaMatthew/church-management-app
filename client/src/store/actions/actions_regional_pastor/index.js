@@ -180,7 +180,7 @@ export const churches_failed = (error) => {
 export const church_list = (offset, limit) => {
   return dispatch => {
     dispatch(churches_start());
-    fetch(`${BASE_URL}/regional_pastor/church_list?coordinatorId=${id}&offset=${offset}&limit=${limit}`, {
+    fetch(`${BASE_URL}/regional_pastor/church_list?regional_pastor_id=${id}&offset=${offset}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -5,8 +5,6 @@ import { Layout } from 'antd';
 import Sidebar from "../Sidebar/Sidebar";
 import Head from "../Header/Head";
 import Dashboard from "./Dasboard";
-// import NewChurch from "../Church/NewChurch/NewChurch";
-import ChurchList from "../Church/ChurchList/ChurchList";
 import { Reports } from "../Reports/Reports";
 
 const { Content, Footer } = Layout;
@@ -21,7 +19,6 @@ const CoordinatorHome = (props) => {
         <Content className="dashboard-container-wrapper">
           <div className="site-layout-background dashboard-content">
             <Route exact path={`${match.url}`} render={(props) => <Dashboard {...props} />} />
-            {/* <Route exact path={`${match.url}/create-church`} render={(props) => <NewChurch {...props} />} /> */}
             <Route exact path={`${match.url}/reports`} render={(props) => <Reports {...props} />} />
           </div>
         </Content>
