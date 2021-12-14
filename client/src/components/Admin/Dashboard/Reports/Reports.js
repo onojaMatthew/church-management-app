@@ -156,7 +156,7 @@ export const Reports = () => {
                       {report_docs && report_docs.length > 0 ? report_docs.map((c, i) => (
                         <Col xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
                           <div className="coord-list-card">
-                            <p className="coord-name">{c?.subject?.length > 20 ? c?.subject.slice(0,15) + "..." : c?.subject}</p>
+                            <p className="coord-name">{c?.subject?.length > 20 ? c?.subject && c.subject.slice(0,15) + "..." : c?.subject}</p>
                             <p className='coord-email'>{c?.message.slice(0, 20)}</p>
                             <p className='coord-phone'>{c?.church && c?.church.branch}</p>
                             <div className='icon-cont'>

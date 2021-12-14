@@ -32,7 +32,7 @@ export const ReportDetails = ({
             <Col xs='12' sm='12' md='12' lg='6' xl='6' className="church-details">
               <h2 className="mb-3 mt-3"><strong>Church Details</strong></h2>
               <p className="detail-email"><strong>Date</strong>: {report?.church?.branch}</p>
-              <p className="detail-email"><strong>Head Pastor</strong>: {report?.church?.head_pastor}</p>
+              <p className="detail-email"><strong>Head Pastor</strong>: {report?.church?.head_pastor?.first_name} {report?.church?.head_pastor?.last_name}</p>
               <p className="detail-email"><strong>Email</strong>: {report?.church?.email}</p>
               <p className="detail-email"><strong>Phone</strong>: {report?.church?.phone}</p>
               <p className="detail-email"><strong>Date</strong>: {converted_date.toLocaleDateString()} {" "} <strong>Time</strong>: {time.toString()}</p>

@@ -1,4 +1,6 @@
-import { Modal, ModalBody, ModalHeader, Input } from "reactstrap";
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { Modal, ModalBody, ModalHeader, Row, Col, Input } from "reactstrap";
 import { Button } from "antd";
 
 export const NewRegionalPastor = ({
@@ -15,11 +17,40 @@ export const NewRegionalPastor = ({
   add_loading,
   roles,
 }) => {
+
+  const onDrop = useCallback(acceptedFiles => {
+    // Do something with the files
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
   
+  
+  // <Row className="mt-4">
+  //       <Col xs="12" xl="12">
+  //         <label>Upload a valid means of identification</label>
+  //         <div {...getRootProps()} className="text-center p-file-uploader">
+  //           {uploadedPhoto && uploadedPhoto.length > 0 ? <Image src={uploadedPhoto} alt="identity" style={{ width: "100%", height: "100%" }} /> : (
+  //             <>
+  //               <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
+  //               <i className="ri-folder-reduce-fill"></i>
+  //               {
+  //                 isDragActive ?
+  //                   <p style={{ color: "#00000045"}}>Drop the files here ...</p> :
+  //                   <div style={{ color: "#00000045"}}>
+  //                     <Icon name="plus" />
+  //                     <p>Upload</p>
+  //                   </div>
+  //               }
+  //             </>
+  //           )}
+  //         </div>
+  //         {Array.isArray(errorMsg) && errorMsg.length > 0 ? errorMsg.map((error, i) => error.param === "meansOfIdentification" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+  //       </Col>
+  //     </Row>
   return (
-    <Modal id="income-modal" isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>New Regional Pastor</ModalHeader>
-      <ModalBody id="income-modal-body">
+    // <Modal id="income-modal" isOpen={modal} toggle={toggle}>
+    //   <ModalHeader toggle={toggle}>New Regional Pastor</ModalHeader>
+    //   <ModalBody id="income-modal-body">
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="first_name">First Name</label>
@@ -69,7 +100,7 @@ export const NewRegionalPastor = ({
           }
            
         </form>
-      </ModalBody>
-    </Modal>
+    //   </ModalBody>
+    // </Modal>
   );
 }

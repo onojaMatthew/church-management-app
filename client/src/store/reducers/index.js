@@ -16,6 +16,7 @@ import { reportReducers } from "./reducers_reports";
 import { coordinatorReducer } from "./reducers_zonal_pastor";
 import { residentPastorReducer } from "./reducers_resident_pastor";
 import { regionalPastorReducer } from "./reducer_regional_pastor";
+import { upload } from "./reducers_upload";
 
 export const rootReducer = combineReducers({
   account,
@@ -35,4 +36,5 @@ export const rootReducer = combineReducers({
   reportReducers,
   coordinatorReducer,
   regionalPastorReducer,
+  upload,
 });

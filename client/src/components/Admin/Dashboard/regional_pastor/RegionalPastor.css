@@ -219,3 +219,15 @@
   color: #F05366;
   font-weight: bolder;
 }
+
+.file-uploader {
+  border: 2px dashed #0B70A5 !important;
+  background: #0B70A50F;
+  height: 92px;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.file-uploader .ri-folder-reduce-fill {
+  color:  #0B70A5;
+}
