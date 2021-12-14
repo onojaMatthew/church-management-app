@@ -163,124 +163,129 @@ export const RegionalPastorList = () => {
   }, [ dispatch, filterData ]);
 
   return (
-    <div>
-      {isView ? 
-        <RegionalPastorDetails
-          viewToggle={viewToggle}
-          isView={isView}
-          regionalPastorDetail={regionalPastorDetail}
-          church={churches}
-          assign_loading={assign_loading}
-          handleChurchSubmit={handleChurchSubmit}
-          handleChurchChange={handleChurchChange}
-        /> : (
-        <Row>
-          <Col xs="12" sm="12" md="12" lg="12" xl="12">
+    <>
+      {modal ? (
+        <NewRegionalPastor
+          first_name={first_name}
+          last_name={last_name}
+          email={email}
+          password={password}
+          roles={roles}
+          phone={phone}
+          region={region}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          modal={modal}
+          toggle={toggle}
+          add_loading={add_loading}
+        />
+      ) : (
+        <div>
+          {isView ? 
+            <RegionalPastorDetails
+              viewToggle={viewToggle}
+              isView={isView}
+              regionalPastorDetail={regionalPastorDetail}
+              church={churches}
+              assign_loading={assign_loading}
+              handleChurchSubmit={handleChurchSubmit}
+              handleChurchChange={handleChurchChange}
+            /> : (
             <Row>
-              <Col xs="12" sm="12" md="12" lg="8"></Col>
-              <Col xs="12" sm="12" md="12" lg="2"></Col>
-              <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="coord-action-btn">Create Regional Pastor</Button>
-              </Col>
-            </Row>
-            <Card id="income-card">
-              <CardBody>
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <Row>
-                  <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <p className="coord-header">Regional Pastors</p>
-                  </Col>
-                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                    <div className="search-container">
-                      <Search search_term={search_term} onChange={handleSearch} />
-                    </div>
-                  </Col>
-                  <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                    <div className="filter-container">
-                      <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
-                        <option disabled={true}>Filter expenditure</option>
-                        {filters.map((t, i) => (
-                          <option value={t.value} key={i}>{t.name}</option>
-                        ))}
-                      </Input>
-                      <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
-                    </div>
+                  <Col xs="12" sm="12" md="12" lg="8"></Col>
+                  <Col xs="12" sm="12" md="12" lg="2"></Col>
+                  <Col xs="12" sm="12" md="12" lg="2">
+                    <Button onClick={() => toggle()} className="coord-action-btn">Create Regional Pastor</Button>
                   </Col>
                 </Row>
-
-                <div>
-                  {list_loading ? (
-                    <div className="text-center spin">
-                      <Spinner className="my-loader">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
+                <Card id="income-card">
+                  <CardBody>
+                    <Row>
+                      <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                      <p className="coord-header">Regional Pastors</p>
+                      </Col>
+                      <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                        <div className="search-container">
+                          <Search search_term={search_term} onChange={handleSearch} />
+                        </div>
+                      </Col>
+                      <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                        <div className="filter-container">
+                          <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
+                            <option disabled={true}>Filter expenditure</option>
+                            {filters.map((t, i) => (
+                              <option value={t.value} key={i}>{t.name}</option>
+                            ))}
+                          </Input>
+                          <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
+                        </div>
+                      </Col>
+                    </Row>
+    
                     <div>
-                      <Row>
-                      {regional_pastor_docs && regional_pastor_docs.length > 0 ? regional_pastor_docs.map((c, i) => (
-                        <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
-                          <div className="coord-list-card" key>
-                            <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
-                            <p className='coord-email'>{c?.email}</p>
-                            <p className='coord-phone'>{c?.phone}</p>
-                            <div className='icon-cont'>
-                              <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
-                              <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
-                                {delete_loading ? (
-                                  <Spinner color="#fff">
-                                    <span className="visually-hidden">Deleting...</span>
-                                  </Spinner>
-                                ) : <FaTrash />}
-                              </p>
-                            </div>
-                          </div>
-                        </Col>
-                      )) : <h2 className="text-center">No Records Found</h2>}
-                      </Row>
+                      {list_loading ? (
+                        <div className="text-center spin">
+                          <Spinner className="my-loader">
+                            <span className="visually-hidden">Loading...</span>
+                          </Spinner>
+                        </div>
+                      ) : (
+                        <div>
+                          <Row>
+                          {regional_pastor_docs && regional_pastor_docs.length > 0 ? regional_pastor_docs.map((c, i) => (
+                            <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
+                              <div className="coord-list-card" key>
+                                <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
+                                <p className='coord-email'>{c?.email}</p>
+                                <p className='coord-phone'>{c?.phone}</p>
+                                <div className='icon-cont'>
+                                  <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
+                                  <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
+                                    {delete_loading ? (
+                                      <Spinner color="#fff">
+                                        <span className="visually-hidden">Deleting...</span>
+                                      </Spinner>
+                                    ) : <FaTrash />}
+                                  </p>
+                                </div>
+                              </div>
+                            </Col>
+                          )) : <h2 className="text-center">No Records Found</h2>}
+                          </Row>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </CardBody>
-              <div className="justify-content-center">
-                {totalPages && totalPages > 1 ? (
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination justify-content-center mt-5">
-                      <li className="page-item">
-                        <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </span>
-                      </li>
-                      {coord_pagination && coord_pagination.map((p, i) => (
-                        <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
-                      ))}
-                      
-                      <li className="page-item">
-                        <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </span>
-                      </li>
-                    </ul>
-                  </nav>
-                ) : null}
-              </div>
-            </Card>
-          </Col>
-        </Row> 
+                  </CardBody>
+                  <div className="justify-content-center">
+                    {totalPages && totalPages > 1 ? (
+                      <nav aria-label="Page navigation example">
+                        <ul className="pagination justify-content-center mt-5">
+                          <li className="page-item">
+                            <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </span>
+                          </li>
+                          {coord_pagination && coord_pagination.map((p, i) => (
+                            <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                          ))}
+                          
+                          <li className="page-item">
+                            <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </span>
+                          </li>
+                        </ul>
+                      </nav>
+                    ) : null}
+                  </div>
+                </Card>
+              </Col>
+            </Row> 
+          )}
+        </div>
       )}
-      <NewRegionalPastor
-        first_name={first_name}
-        last_name={last_name}
-        email={email}
-        password={password}
-        roles={roles}
-        phone={phone}
-        region={region}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        modal={modal}
-        toggle={toggle}
-        add_loading={add_loading}
-      />
-    </div>
+    </>
   );
 }

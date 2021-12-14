@@ -220,12 +220,27 @@
   font-weight: bolder;
 }
 
-.file-uploader {
-  border: 2px dashed #0B70A5 !important;
-  background: #0B70A50F;
-  height: 92px;
-  border-radius: 12px;
-  padding: 10px;
+.regional_pastor_form {
+  margin: 25px;
+}
+
+.regional_pastor_form input {
+  /* border: 1px solid #F05366; */
+  background-color: #0B70A50F !important;
+}
+
+.form-title {
+  color: #F05366;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.r-file-uploader {
+  border: 2px dashed #F05366 !important;
+  background: #0B70A50F !important;
+  height: 92px !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
 }
 
 .file-uploader .ri-folder-reduce-fill {
