@@ -19,14 +19,17 @@ import "./RegionalPastor.css";
 import { roleList } from "../../../../store/actions/actions_role";
 import { RegionalPastorDetails } from "./RegionalPastorDetail";
 import { NewRegionalPastor } from "./NewRegionalPastor";
+import { upload } from "../../../../store/actions/actions_uploader";
 
 export const RegionalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
-  const { churches } = useSelector(state => state.church); 
+  const { churches } = useSelector(state => state.church);
+  const { files, upload_loading, upload_success } = useSelector(state => state.upload);
   const { regional_pastors, regional_pastor_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.regionalPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", region: "", role: "" });
   const [ church, setChurch ] = useState("");
+  const [ uploadedFile, setUploadedPhoto ] = useState("");
   const [ filterData, setFilterData ] = useState("")
   const [ search_term, setSearchTerm ] = useState("");
   const [ regionalPastorDetail, setRegionalPastorDetail ] = useState({});
@@ -77,7 +80,8 @@ export const RegionalPastorList = () => {
       email, 
       password, 
       role, 
-      region
+      region,
+      image_url: uploadedFile
     }
     dispatch(add_regional_pastor(data));
   }
@@ -162,6 +166,20 @@ export const RegionalPastorList = () => {
     }
   }, [ dispatch, filterData ]);
 
+  const handlePhoto = (e) => {
+    const file = e.target.files[0];
+    if (file && file.name) {
+      dispatch(upload(file));
+    }
+  }
+
+  useEffect(() => {
+    if (upload_success) {
+      console.log(files, " the response");
+      setUploadedPhoto(files.secure_url);
+    }
+  });
+
   return (
     <>
       {modal ? (
@@ -178,6 +196,8 @@ export const RegionalPastorList = () => {
           modal={modal}
           toggle={toggle}
           add_loading={add_loading}
+          handlePhoto={handlePhoto}
+          uploadedFile={uploadedFile}
         />
       ) : (
         <div>

@@ -22,7 +22,8 @@ export const regionalPastorSchema = new Schema({
     role_id: { type: ObjectId, ref: "Role" },
     role_name: { type: String }
   },
-  password: { type: String }
+  password: { type: String },
+  image_url: { type: String }
 }, { timestamps: true });
 
 regionalPastorSchema.plugin(mongoosePaginate);

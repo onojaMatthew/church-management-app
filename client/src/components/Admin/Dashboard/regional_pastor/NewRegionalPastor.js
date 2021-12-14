@@ -1,12 +1,10 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { FaPlus } from "react-icons/fa";
-import { Modal, ModalBody, ModalHeader, Row, Col, Input } from "reactstrap";
+import { FaPlus, FaArrowLeft } from "react-icons/fa";
+import { Row, Col, Input } from "reactstrap";
 import { Button, Image } from "antd";
 
 export const NewRegionalPastor = ({
-  modal,
-  toggle,
   handleChange,
   handleSubmit,
   first_name,
@@ -28,17 +26,16 @@ export const NewRegionalPastor = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
   
-  
-  
   return (
     <div className="regional_pastor_form">
+      <FaArrowLeft className="reg-back" />
       <p className="form-title">Pastor profile</p>
       <form onSubmit={handleSubmit} >
         <Row className="mt-4 mb-4">
           <Col xs="12" xl="4">
-            <label>Upload a valid means of identification</label>
+            <label>Upload photo</label>
             <div {...getRootProps()} className="text-center r-file-uploader">
-              {uploadedFile && uploadedFile.length > 0 ? <Image src={uploadedFile} alt="identity" style={{ width: "100%", height: "100%" }} /> : (
+              {uploadedFile && uploadedFile.length > 0 ? <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> : (
                 <>
                   <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
                   <i className="ri-folder-reduce-fill"></i>
@@ -92,8 +89,8 @@ export const NewRegionalPastor = ({
         
         <Row className="mb-3">
           <Col xs="12" sm="12" md="12" lg="8" xl="8">
-            <label htmlFor="phone">Role</label>
-            <Input id="phone" type="select" name="role" onChange={(e) => handleChange(e)} className="form-control">
+            <label htmlFor="role">Role</label>
+            <Input id="role" type="select" name="role" onChange={(e) => handleChange(e)} className="form-control">
               <option>Choose a Role</option>
               {roles && roles.length > 0 && roles.map((role, i) => (
                 <option value={role?._id}>{role?.name}</option>
@@ -103,15 +100,20 @@ export const NewRegionalPastor = ({
         </Row>
         
         <Row>
-          <Col xs="12" sm="12" md="12" lg="4" xl="4">
-          <button type="reset" className="delete">Cancil</button>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <Row>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                <button type="reset" className="reg-delete">Cancil</button>
+              </Col>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                {
+                  add_loading ? <Button className="reg-cancil" loading>Loading...</Button> : 
+                  <button onClick={handleSubmit} type="submit" className="reg-cancil">Submit</button>
+                }
+              </Col>
+            </Row>
           </Col>
-          <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            {
-              add_loading ? <Button className="cancil" loading>Loading...</Button> : 
-              <button onClick={handleSubmit} type="submit" className="cancil">Submit</button>
-            }
-          </Col>
+          
         </Row>
       </form>
     </div>

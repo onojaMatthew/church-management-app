@@ -1,5 +1,5 @@
 import { Input, Row, Col, Table } from "reactstrap";
-import { Button, Divider } from "antd";
+import { Avatar, Button, Divider, Image } from "antd";
 
 import "./RegionalPastor.css";
 import { useState } from "react";
@@ -24,10 +24,14 @@ export const RegionalPastorDetails = ({
         <span className="close" onClick={() => viewToggle()}>X</span>
         <div className="coord-detail-inner-container">
           <p className="detail-name">{regionalPastorDetail?.first_name}{" "}{regionalPastorDetail?.last_name}</p>
-          <p className="detail-email"><strong>Email</strong>: {regionalPastorDetail?.email}</p>
-          <p className="detail-email"><strong>Phone</strong>: {regionalPastorDetail?.phone}</p>
-          <p className="detail-email"><strong>Role</strong>: {role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
-          <p className="detail-email"><strong>No. of churches</strong>: {regionalPastorDetail?.churches.length}</p>
+          <div className="info-cont">
+            <Avatar style={{marginBottom: 25 }} src={<Image src={regionalPastorDetail?.image_url} />} size={250} />
+            
+            <p className="detail-email">{regionalPastorDetail?.email}</p>
+            <p className="detail-email">{regionalPastorDetail?.phone}</p>
+            <p className="detail-email">{role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
+            <p className="detail-email"><strong>No. of churches</strong>: {regionalPastorDetail?.churches.length}</p>
+          </div>
           <hr />
           <Row>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
