@@ -26,6 +26,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
+  VALIDATION_ERROR,
 } from "../../actions/actions_regional_pastor";
 
 const initialState = {
@@ -52,9 +53,11 @@ const initialState = {
   search_loading: false,
   search_success: false,
   error: "",
+  validation_error: [],
 }
 
 export const regionalPastorReducer = (state = initialState, action) => {
+  console.log(action, " the action in the regional pastor reducer")
   switch(action.type) {
     case LOGIN_START:
       return {
@@ -74,6 +77,7 @@ export const regionalPastorReducer = (state = initialState, action) => {
         ...state,
         login_loading: false,
         login_success: false,
+        validation_error: action.error,
         error: action.error
       }
     case ADD_REGIONAL_PASTOR_START:
@@ -94,7 +98,14 @@ export const regionalPastorReducer = (state = initialState, action) => {
         ...state,
         add_loading: false,
         add_success: false,
-        error: action.error
+        error: action.error,
+      }
+    case VALIDATION_ERROR:
+      return {
+        ...state,
+        add_loading: false,
+        add_success: false,
+        validation_error: action.error
       }
     case REGIONAL_PASTOR_LIST_START:
       return {
@@ -105,6 +116,8 @@ export const regionalPastorReducer = (state = initialState, action) => {
     case REGIONAL_PASTOR_LIST_SUCCESS:
       return {
         ...state,
+        login_loading: false,
+        login_success: false,
         list_loading: false,
         list_success: true,
         regional_pastors: action.data,

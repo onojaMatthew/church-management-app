@@ -25,11 +25,19 @@ export const SEARCH_FAILED = "SEARCH_FAILED";
 export const FILTER_START = "FILTER_START";
 export const FILTER_SUCCESS = "FILTER_SUCCESS";
 export const FILTER_FAILED = "FILTER_FAILED";
+export const VALIDATION_ERROR = "VALIDATION_ERROR";
 
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().user?._id;
+
+export const validationError = (error) => {
+  return {
+    type: VALIDATION_ERROR,
+    error
+  }
+}
 
 export const add_resident_pastor_start = () => {
   return {
@@ -65,7 +73,8 @@ export const add_resident_pastor = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(add_resident_pastor_failed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(add_resident_pastor_failed(resp.message))
         return dispatch(add_resident_pastor_success(resp.results));
       })
       .catch(err => dispatch(add_resident_pastor_failed(err.message)));

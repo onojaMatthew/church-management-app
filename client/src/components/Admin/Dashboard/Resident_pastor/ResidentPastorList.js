@@ -13,14 +13,27 @@ import "./Residence.css";
 
 import { roleList } from "../../../../store/actions/actions_role";
 import { add_resident_pastor, delete_resident_pastor, filter_resident_pastors, resident_pastor_list, search_resident_pastor } from "../../../../store/actions/actions_resident_pastor";
+import { upload } from "../../../../store/actions/actions_uploader";
 
 export const ResidentPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches } = useSelector(state => state.church); 
-  const { resident_pastors, pastor_docs, assign_loading, assign_church, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.residentPastorReducer);
+  const [ validationError, setValidationError ] = useState([]);
+  const { files, upload_loading, upload_success } = useSelector(state => state.upload);
+  const { 
+    resident_pastors, 
+    pastor_docs, 
+    assign_loading, 
+    assign_church, 
+    add_loading, 
+    add_success, 
+    delete_loading, 
+    list_loading 
+  } = useSelector(state => state.residentPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
+  const [ uploadedFile, setUploadedPhoto ] = useState("");
   const [ filterData, setFilterData ] = useState("");
   const [ search_term, setSearchTerm ] = useState("");
   const [ pastorDetail, setPastorDetail ] = useState({});
@@ -57,6 +70,7 @@ export const ResidentPastorList = () => {
   ];
 
   const handleChange = (e) => {
+    setValidationError([]);
     const { value, name } = e.target;
     const newValues = { ...values, [name]: value }
     setValues(newValues);
@@ -111,7 +125,6 @@ export const ResidentPastorList = () => {
 
   const handleChurchSubmit = () => {
     const data = { church, coordinatorId: pastorDetail && pastorDetail._id }
-    console.log(data, " the data")
     if (church.length > 0) {
       dispatch(assign_church(data));
     } else {
@@ -125,7 +138,15 @@ export const ResidentPastorList = () => {
 
   useEffect(() => {
     if (add_success) {
-      setValues({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
+      setValues({ 
+        first_name: "", 
+        last_name: "", 
+        phone: "", 
+        email: "", 
+        password: "", 
+        role: "",
+        uploadedFile: "",
+      });
       setModal(false);
     }
   }, [ add_success ]);
@@ -142,123 +163,146 @@ export const ResidentPastorList = () => {
     }
   }, [ dispatch, filterData ]);
 
+  const handlePhoto = (e) => {
+    const file = e.target.files[0];
+    if (file && file.name) {
+      dispatch(upload(file));
+    }
+  }
+
+  useEffect(() => {
+    if (upload_success) {
+      setUploadedPhoto(files.secure_url);
+    }
+  }, [ upload_success ]);
+
   return (
-    <div>
-      {isView ? 
-        <ResidentPastorDetails
-          viewToggle={viewToggle}
-          isView={isView}
-          pastorDetail={pastorDetail}
-          church={churches}
-          assign_loading={assign_loading}
-          handleChurchSubmit={handleChurchSubmit}
-          handleChurchChange={handleChurchChange}
-        /> : (
-        <Row>
-          <Col xs="12" sm="12" md="12" lg="12" xl="12">
+    <>
+      {modal ? (
+        <NewResidentPastor
+          first_name={first_name}
+          last_name={last_name}
+          email={email}
+          roles={roles}
+          phone={phone}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          modal={modal}
+          toggle={toggle}
+          add_loading={add_loading}
+          handlePhoto={handlePhoto}
+          uploadedFile={uploadedFile}
+          validation_error={validationError}
+          upload_loading={upload_loading}
+          toggle={toggle}
+        />
+      ) : (
+        <div>
+          {isView ? 
+            <ResidentPastorDetails
+              viewToggle={viewToggle}
+              isView={isView}
+              pastorDetail={pastorDetail}
+              church={churches}
+              assign_loading={assign_loading}
+              handleChurchSubmit={handleChurchSubmit}
+              handleChurchChange={handleChurchChange}
+            /> : (
             <Row>
-              <Col xs="12" sm="12" md="12" lg="8"></Col>
-              <Col xs="12" sm="12" md="12" lg="2"></Col>
-              <Col xs="12" sm="12" md="12" lg="2">
-                <Button onClick={() => toggle()} className="coord-action-btn">Create Resident Pastor</Button>
-              </Col>
-            </Row>
-            <Card id="income-card">
-              <CardBody>
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <Row>
-                  <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                  <p className="coord-header">Resident Pastors</p>
-                  </Col>
-                  <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                    <div className="search-container">
-                      <Search search_term={search_term} onChange={handleSearch} />
-                    </div>
-                  </Col>
-                  <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                    <div className="filter-container">
-                      <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
-                        <option disabled={true}>Filter expenditure</option>
-                        {filters.map((t, i) => (
-                          <option value={t.value} key={i}>{t.name}</option>
-                        ))}
-                      </Input>
-                      <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
-                    </div>
+                  <Col xs="12" sm="12" md="12" lg="8"></Col>
+                  <Col xs="12" sm="12" md="12" lg="2"></Col>
+                  <Col xs="12" sm="12" md="12" lg="2">
+                    <Button onClick={() => toggle()} className="coord-action-btn">Create Resident Pastor</Button>
                   </Col>
                 </Row>
+                <Card id="income-card">
+                  <CardBody>
+                    <Row>
+                      <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                      <p className="coord-header">Resident Pastors</p>
+                      </Col>
+                      <Col xs="12" sm="12" md="12" lg="6" xl="6">
+                        <div className="search-container">
+                          <Search search_term={search_term} onChange={handleSearch} />
+                        </div>
+                      </Col>
+                      <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                        <div className="filter-container">
+                          <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
+                            <option disabled={true}>Filter expenditure</option>
+                            {filters.map((t, i) => (
+                              <option value={t.value} key={i}>{t.name}</option>
+                            ))}
+                          </Input>
+                          <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
+                        </div>
+                      </Col>
+                    </Row>
 
-                <div>
-                  {list_loading ? (
-                    <div className="text-center spin">
-                      <Spinner className="my-loader">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
                     <div>
-                      <Row>
-                      {pastor_docs && pastor_docs.length > 0 ? pastor_docs.map((c, i) => (
-                        <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
-                          <div className="coord-list-card" key>
-                            <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
-                            <p className='coord-email'>{c?.email}</p>
-                            <p className='coord-phone'>{c?.phone}</p>
-                            <div className='icon-cont'>
-                              <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
-                              <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
-                                {delete_loading ? (
-                                  <Spinner color="#fff">
-                                    <span className="visually-hidden">Deleting...</span>
-                                  </Spinner>
-                                ) : <FaTrash />}
-                              </p>
-                            </div>
-                          </div>
-                        </Col>
-                      )) : <h2 className="text-center">No Records Found</h2>}
-                      </Row>
+                      {list_loading ? (
+                        <div className="text-center spin">
+                          <Spinner className="my-loader">
+                            <span className="visually-hidden">Loading...</span>
+                          </Spinner>
+                        </div>
+                      ) : (
+                        <div>
+                          <Row>
+                          {pastor_docs && pastor_docs.length > 0 ? pastor_docs.map((c, i) => (
+                            <Col key={i} xs="12" sm="12" md="12" lg="3" xl="3" className="mb-4 card-col">
+                              <div className="coord-list-card" key>
+                                <p className="coord-name">{c?.first_name}{" "}{c?.last_name}</p>
+                                <p className='coord-email'>{c?.email}</p>
+                                <p className='coord-phone'>{c?.phone}</p>
+                                <div className='icon-cont'>
+                                  <p onClick={() => toggleView(c._id)} className="eye-btn"><FaEye /></p>
+                                  <p onClick={(e) => handleDelete(e, c._id)} className="trash-btn">
+                                    {delete_loading ? (
+                                      <Spinner color="#fff">
+                                        <span className="visually-hidden">Deleting...</span>
+                                      </Spinner>
+                                    ) : <FaTrash />}
+                                  </p>
+                                </div>
+                              </div>
+                            </Col>
+                          )) : <h2 className="text-center">No Records Found</h2>}
+                          </Row>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </CardBody>
-              <div className="justify-content-center">
-                {totalPages && totalPages > 1 ? (
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination justify-content-center mt-5">
-                      <li className="page-item">
-                        <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </span>
-                      </li>
-                      {coord_pagination && coord_pagination.map((p, i) => (
-                        <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
-                      ))}
-                      
-                      <li className="page-item">
-                        <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </span>
-                      </li>
-                    </ul>
-                  </nav>
-                ) : null}
-              </div>
-            </Card>
-          </Col>
-        </Row> 
+                  </CardBody>
+                  <div className="justify-content-center">
+                    {totalPages && totalPages > 1 ? (
+                      <nav aria-label="Page navigation example">
+                        <ul className="pagination justify-content-center mt-5">
+                          <li className="page-item">
+                            <span className="page-link" onClick={() => handleNextPage(prevPage)} aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </span>
+                          </li>
+                          {coord_pagination && coord_pagination.map((p, i) => (
+                            <li key={i} onClick={() => handleNextPage(p && p)} className={p === page ? `page-item active` : "page-item"}><span className="page-link">{p}</span></li>
+                          ))}
+                          
+                          <li className="page-item">
+                            <span className="page-link" onClick={() => handleNextPage(nextPage && nextPage)} aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </span>
+                          </li>
+                        </ul>
+                      </nav>
+                    ) : null}
+                  </div>
+                </Card>
+              </Col>
+            </Row> 
+          )}
+        </div>
       )}
-      <NewResidentPastor
-        first_name={first_name}
-        last_name={last_name}
-        email={email}
-        roles={roles}
-        phone={phone}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        modal={modal}
-        toggle={toggle}
-        add_loading={add_loading}
-      />
-    </div>
+    </>
   );
 }

@@ -25,8 +25,18 @@ export const RegionalPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
   const { churches } = useSelector(state => state.church);
+  const [ validationError, setValidationError ] = useState([]);
   const { files, upload_loading, upload_success } = useSelector(state => state.upload);
-  const { regional_pastors, regional_pastor_docs, assign_loading, add_loading, add_success, delete_loading, list_loading } = useSelector(state => state.regionalPastorReducer);
+  const { 
+    regional_pastors, 
+    regional_pastor_docs, 
+    validation_error, 
+    assign_loading, 
+    add_loading, 
+    add_success, 
+    delete_loading, 
+    list_loading 
+  } = useSelector(state => state.regionalPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", region: "", role: "" });
   const [ church, setChurch ] = useState("");
   const [ uploadedFile, setUploadedPhoto ] = useState("");
@@ -66,6 +76,7 @@ export const RegionalPastorList = () => {
   ];
 
   const handleChange = (e) => {
+    setValidationError([]);
     const { value, name } = e.target;
     const newValues = { ...values, [name]: value }
     setValues(newValues);
@@ -93,6 +104,12 @@ export const RegionalPastorList = () => {
     dispatch(regional_pastor_list(offset, limit));
     dispatch(roleList());
   }, [ dispatch ]);
+
+  useEffect(() => {
+    if (validation_error && validation_error.length > 0) {
+      setValidationError(validation_error);
+    }
+  }, [ validation_error ]);
 
   const handleNextPage = (page) => {
     const offset = page;
@@ -147,7 +164,8 @@ export const RegionalPastorList = () => {
         email: "", 
         password: "", 
         role: "", 
-        region: "" 
+        region: "",
+        uploadedFile: "",
       });
 
       setModal(false);
@@ -175,7 +193,6 @@ export const RegionalPastorList = () => {
 
   useEffect(() => {
     if (upload_success) {
-      console.log(files, " the response");
       setUploadedPhoto(files.secure_url);
     }
   });
@@ -198,6 +215,8 @@ export const RegionalPastorList = () => {
           add_loading={add_loading}
           handlePhoto={handlePhoto}
           uploadedFile={uploadedFile}
+          validation_error={validationError}
+          upload_loading={upload_loading}
         />
       ) : (
         <div>

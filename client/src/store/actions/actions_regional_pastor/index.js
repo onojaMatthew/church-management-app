@@ -28,11 +28,19 @@ export const FILTER_FAILED = "FILTER_FAILED";
 export const LOGIN_START = "LOGIN_START";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
+export const VALIDATION_ERROR = "VALIDATION_ERROR";
  
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().user?._id;
+
+export const validationError = (error) => {
+  return {
+    type: VALIDATION_ERROR,
+    error
+  }
+}
 
 export const loginStart = () => {
   return {
@@ -67,7 +75,8 @@ export const regionalPastorLogin = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(loginFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(loginFailed(resp.message))
         Auth.authenticateUser(JSON.stringify(resp.results));
         dispatch(loginSuccess(resp.results));
       })
@@ -110,7 +119,8 @@ export const add_regional_pastor = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(add_regional_pastor_failed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(add_regional_pastor_failed(resp.message))
         return dispatch(add_regional_pastor_success(resp.results));
       })
       .catch(err => dispatch(add_regional_pastor_failed(err.message)));

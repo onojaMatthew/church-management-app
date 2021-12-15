@@ -23,6 +23,7 @@ import {
   FILTER_START,
   FILTER_SUCCESS,
   FILTER_FAILED,
+  VALIDATION_ERROR,
 } from "../../actions/actions_resident_pastor";
 
 const initialState = {
@@ -49,6 +50,7 @@ const initialState = {
   search_loading: false,
   search_success: false,
   error: "",
+  validation_error: [],
 }
 
 export const residentPastorReducer = (state=initialState, action) => {
@@ -72,6 +74,14 @@ export const residentPastorReducer = (state=initialState, action) => {
         add_loading: false,
         add_success: false,
         error: action.error
+      }
+    case VALIDATION_ERROR:
+      return {
+        ...state,
+        add_loading: false,
+        add_success: false,
+        error: action.error,
+        validation_error: action.error
       }
     case RESIDENT_PASTOR_LIST_START:
       return {
