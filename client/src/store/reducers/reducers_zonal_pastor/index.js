@@ -26,6 +26,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
+  VALIDATION_ERROR,
 } from "../../actions/actions_zonal_pastor";
 
 const initialState = {
@@ -52,6 +53,7 @@ const initialState = {
   search_loading: false,
   search_success: false,
   error: "",
+  validation_error: [],
 }
 
 export const coordinatorReducer = (state=initialState, action) => {
@@ -76,6 +78,13 @@ export const coordinatorReducer = (state=initialState, action) => {
         login_success: false,
         error: action.error
       }
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        login_loading: false,
+        login_success: false,
+        validation_error: action.error,
+      }
     case ADD_COORDINATOR_START:
       return {
         ...state,
@@ -94,7 +103,14 @@ export const coordinatorReducer = (state=initialState, action) => {
         ...state,
         add_loading: false,
         add_success: false,
-        error: action.error
+        error: action.error,
+      }
+    case VALIDATION_ERROR:
+      return {
+        ...state,
+        add_loading: false,
+        add_success: false,
+        validation_error: action.error,
       }
     case COORDINATOR_LIST_START:
       return {

@@ -18,10 +18,10 @@ export const ResidentPastorDetails = ({
         <div className="coord-detail-inner-container">
           <p className="detail-name">{role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
           <div className="info-cont">
-            <Avatar style={{ marginBottom: 25 }} size={250} src={<Image src={pastorDetail?.image_url} />} />
-            <p className="detail-email"><strong>Name</strong>: {pastorDetail?.first_name}{" "} {pastorDetail?.last_name}</p>
-            <p className="detail-email"><strong>Email</strong>: {pastorDetail?.email}</p>
-            <p className="detail-email"><strong>Phone</strong>: {pastorDetail?.phone}</p>
+            <Avatar style={{ marginBottom: 25 }} size={200} src={<Image src={pastorDetail?.image_url} />} />
+            <p className="detail-email">{pastorDetail?.first_name}{" "} {pastorDetail?.last_name}</p>
+            <p className="detail-email">{pastorDetail?.email}</p>
+            <p className="detail-email"> {pastorDetail?.phone}</p>
             
           </div>
           
