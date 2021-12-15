@@ -4,14 +4,14 @@ import { error, success } from "../../config/response";
 import { getModelByChurch } from "../../utils/util";
 
 export const create_residence_pastor = async (req, res) => {
-  const { email, first_name, last_name, phone, role } = req.body;
+  const { email, first_name, last_name, phone, role, image_url } = req.body;
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     const role_data = await Role.findById({ _id: role });
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
     const itExists = await ResidentPastor.findOne({ email });
     if (itExists) return res.status(400).json(error("Email already taken", res.statusCode));
-    let resident_pastor = new ResidentPastor({ email, first_name, last_name, phone });
+    let resident_pastor = new ResidentPastor({ email, first_name, last_name, phone, image_url });
     resident_pastor.role.role_id = role_data && role_data._id;
     resident_pastor.role.role_name = role_data && role_data.name;
     resident_pastor = await resident_pastor.save();

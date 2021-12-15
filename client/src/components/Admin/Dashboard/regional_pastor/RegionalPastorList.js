@@ -165,9 +165,8 @@ export const RegionalPastorList = () => {
         password: "", 
         role: "", 
         region: "",
-        uploadedFile: "",
       });
-
+      setUploadedPhoto("");
       setModal(false);
     }
   }, [ add_success ]);

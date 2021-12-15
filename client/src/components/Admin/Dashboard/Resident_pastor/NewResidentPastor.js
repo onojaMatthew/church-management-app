@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Col, Row, Input } from "reactstrap";
+import { Col, Row, Input, Spinner } from "reactstrap";
 import { Button, Image } from "antd";
 import { FaPlus, FaArrowLeft } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
@@ -16,7 +16,8 @@ export const NewResidentPastor = ({
   roles,
   handlePhoto,
   validation_error,
-  toggle
+  toggle,
+  upload_loading
 }) => {
 
   const onDrop = useCallback(acceptedFiles => {
@@ -34,7 +35,14 @@ export const NewResidentPastor = ({
         <Col xs="12" xl="4">
           <label>Upload photo</label>
           <div {...getRootProps()} className="text-center r-file-uploader">
-            {uploadedFile && uploadedFile.length > 0 ? <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> : (
+            {upload_loading ?
+              <h4 className="text-center">
+                <Spinner className="my-loader">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>Uploading file. Please wait...
+              </h4> : 
+              uploadedFile && uploadedFile.length > 0 ? 
+              <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> : (
               <>
                 <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
                 <i className="ri-folder-reduce-fill"></i>

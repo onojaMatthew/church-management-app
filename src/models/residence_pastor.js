@@ -9,4 +9,5 @@ export const residentPastorSchema = new Schema({
     role_id: { type: ObjectId, ref: "Role" },
     role_name: { type: String }
   },
+  image_url: { type: String },
 }, { timestamps: true });

@@ -29,7 +29,8 @@ export const ResidentPastorList = () => {
     add_loading, 
     add_success, 
     delete_loading, 
-    list_loading 
+    list_loading,
+    validation_error,
   } = useSelector(state => state.residentPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", role: "" });
   const [ church, setChurch ] = useState("");
@@ -79,7 +80,12 @@ export const ResidentPastorList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      first_name, last_name, phone, email, role
+      first_name, 
+      last_name, 
+      phone, 
+      email, 
+      role,
+      image_url: uploadedFile
     }
     dispatch(add_resident_pastor(data));
   }
@@ -145,8 +151,8 @@ export const ResidentPastorList = () => {
         email: "", 
         password: "", 
         role: "",
-        uploadedFile: "",
       });
+      setUploadedPhoto("");
       setModal(false);
     }
   }, [ add_success ]);
@@ -175,6 +181,12 @@ export const ResidentPastorList = () => {
       setUploadedPhoto(files.secure_url);
     }
   }, [ upload_success ]);
+
+  useEffect(() => {
+    if (validation_error && validation_error.length > 0) {
+      setValidationError(validation_error);
+    }
+  }, [ validation_error ]);
 
   return (
     <>
