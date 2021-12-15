@@ -10,7 +10,7 @@ export const check_regional_pastor = [
   check("church").isMongoId().withMessage("Invalid church ID"),
   check("role").isMongoId().withMessage("Invalid role"),
   check("password").isStrongPassword(),
-  check("image_url").isURL().withMessage("Invalid image url"),
+  check("image_url").isURL().withMessage("Invalid image"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));

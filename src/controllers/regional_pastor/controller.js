@@ -28,7 +28,7 @@ export const create_regional_pastor = async (req, res) => {
 
     newRegionalpastor = await newRegionalpastor.save();
 
-    const link = "http://localhost:3000/regional-pastor/login";
+    const link = `https://${req.hostname}/regional_pastor_login`;
     const receiver = newRegionalpastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";

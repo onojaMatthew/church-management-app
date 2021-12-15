@@ -36,17 +36,18 @@ export const NewResidentPastor = ({
           <label>Upload photo</label>
           <div {...getRootProps()} className="text-center r-file-uploader">
             {upload_loading ?
-              <h4 className="text-center">
+              <p className="text-center">
                 <Spinner className="my-loader">
                   <span className="visually-hidden">Loading...</span>
                 </Spinner>Uploading file. Please wait...
-              </h4> : 
-              uploadedFile && uploadedFile.length > 0 ? 
-              <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> : (
+              </p> : 
+               (
               <>
                 <input {...getInputProps()} onChange={(e) => handlePhoto(e)} />
                 <i className="ri-folder-reduce-fill"></i>
                 {
+                uploadedFile && uploadedFile.length > 0 ? 
+                  <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> :
                   isDragActive ?
                     <p style={{ color: "#00000045"}}>Drop the files here ...</p> :
                     <div style={{ color: "#00000045"}} className="mt-2">

@@ -83,7 +83,7 @@ export const coordinatorReducer = (state=initialState, action) => {
         ...state,
         login_loading: false,
         login_success: false,
-        validation_error: action.error,
+        error: action.error
       }
     case ADD_COORDINATOR_START:
       return {
@@ -108,6 +108,8 @@ export const coordinatorReducer = (state=initialState, action) => {
     case VALIDATION_ERROR:
       return {
         ...state,
+        login_loading: false,
+        login_success: false,
         add_loading: false,
         add_success: false,
         validation_error: action.error,

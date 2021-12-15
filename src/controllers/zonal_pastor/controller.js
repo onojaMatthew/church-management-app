@@ -9,7 +9,7 @@ import { churchSchema } from "../../models/church";
 import { roleSchema } from "../../models/role";
 
 export const create_zonal_pastor = async (req, res) => {
-  const { first_name, last_name, email, phone, password, role, zone } = req.body;
+  const { first_name, last_name, email, phone, password, role, zone, image_url } = req.body;
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const itExists = await ZonalPastor.findOne({ email });
@@ -21,14 +21,14 @@ export const create_zonal_pastor = async (req, res) => {
     if (!role) return res.status(404).json(error("Role not found", ))
     const hash = bcrypt.hashSync(password, 12);
     
-    let newZonalPastor = new ZonalPastor({ first_name, last_name, email, password: hash && hash, phone, zone });
+    let newZonalPastor = new ZonalPastor({ first_name, last_name, email, password: hash && hash, phone, zone, image_url });
     newZonalPastor = await newZonalPastor.save();
     newZonalPastor.role.role_id = role_data && role_data._id;
     newZonalPastor.role.role_name = role_data && role_data.name;
 
     newZonalPastor = await newZonalPastor.save();
 
-    const link = "http://localhost:3000/zonal-pastor/login";
+    const link = `https://${req.hostname}/zonal_pastor_login`;
     const receiver = newZonalPastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
