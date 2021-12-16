@@ -23,6 +23,7 @@ import {
   DELETE_START,
   DELETE_SUCCESS,
   DELETE_FAILED,
+  VALIDATION_ERROR,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -45,7 +46,8 @@ const initialState = {
   filter_success: false,
   delete_loading: false,
   delete_success: false,
-  error: ""
+  error: "",
+  validation_error: [],
 }
 
 export const church = (state=initialState, action) => {
@@ -91,6 +93,15 @@ export const church = (state=initialState, action) => {
         postLoading: false,
         postSuccess: false,
         error: action.error
+      }
+    case VALIDATION_ERROR:
+      return {
+        ...state,
+        postLoading: false,
+        postSuccess: false,
+        loginLoading: false,
+        loginSuccess: false,
+        validation_error: action.error
       }
     case CHURCH_LOGIN_START:
       return {

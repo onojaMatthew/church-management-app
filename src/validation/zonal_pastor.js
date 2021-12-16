@@ -7,9 +7,8 @@ export const check_zonal_pastor = [
   check("email").isEmail().withMessage("Invalid email address"),
   check("phone").isMobilePhone("en-NG").withMessage("Invalid phone number"),
   check("zone").isLength({ min: 5 }).withMessage("Zone is required"),
-  check("church").isMongoId().withMessage("Invalid church ID"),
   check("role").isMongoId().withMessage("Invalid role"),
-  check("password").isStrongPassword(),
+  check("password").isLength({ min: 6, max: 50 }).withMessage("Password must be at least 6 characters long"),
   check("image_url").isURL().withMessage("Invalid image"),
   (req, res, next) => {
     const errors = validationResult(req);

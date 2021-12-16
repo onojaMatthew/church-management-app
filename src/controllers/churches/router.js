@@ -18,7 +18,7 @@ import {
 
 const router = express.Router();
 
-router.post("/church/new", verifyToken, grantAccess("createAny", "super admin"), createChurch);
+router.post("/church/new", verifyToken, grantAccess("createAny", "super admin"), newChurchValidator, createChurch);
 router.post("/church/login", churchLogin);
 router.get("/church/all", verifyToken, grantAccess("readAny", "super admin"), churchList);
 router.get("/church/dashbord_data", verifyToken, grantAccess("readOwn", "church"), dashboardData)

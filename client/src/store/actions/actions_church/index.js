@@ -33,9 +33,18 @@ export const DELETE_START = "DELETE_START";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
 export const DELETE_FAILED = "DELETE_FAILED";
 
+export const VALIDATION_ERROR = "VALIDATION_ERROR";
+
 const BASE_URL = process.env.REACT_APP_URL;
 
 const token = localAuth() && localAuth().token;
+
+export const validation_error = (error) => {
+  return {
+    type: VALIDATION_ERROR,
+    error
+  }
+}
 
 export const allChurchStart = () => {
   return {
@@ -111,7 +120,8 @@ export const post_church = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(createChurchFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(createChurchFailed(resp.message))
         return dispatch(createChurchSuccess(resp.results));
       })
       .then(() => dispatch(churchList()))

@@ -23,16 +23,17 @@
 .detail-name {
   height: 27px;
   text-align: left;
-  font: normal normal bold 46px/47px Manrope;
+  font: normal normal bold 10px/20px Manrope !important;
   letter-spacing: 0px;
   color: #F05366;
   opacity: 1;
-  margin-bottom: 70px;
+  /* margin-bottom: 70px; */
 }
 
-.detail-email {
-  margin-top: -20px;
-  font: normal normal normal 22px/34px Manrope;
+.ad-detail-email {
+  /* margin-top: -20px; */
+  font: normal normal normal 16px/24px Manrope;
+  line-height: 1px;
 }
 
 .assign-btn {

@@ -1,6 +1,22 @@
-.newchurch-form input, select {
+.newchurch-form input, .select {
   height: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 0px; 
+  background-color: #0B70A50F;
+  border: none;
+}
+
+.newchurch-form input:hover, .select:hover {
+  height: 50px;
+  border: 1px solid #F05366;
+  background-color: #0B70A50F;
+  /* */
+}
+
+.newchurch-form input:focus, .select:focus {
+  height: 50px;
+  border: 1px solid #F05366;
+  background-color: #0B70A50F;
+  /* */
 }
 
 .newchurch-header {
@@ -11,6 +27,7 @@
 
 .newchurch-form {
   padding: 20px;
+  min-height: 80vh;
 }
 
 .newchurch-form label {
@@ -36,4 +53,5 @@
   min-height: 50px;
   background: #F05366 ;
   border: none;
+  color: #FFFFFF;
 }
