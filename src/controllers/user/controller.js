@@ -155,7 +155,7 @@ export const updateRole = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
-    let admin = await Admin.findByIdAndUpdate({_id: req.params.adminId}, req.body);
+    let admin = await Admin.findByIdAndUpdate({_id: req.params.adminId }, req.body, { new: true });
     return res.json(success("Account updated", admin, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));

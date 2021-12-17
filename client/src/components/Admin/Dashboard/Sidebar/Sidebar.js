@@ -12,6 +12,7 @@ import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { logout } from "../../../../store/actions/actions_login";
+import { upload } from "../../../../store/actions/actions_uploader";
 
 const { Sider } = Layout;
 
@@ -19,7 +20,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { logoutSuccess } = useSelector(state => state.account);
-  const { files, upload_loading } = useSelector(state => state.upload);
+  const { files, upload_loading, upload_success } = useSelector(state => state.upload);
   const [ uploadedFile, setUploadedPhoto ] = useState("");
   
   const onLogout = () => {
@@ -37,8 +38,18 @@ const Sidebar = () => {
   }, []);
 
   const handlePhoto = (e) => {
-
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (file && file.name) {
+      dispatch(upload(file));
+    }
   }
+
+  useEffect(() => {
+    if (upload_success) {
+      setUploadedPhoto(files.secure_url);
+    }
+  }, [ upload_success ]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
 
@@ -46,13 +57,12 @@ const Sidebar = () => {
     <div className="side-container">
       <Sider>
         <div className="text-center mt-5 mb-4">
-          {/* <Avatar src={<FaChurch size="large" />} size={90}/> */}
           <div {...getRootProps()} className="text-center s-file-uploader">
             {upload_loading ?
               <p className="text-center">
                 <Spinner className="my-loader">
                   <span className="visually-hidden">Loading...</span>
-                </Spinner>Uploading file. Please wait...
+                </Spinner>
               </p> : 
                (
               <>
