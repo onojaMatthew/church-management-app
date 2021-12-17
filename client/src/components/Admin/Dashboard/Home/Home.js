@@ -11,6 +11,7 @@ import { Reports } from "../Reports/Reports";
 import { ZonalPastorList } from "../ZonalPastor/ZonalPastorList";
 import { ResidentPastorList } from "../Resident_pastor/ResidentPastorList";
 import { RegionalPastorList } from "../regional_pastor/RegionalPastorList";
+import { Settings } from "../Settings/Settings";
 
 const { Content, Footer } = Layout;
 
@@ -30,6 +31,7 @@ const Home = (props) => {
             <Route exact path={`${match.url}/resident_pastors`} render={(props) => <ResidentPastorList {...props} />} />
             <Route exact path={`${match.url}/zonal_pastors`} render={(props) => <ZonalPastorList {...props} />} />
             <Route exact path={`${match.url}/reports`} render={(props) => <Reports {...props} />} />
+            <Route exact path={`${match.url}/settings`} render={(props) => <Settings {...props} />} />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>©2021 Developed by Onoja Igoche Matthew</Footer>

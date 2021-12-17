@@ -14,4 +14,6 @@ export const adminSchema = new Schema({
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  church_logo: { type: String },
+  image_url: { type: String },
 }, { timestamps: true });

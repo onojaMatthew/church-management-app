@@ -10,6 +10,16 @@
   background-color: #F05366 !important;
 }
 
+.s-file-uploader {
+  border: 2px dashed #F05366 !important;
+  background: #0B70A50F !important;
+  width: 100px;
+  min-height: 100px !important;
+  border-radius: 50%;
+  padding: 10px !important;
+  color: #FFFFFF;
+}
+
 @media only screen and (max-width: 490px) {
   .side-container {
     display: none !important;
