@@ -7,12 +7,13 @@ import {
   FileOutlined,
   LogoutOutlined
 } from '@ant-design/icons'; 
-import { FaUserTie, FaChurch, FaTools, FaPlus, FaUpload } from "react-icons/fa"
+import { FaUserTie, FaChurch, FaTools, FaUpload } from "react-icons/fa";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { logout } from "../../../../store/actions/actions_login";
 import { upload } from "../../../../store/actions/actions_uploader";
+import { adminDetails, adminProfile } from "../../../../store/actions/actions_admin";
 
 const { Sider } = Layout;
 
@@ -20,7 +21,10 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { logoutSuccess } = useSelector(state => state.account);
+  const { admin, loading, success } = useSelector(state => state.adminReducer);
   const { files, upload_loading, upload_success } = useSelector(state => state.upload);
+  const [ values, setValues ] = useState({ email: "", first_name: "", last_name: "", phone: "", church_logo: "", image_url: "" });
+  const [ isUpload, setIsUpload ] = useState(false);
   const [ uploadedFile, setUploadedPhoto ] = useState("");
   
   const onLogout = () => {
@@ -48,11 +52,35 @@ const Sidebar = () => {
   useEffect(() => {
     if (upload_success) {
       setUploadedPhoto(files.secure_url);
+      setIsUpload(true)
     }
   }, [ upload_success ]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
+  useEffect(() => {
+    if (success) {
+      setUploadedPhoto(admin?.church_logo);
+      setIsUpload(false);
+    }
+  }, [ success ]);
 
+  useEffect(() => {
+    dispatch(adminDetails());
+  }, [ dispatch ]);
+
+  useEffect(() => {
+    if (admin?.church_logo?.length > 0) {
+      setUploadedPhoto(admin?.church_logo)
+    }
+  }, [ admin ]);
+
+  useEffect(() => {
+    if (isUpload === true && uploadedFile?.length > 0) {
+      const data = { church_logo: uploadedFile };
+      dispatch(adminProfile(data));
+    }
+  }, [ isUpload, dispatch, uploadedFile ]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
   return (
     <div className="side-container">
       <Sider>
@@ -70,7 +98,7 @@ const Sidebar = () => {
                 <i className="ri-folder-reduce-fill"></i>
                 {
                 uploadedFile && uploadedFile.length > 0 ? 
-                  <Image src={uploadedFile} alt="identity" style={{ width: "200px", height: "230px" }} /> :
+                  <Avatar size={100} src={<Image src={uploadedFile} alt="identity" style={{ width: "100%", height: "100%", borderRadius: "50%" }} />} /> :
                   isDragActive ?
                     <p style={{ color: "#FFFFFF"}}>Drop the files here ...</p> :
                     <div style={{ color: "#FFFFFF"}} className="mt-2">
