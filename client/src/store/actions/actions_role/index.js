@@ -141,7 +141,8 @@ export const updateRole = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(updateFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(updateFailed(resp.message));
         dispatch(updateSuccess(resp.results));
       })
       .catch(err => dispatch(updateFailed(err.message)));

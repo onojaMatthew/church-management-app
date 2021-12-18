@@ -116,6 +116,8 @@ export const role = (state=initialState, action) => {
         ...state,
         createLoading: false,
         createSucceess: false,
+        updateLoading: false,
+        updateSuccess: false,
         validation_error: action.error
       }
     default:

@@ -22,6 +22,7 @@ export const Settings = () => {
   const [ modal, setModal ] = useState(false);
   const [ id, setId ] = useState("");
   const [ role, setRole ] = useState("");
+  const [ validationError, setValidationError ] = useState([]);
 
   const toggle = (id) => {
     setModal(!modal);
@@ -29,6 +30,7 @@ export const Settings = () => {
   }
 
   const handleChange = (e) => {
+    setValidationError([]);
     setValue(e.target.value);
   }
 
@@ -41,6 +43,7 @@ export const Settings = () => {
   }
 
   const onChange = (e) => {
+    setValidationError([]);
     setRole(e.target.value);
   }
 
@@ -58,7 +61,6 @@ export const Settings = () => {
       name: role,
       id
     }
-    console.log(data, " inside edit");
     dispatch(updateRole(data));
   }
 
@@ -67,6 +69,25 @@ export const Settings = () => {
       dispatch(roleList())
     }
   }, [ dispatch, updateSuccess ]);
+
+  useEffect(() => {
+    if (validation_error?.length > 0) {
+      setValidationError(validation_error);
+    }
+  }, [ validation_error ]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      setRole("")
+    }
+  }, [ updateSuccess ]);
+
+  const onReset = () => {
+    setRole("");
+    setValue("")
+  }
+
+  console.log(validationError, " the validation error")
 
   return (
     <div>
@@ -80,12 +101,12 @@ export const Settings = () => {
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <label htmlFor="role"> Name</label>
                 <input id="role" type="text" value={value} placeholder="Enter role name" onChange={(e) => handleChange(e)} name="role" className="form-control" />
-                {validation_error.length > 0 ? validation_error.map((error, i) => error.param === "first_name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+                {validationError.length > 0 ? validationError.map((error, i) => error.param === "name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
               </Col>
             </Row>
             <Row>
               <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                <button type="reset" className="reg-delete">Cancil</button>
+                <button onClick={onReset} className="reg-delete">Cancil</button>
               </Col>
               <Col xs="12" sm="12" md="12" lg="3" xl="3">
                 {
@@ -133,20 +154,23 @@ export const Settings = () => {
         </Col>
       </Row> 
       <div>
-        <Modal toggle={toggle} isOpen={modal}>
-          <ModalHeader toggle={toggle}>Edit Role</ModalHeader>
+        <Modal toggle={toggle} isOpen={modal} id="role-modal">
+          <ModalHeader toggle={toggle}>
+            <p className="role-edit-title">Edit Role</p>
+          </ModalHeader>
           <ModalBody>
           <form onSubmit={onEdit}>
             <Row className="mb-3">
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <label htmlFor="role"> Name</label>
                 <input id="role" type="text" value={role} placeholder="Enter role name" onChange={(e) => onChange(e)} name="role" className="form-control" />
-                {validation_error.length > 0 ? validation_error.map((error, i) => error.param === "first_name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+                {validationError.length > 0 ? validationError.map((error, i) => error.param === "name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+                {validationError.length > 0 ? validationError.map((error, i) => error.param === "roleId" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
               </Col>
             </Row>
             <Row>
               <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                <button type="reset" className="reg-delete">Cancil</button>
+                <button onClick={onReset} className="reg-delete">Cancil</button>
               </Col>
               <Col xs="12" sm="12" md="12" lg="3" xl="3">
                 {
