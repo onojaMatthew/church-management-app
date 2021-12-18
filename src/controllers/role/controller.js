@@ -38,6 +38,7 @@ export const fetchRole = async (req, res) => {
 }
 
 export const updateRole = async (req, res) => {
+  console.log(req.body)
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     let role = await Role.findById({ _id: req.params.roleId });

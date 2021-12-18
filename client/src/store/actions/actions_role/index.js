@@ -130,7 +130,7 @@ export const updateFailed = (error) => {
 export const updateRole = (data) => {
   return dispatch => {
     dispatch(updateStart());
-    fetch(`${BASE_URL}/role/update`, {
+    fetch(`${BASE_URL}/role/${data.id}`, {
       method: "PUT",
       headers: {
         ACCEPT: "application/json",
@@ -170,9 +170,9 @@ export const deleteFailed = (error) => {
 
 export const deleteRole = (id) => {
   return dispatch => {
-    dispatch(updateStart());
-    fetch(`${BASE_URL}/role/delete?role=${id}`, {
-      method: "PUT",
+    dispatch(deleteStart());
+    fetch(`${BASE_URL}/role/${id}`, {
+      method: "DELETE",
       headers: {
         ACCEPT: "application/json",
         "Content-Type": "application/json",

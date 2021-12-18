@@ -75,40 +75,40 @@ export const role = (state=initialState, action) => {
       return {
         ...state,
         deleteLoading: true,
-        deleteSucceess: false
+        deleteSuccess: false
       }
     case DELETE_ROLE_SUCCESS:
       return {
         ...state,
         deleteLoading: false,
-        deleteSucceess: true,
+        deleteSuccess: true,
         roles: state.roles.filter(r => r._id !== action.data._id)
       }
     case DELETE_ROLE_FAILED:
       return {
         ...state,
-        deleteLoading: true,
-        deleteSucceess: false,
+        deleteLoading: false,
+        deleteSuccess: false,
         error: action.error
       }
     case UPDATE_ROLE_START:
       return {
         ...state,
         updateLoading: true,
-        updateSucceess: false
+        updateSuccess: false
       }
     case UPDATE_ROLE_SUCCESS:
       return {
         ...state,
         updateLoading: false,
-        updateSucceess: true,
+        updateSuccess: true,
         role: action.data
       }
     case UPDATE_ROLE_FAILED:
       return {
         ...state,
         updateLoading: false,
-        updateSucceess: false,
+        updateSuccess: false,
         error: action.error
       }
     case VALIDATION_ERROR:

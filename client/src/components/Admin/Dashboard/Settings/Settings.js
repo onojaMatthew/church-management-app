@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Card, CardBody, Table } from "reactstrap";
+import { Row, Col, Card, CardBody, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap";
 import { Button } from "antd";
 
 import "./Settings.css";
-import { createRole, roleList } from "../../../../store/actions/actions_role";
+import { createRole, deleteRole, roleList, updateRole } from "../../../../store/actions/actions_role";
+import { FaTrash } from "react-icons/fa";
 
 export const Settings = () => {
   const dispatch = useDispatch();
-  const { validation_error, roles, role, loading, success } = useSelector(state => state.role);
+  const { 
+    validation_error, 
+    roles, 
+    createLoading, 
+    updateSuccess, 
+    deleteLoading, 
+    listLoading, 
+    updateLoading
+  } = useSelector(state => state.role);
   const [ value, setValue ] = useState("");
+  const [ modal, setModal ] = useState(false);
+  const [ id, setId ] = useState("");
+  const [ role, setRole ] = useState("");
+
+  const toggle = (id) => {
+    setModal(!modal);
+    if (id) setId(id);
+  }
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -23,59 +40,125 @@ export const Settings = () => {
     dispatch(createRole(data));
   }
 
+  const onChange = (e) => {
+    setRole(e.target.value);
+  }
+
   useEffect(() => {
     dispatch(roleList());
   }, [ dispatch ]);
 
-  console.log(roles, " the role list")
+  const handleDelete = (id) => {
+    dispatch(deleteRole(id));
+  }
+
+  const onEdit = (e) => {
+    e.preventDefault()
+    const data = {
+      name: role,
+      id
+    }
+    console.log(data, " inside edit");
+    dispatch(updateRole(data));
+  }
+
+  useEffect(() => {
+    if (updateSuccess) {
+      dispatch(roleList())
+    }
+  }, [ dispatch, updateSuccess ]);
+
   return (
-    <Card className="settings-card mt-3">
-      <CardBody>
-        <Row>
-          <Col xs="12" sm="12" md="12" xl="6" lg="12">
-            <p>New Role</p>
-            <form onSubmit={""}>
-              <Row className="mb-3">
-                <Col xs="12" sm="12" md="12" lg="12" xl="12">
-                  <label htmlFor="role"> Name</label>
-                  <input id="role" type="text" value={value} placeholder="Enter role name" onChange={(e) => handleChange(e)} name="role" className="form-control" />
-                  {validation_error.length > 0 ? validation_error.map((error, i) => error.param === "first_name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
-                </Col>
-               
-              </Row>
-              <Row>
-                <Col xs="12" sm="12" md="12" lg="6" xl="6">
-                  <Row>
-                    <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                      <button type="reset" className="reg-delete">Cancil</button>
-                    </Col>
-                    <Col xs="12" sm="12" md="12" lg="3" xl="3">
-                      {
-                        loading ? <Button className="reg-cancil" loading>Loading...</Button> : 
-                        <button onClick={handleSubmit} type="submit" className="reg-cancil">Submit</button>
+    <div>
+      <Row>
+        <Col xs="12" sm="12" md="12" xl="6" lg="12">
+        <Card className="mt-3">
+          <CardBody>
+          <p className="page-title">New Role</p>
+          <form onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
+                <label htmlFor="role"> Name</label>
+                <input id="role" type="text" value={value} placeholder="Enter role name" onChange={(e) => handleChange(e)} name="role" className="form-control" />
+                {validation_error.length > 0 ? validation_error.map((error, i) => error.param === "first_name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                <button type="reset" className="reg-delete">Cancil</button>
+              </Col>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                {
+                  createLoading ? <Button className="set-cancil" loading>Loading...</Button> : 
+                  <button onClick={handleSubmit} type="submit" className="set-cancil">Submit</button>
+                }
+              </Col>
+            </Row>
+          </form>
+          </CardBody>
+          </Card>
+        </Col>
+        <Col xs="12" sm="12" md="12" xl="6" lg="12">
+          <Card className="mt-3">
+            <CardBody>
+              <p className="page-title">Role List</p>
+              {listLoading ? 
+                <div className="text-center">
+                  <Spinner>
+                    <span className="visualy-hidden"></span>
+                  </Spinner>
+                </div> : roles?.length > 0 ? roles.map((r, i) => (
+                <Row className="mb-3 table-row">
+                  <Col xs="6" sm="6" md="6" lg="8" xl="8">
+                    <p className="role-name">{r?.name.charAt(0).toUpperCase() + r?.name.slice(1)}</p>
+                  </Col>
+                  <Col xs="3" sm="3" md="6" lg="2" xl="2">
+                    <Button onClick={() => toggle(r?._id)} className="role-edit">Edit</Button>
+                  </Col>
+                  <Col xs="3" sm="3" md="6" lg="2" xl="2">
+                      <Button onClick={() => handleDelete(r?._id)} className="role-delete">
+                      {deleteLoading ? (
+                        <Spinner color="#fff">
+                          <span className="visually-hidden"></span>
+                        </Spinner>
+                      ) : 
+                        <FaTrash />
                       }
-                    </Col>
-                  </Row>
-                </Col>
-                
-              </Row>
-            </form>
-          </Col>
-          <Col xs="12" sm="12" md="12" xl="6" lg="12">
-            <Table responsive>
-              <tbody>
-                {roles?.length > 0 ? roles.map((r, i) => (
-                  <tr>
-                    <td>{r?.name.charAt(0).toUpperCase() + r?.name.slice(1)}</td>
-                    <td><Button>Edit</Button></td>
-                    <td><Button>Delete</Button></td>
-                  </tr>
-                )): <h4 className="text-center">No records found</h4>}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      </CardBody>
-    </Card>
+                      </Button>
+                  </Col>
+                </Row>
+              )): <h4 className="text-center">No records found</h4>}
+            </CardBody>
+          </Card>
+        </Col>
+      </Row> 
+      <div>
+        <Modal toggle={toggle} isOpen={modal}>
+          <ModalHeader toggle={toggle}>Edit Role</ModalHeader>
+          <ModalBody>
+          <form onSubmit={onEdit}>
+            <Row className="mb-3">
+              <Col xs="12" sm="12" md="12" lg="12" xl="12">
+                <label htmlFor="role"> Name</label>
+                <input id="role" type="text" value={role} placeholder="Enter role name" onChange={(e) => onChange(e)} name="role" className="form-control" />
+                {validation_error.length > 0 ? validation_error.map((error, i) => error.param === "first_name" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                <button type="reset" className="reg-delete">Cancil</button>
+              </Col>
+              <Col xs="12" sm="12" md="12" lg="3" xl="3">
+                {
+                  updateLoading ? <Button className="set-cancil" loading>Processing...</Button> : 
+                  <button type="submit" className="set-cancil">Submit</button>
+                }
+              </Col>
+            </Row>
+          </form>
+          </ModalBody>
+        </Modal>
+      </div>
+    </div> 
   );
 }
