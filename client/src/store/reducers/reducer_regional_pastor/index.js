@@ -76,7 +76,6 @@ export const regionalPastorReducer = (state = initialState, action) => {
         ...state,
         login_loading: false,
         login_success: false,
-        validation_error: action.error,
         error: action.error
       }
     case ADD_REGIONAL_PASTOR_START:
@@ -104,6 +103,8 @@ export const regionalPastorReducer = (state = initialState, action) => {
         ...state,
         add_loading: false,
         add_success: false,
+        login_loading: false,
+        login_success: false,
         validation_error: action.error
       }
     case REGIONAL_PASTOR_LIST_START:

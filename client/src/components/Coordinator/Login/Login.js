@@ -22,6 +22,7 @@ const Login = () => {
   }, []);
 
   const handleChange = (e) => {
+    setValidationError([]);
     const { name, value } = e.target;
 
     setValues({...values, [name]: value });

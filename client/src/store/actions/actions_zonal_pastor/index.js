@@ -77,7 +77,8 @@ export const coordinatorLogin = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(loginFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(loginFailed(resp.message))
         Auth.authenticateUser(JSON.stringify(resp.results));
         dispatch(loginSuccess(resp.results));
       })

@@ -23,6 +23,7 @@ const Regional_pastor_login = () => {
   }, []);
 
   const handleChange = (e) => {
+    setValidationError([]);
     const { name, value } = e.target;
 
     setValues({...values, [name]: value });
@@ -30,7 +31,6 @@ const Regional_pastor_login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e, " the event")
     const data = { email, password };
     dispatch(regionalPastorLogin(data));
   }
