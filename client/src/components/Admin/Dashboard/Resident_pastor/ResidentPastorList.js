@@ -18,7 +18,7 @@ import { upload } from "../../../../store/actions/actions_uploader";
 export const ResidentPastorList = () => {
   const dispatch = useDispatch();
   const { roles } = useSelector(state => state.role);
-  const { churches } = useSelector(state => state.church); 
+  const { churches, error } = useSelector(state => state.church); 
   const [ validationError, setValidationError ] = useState([]);
   const { files, upload_loading, upload_success } = useSelector(state => state.upload);
   const { 
@@ -187,6 +187,12 @@ export const ResidentPastorList = () => {
       setValidationError(validation_error);
     }
   }, [ validation_error ]);
+
+  useEffect(() => {
+    if (error && error.includes("Invalid token")) {
+      window.location.href ="/";
+    }
+  }, [ error ]);
 
   return (
     <>

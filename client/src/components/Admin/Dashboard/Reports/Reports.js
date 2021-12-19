@@ -10,7 +10,7 @@ import { ReportDetails } from "./ReportDetails";
 
 export const Reports = () => {
   const dispatch = useDispatch();
-  const { reports, report_docs, delete_loading, list_loading, remark_loading } = useSelector(state => state.reportReducers);
+  const { reports, report_docs, delete_loading, error, list_loading, remark_loading } = useSelector(state => state.reportReducers);
   const [ search_term, setSearchTerm ] = useState("");
   const [ values, setValue ] = useState({ remark: "", approval: false });
   const [ filterData, setFilterData ] = useState("");
@@ -105,6 +105,12 @@ export const Reports = () => {
       dispatch(filter_report(filterData));
     }
   }, [ dispatch, filterData ]);
+
+  useEffect(() => {
+    if (error && error.includes("Invalid token")) {
+      window.location.href = "/";
+    }
+  }, [ error ]);
 
   return (
     <div>

@@ -35,7 +35,8 @@ export const RegionalPastorList = () => {
     add_loading, 
     add_success, 
     delete_loading, 
-    list_loading 
+    list_loading,
+    error
   } = useSelector(state => state.regionalPastorReducer);
   const [ values, setValues ] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", region: "", role: "" });
   const [ church, setChurch ] = useState("");
@@ -150,6 +151,12 @@ export const RegionalPastorList = () => {
       message.error("You must select a church to continue")
     }
   }
+
+  useEffect(() => {
+    if (error && error.includes("Invalid token")) {
+      window.location.href = "/";
+    }
+  }, [ error ])
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

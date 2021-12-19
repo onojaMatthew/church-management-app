@@ -180,3 +180,13 @@ export const logout = (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+export const church_logo = async (req, res) => {
+  try {
+    const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
+    const logo = await Admin.find().select("church_logo");
+    return res.json(success("success", logo[0], res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}

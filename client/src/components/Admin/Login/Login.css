@@ -11,7 +11,8 @@
 
 .login-container label {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 .login-container .card {

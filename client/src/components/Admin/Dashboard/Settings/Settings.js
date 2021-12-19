@@ -16,7 +16,8 @@ export const Settings = () => {
     updateSuccess, 
     deleteLoading, 
     listLoading, 
-    updateLoading
+    updateLoading,
+    error,
   } = useSelector(state => state.role);
   const [ value, setValue ] = useState("");
   const [ modal, setModal ] = useState(false);
@@ -87,8 +88,11 @@ export const Settings = () => {
     setValue("")
   }
 
-  console.log(validationError, " the validation error")
-
+  useEffect(() => {
+    if (error && error.includes("Invalid token")) {
+      window.location.href = "/";
+    }
+  }, [ error ]);
   return (
     <div>
       <Row>

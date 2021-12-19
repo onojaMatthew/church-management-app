@@ -57,7 +57,6 @@ const initialState = {
 }
 
 export const regionalPastorReducer = (state = initialState, action) => {
-  console.log(action, " the action in the regional pastor reducer")
   switch(action.type) {
     case LOGIN_START:
       return {

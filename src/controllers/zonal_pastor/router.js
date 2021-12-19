@@ -1,6 +1,7 @@
 import express from "express";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
+import { loginValidator } from "../../validation/church";
 import { check_zonal_pastor } from "../../validation/zonal_pastor";
 import { 
   assign_churches, 
@@ -18,7 +19,7 @@ import {
 const router = express.Router();
 
 router.post("/zonal_pastor/new", verifyToken, grantAccess("createAny", "super admin"), check_zonal_pastor, create_zonal_pastor);
-router.post("/zonal_pastor/login", login);
+router.post("/zonal_pastor/login", loginValidator, login);
 router.get("/zonal_pastor/all", verifyToken, grantAccess("readAny", "super admin"), zonal_pastor_list);
 router.put("/zonal_pastor/assign_church", verifyToken, grantAccess("updateAny", "super admin"), assign_churches);
 router.get("/zonal_pastor/church_list", verifyToken, grantAccess("readOwn", "zonal_coordinator"), zone_church_list);

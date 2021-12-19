@@ -162,7 +162,8 @@ export const churchLogin = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error) return dispatch(churchLoginFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.errors));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(churchLoginFailed(resp.message))
         Auth.authenticateUser(JSON.stringify(resp.results));
         dispatch(churchLoginSuccess(resp.results));
       })

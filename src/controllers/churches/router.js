@@ -1,7 +1,7 @@
 import express from "express";
 import { grantAccess } from "../../middleware/access";
 import { verifyToken } from "../../middleware/auth";
-import { loginValidator, newChurchValidator, validateChurch } from "../../validation/church";
+import { loginValidator, newChurchValidator } from "../../validation/church";
 import { 
   allChurches, 
   churchDetails, 

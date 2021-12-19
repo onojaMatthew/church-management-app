@@ -6,6 +6,9 @@ export const ADMIN_DETAILS_FAILED = "ADMIN_DETAILS_FAILED";
 export const PROFILE_UPDATE_START = "PROFILE_UPDATE_START";
 export const PROFILE_UPDATE_SUCCESS = "PROFILE_UPDATE_SUCCESS";
 export const PROFILE_UPDATE_FAILED = "PROFILE_UPDATE_FAILED";
+export const CHURCH_LOGO_START = "CHURCH_LOGO_START";
+export const CHURCH_LOGO_SUCCESS = "CHURCH_LOGO_SUCCESS";
+export const CHURCH_LOGO_FAILED = "CHURCH_LOGO_FAILED";
 
 const BASE_URL = process.env.REACT_APP_URL;
 const token = localAuth()?.token;
@@ -93,3 +96,41 @@ export const adminProfile = (data) => {
   }
 }
 
+export const churchLogoStart = () => {
+  return {
+    type: CHURCH_LOGO_START
+  }
+}
+
+export const churchLogoSuccess = (data) => {
+  return {
+    type: CHURCH_LOGO_SUCCESS,
+    data
+  }
+}
+
+export const churchLogoFailed = (error) => {
+  return {
+    type: CHURCH_LOGO_FAILED,
+    error
+  }
+}
+
+export const churchLogo = () => {
+  return dispatch => {
+    dispatch(churchLogoStart());
+    fetch(`${BASE_URL}/auth/admin/logo`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(churchLogoFailed(resp.message));
+        dispatch(churchLogoSuccess(resp.results));
+      })
+      .catch(err => dispatch(churchLogoFailed(err.message)));
+  }
+}

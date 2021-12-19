@@ -14,7 +14,7 @@ import { churchList, delete_church, filter_church, search_church } from "../../.
 
 const ChurchList = () => {
   const dispatch = useDispatch();
-  const { churches, church_docs, delete_loading, allLoading } = useSelector(state => state.church);
+  const { churches, church_docs, delete_loading, allLoading, error } = useSelector(state => state.church);
   const { expenditure, exp_docs, expenditures } = useSelector(state => state.expenditureReducer);
   const { docs, income_list } = useSelector(state => state.finance);
   const [ filterData, setFilterData ] = useState("");
@@ -135,6 +135,12 @@ const ChurchList = () => {
   const handleDelete = (id) => {
     dispatch(delete_church(id));
   }
+
+  useEffect(() => {
+    if (error.includes("Invalid token")) {
+      window.location.href = "/";
+    }
+  }, [ error ]);
 
   return (
     <div>
