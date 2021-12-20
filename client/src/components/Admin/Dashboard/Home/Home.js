@@ -12,6 +12,7 @@ import { ZonalPastorList } from "../ZonalPastor/ZonalPastorList";
 import { ResidentPastorList } from "../Resident_pastor/ResidentPastorList";
 import { RegionalPastorList } from "../regional_pastor/RegionalPastorList";
 import { Settings } from "../Settings/Settings";
+import ForgotPassword from "../../Login/ForgotPassword";
 
 const { Content, Footer } = Layout;
 

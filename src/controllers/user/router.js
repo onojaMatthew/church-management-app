@@ -12,15 +12,15 @@ import {
   logout,
   church_logo,
 } from "./controller";
-import { loginValidator } from "../../validation/user";
+// import { loginValidator } from "../../validation/user";
 import { verifyToken } from "../../middleware/auth";
 
 const router = express.Router();
 // verifyToken, grantAccess("createAny", "super admin"),
-router.post('/auth/login', loginValidator, signIn);
+router.post('/auth/login', signIn);
 router.get("/auth/logout", logout);
 router.post('/auth/admin', verifyToken, createUser);
-router.put('/auth/admin/:adminId', verifyToken, updateProfile),
+router.put('/auth/admin/:adminId', verifyToken, updateProfile);
 router.post('/auth/forgot_password', forgotPassword);
 router.get("/auth/admin/logo", church_logo);
 router.post('/auth/reset_password/:token', resetPassword);

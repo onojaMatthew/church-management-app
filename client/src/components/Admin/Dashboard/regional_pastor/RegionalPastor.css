@@ -84,6 +84,16 @@
   padding: 15px;
 }
 
+.reg-detail-name {
+  height: 27px;
+  text-align: left;
+  font: normal normal bold 46px/47px Manrope;
+  letter-spacing: 0px;
+  color: #F05366;
+  opacity: 1;
+  margin-bottom: 70px;
+}
+
 .detail-name {
   height: 27px;
   text-align: left;

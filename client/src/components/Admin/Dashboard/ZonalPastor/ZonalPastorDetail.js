@@ -23,13 +23,13 @@ export const ZonalPastorDetail = ({
       <div className="cord-detail-card">
         <span className="close" onClick={() => viewToggle()}>X</span>
         <div className="coord-detail-inner-container">
-          <p className="detail-name">{role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
+          {/* <p className="detail-name">{role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p> */}
           <div className="info-cont">
             <Avatar style={{marginBottom: 25 }} src={<Image src={coordinatorDetail?.image_url} />} size={250} />
             <p className="detail-email">{coordinatorDetail?.first_name}{" "}{coordinatorDetail?.last_name}</p>
             <p className="detail-email"><strong>Email</strong>: {coordinatorDetail?.email}</p>
             <p className="detail-email"><strong>Phone</strong>: {coordinatorDetail?.phone}</p>
-            <p className="detail-email"><strong>Role</strong>: </p>
+            <p className="detail-email"><strong>Role</strong>: {role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
             <p className="detail-email"><strong>No. of churches</strong>: {coordinatorDetail?.churches.length}</p>
           </div>
           <hr />

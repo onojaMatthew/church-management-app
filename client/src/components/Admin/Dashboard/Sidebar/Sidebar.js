@@ -123,11 +123,11 @@ const Sidebar = () => {
           <Menu.Item key="4" onClick={() => history.push("/dashboard/resident_pastors")} icon={<FaUserTie />}>
             Resident Pastor
           </Menu.Item>
-          <Menu.Item key="5" onClick={() => history.push("/dashboard/regional_pastors")} icon={<FaUserTie />}>
-            Regional Pastors
-          </Menu.Item>
-          <Menu.Item key="6" onClick={() => history.push("/dashboard/zonal_pastors")} icon={<FaUserTie />}>
+          <Menu.Item key="5" onClick={() => history.push("/dashboard/zonal_pastors")} icon={<FaUserTie />}>
             Zonal Pastors
+          </Menu.Item>
+          <Menu.Item key="6" onClick={() => history.push("/dashboard/regional_pastors")} icon={<FaUserTie />}>
+            Regional Pastors
           </Menu.Item>
           <Menu.Item key="7" onClick={() => history.push("/dashboard/reports")} icon={<FileOutlined />}>
             Reports

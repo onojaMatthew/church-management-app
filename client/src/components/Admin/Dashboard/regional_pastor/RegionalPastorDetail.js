@@ -23,10 +23,10 @@ export const RegionalPastorDetails = ({
       <div className="cord-detail-card">
         <span className="close" onClick={() => viewToggle()}>X</span>
         <div className="coord-detail-inner-container">
-          <p className="detail-name">{regionalPastorDetail?.first_name}{" "}{regionalPastorDetail?.last_name}</p>
+          
           <div className="info-cont">
             <Avatar style={{marginBottom: 25 }} src={<Image src={regionalPastorDetail?.image_url} />} size={250} />
-            
+            <p className="detail-email">{regionalPastorDetail?.first_name}{" "}{regionalPastorDetail?.last_name}</p>
             <p className="detail-email">{regionalPastorDetail?.email}</p>
             <p className="detail-email">{regionalPastorDetail?.phone}</p>
             <p className="detail-email">{role1.charAt(0).toUpperCase() + role1.slice(1)}{" "}{role2}</p>
