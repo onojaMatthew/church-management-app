@@ -68,7 +68,7 @@ const Login = () => {
               <label>Password *</label>
               <Input onChange={(e) => handleChange(e)} placeholder="Enter password" type="password" name="password" value={password} />
               {/* {validationError.length > 0 ? validationError.map((error, i) => error.param === "password" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null} */}
-              <p className="mb-4 forgot-p-text" onClick={() => history.push("/forgot_password")}>Forgot password</p>
+              <p className="mb-4 forgot-p-text" style={{ cursor:'pointer' }} onClick={() => history.push("/forgot_password")}>Forgot password</p>
               {loginLoading ? <Button className="login-button" loading>Loading...</Button> : <button type="submit" className="login-button">Login</button>}
               </form>
             </CardBody>

@@ -141,7 +141,8 @@ export const forgotPassword = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error && resp.message === "Validation errors") return dispatch(forgotPasswordStart(resp.message));
+        console.log(resp, " the response")
+        if (resp.error && resp.message !== "Validation errors") return dispatch(forgotPasswordFailed(resp.message));
         if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.message));
         dispatch(forgotPasswordSuccess(resp.results));
       })
@@ -172,7 +173,7 @@ export const resetPasswordFailed = (error) => {
 export const resetPassword = (data) => {
   return dispatch => {
     dispatch(resetPasswordStart());
-    fetch(`${BASE_URL}/auth/reset_password`, {
+    fetch(`${BASE_URL}/auth/reset_password/${data.token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

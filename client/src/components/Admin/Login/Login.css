@@ -72,6 +72,12 @@
   color: #FFFFFF !important;
 }
 
+.email-success {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 490px){
   .login-container {
     height: 100vh;

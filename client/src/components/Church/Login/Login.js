@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom"
 import { Row, Col, Input, Card, CardBody, Spinner } from "reactstrap";
 import { Avatar, Button, Image } from "antd";
 import "./Login.css";
@@ -16,6 +17,7 @@ const ChurchLogin = () => {
   const [ mobile, setMobile ] = useState(false);
   const [ subdomain, setSubdomain ] = useState("");
   const [ validationError, setValidationError ] = useState([]);
+  const history = useHistory();
 
   const church = localAuth() && localAuth().church;
 
@@ -95,7 +97,7 @@ const ChurchLogin = () => {
                 <label>Password *</label>
                 <Input onChange={(e) => handleChange(e)} placeholder="Enter password" type="password" name="password" value={password} />
                 {validationError.length > 0 ? validationError.map((error, i) => error.param === "password" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
-                <p className="mb-4 forgot-p-text">Forgot password</p>
+                <p className="mb-4 forgot-p-text" style={{ cursor: "pointer" }} onClick={() => history.push("/church_forgot_password")}>Forgot password</p>
                 {loginLoading ? <Button className="login-button" loading>Loading...</Button> : <button type="submit" className="login-button">Login</button>}
               </form>
             </CardBody>

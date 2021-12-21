@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Row, Col, Card, CardBody, Spinner } from "reactstrap";
 import { Avatar, Button, Image, message } from "antd";
-import User from "../../../assets/images/User.jpeg";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { regionalPastorLogin } from "../../../store/actions/actions_regional_pastor";
@@ -14,6 +14,7 @@ const Regional_pastor_login = () => {
   const [ values, setValues ] = useState({ email: "", password: "" });
   const [ mobile, setMobile ] = useState(false);
   const [ validationError, setValidationError ] = useState([]);
+  const history = useHistory();
 
   const { email, password } = values;
   useEffect(() => {
@@ -80,7 +81,9 @@ const Regional_pastor_login = () => {
                 <label>Password *</label>
                 <input onChange={(e) => handleChange(e)} className="form-control" placeholder="Enter password" type="password" name="password" value={password} />
                 {validationError.length > 0 ? validationError.map((error, i) => error.param === "password" ? (<><span key={i} style={{ color: "#ff0000", fontSize: "12px"}}>{error.msg}</span> <br /></>) : null): null}
-                <p className="mb-4 forgot-p-text">Forgot password</p>
+                <p style={{
+                  cursor: "pointer"
+                }} className="mb-4 forgot-p-text" onClick={() => history.push("/regional_forgot_password")}>Forgot password</p>
                 {login_loading ? <Button className="login-button" loading>Loading...</Button> : <button type="submit" className="login-button">Login</button>}
               </form>
             </CardBody>

@@ -5,6 +5,13 @@ import {
   LOGOUT_START,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+  FORGOT_PASSWORD_START,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_START,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  VALIDATION_ERROR,
 } from "../../actions/actions_login";
 
 const initialState = {
@@ -13,6 +20,9 @@ const initialState = {
   loginSuccess: false,
   logoutLoading: false,
   logoutSuccess: false,
+  loading: false,
+  success: false,
+  validation_error: [],
   error: ""
 }
 
@@ -57,6 +67,55 @@ export const account = (state=initialState, action) => {
         logoutLoading: false,
         logoutSuccess: false,
         error: action.error
+      }
+    case FORGOT_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        account: action.data,
+      }
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error,
+      }
+    case RESET_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        account: action.data,
+      }
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error,
+      }
+    case VALIDATION_ERROR:
+      return {
+        ...state,
+        loginLoading: false,
+        loginSuccess: false,
+        loading: false,
+        success: false,
+        validation_error: action.error
       }
     default:
       return state;

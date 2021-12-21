@@ -25,3 +25,21 @@ export const loginValidator = [
     next();
   }
 ]
+
+export const forgotPasswordValidator = [
+  check("email").isEmail().withMessage("Invalid email"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
+    next();
+  }
+]
+
+export const resetPasswordValidator = [
+  check("password").isString({ min: 5 }).withMessage("Password must be at least 5 characters"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
+    next();
+  }
+]

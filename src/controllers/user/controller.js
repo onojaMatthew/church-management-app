@@ -5,6 +5,7 @@ import { error, success } from '../../config/response';
 import { adminSchema } from "../../models/admin";
 import { getModelByChurch } from "../../utils/util";
 import { roleSchema }  from "../../models/role";
+import { sendEmail } from "../../services/mailer";
 
 require("dotenv").config({ path: path.resolve(__dirname, "/../../../.env")});
 
@@ -50,21 +51,22 @@ export const signIn = async (req, res) => {
 // @desc Recover Password - Generates token and Sends password reset email
 // @access Public
 export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let isAdmin = await Admin.findOne({ email });
     if (!isAdmin) return res.status(404).json(error(`We could not find any account with the email ${email}`));
-    isAdmin.resetPasswordToken = jwt.sign({ firstName: user.firstName }, process.env.SECRET_KEY, { expiresIn: "120m" });
+    isAdmin.resetPasswordToken = jwt.sign({ firstName: isAdmin.firstName }, process.env.SECRET_KEY, { expiresIn: "120m" });
     isAdmin.resetPasswordExpires = Date.now() + 3600000;
 
     isAdmin = await isAdmin.save();
-    let link = `https://${req.headers.host}/api/v1/auth/reset/${isAdmin.resetPasswordToken}`
+    let link = `http://${req.hostname}:3000/reset_password/${isAdmin.resetPasswordToken}`
     const receiver = isAdmin.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";
-    const message = `Hi ${isAdmin.first_name} \n 
-    You sent a password reset request. Please click on the following link ${link} to reset your password. \n\n 
-    If you did not request this, please ignore this email and your password will remain unchanged.\n`;
+    const message = `<p><strong>Hi ${isAdmin.first_name}</strong></p>
+    <p>You sent a password reset request. Please click on the following link ${link} to reset your password.</p>
+    <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`;
 
     const data = {
       receiver,
@@ -97,8 +99,8 @@ export const resetPassword = async (req, res) => {
     const receiver = isAdmin.email;
     const sender = "no-reply@mail.com";
     const subject = "Password reset confirmation";
-    const message = `Hi ${isAdmin.first_name} \n 
-    This is a confirmation that the password for your account ${isAdmin.email} has just been changed.\n`;
+    const message = `<p><strong>Hi ${isAdmin.first_name}</strong></p>
+    <p>This is a confirmation that the password for your account ${isAdmin.email} has just been changed.</p>`;
 
     const data = {
       receiver,
