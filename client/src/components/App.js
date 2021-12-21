@@ -10,6 +10,8 @@ import RegionalPastorLogin from "./RegionalPastor/Login/Login";
 import RegionalPastor from "./RegionalPastor/Dashboard/Home/Home";
 import ForgotPassword from "./Admin/Login/ForgotPassword";
 import ResetPassword from "./Admin/Login/ResetPassword";
+import ChurchForgotPassword from "./Church/Login/ForgotPassword";
+import ChurchResetPassword from "./Church/Login/ResetPassword";
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
         <Route exact path="/" render={(props) => <Login {...props} />} />
         <Route exact path="/forgot_password" render={(props) => <ForgotPassword {...props} />} />
         <Route exact path="/reset_password/:token" render={(props) => <ResetPassword {...props} />} />
+        <Route exact path="/church_forgot_password" render={(props) => <ChurchForgotPassword {...props} />} />
+        <Route exact path="/church_reset_password" render={(props) => <ChurchResetPassword {...props} />} />
         <PrivateRoute path="/dashboard" render={(props) => <Home {...props} />} />
         <PrivateRoute path="/zonal_pastor" render={(props) => <CoordinatorHome {...props} />} />
         <Route path="/church-login" render={(props) => <ChurchLogin {...props} />} />
