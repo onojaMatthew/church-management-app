@@ -22,6 +22,10 @@ export const memberSchema = new Schema({
   dob: { type: Date },
   sex: { type: String, enum: [ "male", "female" ]},
   marital_status: { type: String },
+  group: [{
+    name: String,
+    _id: ObjectId
+  }]
 }, { timestamps: true });
 
 memberSchema.plugin(mongoosePaginate);

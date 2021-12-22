@@ -14,9 +14,9 @@ const Settings = () => {
         <Col xs="12" sm="12" md="12" lg="6" xl="6">
           <Category />
         </Col>
-        <Col xs="12" sm="12" md="12" lg="6" xl="6">
+        {/* <Col xs="12" sm="12" md="12" lg="6" xl="6">
           <Office />
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

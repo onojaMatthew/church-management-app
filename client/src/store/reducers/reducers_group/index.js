@@ -14,6 +14,9 @@ import {
   GROUP_DELETE_START,
   GROUP_DELETE_SUCCESS,
   GROUP_DELETE_FAILED,
+  ADD_MEMBER_START,
+  ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_FAILED,
 } from "../../actions/actions_group";
 
 const initialState = {
@@ -29,6 +32,8 @@ const initialState = {
   group_detail_success: false,
   group_delete_loading: false,
   group_delete_success: false,
+  loading: false,
+  success: false,
   error: ""
 }
 
@@ -133,6 +138,26 @@ export const group = (state=initialState, action) => {
         ...state,
         group_delete_loading: false,
         group_delete_success: false,
+        error: action.error
+      }
+    case ADD_MEMBER_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case ADD_MEMBER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        group: action.data,
+      }
+    case ADD_MEMBER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
         error: action.error
       }
     default:

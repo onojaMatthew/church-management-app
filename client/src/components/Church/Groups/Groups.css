@@ -4,13 +4,29 @@
 }
 
 .group-form-card {
-  min-height: 220px !important;
+  min-height: 235px !important;
+}
+
+.title-text {
+  color: #F05366;
+}
+
+.group-members {
+  color: #F05366 !important;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.group-header {
+  color: #F05366 !important;
+  font-size: 24px;
+  font-weight: bold;
 }
 .group-submit-btn {
   width: 100%;
   height: 45px;
   color: #FFFFFF;
-  background: #1890ff;
+  background: #F05366;
   border: none;
 }
 
@@ -18,7 +34,7 @@
   width: 100%;
   height: 45px;
   color: #FFFFFF;
-  background: #1890ff;
+  background: #F05366;
   border: none;
 }
 
@@ -26,16 +42,16 @@
   width: 100%;
   height: 45px;
   color: #FFFFFF;
-  background: #1890ff;
+  background: #F05366;
   border: none;
 }
 
 .group-form-card h3 {
-  color: #1890ff;
+  color: #F05366;
 }
 
 .group-member-card h3{
-  color: #1890ff;
+  color: #F05366;
   margin-top: 20px;
 }
 
@@ -56,7 +72,7 @@
 #left-arrow {
   font-size: x-large;
   cursor: pointer;
-  color: #1890ff;
+  color: #F05366;
 }
 @media screen and (max-width: 764px) {
   .group-form-card {

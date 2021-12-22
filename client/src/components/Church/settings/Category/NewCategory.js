@@ -26,7 +26,7 @@ export const NewCategory = ({
             <input className="form-control" onChange={e => handleChange(e)} placeholder="Name" name="name" value={name} />
           </p>
           <p>
-            {create_loading ? <Button className="c-submit-btn" loading>Processing...</Button> : <button className="c-submit-btn" type="submit">Send</button>}
+            {create_loading ? <Button className="c-submit-btn" loading></Button> : <button className="c-submit-btn" type="submit">Send</button>}
           </p>
         </form>
       </ModalBody>

@@ -7,6 +7,7 @@ import "./Groups.css";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { createGroup, groupDelete, groupList, groupUpdate } from "../../../store/actions/actions_group";
+import Category from "../settings/Category/Category";
 
 const Groups = () => {
   const dispatch = useDispatch()
@@ -69,26 +70,23 @@ const Groups = () => {
   }
 
   return (
-    <div>
+    <div className="mt-4">
       {view ? (
         <Row>
           <Col xs="12" sm="12" md="12" lg="12" xl="12">
             <Card className="group-member-card">
               <CardBody>
                 <ArrowLeftOutlined onClick={() => setView(false)} id="left-arrow" />
-                <h3>Choir Members</h3>
+                <p className="group-header">Choir Members</p>
                 <Table responsive>
                   <thead>
-                    <th>S/N</th>
-                    <th>F. Name</th>
-                    <th>L. Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>City</th>
-                    <th>State </th>
-                    <th>DoB</th>
-                    <th>M. Status</th>
-                    <th>Action</th>
+                    <th className="group-members">S/N</th>
+                    <th className="group-members">First Name</th>
+                    <th className="group-members">Last Name</th>
+                    <th className="group-members">Email</th>
+                    <th className="group-members">Phone</th>
+                    <th className="group-members">DoB</th>
+                    <th className="group-members">Action</th>
                   </thead>
                   <tbody>
                     <tr>
@@ -97,10 +95,7 @@ const Groups = () => {
                       <td>Doe</td>
                       <td>doe@gmail.com</td>
                       <td>08022342311</td>
-                      <td>Gbagada</td>
-                      <td>Lagos</td>
                       <td>10/19/1988</td>
-                      <td>Single</td>
                       <td>Suspend</td>
                     </tr>
 
@@ -110,10 +105,7 @@ const Groups = () => {
                       <td>Doe</td>
                       <td>doe@gmail.com</td>
                       <td>08022342311</td>
-                      <td>Gbagada</td>
-                      <td>Lagos</td>
                       <td>10/19/1988</td>
-                      <td>Single</td>
                       <td>Suspend</td>
                     </tr>
 
@@ -123,10 +115,7 @@ const Groups = () => {
                       <td>Doe</td>
                       <td>doe@gmail.com</td>
                       <td>08022342311</td>
-                      <td>Gbagada</td>
-                      <td>Lagos</td>
                       <td>10/19/1988</td>
-                      <td>Single</td>
                       <td>Suspend</td>
                     </tr>
                   </tbody>
@@ -140,7 +129,7 @@ const Groups = () => {
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <Card className="group-form-card">
               <CardBody>
-                <h3>Create New Group</h3>
+                <p className="group-header">Create New Group</p>
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="12" xl="12">
                     <label>Name</label>
@@ -150,7 +139,7 @@ const Groups = () => {
                 <Row>
                   <Col xs="12" sm="12" md="12" lg="12" xl="12">
                     {create_group_loading ? <Button className="login-button" loading>Loading...</Button> : 
-                    <Button onClick={handleSubmit} className="login-button">Login</Button>}
+                    <Button onClick={handleSubmit} className="login-button">Send</Button>}
                   </Col>
                 </Row>
               </CardBody>
@@ -159,7 +148,7 @@ const Groups = () => {
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <Card className="group-form-card">
               <CardBody>
-                <h3>Group List</h3>
+                <p className="group-header">Group List</p>
                 {group_list_loading ? <div className="text-center">
                   <Spinner>
                     <span className="visually-hidden">Loading</span>
@@ -180,15 +169,22 @@ const Groups = () => {
                     </Col>
                   </Row>
                 )) : <p className="text-center">No records found</p>}
-                
               </CardBody>
             </Card>
           </Col>
         </Row>
       )}
+
+      <Row>
+        
+        <Col xs="12" sm="12" md="12" lg="6" xl="6">
+          <Category />
+        </Col>
+        
+      </Row>
       
       <Modal isOpen={modal} toggle={toggle} className="group-modal">
-        <ModalHeader toggle={toggle}>Edit Group</ModalHeader>
+        <ModalHeader toggle={toggle}><p className="title-text">Edit Group</p></ModalHeader>
         <ModalBody>
          
           <Row>
@@ -200,8 +196,7 @@ const Groups = () => {
           <Row>
             <Col xs="12" sm="12" md="12" lg="12" xl="12">
             {group_update_loading ? <Button className="group-submit-btn" loading>Loading...</Button> : 
-              <Button onClick={onEdit} className="group-submit-btn">Login</Button>}
-              <Button onClick={onEdit} className="">Submit</Button>
+              <Button onClick={onEdit} className="group-submit-btn">Send</Button>}
             </Col>
           </Row>
         </ModalBody>

@@ -7,7 +7,6 @@ import { pagination } from "../../middleware/pagination";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
-  console.log(req.body)
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
     const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)

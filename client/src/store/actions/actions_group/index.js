@@ -16,6 +16,10 @@ export const GROUP_DELETE_START = "GROUP_DELETE_START";
 export const GROUP_DELETE_SUCCESS = "GROUP_DELETE_SUCCESS";
 export const GROUP_DELETE_FAILED = "GROUP_DELETE_FAILED";
 
+export const ADD_MEMBER_START = "ADD_MEMBER_START";
+export const ADD_MEMBER_SUCCESS = "ADD_MEMBER_SUCCESS";
+export const ADD_MEMBER_FAILED = "ADD_MEMBER_FAILED";
+
 const token = localAuth() && localAuth().token;
 const id = localAuth() && localAuth().church && localAuth().church._id;
 
@@ -222,5 +226,45 @@ export const groupDelete = (data) => {
         return dispatch(groupDeleteSuccess(resp.results));
       })
       .catch(err => dispatch(groupDeleteFailed(err.message)));
+  }
+}
+
+export const addMemberStart = () => {
+  return {
+    type: ADD_MEMBER_START
+  }
+}
+
+export const addMemberSuccess = (data) => {
+  return {
+    type: ADD_MEMBER_SUCCESS,
+    data
+  }
+}
+
+export const addMemberFailed = (error) => {
+  return {
+    type: ADD_MEMBER_FAILED,
+    error
+  }
+}
+
+export const addMember = (data) => {
+  return dispatch => {
+    dispatch(addMemberStart());
+    fetch(`${BASE_URL}/group/add_members/${data?.church}/${data?.member}/${data?.groupId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ACCEPT: "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.error) return dispatch(addMemberFailed(resp.message));
+        return dispatch(addMemberSuccess(resp.results));
+      })
+      .catch(err => dispatch(addMemberFailed(err.message)));
   }
 }

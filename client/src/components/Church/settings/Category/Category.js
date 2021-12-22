@@ -10,7 +10,13 @@ import { createCategory, categoryList, deleteCategory } from "../../../../store/
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { categories, categoryInfo, create_loading, delete_loading, create_success } = useSelector(state => state.category);
+  const { 
+    categories, 
+    categoryInfo, 
+    create_loading, 
+    delete_loading, 
+    create_success 
+  } = useSelector(state => state.category);
   const [ value, setValue ] = useState("");
   const [ modal, setModal ] = useState(false);
   const [ churchId, setChurchId ] = useState("");
@@ -30,7 +36,6 @@ const Category = () => {
   }
 
   const handleChange = ({ target: { value } }) => {
-    console.log(value)
     setValue(value)
   }
 
@@ -57,19 +62,20 @@ const Category = () => {
   }, [ create_success ]);
 
   return (
-    <div>
+    <div className="mt-4">
       <Card>
         <CardBody>
+          <p className="group-header">Membership Types</p>
           <Table responsive>
             <tbody>
               {categories?.length > 0 ? categories.map((c, i) => (
                 <tr>
                   <td>{c?.name}</td>
                   <td>
-                    <Button>Edit</Button>
+                    <Button className="edit-btn">Edit</Button>
                   </td>
                   <td>
-                    {delete_loading ? <Button loading></Button> : <Button onClick={() => onDelete(c?._id)}>Delete</Button>}
+                    {delete_loading ? <Button className="trash-btn" loading></Button> : <Button className="trash-btn" onClick={() => onDelete(c?._id)}>Delete</Button>}
                   </td>
                 </tr>
               )) : <h3 className="text-center">No Records Found</h3>}
@@ -77,7 +83,7 @@ const Category = () => {
           </Table>
           <Row>
             <Col xs="12" sm="12" md="12" lg="6" xl="6">
-              <Button onClick={toggle}>Create New Category</Button>
+              <Button className="create-trigger" onClick={toggle}>Create New Category</Button>
             </Col>
           </Row>
         </CardBody>
@@ -88,6 +94,7 @@ const Category = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         create_loading={create_loading}
+        toggle={toggle}
       />
     </div>
   );
