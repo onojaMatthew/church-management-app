@@ -235,3 +235,72 @@ export const zonal_pastor_filter = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+
+// @desc Recover Password - Generates token and Sends password reset email
+// @access Public
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const Pastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
+    let pastor = await Pastor.findOne({ email });
+    if (!pastor) return res.status(404).json(error(`We could not find any account with the email ${email}`));
+    pastor.resetPasswordToken = jwt.sign({ firstName: pastor.firstName }, process.env.SECRET_KEY, { expiresIn: "120m" });
+    pastor.resetPasswordExpires = Date.now() + 3600000;
+
+    pastor = await pastor.save();
+    let link = `http://${req.hostname}:3000/zonal_reset_password/${pastor.resetPasswordToken}`
+    const receiver = pastor.email;
+    const sender = "no-reply@mail.com";
+    const subject = "Password change request";
+    const message = `<p><strong>Hi ${pastor.first_name}</strong></p>
+    <p>You sent a password reset request. Please click on the following link ${link} to reset your password.</p>
+    <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`;
+
+    const data = {
+      receiver,
+      sender,
+      subject,
+      message
+    }
+    await sendEmail(data);
+    return res.json(success("A password reset email was sent to you", {}, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error("Server Error. Please try again", res.statusCode));
+  }
+};
+
+
+// @route POST api/auth/reset
+// @desc Reset Password
+// @access Public
+export const resetPassword = async (req, res) => {
+  try {
+    const Pastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
+    let isPastor = await Pastor.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()} });
+    if (!isPastor) return res.status(401).json(error("Invalid password reset token or token has expired", res.statusCode));
+    const hash = bcrypt.hashSync(req.body.password, 12);
+    isPastor.password = hash;
+    isPastor.resetPasswordToken = undefined;
+    isPastor.resetPasswordExpires = undefined;
+    const result = await isPastor.save();
+    if (!result) return res.status(400).json(error("Failed to update password. Try again", res.statusCode));
+    const receiver = isPastor.email;
+    const sender = "no-reply@mail.com";
+    const subject = "Password reset confirmation";
+    const message = `<p><strong>Hi ${isPastor.first_name}</strong></p>
+    <p>This is a confirmation that the password for your account ${isPastor.email} has just been changed.</p>`;
+
+    const data = {
+      receiver,
+      sender,
+      subject,
+      message
+    }
+
+    await sendEmail(data);
+    return res.json(success("Your password has been changed successfully"))
+  } catch (err) {
+    return res.status(400).json(error("Internal Server Error. Try again after some time", res.statusCode));
+  }
+};

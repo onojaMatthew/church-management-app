@@ -22,6 +22,8 @@ export const regionalPastorSchema = new Schema({
     role_id: { type: ObjectId, ref: "Role" },
     role_name: { type: String }
   },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
   password: { type: String },
   image_url: { type: String }
 }, { timestamps: true });

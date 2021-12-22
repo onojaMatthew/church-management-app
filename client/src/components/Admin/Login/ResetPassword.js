@@ -79,7 +79,6 @@ const ResetPassword = () => {
           </Col>
         </Row>
       )}
-      
     </div>
   );
 }

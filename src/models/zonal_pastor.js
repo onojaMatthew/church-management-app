@@ -22,6 +22,8 @@ export const zonalPastorSchema = new Schema({
   password: { type: String },
   zone: { type: String },
   image_url: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
 }, { timestamps: true });
 
 zonalPastorSchema.plugin(mongoosePaginate);

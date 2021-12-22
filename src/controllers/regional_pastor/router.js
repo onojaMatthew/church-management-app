@@ -14,6 +14,8 @@ import {
   search_regional_pastor, 
   region_pastor_filter,
   regional_pastor_details,
+  forgotPassword,
+  resetPassword
 } from "./controller";
 
 
@@ -26,6 +28,8 @@ router.put("/regional_pastor/assign_church", verifyToken, grantAccess("updateAny
 router.get("/regional_pastor/church_list", verifyToken, grantAccess("readOwn", "regional pastor"), region_church_list);
 router.get("/regional_pastor/details", verifyToken, grantAccess("readOwn", "regional pastor"), regional_pastor_details);
 router.get("/regional_pastor/search", verifyToken, grantAccess("readAny", "super admin"), search_regional_pastor);
+router.post("/regional_pastor/forgot_password", forgotPassword);
+router.post("/regional_pastor/reset_password/:token", resetPassword);
 router.get("/regional_pastor/filter", verifyToken, grantAccess("readAny", "super admin"), region_pastor_filter);
 router.put("/regional_pastor/update", verifyToken, grantAccess("updateOwn", "regional pastor"), update_regional_pastor);
 router.delete("/regional_pastor/delete", verifyToken, grantAccess("deleteAny", "super admin"), delete_regional_pastor);
