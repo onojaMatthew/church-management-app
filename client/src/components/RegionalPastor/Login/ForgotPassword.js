@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../../store/actions/actions_login";
 import { churchLogo } from "../../../store/actions/actions_admin";
 import Envelope from "../../../assets/images/evelope.svg";
+import { regionalForgotPassword } from "../../../store/actions/actions_regional_pastor";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const ForgotPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { email };
-    dispatch(forgotPassword(data));
+    dispatch(regionalForgotPassword(data));
   }
 
   useEffect(() => {
@@ -43,6 +44,8 @@ const ForgotPassword = () => {
       setValidationError(validation_error);
     }
   }, [ validation_error ]);
+
+  console.log(validationError, "the validation error")
   
   return (
     <div className="forgot-password-container">

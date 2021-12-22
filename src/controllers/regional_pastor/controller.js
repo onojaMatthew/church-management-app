@@ -287,9 +287,11 @@ export const forgotPassword = async (req, res) => {
 // @desc Reset Password
 // @access Public
 export const resetPassword = async (req, res) => {
+  console.log(req.body)
   try {
     const Pastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     let isPastor = await Pastor.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()} });
+    console.log(isPastor, " the pastor")
     if (!isPastor) return res.status(401).json(error("Invalid password reset token or token has expired", res.statusCode));
     const hash = bcrypt.hashSync(req.body.password, 12);
     isPastor.password = hash;

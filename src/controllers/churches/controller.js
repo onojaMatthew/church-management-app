@@ -373,7 +373,7 @@ export const forgotPassword = async (req, res) => {
     church.resetPasswordExpires = Date.now() + 3600000;
 
     church = await church.save();
-    let link = `http://${req.hostname}:3000/reset_password/${church.resetPasswordToken}`
+    let link = `http://${req.hostname}:3000/church_reset_password/${church.resetPasswordToken}`
     const receiver = church.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";

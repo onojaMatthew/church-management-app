@@ -49,6 +49,8 @@ export const churchSchema = new Schema({
     phone: { type: String },
     _id: { type: ObjectId },
   },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
 }, { timestamps: true });
 
 churchSchema.plugin(mongoosePaginate);

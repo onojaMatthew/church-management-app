@@ -438,10 +438,10 @@ export const forgotPasswordFailed = (error) => {
   }
 }
 
-export const forgotPassword = (data) => {
+export const zonalForgotPassword = (data) => {
   return dispatch => {
     dispatch(forgotPasswordStart());
-    fetch(`${BASE_URL}/auth/forgot_password`, {
+    fetch(`${BASE_URL}/zonal_pastor/forgot_password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -451,8 +451,8 @@ export const forgotPassword = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error && resp.message === "Validation errors") return dispatch(forgotPasswordStart(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.message));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(forgotPasswordFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
         dispatch(forgotPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(forgotPasswordFailed(err.message)));
@@ -479,10 +479,10 @@ export const resetPasswordFailed = (error) => {
   }
 }
 
-export const resetPassword = (data) => {
+export const zonalResetPassword = (data) => {
   return dispatch => {
     dispatch(resetPasswordStart());
-    fetch(`${BASE_URL}/auth/reset_password`, {
+    fetch(`${BASE_URL}/zonal_pastor/reset_password/${data?.token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -492,8 +492,8 @@ export const resetPassword = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error && resp.message === "Validation errors") return dispatch(resetPasswordStart(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.message));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(resetPasswordStart(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
         dispatch(resetPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(resetPasswordFailed(err.message)));

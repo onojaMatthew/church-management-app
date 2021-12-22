@@ -3,13 +3,13 @@ import { Row, Col, Input, Card, CardBody } from "reactstrap";
 import { Button } from "antd";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { forgotPassword } from "../../../store/actions/actions_login";
 import { churchLogo } from "../../../store/actions/actions_admin";
 import Envelope from "../../../assets/images/evelope.svg";
+import { zonalForgotPassword } from "../../../store/actions/actions_zonal_pastor";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
-  const { loading, success, validation_error } = useSelector(state => state.account);
+  const { loading, success, validation_error } = useSelector(state => state.coordinatorReducer);
   const [ values, setValues ] = useState({ email: "" });
   const [ validationError, setValidationError ] = useState([]);
   const [ done, setDone ] = useState(false);
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { email };
-    dispatch(forgotPassword(data));
+    dispatch(zonalForgotPassword(data));
   }
 
   useEffect(() => {

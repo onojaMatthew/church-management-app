@@ -398,10 +398,10 @@ export const forgotPasswordFailed = (error) => {
   }
 }
 
-export const forgotPassword = (data) => {
+export const churchForgotPassword = (data) => {
   return dispatch => {
     dispatch(forgotPasswordStart());
-    fetch(`${BASE_URL}/auth/forgot_password`, {
+    fetch(`${BASE_URL}/church/forgot_password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -409,10 +409,9 @@ export const forgotPassword = (data) => {
       },
       body: JSON.stringify(data)
     })
-      .then(response => response.json())
       .then(resp => {
         if (resp.error && resp.message === "Validation errors") return dispatch(forgotPasswordStart(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.errors));
         dispatch(forgotPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(forgotPasswordFailed(err.message)));
@@ -439,10 +438,10 @@ export const resetPasswordFailed = (error) => {
   }
 }
 
-export const resetPassword = (data) => {
+export const churchResetPassword = (data) => {
   return dispatch => {
     dispatch(resetPasswordStart());
-    fetch(`${BASE_URL}/auth/reset_password`, {
+    fetch(`${BASE_URL}/church/reset_password/${data && data.token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -452,8 +451,8 @@ export const resetPassword = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        if (resp.error && resp.message === "Validation errors") return dispatch(resetPasswordStart(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.message));
+        if (resp.error && resp.message !== "Validation errors") return dispatch(resetPasswordFailed(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validation_error(resp.errors));
         dispatch(resetPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(resetPasswordFailed(err.message)));

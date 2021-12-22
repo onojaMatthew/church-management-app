@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Input, Card, CardBody } from "reactstrap";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../../../store/actions/actions_login";
 import { churchLogo } from "../../../store/actions/actions_admin";
 import CheckMark from "../../../assets/images/checkmark.png"
 import { useHistory } from "react-router";
+import { regionalResetPassword } from "../../../store/actions/actions_regional_pastor";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
-  const { loading, success, validation_error } = useSelector(state => state.account);
+  const { loading, success, validation_error, error } = useSelector(state => state.regionalPastorReducer);
   const [ values, setValues ] = useState({  password: "" });
   const { password } = values;
   const [ token, setToken ] = useState("");
@@ -31,11 +31,11 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { password, token };
-    dispatch(resetPassword(data));
+    dispatch(regionalResetPassword(data));
   }
 
   useEffect(() => {
-    const tken = window.location.pathname.slice(16)
+    const tken = window.location.pathname.slice(25)
     setToken(tken)
   }, [])
 
@@ -44,6 +44,12 @@ const ResetPassword = () => {
       setDone(true)
     }
   }, [ success ]);
+
+  useEffect(() => {
+    if (error?.length > 0) {
+      message.error(error)
+    }
+  }, [ error ]);
 
   useEffect(() => {
     if (validation_error?.length > 0) setValidationError(validation_error);
@@ -59,7 +65,7 @@ const ResetPassword = () => {
             fontSize: "18px"
           }}>Your password was reset successfully. Click <span style={{
             cursor: "pointer",
-          }} onClick={() => history.push("/")}>here</span> to login</p>
+          }} onClick={() => history.push("/regional_pastor_login")}>here</span> to login</p>
         </div>
       ) : (
         <Row>

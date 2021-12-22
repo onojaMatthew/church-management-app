@@ -21,9 +21,9 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { logoutSuccess } = useSelector(state => state.account);
-  const { admin, loading, success } = useSelector(state => state.adminReducer);
+  const { admin, success } = useSelector(state => state.adminReducer);
   const { files, upload_loading, upload_success } = useSelector(state => state.upload);
-  const [ values, setValues ] = useState({ email: "", first_name: "", last_name: "", phone: "", church_logo: "", image_url: "" });
+  const [ isSidebar, setIsSidebar ] = useState(false);
   const [ isUpload, setIsUpload ] = useState(false);
   const [ uploadedFile, setUploadedPhoto ] = useState("");
   
@@ -46,18 +46,19 @@ const Sidebar = () => {
     const file = e.target.files[0];
     if (file && file.name) {
       dispatch(upload(file));
+      setIsSidebar(true);
     }
   }
 
   useEffect(() => {
-    if (upload_success) {
+    if (upload_success && isSidebar) {
       setUploadedPhoto(files.secure_url);
       setIsUpload(true)
     }
   }, [ upload_success ]);
 
   useEffect(() => {
-    if (success) {
+    if (success && isSidebar) {
       setUploadedPhoto(admin?.church_logo);
       setIsUpload(false);
     }
@@ -86,7 +87,7 @@ const Sidebar = () => {
       <Sider>
         <div className="text-center mt-5 mb-4">
           <div {...getRootProps()} className="text-center s-file-uploader">
-            {upload_loading ?
+            {upload_loading && isSidebar ?
               <p className="text-center">
                 <Spinner className="my-loader">
                   <span className="visually-hidden">Loading...</span>

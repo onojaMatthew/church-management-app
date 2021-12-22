@@ -24,6 +24,12 @@ import {
   DELETE_SUCCESS,
   DELETE_FAILED,
   VALIDATION_ERROR,
+  FORGOT_PASSWORD_START,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_START,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
 } from "../../actions/actions_church";
 
 const initialState = {
@@ -46,6 +52,8 @@ const initialState = {
   filter_success: false,
   delete_loading: false,
   delete_success: false,
+  loading: false,
+  success: false,
   error: "",
   validation_error: [],
 }
@@ -101,6 +109,8 @@ export const church = (state=initialState, action) => {
         postSuccess: false,
         loginLoading: false,
         loginSuccess: false,
+        loading: false,
+        success: false,
         validation_error: action.error
       }
     case CHURCH_LOGIN_START:
@@ -224,6 +234,46 @@ export const church = (state=initialState, action) => {
         delete_loading: false,
         delete_success: false,
         error: action.error,
+      }
+    case FORGOT_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        church: action.data,
+      }
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error
+      }
+    case RESET_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        church: action.data,
+      }
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error
       }
     default:
       return state;

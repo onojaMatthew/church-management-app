@@ -3,10 +3,10 @@ import { Row, Col, Input, Card, CardBody } from "reactstrap";
 import { Button } from "antd";
 import "./Login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../../../store/actions/actions_login";
 import { churchLogo } from "../../../store/actions/actions_admin";
 import CheckMark from "../../../assets/images/checkmark.png"
 import { useHistory } from "react-router";
+import { zonalResetPassword } from "../../../store/actions/actions_zonal_pastor";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -31,11 +31,11 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { password, token };
-    dispatch(resetPassword(data));
+    dispatch(zonalResetPassword(data));
   }
 
   useEffect(() => {
-    const tken = window.location.pathname.slice(16)
+    const tken = window.location.pathname.slice(22)
     setToken(tken)
   }, [])
 
@@ -47,7 +47,9 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (validation_error?.length > 0) setValidationError(validation_error);
-  }, [ validation_error])
+  }, [ validation_error]);
+
+  console.log(token, " the token")
   
   return (
     <div className="reset-password-container">
@@ -59,7 +61,7 @@ const ResetPassword = () => {
             fontSize: "18px"
           }}>Your password was reset successfully. Click <span style={{
             cursor: "pointer",
-          }} onClick={() => history.push("/")}>here</span> to login</p>
+          }} onClick={() => history.push("/zonal_pastor_login")}>here</span> to login</p>
         </div>
       ) : (
         <Row>

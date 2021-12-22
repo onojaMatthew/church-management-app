@@ -141,9 +141,8 @@ export const forgotPassword = (data) => {
     })
       .then(response => response.json())
       .then(resp => {
-        console.log(resp, " the response")
         if (resp.error && resp.message !== "Validation errors") return dispatch(forgotPasswordFailed(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
         dispatch(forgotPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(forgotPasswordFailed(err.message)));
@@ -184,7 +183,7 @@ export const resetPassword = (data) => {
       .then(response => response.json())
       .then(resp => {
         if (resp.error && resp.message === "Validation errors") return dispatch(resetPasswordStart(resp.message));
-        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.message));
+        if (resp.error && resp.message === "Validation errors") return dispatch(validationError(resp.errors));
         dispatch(resetPasswordSuccess(resp.results));
       })
       .catch(err => dispatch(resetPasswordFailed(err.message)));

@@ -14,6 +14,8 @@ import {
   searchChurch,
   church_filter,
   adminData,
+  forgotPassword,
+  resetPassword,
 } from "./controller";
 
 const router = express.Router();
@@ -27,6 +29,8 @@ router.get("/church/search", verifyToken, grantAccess("readAny", "super admin"),
 router.get("/church/admin_data", verifyToken, grantAccess("readAny", "super admin"), adminData);
 router.get("/church/filter", verifyToken, grantAccess("readAny", "super admin"), church_filter);
 router.get("/church/all/list", verifyToken, grantAccess("readAny", "super admin"), allChurches);
+router.post("/church/forgot_password", forgotPassword);
+router.post("/church/reset_password/:token", resetPassword);
 router.put("/church/update/:churchId", verifyToken, grantAccess("updateAny", "super admin"), updateChurch);
 router.delete("/church/delete", verifyToken, grantAccess("deleteAny", "super admin"), deleteChurch);
 

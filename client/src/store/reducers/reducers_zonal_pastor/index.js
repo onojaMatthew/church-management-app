@@ -27,6 +27,12 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   VALIDATION_ERROR,
+  FORGOT_PASSWORD_START,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_START,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
 } from "../../actions/actions_zonal_pastor";
 
 const initialState = {
@@ -52,6 +58,8 @@ const initialState = {
   filter_success: false,
   search_loading: false,
   search_success: false,
+  loading: false,
+  success: false,
   error: "",
   validation_error: [],
 }
@@ -112,6 +120,8 @@ export const coordinatorReducer = (state=initialState, action) => {
         login_success: false,
         add_loading: false,
         add_success: false,
+        loading: false,
+        success: false,
         validation_error: action.error,
       }
     case COORDINATOR_LIST_START:
@@ -255,6 +265,46 @@ export const coordinatorReducer = (state=initialState, action) => {
         ...state,
         filter_loading: true,
         filter_success: false,
+        error: action.error
+      }
+    case FORGOT_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        coordinator: action.data,
+      }
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error
+      }
+    case RESET_PASSWORD_START:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        coordinator: action.data,
+      }
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
         error: action.error
       }
     default: 
