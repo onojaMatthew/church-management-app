@@ -19,7 +19,9 @@ export default ({
   S3_SECRET_KEY: process.env.S3_SECRET_KEY,
   S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
   S3_BUCKET_REGION: process.env.S3_BUCKET_REGION,
-  S3_BUCKET_NAME: process.env.S3_BUCKET_NAME
+  S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+  EMAIL_USER: process.env.EMAIL_USER,
+  EMAIL_PASS: process.env.EMAIL_PASS,
 });
   
     

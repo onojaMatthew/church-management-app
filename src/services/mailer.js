@@ -1,6 +1,7 @@
 import path from "path";
 import nodemailer from "nodemailer";
 import sgMail from '@sendgrid/mail';
+import key from "../config/key";
 
 require("dotenv").config({ path: path.resolve(__dirname, "/../../.env")});
 
@@ -11,8 +12,8 @@ export const sendEmail = async (data) => {
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: "onojamatthew59@gmail.com", // generated ethereal user
-      pass: "igochemat7@@", // generated ethereal password
+      user: key.EMAIL_USER,
+      pass: key.EMAIL_PASS,
     },
     tls: {
       // do not fail on invalid certs
