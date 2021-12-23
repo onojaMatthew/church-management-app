@@ -28,7 +28,7 @@ export const create_zonal_pastor = async (req, res) => {
 
     newZonalPastor = await newZonalPastor.save();
 
-    const link = `https://${req.hostname}/zonal_pastor_login`;
+    const link = `http://${req.hostname}/zonal_pastor_login`;
     const receiver = newZonalPastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
@@ -249,7 +249,7 @@ export const forgotPassword = async (req, res) => {
     pastor.resetPasswordExpires = Date.now() + 3600000;
 
     pastor = await pastor.save();
-    let link = `http://${req.hostname}:3000/zonal_reset_password/${pastor.resetPasswordToken}`
+    let link = `http://${req.hostname}/zonal_reset_password/${pastor.resetPasswordToken}`
     const receiver = pastor.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";

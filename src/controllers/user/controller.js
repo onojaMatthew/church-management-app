@@ -60,7 +60,7 @@ export const forgotPassword = async (req, res) => {
     isAdmin.resetPasswordExpires = Date.now() + 3600000;
 
     isAdmin = await isAdmin.save();
-    let link = `http://${req.hostname}:3000/reset_password/${isAdmin.resetPasswordToken}`
+    let link = `http://${req.hostname}/reset_password/${isAdmin.resetPasswordToken}`
     const receiver = isAdmin.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";
