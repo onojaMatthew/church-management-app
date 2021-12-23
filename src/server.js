@@ -38,8 +38,7 @@ app.use((req, res, next) => {
 
 app.get( '/', ( req, res ) => {
   res.send({ message: "Welcome to Express API"})
-  // res.sendFile( path.join( __dirname + '/client/build/index.html' ) );
-} );
+});
 
 router(app);
 logger();
