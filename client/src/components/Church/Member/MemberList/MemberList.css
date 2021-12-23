@@ -35,6 +35,7 @@
   background: #F05366;
   height: 50px;
   border: none;
+  margin-top: -2px !important;
 }
 
 .create-member-header-button:hover {
@@ -217,12 +218,25 @@
     width: 100%;
     border: none;
   }
+
+  .create-member-header-button {
+    background: #F05366;
+    height: 50px;
+    border: none;
+    margin-top: 15px !important;
+    border-radius: 20px;
+  }
+
   #member-detail-modal {
     min-width: 300px !important;
   }
 
   #modal-body {
     padding: 15px !important;
+  }
+
+  .group-members {
+    font-size: 16px !important;
   }
 
   .update-toggle-btn {

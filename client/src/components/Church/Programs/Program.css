@@ -6,7 +6,7 @@
 }
 
 .programs-container h1 {
-  color: #1890ff;
+  color: #F05366;
 }
 
 #event-card {
@@ -17,6 +17,10 @@
   padding: 50px;
   text-align: center;
   cursor: pointer;
+}
+
+.event-name {
+  font-size: 30px;
 }
 
 

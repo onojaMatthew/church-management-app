@@ -223,13 +223,13 @@ const MemberList = () => {
         <CardBody>
           <Row className="member-header-row">
             <Col xs="12" sm="12" md="12" lg="2" xl="2">
-              <p className="member-header">Member List</p>
+              <p className="group-header">Member List</p>
             </Col>
             <Col xs="12" sm="12" md="12" lg="8" xl="8">
               <Input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search..." />
             </Col>
             <Col xs="12" sm="12" md="12" lg="2" xl="2" className="create-toggle-btn">
-              <Button onClick={toggleOpen} className="create-member-header-button lead">Create a New Member</Button>
+              <Button onClick={toggleOpen} className="create-member-header-button">Create a New Member</Button>
             </Col>
           </Row>
           <Row>

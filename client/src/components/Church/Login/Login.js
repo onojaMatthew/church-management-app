@@ -12,7 +12,7 @@ import { churchLogo } from "../../../store/actions/actions_admin";
 const ChurchLogin = () => {
   const dispatch = useDispatch();
   const { loginLoading, loginSuccess, validation_error, error } = useSelector(state => state.church);
-  const { logo: { church_logo}, logo_loading } = useSelector(state => state.adminReducer);
+  const { logo, logo_loading } = useSelector(state => state.adminReducer);
   const [ values, setValues ] = useState({ email: "", password: "" });
   const [ mobile, setMobile ] = useState(false);
   const [ subdomain, setSubdomain ] = useState("");
@@ -87,7 +87,7 @@ const ChurchLogin = () => {
                 {logo_loading ? 
                 <Spinner>
                   <span className="visually-hidden"></span>
-                </Spinner> : <Avatar src={<Image src={church_logo && church_logo} />} size={imageSize} />
+                </Spinner> : <Avatar src={<Image src={logo?.church_logo} />} size={imageSize} />
                 }
                 </p>
                 <p className="text-center mb-5">Sign in by entering the information below</p>

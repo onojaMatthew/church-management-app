@@ -11,8 +11,7 @@ import { FaUpload  } from "react-icons/fa";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../../store/actions/actions_login";
-import { FaChurch } from "react-icons/fa";
-import { adminDetails, adminProfile } from "../../../../store/actions/actions_admin";
+import { adminDetails } from "../../../../store/actions/actions_admin";
 import { useDropzone } from "react-dropzone";
 
 const { Sider } = Layout;
@@ -53,7 +52,7 @@ const Sidebar = () => {
   return (
     <div className="side-container">
       <Sider>
-      <div className="text-center mt-5 mb-4">
+        <div className="text-center mt-5 mb-4">
           <div {...getRootProps()} className="text-center s-file-uploader">
             <>
               <input {...getInputProps()} />

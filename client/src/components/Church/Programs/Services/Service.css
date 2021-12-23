@@ -20,6 +20,10 @@
   margin: 20px;
 }
 
+.table-title {
+  
+}
+
 .new-event-button:focus {
   background: #1890ff;
   color: #FFFFFF;

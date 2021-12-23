@@ -9,38 +9,30 @@ const Programs = () => {
 
   return (
     <div className="programs-container">
-      <h1>Events and Activities</h1>
+      <h1 className="event-title">Events and Activities</h1>
       <Row>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
+        <Col xs="12" sm="12" md="12" lg="4" xl="6">
           <Card onClick={() => history.push(`${match.url}/birthdays`)} id="event-card">
-            <p>Birthdays Events</p>
+            <p className="event-name">Birthdays Events</p>
           </Card>
         </Col>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
+        <Col xs="12" sm="12" md="12" lg="4" xl="6">
           <Card onClick={() => history.push(`${match.url}/burials`)} id="event-card">
-            <p>BurialPrograms</p>
+            <p className="event-name">Burial Programs</p>
           </Card>
         </Col>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
-          <Card onClick={() => history.push(`${match.url}/outreach`)} id="event-card">
-            <p>Outreach Progams</p>
-          </Card>
-        </Col>
+        
       </Row>
       <Row>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
+        <Col xs="12" sm="12" md="12" lg="4" xl="6">
           <Card onClick={() => history.push(`${match.url}/services`)} id="event-card">
-            <p>Services</p>
+            <p className="event-name">Services</p>
           </Card>
         </Col>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
-          <Card onClick={() => history.push(`${match.url}/socials`)} id="event-card">
-            <p>Social Progams</p>
-          </Card>
-        </Col>
-        <Col xs="12" sm="12" md="12" lg="4" xl="4">
+        
+        <Col xs="12" sm="12" md="12" lg="4" xl="6">
           <Card onClick={() => history.push(`${match.url}/weddings`)} id="event-card">
-            <p>Wedding Progams</p>
+            <p className="event-name">Wedding Progams</p>
           </Card>
         </Col>
       </Row>

@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
-import { Card, CardBody, Spinner, Table } from "reactstrap";
-import { FaArrowLeft, FaTrash } from "react-icons/fa"
+import { Card, CardBody, Spinner, Table, Row, Col, Input } from "reactstrap";
+import { FaArrowLeft, FaTrash } from "react-icons/fa";
+import { AiOutlineFilter } from "react-icons/ai";
 import { localAuth } from "../../../../helper/authenticate";
 import Search from "../../../SearchComponent/Search";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ const Services = () => {
 
   const [ search_term, setSearchTerm ] = useState("");
   const [ modal, setModal ] = useState(false);
+  const [ filter_data, setFilterData ] = useState("");
   const [ serviceData, setServiceData ] = useState({
     name: "", preacher: "", topic: "", bible_quote: "", men: "", women: "", children: "", youth: "", start_time: "", end_time: ""
   });
@@ -36,6 +38,24 @@ const Services = () => {
   }
 
   const { nextPage, page, prevPage, totalPages } = services && services;
+
+  const filterData = [
+    { name: "All", value: "all"},
+    { name: "24 hours", value: "1 days" },
+    { name: "Last 1 week", value: "1 weeks" },
+    { name: "Last 2 week", value: "2 weeks" },
+    { name: "Last 3 week", value: "3 weeks" },
+    { name: "1 month ago", value: "1 months" },
+    { name: "3 months ago", value: "3 months" },
+    { name: "6 months ago", value: "6 months" },
+    { name: "1 year ago", value: "12 months" }
+  ]
+
+  const handleFilterChange = (e) => {
+    const { value } = e.target;
+
+    setFilterData(value)
+  }
 
   const onHandleChange = (e) => {
     const { value } = e.target;
@@ -133,32 +153,46 @@ const Services = () => {
           <Button onClick={toggle} className="new-event-button">Create New Program</Button>
         </div>
         <CardBody>
-          <div className="search-wrapper">
-            <h1>Service Table</h1>
-            <Search 
-              search_term={search_term}
-              onChange={onHandleChange}
-            />
-          </div>
+          <Row>
+            <Col xs="12" sm="12" md="12" lg="3" xl="3">
+            <p className="table-title">Service Table</p>
+            </Col>
+            <Col xs="12" sm="12" md="12" lg="6" xl="6">
+              <div className="search-container">
+                <Search onChange={onHandleChange} search_term={search_term} />
+              </div>
+            </Col>
+            <Col xs="12" sm="12" md="12" lg="3" xl="3">
+              <div className="filter-container">
+                <Input type="select" id="filter-select" name="filterDate" onChange={(e) => handleFilterChange(e)}>
+                  <option disabled={true}>Filter expenditure</option>
+                  {filterData.map((t, i) => (
+                    <option value={t.value} key={i}>{t.name}</option>
+                  ))}
+                </Input>
+                <AiOutlineFilter style={{ color: "#fff", fontSize: 45 }} />
+              </div>
+            </Col>
+          </Row>
+          
           {search_success ? (
             <Table responsive>
-              <thead>
-                <th className="head">S/N</th>
-                <th className="head">Service</th>
-                <th className="head">Preacher</th>
-                <th className="head">Message title</th>
-                <th className="head">Bible Quote</th>
-                <th className="head">Men</th>
-                <th className="head">Women</th>
-                <th className="head">Children</th>
-                <th className="head">Youth</th>
-                <th className="head">Start Time</th>
-                <th className="head">End Time</th>
-                <th className="head">Delete</th>
-              </thead>
+              <tr>
+                <th className="group-header">S/N</th>
+                <th className="group-header">Service</th>
+                <th className="group-header">Preacher</th>
+                <th className="group-header">Message title</th>
+                <th className="group-header">Bible Quote</th>
+                <th className="group-header">Men</th>
+                <th className="group-header">Women</th>
+                <th className="group-header">Children</th>
+                <th className="group-header">Youth</th>
+                <th className="group-header">Start Time</th>
+                <th className="group-header">End Time</th>
+                <th className="group-header">Delete</th>
+              </tr>
               <tbody>
                 {services && services.length > 0 ? services.map((b, i) => {
-                  console.log(b._id, "the id")
                   return (
                   <tr key={i}>
                     <td>{i + 1}</td>
@@ -184,18 +218,18 @@ const Services = () => {
           ) : (
             <Table responsive>
               <thead>
-                <th className="head">S/N</th>
-                <th className="head">Service</th>
-                <th className="head">Preacher</th>
-                <th className="head">Message title</th>
-                <th className="head">Bible Quote</th>
-                <th className="head">Men</th>
-                <th className="head">Women</th>
-                <th className="head">Children</th>
-                <th className="head">Youth</th>
-                <th className="head">Start Time</th>
-                <th className="head">End Time</th>
-                <th className="head">Delete</th>
+                <th className="group-header">S/N</th>
+                <th className="group-header">Service</th>
+                <th className="group-header">Preacher</th>
+                <th className="group-header">Message title</th>
+                <th className="group-header">Bible Quote</th>
+                <th className="group-header">Men</th>
+                <th className="group-header">Women</th>
+                <th className="group-header">Children</th>
+                <th className="group-header">Youth</th>
+                <th className="group-header">Start Time</th>
+                <th className="group-header">End Time</th>
+                <th className="group-header">Delete</th>
               </thead>
               <tbody>
                 {docs && docs.length > 0 ? docs.map((b, i) => {
