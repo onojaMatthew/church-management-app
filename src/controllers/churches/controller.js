@@ -356,7 +356,7 @@ export const adminData = async (req, res) => {
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
-
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

@@ -2,7 +2,7 @@ import winston from "winston";
 import key from "./key";
 require('winston-mongodb');
 
-const db_url = `mongodb://127.0.0.1:27017/management`;
+const db_url = key.PROD_DB;
 
 export default () => {
   winston.handleExceptions(

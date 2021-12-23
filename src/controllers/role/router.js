@@ -6,7 +6,7 @@ import { createRole, deleteRole, fetchRole, fetchRoles, updateRole } from "./con
 
 const router = express.Router();
 
-router.post("/role/new", verifyToken,grantAccess("createAny", "super admin"), new_role_validator, createRole);
+router.post("/role/new",  new_role_validator, createRole);
 router.get("/role/all", verifyToken, grantAccess("readAny", "super admin"), fetchRoles);
 router.get("/role/:roleId", verifyToken, grantAccess("readAny", "super admin"), fetchRole);
 router.put("/role/:roleId", verifyToken, grantAccess("updateAny", "super admin"), role_update_validator, updateRole);

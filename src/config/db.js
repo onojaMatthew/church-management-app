@@ -2,8 +2,9 @@ import path from "path";
 require( "dotenv" ).config({ path: path.resolve(__dirname + "/../../.env" )});
 import mongoose from "mongoose";
 import winston from "winston";
+import key from "./key";
 
-const db_url = `mongodb://127.0.0.1:27017/management`;
+const db_url = key.PROD_DB;
   
 const mongoOptions = {
   useNewUrlParser: true,

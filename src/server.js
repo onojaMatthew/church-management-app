@@ -2,7 +2,7 @@ import path from "path";
 require("dotenv").config({ path: path.resolve(__dirname + "./.env")});
 import express from "express";
 import morgan from "morgan";
-import cors from "cors";
+import { prod } from "./middleware/prod";
 import { mongodb } from "./config/db";
 import router from "./middleware/router";
 import logger from "./config/error-log";
@@ -34,6 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
+prod(app);
 app.get( '/', ( req, res ) => {
   res.send({ message: "Welcome to Express API"})
   // res.sendFile( path.join( __dirname + '/client/build/index.html' ) );
