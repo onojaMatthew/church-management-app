@@ -16,7 +16,7 @@ mongodb;
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
-// prod(app);
+prod(app);
 app.use(morgan("combined"));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
