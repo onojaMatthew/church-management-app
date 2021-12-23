@@ -69,7 +69,7 @@ export const member = (state=initialState, action) => {
         ...state,
         postLoading: false,
         postSuccess: true,
-        members: state.members.concat(action.data),
+        members: action.data,
         member_docs: state.member_docs.concat(action.data)
       }
     case POST_MEMBER_FAILED:

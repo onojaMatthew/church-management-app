@@ -27,7 +27,7 @@ export const uploadFailed = (error) => {
 export const upload = (data) => {
   const formData = new FormData();
   formData.append("file", data);
-  formData.append('upload_preset', "gare-upload-preset");
+  formData.append('upload_preset', "achapp");
   const config = {
     method: "POST",
     body: formData

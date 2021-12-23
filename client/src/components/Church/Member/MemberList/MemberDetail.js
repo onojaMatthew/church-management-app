@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Alert, Row, Col, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
 import { Avatar, Divider, Button } from "antd";
 
 import "./MemberList.css";
@@ -20,9 +20,15 @@ const Member = ({
   occupation,
   category,
   dob,
+  sex,
   onMemberUpdate,
   updateLoading,
   categories,
+  groups,
+  handleGroupChange,
+  addToGroup,
+  message,
+  loading
 }) => {
   const [ readOnly, setReadOnly ] = useState(true);
 
@@ -34,7 +40,7 @@ const Member = ({
 
   return (
     <Modal id="member-detail-modal" isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Member Information</ModalHeader>
+      <ModalHeader toggle={toggle}><p className="group-header">Member Information</p></ModalHeader>
       <ModalBody id="modal-body">
         <Row>
           <Col xs="6" sm="6" md="6" lg="9" xl="9">
@@ -108,8 +114,8 @@ const Member = ({
             }
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <label>Responsibility</label>
-            <Input onChange={(e) => handleChange(e)} name="office" value={"Head usher"} readOnly={readOnly}/>
+            <label>Sex</label>
+            <Input onChange={(e) => handleChange(e)} name="office" value={sex} readOnly={readOnly}/>
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             {readOnly ? (
@@ -128,8 +134,28 @@ const Member = ({
             
           </Col>
         </Row>
-        <Divider>Actions</Divider>
 
+        <Divider>Add Member to Group</Divider>
+        
+        <form onSubmit={addToGroup}>
+          {message?.length > 0 && <Alert color="success">{message}</Alert>}
+          <Row>
+            <Col xs="9" sm="9" md="9" lg="9" xl="9">
+              <Input className="" type="select" name="group" onChange={(e) => handleGroupChange(e)} >
+                <option>Select a Group</option>
+                {groups?.length > 0 && groups.map(c => (
+                  <option value={c._id}>{c && c.name}</option>
+                ))}
+              </Input>
+            </Col>
+            <Col xs="3" sm="3" md="3" lg="3" xl="3">
+              {loading ? <Button className="add-group-btn" loading></Button> : <button type="submit" className="add-group-btn">Add to Group</button>}
+            </Col>
+          </Row>
+        </form>
+
+        <Divider>Actions</Divider>
+        
         <Row className="member-info">
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             {/* <Button className="add-to-group">Add to Group</Button> */}
@@ -139,17 +165,12 @@ const Member = ({
               <Button className="a-responsibility" loading>Processing...</Button> :
               <Button onClick={onMemberUpdate} className="a-responsibility">Submit Update</Button>
             }
-            
           </Col>
           <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <Button className="member-delete">Delete</Button>
           </Col>
         </Row>
       </ModalBody>
-      {/* <ModalFooter>
-        <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-        <Button color="secondary" onClick={toggle}>Cancel</Button>
-      </ModalFooter> */}
     </Modal>
   )
 }

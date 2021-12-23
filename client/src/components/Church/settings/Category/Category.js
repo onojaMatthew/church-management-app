@@ -62,7 +62,7 @@ const Category = () => {
   }, [ create_success ]);
 
   return (
-    <div className="mt-4">
+    <div className="">
       <Card>
         <CardBody>
           <p className="group-header">Membership Types</p>
@@ -75,7 +75,7 @@ const Category = () => {
                     <Button className="edit-btn">Edit</Button>
                   </td>
                   <td>
-                    {delete_loading ? <Button className="trash-btn" loading></Button> : <Button className="trash-btn" onClick={() => onDelete(c?._id)}>Delete</Button>}
+                    {delete_loading ? <Button className="trash-btn" loading></Button> : <Button className="delete-btn" onClick={() => onDelete(c?._id)}>Delete</Button>}
                   </td>
                 </tr>
               )) : <h3 className="text-center">No Records Found</h3>}

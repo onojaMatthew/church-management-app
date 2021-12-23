@@ -11,12 +11,16 @@ import { errorMsg, success } from "../../../../helper/message";
 import "./MemberList.css";
 import NewMember from "../NewMember/NewMember";
 import { localAuth } from "../../../../helper/authenticate";
+import { addMember, groupList } from "../../../../store/actions/actions_group";
 
 const MemberList = () => {
   const dispatch = useDispatch();
   const church = localAuth() && localAuth().church && localAuth().church._id;
   const { listLoading, members, postSuccess, updateLoading, member_docs, postLoading, error } = useSelector(state => state.member);
   const { categories, categoryInfo, categorySuccess } = useSelector(state => state.category);
+  const { groups, success, loading } = useSelector(state => state.group);
+  const [ groupId, setGroupId ] = useState("");
+  const [ message, setMessage ] = useState("");
   const [ values, setValues ] = useState({ 
     first_name: "",
     last_name: "",
@@ -30,6 +34,7 @@ const MemberList = () => {
     occupation: "",
     category: "",
     dob: "",
+    sex: "",
     membershipCategory: ""
   });
   const [ id, setId ] = useState("");
@@ -60,6 +65,7 @@ const MemberList = () => {
     occupation,
     category,
     dob,
+    sex,
   } = values;
 
   const handleChange = (e) => {
@@ -69,7 +75,8 @@ const MemberList = () => {
 
   useEffect(() => {
     dispatch(memberList());
-    dispatch(categoryList(church))
+    dispatch(categoryList(church));
+    dispatch(groupList());
   }, [ dispatch ]);
 
   useEffect(() => {
@@ -86,6 +93,7 @@ const MemberList = () => {
         marital_status: currentMember.marital_status,
         occupation: currentMember.occupation,
         dob: currentMember.dob,
+        sex: currentMember.sex,
         membershipCategory: currentMember.membershipCategory,
       })
       dispatch(categoryDetail(currentMember && currentMember.category))
@@ -129,6 +137,7 @@ const MemberList = () => {
       occupation,
       category,
       dob,
+      sex,
       church,
     }
 
@@ -138,6 +147,22 @@ const MemberList = () => {
   useEffect(() => {
     if (postSuccess) {
       setIsOpen(false);
+      setValues({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        city: "",
+        street: "",
+        state: "",
+        state_of_origin: "",
+        marital_status: "",
+        occupation: "",
+        category: "",
+        dob: "",
+        sex: "",
+        membershipCategory: ""
+      });
       success("New member added");
     }
   }, [ postSuccess ]);
@@ -162,12 +187,35 @@ const MemberList = () => {
       occupation,
       category,
       dob,
+      sex,
       church,
       id,
     }
 
     dispatch(updateMember(data));
   }
+
+  const addToGroup = (e) => {
+    e.preventDefault();
+    const data = {
+      member: currentMember?._id,
+      church,
+      groupId
+    }
+
+    dispatch(addMember(data));
+  }
+
+  const handleGroupChange = (e) => {
+    setGroupId(e.target.value);
+  }
+
+  useEffect(() => {
+    if (success) setMessage("Request processed successfully!");
+    setTimeout(() => {
+      setMessage("");
+    }, 4000);
+  }, [ success ]);
 
   return (
     <div>
@@ -187,17 +235,17 @@ const MemberList = () => {
           <Row>
             <Col xs="12" sm="12" md="12" lg="12" xl="12">
               <Table responsive>
-                <thead>
-                  <th>S/N</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Email</th>
-                  <th>Phone number</th>
-                  <th>State of Origin</th>
-                  <th>Occupation</th>
-                  <th>Marital Status</th>
-                  <th>Action</th>
-                </thead>
+                <tr>
+                  <th className="group-members">S/N</th>
+                  <th className="group-members">First name</th>
+                  <th className="group-members">Last name</th>
+                  <th className="group-members">Email</th>
+                  <th className="group-members">Phone number</th>
+                  <th className="group-members">State of Origin</th>
+                  <th className="group-members">Occupation</th>
+                  <th className="group-members">Marital Status</th>
+                  <th className="group-members">Action</th>
+                </tr>
                 {listLoading ? 
                 <div className="text-center mt-5">
                   <Spinner color="info" animation="grow">
@@ -243,9 +291,15 @@ const MemberList = () => {
             occupation={occupation}
             category={category}
             dob={dob}
+            sex={sex}
             onMemberUpdate={onMemberUpdate}
             updateLoading={updateLoading}
             categories={categories}
+            groups={groups}
+            handleGroupChange={handleGroupChange}
+            addToGroup={addToGroup}
+            loading={loading}
+            message={message}
           />
         </CardBody>
       </Card>

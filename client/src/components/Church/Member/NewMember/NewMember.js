@@ -20,12 +20,12 @@ const NewMember = ({
   marital_status,
   occupation,
   postLoading,
-  // category,
+  sex,
   dob,
 }) => {
 
   const allStates = State.getStatesOfCountry("NG");
-  console.log(categories, " the categorys")
+
   return (
     <Modal id="member-detail-modal" isOpen={isOpen} toggle={toggleOpen}>
       <ModalHeader toggle={toggleOpen}>New Member Information</ModalHeader>
@@ -100,15 +100,19 @@ const NewMember = ({
           </Col>
         </Row>
         <Row className="member-info">
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+          <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Date of Birth *</label>
             <Input type="date" onChange={(e) => handleChange(e)} name="dob" value={dob} />
           </Col>
-          {/* <Col xs="12" sm="12" md="12" lg="4" xl="4">
-            <label>Responsibility</label>
-            <Input placeholder="Responsibility" onChange={(e) => handleChange(e)} name="office" value={""} />
-          </Col> */}
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+          <Col xs="12" sm="12" md="12" lg="4" xl="4">
+            <label>Gender</label>
+            <Input type="select" placeholder="Gender" onChange={(e) => handleChange(e)} name="sex" value={sex}>
+              <option>Choose a gender</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </Input>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="4" xl="4">
             <label>Membership category *</label>
             <Input type="select" onChange={(e) => handleChange(e)} name="category">
               <option>Select membership category</option>

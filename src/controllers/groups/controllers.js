@@ -80,17 +80,18 @@ export const add_members = async (req, res) => {
       last_name: isMember && isMember.last_name,
       email: isMember && isMember.email,
       phone: isMember && isMember.phone,
-      dob: isMember && isMember.first_name,
+      dob: isMember && isMember.dob,
       _id: isMember && isMember._id,
     }
 
-    isMember.goup.push(group_data);
+    isMember.group.push(group_data);
     group.members.push(member_data);
     isMember = await isMember.save();
     group = await group.save();
 
     return res.json(success("Success", group, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

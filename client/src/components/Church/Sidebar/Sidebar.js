@@ -60,10 +60,10 @@ const Sidebar = () => {
           <Menu.Item onClick={() => navigate.push(`${match && match.url}/reports`)} key="6" icon={<UsergroupAddOutlined />}>
             Report
           </Menu.Item>
-          <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="7" icon={<SettingFilled />}>
+          {/* <Menu.Item onClick={() => navigate.push(`${match && match.url}/settings`)} key="7" icon={<SettingFilled />}>
             Settings
-          </Menu.Item>
-          <Menu.Item onClick={onLogout} key="8" icon={<LogoutOutlined />}>
+          </Menu.Item> */}
+          <Menu.Item onClick={onLogout} key="7" icon={<LogoutOutlined />}>
             Logout
           </Menu.Item>
         </Menu>
