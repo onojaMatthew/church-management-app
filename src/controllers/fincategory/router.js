@@ -6,10 +6,10 @@ import { category_details, category_list, create_fin_category, delete_category, 
 
 const router = express.Router();
 
-router.post("/fin_category/new", verifyToken, grantAccess("createOwn", "church"), fin_category_validator, create_fin_category, () => console.log("hey"));
-router.get("/fin_category/all", verifyToken, grantAccess("readOwn", "church"), category_list);
-router.get("/fin_category/details", verifyToken, grantAccess("readOwn", "church"), category_details);
-router.put("/fin_category/update", verifyToken, grantAccess("updateOwn", "church"), update_category);
-router.delete("/fin_category/delete", verifyToken, grantAccess("deleteOwn", "church"), delete_category);
+router.post("/fin_category/new", verifyToken, grantAccess("createOwn", "branch church"), fin_category_validator, create_fin_category, () => console.log("hey"));
+router.get("/fin_category/all", verifyToken, grantAccess("readOwn", "branch church"), category_list);
+router.get("/fin_category/details", verifyToken, grantAccess("readOwn", "branch church"), category_details);
+router.put("/fin_category/update", verifyToken, grantAccess("updateOwn", "branch church"), update_category);
+router.delete("/fin_category/delete", verifyToken, grantAccess("deleteOwn", "branch church"), delete_category);
 
 export default router;

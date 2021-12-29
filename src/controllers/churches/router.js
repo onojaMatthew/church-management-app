@@ -23,7 +23,7 @@ const router = express.Router();
 router.post("/church/new", verifyToken, grantAccess("createAny", "super admin"), newChurchValidator, createChurch);
 router.post("/church/login", loginValidator, churchLogin);
 router.get("/church/all", verifyToken, grantAccess("readAny", "super admin"), churchList);
-router.get("/church/dashbord_data", verifyToken, grantAccess("readOwn", "church"), dashboardData)
+router.get("/church/dashbord_data", verifyToken, grantAccess("readOwn", "branch church"), dashboardData)
 router.get("/church/detail/:churchId", verifyToken, grantAccess("readAny", "super admin"), churchDetails);
 router.get("/church/search", verifyToken, grantAccess("readAny", "super admin"), searchChurch);
 router.get("/church/admin_data", verifyToken, grantAccess("readAny", "super admin"), adminData);
