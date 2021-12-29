@@ -5,7 +5,6 @@ import key from "../config/key";
 require("dotenv").config({ path: path.resolve(__dirname, "/../../.env")});
 
 export const sendEmail = async (data) => {
-  console.log(data, " the data inside configuration")
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
