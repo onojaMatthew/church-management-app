@@ -28,7 +28,7 @@ export const create_regional_pastor = async (req, res) => {
 
     newRegionalpastor = await newRegionalpastor.save();
 
-    const link = `http://${req.hostname}/regional_pastor_login`;
+    const link = `${req.header('Origin')}/regional_pastor_login`;
     const receiver = newRegionalpastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
@@ -261,7 +261,7 @@ export const forgotPassword = async (req, res) => {
     pastor.resetPasswordExpires = Date.now() + 3600000;
 
     pastor = await pastor.save();
-    let link = `http://${req.hostname}/regional_reset_password/${pastor.resetPasswordToken}`
+    let link = `${req.header('Origin')}/regional_reset_password/${pastor.resetPasswordToken}`
     const receiver = pastor.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";

@@ -49,7 +49,7 @@ export const createChurch = async (req, res) => {
     const roleData = await Role.findById({ _id: role });
     const isExists = await Church.findOne({ email });
     const subdomain_name = branch.split(" ").join("-");
-    const subdomain_link = `http://${req.hostname}/church-login`;
+    const subdomain_link = `${req.header('Origin')}/church-login`;
     if (isExists) return res.status(400).json(error("Church already exists", res.statusCode));
     const hash = bcrypt.hashSync(password, 15);
     let church = new Church({ 
@@ -373,7 +373,7 @@ export const forgotPassword = async (req, res) => {
     church.resetPasswordExpires = Date.now() + 3600000;
 
     church = await church.save();
-    let link = `http://${req.hostname}/church_reset_password/${church.resetPasswordToken}`
+    let link = `${req.header('Origin')}/church_reset_password/${church.resetPasswordToken}`
     const receiver = church.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";

@@ -10,6 +10,7 @@ import { roleSchema } from "../../models/role";
 
 export const create_zonal_pastor = async (req, res) => {
   const { first_name, last_name, email, phone, password, role, zone, image_url } = req.body;
+ 
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const itExists = await ZonalPastor.findOne({ email });
@@ -28,7 +29,7 @@ export const create_zonal_pastor = async (req, res) => {
 
     newZonalPastor = await newZonalPastor.save();
 
-    const link = `http://${req.hostname}/zonal_pastor_login`;
+    const link = `${req.header('Origin')}/zonal_pastor_login`;
     const receiver = newZonalPastor.email;
     const sender = "no-reply@church.mail";
     const subject = "Account Creation Details";
@@ -249,7 +250,7 @@ export const forgotPassword = async (req, res) => {
     pastor.resetPasswordExpires = Date.now() + 3600000;
 
     pastor = await pastor.save();
-    let link = `http://${req.hostname}/zonal_reset_password/${pastor.resetPasswordToken}`
+    let link = `${req.header('Origin')}/zonal_reset_password/${pastor.resetPasswordToken}`
     const receiver = pastor.email;
     const sender = "no-reply@mail.com";
     const subject = "Password change request";

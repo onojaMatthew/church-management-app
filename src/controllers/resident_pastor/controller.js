@@ -17,6 +17,7 @@ export const create_residence_pastor = async (req, res) => {
     resident_pastor = await resident_pastor.save();
     return res.json(success("Success", resident_pastor, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
