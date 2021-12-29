@@ -10,7 +10,7 @@ export const grantAccess = (action, resource) => {
       }
       next();
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 }

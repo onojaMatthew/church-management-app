@@ -4,11 +4,12 @@ import { getModelByChurch } from "../../utils/util";
 
 export const createRole = async (req, res) => {
   const { name } = req.body;
+  const role_name = name.toLowerCase();
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
-    const isRole = await Role.findOne({ name: name.toLowerCase() });
+    const isRole = await Role.findOne({ name: role_name });
     if (isRole) return res.status(400).json(error("Role already exists", res.statusCode));
-    let newRole = new Role({ name: name.toLowerCase() });
+    let newRole = new Role({ name: role_name });
     newRole = await newRole.save();
     return res.json(success("Role created successfully", newRole, res.statusCode));
   } catch (err) {
@@ -39,12 +40,13 @@ export const fetchRole = async (req, res) => {
 }
 
 export const updateRole = async (req, res) => {
-  console.log(req.body)
+  const { name } = req.body;
+  const role_name = name.toLowerCase();
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     let role = await Role.findById({ _id: req.params.roleId });
     if (!role) return res.json(success("Role not found", role, res.statusCode));
-    role.name = req.body.name;
+    role.name = role_name;
     const updatedRole = await role.save()
     return res.json(success("Updated successfully", updatedRole, res.statusCode));
   } catch (err) {
