@@ -6,7 +6,7 @@ import { create, deleteWedding, getWeddingList, updateWedding } from "./controll
 
 const router = express.Router();
 
-router.post("/wedding/new", verifyToken, grantAccess("createOwn", "church"), upload.fields([
+router.post("/wedding/new", verifyToken, grantAccess("createOwn", "branch church"), upload.fields([
   { name: "groom_first_name", maxCount: 1 }, 
   { name: "groom_last_name", maxCount: 1 }, 
   { name: "groom_phone_number", maxCount: 1 }, 
@@ -18,8 +18,8 @@ router.post("/wedding/new", verifyToken, grantAccess("createOwn", "church"), upl
   { name: "lead_pastor", maxCount: 1 },
   { name: "wedding_picture", maxCount: 1 }
 ]), create);
-router.get("/wedding/all", verifyToken, grantAccess("readOwn", "church"), getWeddingList);
-router.put("/wedding/update", verifyToken, grantAccess("updateOwn", "church"), upload.fields([
+router.get("/wedding/all", verifyToken, grantAccess("readOwn", "branch church"), getWeddingList);
+router.put("/wedding/update", verifyToken, grantAccess("updateOwn", "branch church"), upload.fields([
   { name: "groom_first_name", maxCount: 1 }, 
   { name: "groom_last_name", maxCount: 1 }, 
   { name: "groom_phone_number", maxCount: 1 }, 
@@ -32,5 +32,5 @@ router.put("/wedding/update", verifyToken, grantAccess("updateOwn", "church"), u
   { name: "wedding_picture", maxCount: 1 },
   { name: "id", maxCount: 1 },
 ]), updateWedding);
-router.delete("/wedding/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteWedding);
+router.delete("/wedding/delete", verifyToken, grantAccess("deleteOwn", "branch church"), deleteWedding);
 export default router;
