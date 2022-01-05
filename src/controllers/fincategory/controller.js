@@ -5,10 +5,10 @@ import { error, success, alreadyExists, notFound } from "../../config/response";
 export const create = async (req, res) => {
   const { name } = req.body;
   try {
-    const FinCategory = await getModelByChurch("hostdatabase", "FinCategory", fcategorySchema);
-    const itExists = await FinCategory.findOne({ name });
-    if (itExists) return res.status(400).json(alreadyExists("Finance category name already exists", res.statusCode));
-    let newCategory = new FinCategory({ name });
+    const IncomeCategory = await getModelByChurch("hostdatabase", "FinCategory", fcategorySchema);
+    const category = await IncomeCategory.findOne({ name });
+    if (category) return res.status(400).json(error("Income type already exists", res.statusCode));
+    let newCategory = new IncomeCategory({ name });
     newCategory = await newCategory.save();
     return res.json(success("Success", newCategory, res.statusCode));
   } catch (err) {
@@ -40,10 +40,10 @@ export const category_details = async (req, res) => {
 }
 
 export const delete_category = async (req, res) => {
-  const { categoryId } = req.query;
+  const { id } = req.query;
   try {
     const FinCategory = await getModelByChurch("hostdatabase", "FinCategory", fcategorySchema);
-    const category = await FinCategory.findByIdAndDelete({ _id: categoryId });
+    const category = await FinCategory.findByIdAndDelete({ _id: id });
     if (!category) return res.status(407).json(notFound("Record does not exist", category, res.statusCode));
     return res.json(success("Success", category, res.statusCode));
   } catch (err) {
