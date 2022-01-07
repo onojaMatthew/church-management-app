@@ -134,6 +134,7 @@ export const assign_churches = async (req, res) => {
     church_details = await church_details.save();
     return res.json(success("Success", regionalPastor, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
@@ -142,7 +143,19 @@ export const update_regional_pastor = async (req, res) => {
   const { regional_pastor_id } = req.body;
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
-    const regionalPastor = await RegionalPastor.findByIdAndUpdate({ _id: regional_pastor_id }, req.body, { new: true });
+    let regionalPastor = await RegionalPastor.findById({ _id: regional_pastor_id });
+
+    if (!regionalPastor) return res.status(404).json(error("Record not found", res.statusCode));
+
+    if (req.body.first_name) regionalPastor.first_name = req.body.first_name;
+    if (req.body.last_name) regionalPastor.last_name = req.body.last_name;
+    if (req.body.email) regionalPastor.email = req.body.email;
+    if (req.body.phone) regionalPastor.phone = req.body.phone;
+    if (req.body.image_url) regionalPastor.image_url = req.body.image_url;
+    if (req.body.region) regionalPastor.region = req.body.region;
+
+    regionalPastor = await regionalPastor.save();
+
     return res.json(success("Success", regionalPastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

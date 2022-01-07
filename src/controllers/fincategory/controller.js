@@ -52,10 +52,9 @@ export const delete_category = async (req, res) => {
 }
 
 export const update_category = async (req, res) => {
-  const { categoryId } = req.query;
   try {
     const FinCategory = await getModelByChurch("hostdatabase", "FinCategory", fcategorySchema);
-    const category = await FinCategory.findByIdAndUpdate({ _id: categoryId }, req.body, { new: true });
+    const category = await FinCategory.findByIdAndUpdate({ _id: req.body.id }, req.body, { new: true });
     return res.json(success("Success", category, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

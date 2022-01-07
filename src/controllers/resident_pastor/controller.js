@@ -46,8 +46,17 @@ export const pastor_detail = async (req, res) => {
 export const update_detail = async (req, res) => {
   try {
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
-    const pastor = await ResidentPastor.findByIdAndUpdate({ _id: req.body.id }, req.body, { new: true });
+    let pastor = await ResidentPastor.findById({ _id: req.body.resident_pastor_id });
     if (!pastor) return res.status(404).json(error("No records found for this account", res.statusCode));
+
+
+    if (req.body.first_name) pastor.first_name = req.body.first_name;
+    if (req.body.last_name) pastor.last_name = req.body.last_name;
+    if (req.body.email) pastor.email = req.body.email;
+    if (req.body.phone) pastor.phone = req.body.phone;
+    if (req.body.image_url) pastor.image_url = req.body.image_url;
+
+    pastor = await pastor.save();
     return res.json(success("Success", pastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

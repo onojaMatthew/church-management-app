@@ -131,7 +131,17 @@ export const update_zonal_pastor = async (req, res) => {
   const { zonal_pastor_id } = req.body;
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
-    const zonalPastor = await ZonalPastor.findByIdAndUpdate({ _id: zonal_pastor_id }, req.body, { new: true });
+    let zonalPastor = await ZonalPastor.findByIdAndUpdate({ _id: zonal_pastor_id });
+
+    if (req.body.first_name) zonalPastor.first_name = req.body.first_name;
+    if (req.body.last_name) zonalPastor.last_name = req.body.last_name;
+    if (req.body.email) zonalPastor.email = req.body.email;
+    if (req.body.phone) zonalPastor.phone = req.body.phone;
+    if (req.body.image_url) zonalPastor.image_url = req.body.image_url;
+    if (req.body.region) zonalPastor.region = req.body.region;
+
+    zonalPastor = await zonalPastor.save();
+
     return res.json(success("Success", zonalPastor, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
