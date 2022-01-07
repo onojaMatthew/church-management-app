@@ -36,6 +36,7 @@ export const signIn = async (req, res) => {
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const isAdmin = await Admin.findOne({ email: req.body.email });
+    console.log(isAdmin)
     if (!isAdmin) return res.status(404).json(error("User does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isAdmin.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));
@@ -155,9 +156,11 @@ export const updateRole = async (req, res) => {
 }
 
 export const updateProfile = async (req, res) => {
+  console.log(req.body, req.params.adminId)
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     let admin = await Admin.findByIdAndUpdate({_id: req.params.adminId }, req.body, { new: true });
+    console.log(admin)
     return res.json(success("Account updated", admin, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));

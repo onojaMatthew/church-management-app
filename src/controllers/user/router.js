@@ -12,13 +12,13 @@ import {
   logout,
   church_logo,
 } from "./controller";
-// import { loginValidator } from "../../validation/user";
+import { loginValidator } from "../../validation/user";
 import { verifyToken } from "../../middleware/auth";
 import { forgotPasswordValidator, resetPasswordValidator } from "../../validation/user";
 
 const router = express.Router();
 // 
-router.post('/auth/login', signIn);
+router.post('/auth/login', loginValidator, signIn);
 router.get("/auth/logout", logout);
 router.post('/auth/admin', verifyToken, createUser);
 router.put('/auth/admin/:adminId', verifyToken, updateProfile);
