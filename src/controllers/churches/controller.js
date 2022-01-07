@@ -196,10 +196,30 @@ export const dashboardData = async (req, res) => {
     let groupObj = {};
     let officeObj = {};
     let memberObj = {};
+    let incomeObj = {};
+    let expenditureObj = {};
+
+    let incomeArr = [];
+    let expensesArr = [];
     
     const Group = await getModelByChurch( church, "Group", groupSchema);
     const Office = await getModelByChurch( church, "Office", officeSchema);
     const Member = await getModelByChurch( church, "Member", memberSchema);
+    const Income = await getModelByChurch(church, "Finance", financeSchema);
+    const Expenditure = await getModelByChurch(church, "Expenditure", expenditureSchema);
+
+    const church_expenses = await Expenditure.find({});
+    const church_income = await Income.find({});
+
+    for (let i = 0; i < church_expenses.length; i++) {
+      const current_exp = church_expenses[i];
+      expensesArr.push(current_exp.cost);
+    }
+
+    for (let i = 0; i < church_income.length; i++) {
+      const current_exp = church_income[i];
+      expensesArr.push(current_exp.amount);
+    }
 
     let group = await Group.find({});
     groupObj["totalGroup"] = group.length;
@@ -212,7 +232,11 @@ export const dashboardData = async (req, res) => {
     const male_members = members && members.filter(m => m.sex === "male");
     const female_members = members && members.filter(m => m.sex === "female");
     const chart_data = chartData({ male_members, female_members });
-    const result = { groupObj, memberObj, officeObj, chart_data };
+
+    expenditureObj["totalExpenditure"] = formatMoney(expensesArr.reduce((a,b) => a + b, 0));
+    incomeObj["totalIncome"] = formatMoney(incomeArr.reduce((a,b) => a + b, 0));
+
+    const result = { incomeObj, expenditureObj, groupObj, memberObj, officeObj, chart_data, maleMembers: male_members.length, femaleMembers: female_members.length };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
@@ -356,7 +380,6 @@ export const adminData = async (req, res) => {
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
-    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
