@@ -27,6 +27,9 @@ export const reportSchema = new Schema({
     approved: { type: Boolean, default: false },
     remark: { type: String, default: "" },
   },
+  to_zonal_pastor: { type: Boolean },
+  to_regional_pastor: { type: Boolean },
+  to_general_overseer: { type: Boolean },
   church: { 
     _id: ObjectId,
     branch: String,

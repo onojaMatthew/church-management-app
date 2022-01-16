@@ -7,7 +7,16 @@ import { zonalPastorSchema } from "../../models/zonal_pastor"
 import { churchSchema } from "../../models/church";
 
 export const create_report = async (req, res) => {
-  const { church, subject, zonal_pastor, regional_pastor, message } = req.body;
+  const { 
+    church, 
+    subject, 
+    zonal_pastor, 
+    regional_pastor, 
+    message,
+    to_general_overseer,
+    to_regional_pastor,
+    to_zonal_pastor,
+  } = req.body;
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
@@ -17,24 +26,41 @@ export const create_report = async (req, res) => {
 
     if (!church_details) return res.status(404).json(error("Church does not exist", res.statusCode));
 
-    let coordinator = await Coordinator.findById({ _id: zonal_pastor });
-    let regionalPastor = await RegionalPastor.findById({ _id: regional_pastor });
+    let coordinator;
+    let regionalPastor;
+    let regionPastorData = {};
+    let data = {};
 
-    const first_name = coordinator && coordinator.first_name;
-    const last_name = coordinator && coordinator.last_name;
-    const data = {
-      _id: coordinator && coordinator._id,
-      name: `${first_name} ${last_name}`,
-      email: coordinator && coordinator.email,
-      phone: coordinator && coordinator.phone,
+    if (to_regional_pastor) {
+      regionalPastor = await RegionalPastor.findById({ _id: regional_pastor });
+    }
+     
+    if (to_zonal_pastor) {
+      coordinator = await Coordinator.findById({ _id: zonal_pastor });
     }
 
-    const regionPastorData = {
-      _id: regionalPastor && regionalPastor._id,
-      name: `${regionalPastor.first_name} ${regionalPastor.last_name}`,
-      email: regionalPastor && regionalPastor.email,
-      phone: regionalPastor && regionalPastor.phone,
+    if (coordinator) {
+      const first_name = coordinator && coordinator.first_name;
+      const last_name = coordinator && coordinator.last_name;
+      data = {
+        _id: coordinator && coordinator._id,
+        name: `${first_name} ${last_name}`,
+        email: coordinator && coordinator.email,
+        phone: coordinator && coordinator.phone,
+      }
     }
+    
+
+    if (regionalPastor) {
+      regionPastorData = {
+        _id: regionalPastor && regionalPastor._id,
+        name: `${regionalPastor.first_name} ${regionalPastor.last_name}`,
+        email: regionalPastor && regionalPastor.email,
+        phone: regionalPastor && regionalPastor.phone,
+      }
+    }
+
+    
 
     const church_data = {
       _id: church_details && church_details._id,
@@ -50,7 +76,10 @@ export const create_report = async (req, res) => {
       regional_pastor: regionPastorData, 
       to: zonal_pastor, 
       message, 
-      coordinator: data 
+      coordinator: data,
+      to_general_overseer,
+      to_regional_pastor,
+      to_zonal_pastor,
     });
 
     report = await report.save();
