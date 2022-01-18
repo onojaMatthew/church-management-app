@@ -16,6 +16,7 @@ export const create_report = async (req, res) => {
     to_general_overseer,
     to_regional_pastor,
     to_zonal_pastor,
+    attachment,
   } = req.body;
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
@@ -80,6 +81,7 @@ export const create_report = async (req, res) => {
       to_general_overseer,
       to_regional_pastor,
       to_zonal_pastor,
+      attachment
     });
 
     report = await report.save();

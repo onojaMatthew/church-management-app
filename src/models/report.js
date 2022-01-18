@@ -34,12 +34,13 @@ export const reportSchema = new Schema({
     _id: ObjectId,
     branch: String,
     head_pastor: { 
-      first_name: String, 
-      last_name: String 
+      first_name: String,
+      last_name: String,
     },
     email: String,
-    phone: String
-  }
+    phone: String,
+  },
+  attachment: { type: String }
 }, { timestamps: true });
 
 reportSchema.plugin(mongoosePaginate);
