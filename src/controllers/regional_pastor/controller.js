@@ -10,6 +10,8 @@ import { roleSchema } from "../../models/role";
 
 export const create_regional_pastor = async (req, res) => {
   const { first_name, last_name, email, phone, password, role, region, image_url } = req.body;
+  console.log(req.body);
+  
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "Regionalpastor", regionalPastorSchema);
     const itExists = await RegionalPastor.findOne({ email });
@@ -17,7 +19,6 @@ export const create_regional_pastor = async (req, res) => {
 
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     const role_data = await Role.findById({ _id: role });
-    
     if (!role) return res.status(404).json(error("Role not found", ))
     const hash = bcrypt.hashSync(password, 12);
     
@@ -25,7 +26,7 @@ export const create_regional_pastor = async (req, res) => {
     newRegionalpastor = await newRegionalpastor.save();
     newRegionalpastor.role.role_id = role_data && role_data._id;
     newRegionalpastor.role.role_name = role_data && role_data.name;
-
+    
     newRegionalpastor = await newRegionalpastor.save();
 
     const link = `${req.header('Origin')}/regional_pastor_login`;

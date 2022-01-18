@@ -118,13 +118,16 @@ export const report_by_coordinator = async (req, res) => {
 }
 
 export const report_by_regional_pastor = async (req, res) => {
+  console.log(req.user)
   const { regional_pastor_id } = req.query;
+  console.log(req.query)
   const { offset, limit } = pagination(req.query);
   try {
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
     const reports = await Report.paginate({ "regional_pastor._id": regional_pastor_id }, { offset, limit, sort: { createdAt: -1 } });
     return res.json(success("Success", reports, res.statusCode));
   } catch (err) {
+    // console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
