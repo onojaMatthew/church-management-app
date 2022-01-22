@@ -1,7 +1,7 @@
 import { financeSchema } from "../../models/finance";
 import { getModelByChurch } from "../../utils/util";
 import { success, error, notFound } from "../../config/response";
-import { pagination } from "../../middleware/pagination";
+import { pagination, paginated_data } from "../../middleware/pagination";
 
 
 export const create_finance = async (req, res) => {
@@ -61,6 +61,78 @@ export const delete_income = async (req, res) => {
     const income = await Finance.findByIdAndDelete({ _id: incomeId });
     if (!income) return res.status(404).json(notFound("Record not found", income, res.statusCode));
     return res.json(success("Success", income, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const income_filter = async (req, res) => {
+  // const { offset, limit } = pagination(req.query);
+  const { time_range, church } = req.query;
+
+  try {
+    const time_data = time_range.split(" ");
+    const time_length = Number(time_data[0]);
+    const time_param = time_data[1];
+    const date = new Date();
+    let date_ago;
+
+    if (time_param === "days") {
+      date_ago = date.setDate(date.getDate() - time_length);
+    } else if (time_param === "weeks") {
+      date_ago = date.setDate(date.getDate() - (time_length * 7));
+    } else if (time_param === "months") {
+      date_ago = date.setDate(date.getDate() - (time_length * 30));
+    }
+
+    const Income = await getModelByChurch(church, "Finance", financeSchema);
+    const income = await Income.find({ createdAt: { $gte: date_ago }});
+    return res.json(success("Success", income, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
+export const income_search = async (req, res) => {
+  const { searchTerm, page, limit, church } = req.query;
+  try {
+    const Income = await getModelByChurch(church, "Finance", financeSchema);
+    const searchResult = await Income.aggregate([{ $match: {
+      $or: [
+        { service_type: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { amount: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          category: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          date: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          created_by: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    const result = paginated_data(searchResult, page, limit);
+
+    return res.json(success("Success", result, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }

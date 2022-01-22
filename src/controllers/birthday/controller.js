@@ -128,3 +128,30 @@ export const searchEvent = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode))
   }
 }
+
+export const birthday_filter = async (req, res) => {
+  // const { offset, limit } = pagination(req.query);
+  const { time_range, church } = req.query;
+
+  try {
+    const time_data = time_range.split(" ");
+    const time_length = Number(time_data[0]);
+    const time_param = time_data[1];
+    const date = new Date();
+    let date_ago;
+
+    if (time_param === "days") {
+      date_ago = date.setDate(date.getDate() - time_length);
+    } else if (time_param === "weeks") {
+      date_ago = date.setDate(date.getDate() - (time_length * 7));
+    } else if (time_param === "months") {
+      date_ago = date.setDate(date.getDate() - (time_length * 30));
+    }
+
+    const Birthday = await getModelByChurch(church, "Birthday", birthdaySchema);
+    const birthday = await Birthday.find({ createdAt: { $gte: date_ago }});
+    return res.json(success("Success", birthday, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}

@@ -12,7 +12,7 @@ const  s3 = new aws.S3({
 export const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'gig-alpha-bucket',
+    bucket: key.S3_BUCKET_NAME,
     acl: "public-read",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -22,6 +22,7 @@ export const upload = multer({
     }
   })
 });
+
 //========================Down from AWS==========================================
 // app.get('/download-file', function(req, res, next){
  
