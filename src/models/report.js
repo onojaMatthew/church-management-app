@@ -40,7 +40,8 @@ export const reportSchema = new Schema({
     email: String,
     phone: String,
   },
-  attachment: { type: String }
+  attachment: { type: String },
+  viewed: { type: Boolean, default: false }
 }, { timestamps: true });
 
 reportSchema.plugin(mongoosePaginate);

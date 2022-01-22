@@ -157,6 +157,17 @@ export const report_details = async (req, res) => {
   }
 }
 
+export const viewed = async (req, res) => {
+  const { reportId } = req.query;
+  try {
+    const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
+    const report = await Report.findByIdAndUpdate({ _id: reportId }, { $set: { viewed: true }}, { new: true });
+    return res.json(success("Success", {}, res.statusCode));
+  } catch (err) {
+    return res.status(400).json(error(err.message, res.statusCode));
+  }
+}
+
 export const coordinator_remark = async (req, res) => {
   const { reportId, coordinatorId, remark, approval } = req.body;
   try {

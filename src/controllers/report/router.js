@@ -13,7 +13,8 @@ import {
   searchReport,
   report_filter, 
   report_by_regional_pastor,
-  regional_pastor_remark
+  regional_pastor_remark,
+  viewed
 } from "./controller";
 
 const router = express.Router();
@@ -26,6 +27,7 @@ router.get("/report/coordinator_reports", verifyToken, grantAccess("readOwn", "z
 router.get("/report/regional_pastor_reports", verifyToken, grantAccess("readOwn", "regional pastor"), report_by_regional_pastor);
 router.get("/report/church_reports", verifyToken, grantAccess("readOwn", "branch church"), report_by_church);
 router.get("/report/search", verifyToken, grantAccess("readOwn", "branch church"), searchReport);
+router.put("/report/viewed", verifyToken, grantAccess("readOwn", "branch church"), viewed);
 router.get("/report/filter", verifyToken, grantAccess("readOwn", "branch church"), report_filter);
 router.put("/report/coordinator_remark", verifyToken, grantAccess("updateOwn", "zonal pastor"), coordinator_remark);
 router.put("/report/regional_pastor_remark", verifyToken, grantAccess("updateOwn", "regional pastor"), regional_pastor_remark);
