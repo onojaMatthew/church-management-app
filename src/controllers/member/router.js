@@ -6,7 +6,7 @@ import { body_validator } from "../../validation/member";
 
 const router = express.Router();
 
-router.post("/member/new", verifyToken, grantAccess("createOwn", "branch church"), createMember);
+router.post("/member/new", verifyToken, grantAccess("createOwn", "branch church"), body_validator, createMember);
 router.get("/member/search", verifyToken, grantAccess("readOwn", "branch church"), searchMember)
 router.get("/member/all/:church", verifyToken, grantAccess("readOwn", "branch church"), getMembers);
 router.get("/member/details/:member/:church", verifyToken, grantAccess("readOwn", "branch church"), memberDetails);

@@ -7,6 +7,7 @@ import { pagination } from "../../middleware/pagination";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
+  return
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
     const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
@@ -30,6 +31,7 @@ export const createMember = async (req, res) => {
     newMember.dob = req.body.dob;
     newMember.sex = req.body.sex;
     newMember.membershipCategory = membershipCategory.name;
+    newMember.membershipGroup = req.body.membershipGroup;
     
     const response = await newMember.save();
 
@@ -81,9 +83,28 @@ export const updateMember = async (req, res) => {
   const { church, member } = req.params;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    let result = await Member.findByIdAndUpdate({ _id: member }, req.body, { new: true }); 
+    const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
+    const membershipCategory = await MembershipCategory.findById({ _id: req.body.category });
+    let member_obj = await Member.findById({ _id: member }); 
+    if (!member_obj) return res.status(404).json(error("Record not found", res.statusCode));
+    if (req.body.first_name) member_obj.first_name = req.body.first_name;
+    if (req.body.last_name) member_obj.last_name = req.body.last_name;
+    if (req.body.email) member_obj.email = req.body.email;
+    if (req.body.phone) member_obj.phone = req.body.phone;
+    if (req.body.city) member_obj.address.city = req.body.city;
+    if (req.body.state) member_obj.address.state = req.body.state;
+    if (req.body.street) member_obj.address.street = req.body.street;
+    if (req.body.state_of_origin) member_obj.state_of_origin = req.body.state_of_origin;
+    if (req.body.occupation) member_obj.occupation = req.body.occupation;
+    if (req.body.church) member_obj.church = req.body.church;
+    if (req.body.category) member_obj.category = req.body.category;
+    if (req.body.marital_status) member_obj.marital_status = req.body.marital_status;
+    if (req.body.dob) member_obj.dob = req.body.dob;
+    if (req.body.sex) member_obj.sex = req.body.sex;
+    if (membershipCategory) member_obj.membershipCategory = membershipCategory && membershipCategory.name;
     
-    return res.json(success("Operation success", result, res.statusCode));
+    member_obj = await member_obj.save()
+    return res.json(success("Operation success", member_obj, res.statusCode));
   } catch (err) {
     res.status(400).json(error(err.message, res.statusCode));
   }
