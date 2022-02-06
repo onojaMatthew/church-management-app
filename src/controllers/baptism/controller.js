@@ -9,7 +9,7 @@ export const create_baptism = async (req, res) => {
     const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
 
     let baptism = new Baptism(req.body);
-    
+
     baptism = await baptism.save();
     return res.json(success("Success", baptism, res.statusCode));
   } catch (err) {

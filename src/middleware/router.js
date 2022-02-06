@@ -40,6 +40,6 @@ export default (app) => {
   app.use("/api/v1", pastorRoutes);
   app.use("/api/v1", zonalPastorRoutes);
   app.use("/api/v1", regionalPastorRoutes);
-  app.use("/api/v1/baptism", baptismRoutes);
+  app.use("/api/v1", baptismRoutes);
   app.use(error);
 };

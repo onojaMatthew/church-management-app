@@ -8,10 +8,10 @@ import { create_baptism } from "./controller";
 
 const router = express.Router();
 
-router.post("/new", baptism_validator, create_baptism);
-router.get("/list", baptism_list);
-router.get("/details", baptism_details);
-router.put("/update", update_baptism);
+router.post("/baptism/new", baptism_validator, create_baptism);
+router.get("/baptism/list", baptism_list);
+router.get("/baptism/details", baptism_details);
+router.put("/baptism/update", update_baptism);
 router.delete("/delete", delete_baptism);
 
 export default router;
