@@ -18,6 +18,7 @@ import reportRoutes from "../controllers/report/router";
 import pastorRoutes from "../controllers/resident_pastor/router";
 import zonalPastorRoutes from "../controllers/zonal_pastor/router";
 import regionalPastorRoutes from "../controllers/regional_pastor/router";
+import baptismRoutes from "../controllers/baptism/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -39,5 +40,6 @@ export default (app) => {
   app.use("/api/v1", pastorRoutes);
   app.use("/api/v1", zonalPastorRoutes);
   app.use("/api/v1", regionalPastorRoutes);
+  app.use("/api/v1/baptism", baptismRoutes);
   app.use(error);
 };
