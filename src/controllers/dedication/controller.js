@@ -2,35 +2,36 @@ import { baptismSchema } from "../../models/baptism";
 import { success, error } from "../../config/response";
 import { getModelByChurch } from "../../utils/util";
 import { pagination } from "../../middleware/pagination";
+import { dedicationSchema } from "../../models/dediccation";
 
-export const create_baptism = async (req, res) => {
+export const create_dedication = async (req, res) => {
   const { church } = req.body;
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
 
-    let baptism = new Baptism(req.body);
+    let dedication = new Dedication(req.body);
 
-    baptism = await baptism.save();
-    return res.json(success("Success", baptism, res.statusCode));
+    dedication = await dedication.save();
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
-export const baptism_list = async (req, res) => {
+export const dedication_list = async (req, res) => {
   const { church } = req.query;
   const { offset, limit } = pagination(req.query);
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
 
-    const baptism = await Baptism.paginate({}, { limit, offset });
-    return res.json(success("Success", baptism, res.statusCode));
+    const dedication = await Dedication.paginate({}, { limit, offset });
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
-export const baptism_details = async (req, res) => {
+export const dedication_details = async (req, res) => {
   const { church, id } = req.query;
   try {
     const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
@@ -41,23 +42,23 @@ export const baptism_details = async (req, res) => {
   }
 }
 
-export const update_baptism = async (req, res) => {
+export const update_dedication = async (req, res) => {
   const { church, id } = req.body;
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
-    const baptism = await Baptism.findByIdAndUpdate({ _id: id}, req.body, { new: true });
-    return res.json(success("Success", baptism, res.statusCode));
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
+    const dedication = await Dedication.findByIdAndUpdate({ _id: id}, req.body, { new: true });
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
 
-export const delete_baptism = async (req, res) => {
+export const delete_dedication = async (req, res) => {
   const { church, id } = req.query;
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
-    const baptism = await Baptism.findByIdAndDelete({ _id: id });
-    return res.json(success("Success", baptism, res.statusCode));
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
+    const dedication = await Dedication.findByIdAndDelete({ _id: id });
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
@@ -66,8 +67,8 @@ export const delete_baptism = async (req, res) => {
 export const search = async (req, res) => {
   const { church, searchTerm } = req.query
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
-    const baptism = await Baptism.aggregate([{ $match: {
+    const Dedication = await getModelByChurch(church, "Dedication", baptismSchema);
+    const dedication = await Dedication.aggregate([{ $match: {
       $or: [
         { first_name: {
             $regex: searchTerm,
@@ -112,7 +113,7 @@ export const search = async (req, res) => {
       ]
     }}]);
 
-    return res.json(success("Success", baptism, res.statusCode));
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
@@ -121,7 +122,7 @@ export const search = async (req, res) => {
 export const filter = async (req, res) => {
   const { time_range, church } = req.query;
   try {
-    let baptism;
+    let dedication;
     const time_data = time_range.split(" ");
     const time_length = Number(time_data[0]);
     const time_param = time_data[1];
@@ -138,14 +139,14 @@ export const filter = async (req, res) => {
       date_ago = date.setDate(date.getDate() - (time_length * 30));
     }
 
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
     if (time_range.toLowerCase() === "all") {
-      baptism = await Baptism.find({});
+      baptism = await Dedication.find({});
     } else {
-      baptism = await Baptism.find({ createdAt: { $gte: date_ago }});
+      baptism = await Dedication.find({ createdAt: { $gte: date_ago }});
     }
     
-    return res.json(success("Success", baptism, res.statusCode));
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }

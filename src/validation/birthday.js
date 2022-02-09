@@ -46,3 +46,19 @@ export const baptism_validator = [
     next();
   }
 ]
+
+export const dedication_validator = [
+  body("first_name").isLength({ min: 3, max: 30 }).withMessage("First name must be at least 3 characters"),
+  body("last_name").isLength({ min: 3, max: 30 }).withMessage("Last name must be at least 3 characters"),
+  body("dob").isDate().withMessage("Please provide a valid date of birth"),
+  body("date").isDate().withMessage("Please provide a valid date"),
+  body("pastor").isLength({ min: 3, max: 30 }).withMessage("Pastor name is required"),
+  body("family_name").isLength({ min: 15, max: 150 }).withMessage("Child's family is required"),
+  body("gender").isLength({ min: 4, max: 6 }).withMessage("Please select a gender type"),
+  body("church").isMongoId().withMessage("Invalid church ID"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
+    next();
+  }
+]
