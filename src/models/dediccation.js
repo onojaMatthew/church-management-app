@@ -9,7 +9,7 @@ export const dedicationSchema = new Schema({
   family_name: { type: String },
   dob: { type: Date },
   pastor: { type: String },
-  other_name: { type: Number },
+  other_name: { type: String },
   date: { type: Date },
   church: { type: ObjectId },
   gender: { type: String },
