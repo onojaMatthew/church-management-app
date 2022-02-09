@@ -34,9 +34,9 @@ export const dedication_list = async (req, res) => {
 export const dedication_details = async (req, res) => {
   const { church, id } = req.query;
   try {
-    const Baptism = await getModelByChurch(church, "Baptism", baptismSchema);
-    const baptism = await Baptism.findById({ _id: id });
-    return res.json(success("Success", baptism, res.statusCode));
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
+    const dedication = await Dedication.findById({ _id: id });
+    return res.json(success("Success", dedication, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
@@ -67,7 +67,7 @@ export const delete_dedication = async (req, res) => {
 export const search = async (req, res) => {
   const { church, searchTerm } = req.query
   try {
-    const Dedication = await getModelByChurch(church, "Dedication", baptismSchema);
+    const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
     const dedication = await Dedication.aggregate([{ $match: {
       $or: [
         { first_name: {
@@ -141,9 +141,9 @@ export const filter = async (req, res) => {
 
     const Dedication = await getModelByChurch(church, "Dedication", dedicationSchema);
     if (time_range.toLowerCase() === "all") {
-      baptism = await Dedication.find({});
+      dedication = await Dedication.find({});
     } else {
-      baptism = await Dedication.find({ createdAt: { $gte: date_ago }});
+      dedication = await Dedication.find({ createdAt: { $gte: date_ago }});
     }
     
     return res.json(success("Success", dedication, res.statusCode));
