@@ -16,7 +16,7 @@ export const body_validator = [
   body("marital_status").isIn([ "married", "single", "devoice" ]).withMessage("Please select a valid marital status"),
   body("dob").isDate().withMessage("Invalid date of birth"),
   body("sex").isIn([ "female", "male" ]).withMessage("Select a gender"),
-  body("membershipGroup").isIn([ "Children", "Adult" ]).withMessage("Please select a membership group"),
+  body("membershipGroup").isIn([ "children", "adult" ]).withMessage("Please select a membership group"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));

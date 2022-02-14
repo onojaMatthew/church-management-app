@@ -7,7 +7,7 @@ import { pagination } from "../../middleware/pagination";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
-  return
+  // return
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
     const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
@@ -38,7 +38,7 @@ export const createMember = async (req, res) => {
     await Church.findByIdAndUpdate({ _id: church }, { $push: { members: response._id }}, { new: true})
     return res.json(success("Member successfully created", response, res.statusCode));
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(400).json(error(err.message), res.statusCode);
   }
 }
