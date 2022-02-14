@@ -218,7 +218,7 @@ export const dashboardData = async (req, res) => {
 
     for (let i = 0; i < church_income.length; i++) {
       const current_exp = church_income[i];
-      expensesArr.push(current_exp.amount);
+      incomeArr.push(current_exp.amount);
     }
 
     let group = await Group.find({});
@@ -228,7 +228,11 @@ export const dashboardData = async (req, res) => {
     officeObj["totalOffice"] = office.length;
 
     let members = await Member.find({});
+
     memberObj["totalMember"] = members.length;
+
+    const adult_members = members && members.filter(m => m.membershipGroup === "adult").length;
+    const children_members = members && members.filter(m => m.membershipGroup === "children").length;
     const male_members = members && members.filter(m => m.sex === "male");
     const female_members = members && members.filter(m => m.sex === "female");
     const chart_data = chartData({ male_members, female_members });
@@ -236,7 +240,7 @@ export const dashboardData = async (req, res) => {
     expenditureObj["totalExpenditure"] = formatMoney(expensesArr.reduce((a,b) => a + b, 0));
     incomeObj["totalIncome"] = formatMoney(incomeArr.reduce((a,b) => a + b, 0));
 
-    const result = { incomeObj, expenditureObj, groupObj, memberObj, officeObj, chart_data, maleMembers: male_members.length, femaleMembers: female_members.length };
+    const result = { children_members, adult_members, incomeObj, expenditureObj, groupObj, memberObj, officeObj, chart_data, maleMembers: male_members.length, femaleMembers: female_members.length };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {

@@ -21,6 +21,7 @@ import regionalPastorRoutes from "../controllers/regional_pastor/router";
 import baptismRoutes from "../controllers/baptism/router";
 import dedicationRoutes from "../controllers/dedication/router";
 import donationRoutes from "../controllers/donation/router";
+import titheRoutes from "../controllers/tithe/router";
 
 export default (app) => {
   app.use("/api/v1", userRoutes);
@@ -45,5 +46,6 @@ export default (app) => {
   app.use("/api/v1", baptismRoutes);
   app.use("/api/v1", dedicationRoutes);
   app.use("/api/v1", donationRoutes);
+  app.use("/api/v1", titheRoutes);
   app.use(error);
 };
