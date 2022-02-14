@@ -35,7 +35,7 @@ export const get_donation_details = async (req, res) => {
   try {
     const Donation = await getModelByChurch(church, "Donation", donationSchema);
     const donation = await Donation.findById({ _id: donationId });
-    if (!donation) return re.json(success("No record found", donation, res.statusCode));
+    if (!donation) return res.json(success("No record found", donation, res.statusCode));
     return res.json(success("Success", donation, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, ));

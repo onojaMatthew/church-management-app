@@ -76,3 +76,15 @@ export const donation_validator = [
     next();
   }
 ]
+
+export const tithe_validator = [
+  body("first_name").isLength({ min: 3, max: 30 }).withMessage("First name must be at least 3 characters"),
+  body("last_name").isLength({ min: 3, max: 30 }).withMessage("Last name must be at least 3 characters"),
+  body("amount").isInt({ min: 100 }).withMessage("Enter a valid amount"),
+  body("church").isMongoId().withMessage("Invalid church ID"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));
+    next();
+  }
+]
