@@ -22,29 +22,3 @@ export const upload = multer({
     }
   })
 });
-
-//========================Down from AWS==========================================
-// app.get('/download-file', function(req, res, next){
- 
-//   // download the file via aws s3 here
-//   var fileKey = req.query['fileKey'];
-
-//   console.log('Trying to download file', fileKey);
-   
-//   AWS.config.update(
-//     {
-//       accessKeyId: "....",
-//       secretAccessKey: "...",
-//       region: 'ap-southeast-1'
-//     }
-//   );
-//   var s3 = new AWS.S3();
-//   var options = {
-//       Bucket    : '/bucket-url',
-//       Key    : fileKey,
-//   };
-
-//   res.attachment(fileKey);
-//   var fileStream = s3.getObject(options).createReadStream();
-//   fileStream.pipe(res);
-// });

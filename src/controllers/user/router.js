@@ -20,7 +20,7 @@ const router = express.Router();
 // 
 router.post('/auth/login', loginValidator, signIn);
 router.get("/auth/logout", logout);
-router.post('/auth/admin', verifyToken, createUser);
+router.post('/auth/admin', createUser);//verifyToken
 router.put('/auth/admin/:adminId', verifyToken, updateProfile);
 router.post('/auth/forgot_password', forgotPasswordValidator, forgotPassword);
 router.get("/auth/admin/logo", church_logo);
