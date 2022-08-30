@@ -7,11 +7,11 @@ import { verifyToken } from "../../middleware/auth"
 
 const router = express.Router();
 
-router.post("/group/new", verifyToken, grantAccess("createOwn", "branch church"),  postGroup);
-router.get("/group/all/:church", verifyToken, grantAccess("readOwn", "branch church"), validateParams, groupList);
-router.get("/group/detail", verifyToken, grantAccess("readOwn", "branch church"), validateQuery, group);
-router.put("/group/update", verifyToken, grantAccess("updateOwn", "branch church"), updateGroup);
-router.delete("/group/delete", verifyToken, grantAccess("deleteOwn", "branch church"), deleteGroup);
-router.put("/group/add_members/:church/:member/:groupId", verifyToken, grantAccess("updateOwn", "branch church"), add_members);
+router.post("/group/new", verifyToken, grantAccess("createOwn", "church"),  postGroup);
+router.get("/group/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, groupList);
+router.get("/group/detail", verifyToken, grantAccess("readOwn", "church"), validateQuery, group);
+router.put("/group/update", verifyToken, grantAccess("updateOwn", "church"), updateGroup);
+router.delete("/group/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteGroup);
+router.put("/group/add_members/:church/:member/:groupId", verifyToken, grantAccess("updateOwn", "church"), add_members);
 
 export default router;

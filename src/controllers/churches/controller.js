@@ -73,7 +73,6 @@ export const createChurch = async (req, res) => {
     church = await church.save();
     
     const receiver = church.email;
-    const sender = "onoja.matthew@ojirehprime.com";
     const subject = "Account Creation";
     const message = `<h3>Hello dear,</h3> \n 
     Your church account has been created successfully. You can login to the account by visiting: ${subdomain_link} and using: \n
@@ -83,12 +82,12 @@ export const createChurch = async (req, res) => {
 
     const data = {
       receiver,
-      sender,
       subject,
       message
     }
 
     await sendEmail(data);
+    console.log(church)
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {
     console.log
@@ -110,7 +109,7 @@ export const checkDomainName = async (req, res) => {
 export const churchLogin = async (req, res) => {
   try {
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const isChurch = await Church.findOne({ email: req.body.email });
+    const isChurch = await Church.findOne({$or: [{ email: req.body.email }, { phone: req.body.email }]});
     if (!isChurch) return res.status(404).json(error("This church account does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isChurch.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));
@@ -177,12 +176,12 @@ export const deleteChurch = async (req, res) => {
     const church = await Church.findByIdAndRemove({ _id: req.query.church });
     for (let region_pastor of regionalPastor) {
       region_pastor.churches.splice(region_pastor.churches[church._id], 1);
-      await regionalPastor.save();
+      await region_pastor.save();
     }
 
     for (let zone_pastor of zonalPastor) {
       zone_pastor.churches.splice(zone_pastor.churches[church._id], 1);
-      await zonalPastor.save();
+      await zone_pastor.save();
     }
     return res.json(success("Church account deleted", church, res.statusCode));
   } catch (err) {

@@ -5,7 +5,7 @@ export const newChurchValidator = [
   check("email").isEmail().withMessage("Invalid email"),
   check("city").isLength({ min: 3, max: 50 }).withMessage("City name must be at least 3 characters"),
   check("state").isLength({ min: 3, max: 50 }).withMessage("City name must be at least 3 characters"),
-  check("street").isLength({ min: 3, max: 50 }).withMessage("Street must be at least 3 characters"),
+  check("street").notEmpty().withMessage("Street must be at least 3 characters"),
   check("bank_name").isLength({ min: 3, max: 50 }).withMessage("Bank name must be at least 3 characters"),
   check("acct_no").isInt().withMessage("Invalid account number"),
   check("acct_no").isLength({ min: 10, max: 10 }).withMessage("Account number must be at least 10 digits"),
@@ -32,7 +32,7 @@ export const validateChurch = [
 ]
 
 export const loginValidator = [
-  check("email").isEmail().withMessage("Invalid email"),
+  check("email").notEmpty().withMessage("Invalid email"),
   check("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters"),
   (req, res, next) => {
     const errors = validationResult(req);

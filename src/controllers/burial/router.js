@@ -7,7 +7,7 @@ import { burialDetail, burial_filter, createBurial, death_list, deleteBurial, se
 
 const router = express.Router();
 
-router.post("/burial/new", verifyToken, grantAccess("createOwn", "branch church"), upload.fields([
+router.post("/burial/new", verifyToken, grantAccess("createOwn", "church"), upload.fields([
   { name: "first_name", maxCount: 1 },
   { name: "last_name", maxCount: 1 },
   { name: "age", maxCount: 1 },
@@ -19,9 +19,9 @@ router.post("/burial/new", verifyToken, grantAccess("createOwn", "branch church"
   { name: "sex", maxCount: 1 },
   { name: "burial_date", maxCount: 1 },
 ]), createBurial);
-router.get("/burial/all", verifyToken, grantAccess("readOwn", "branch church"), death_list);
-router.get("/burial/detail", verifyToken, grantAccess("readOwn", "branch church"), burialDetail);
-router.put("/burial/update", verifyToken, grantAccess("updateOwn", "branch church"), upload.fields([
+router.get("/burial/all", verifyToken, grantAccess("readOwn", "church"), death_list);
+router.get("/burial/detail", verifyToken, grantAccess("readOwn", "church"), burialDetail);
+router.put("/burial/update", verifyToken, grantAccess("updateOwn", "church"), upload.fields([
   { name: "first_name", maxCount: 1 },
   { name: "last_name", maxCount: 1 },
   { name: "age", maxCount: 1 },
@@ -34,7 +34,7 @@ router.put("/burial/update", verifyToken, grantAccess("updateOwn", "branch churc
   { name: "burial_date", maxCount: 1 },
 ]), updateBurial);
 router.get("/burial/filter", burial_filter);
-router.delete("/burial/delete", verifyToken, grantAccess("deleteOwn", "branch church"), deleteBurial);
-router.get("/burial/search", verifyToken, grantAccess("readOwn", "branch church"), searchDeathRecord);
+router.delete("/burial/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteBurial);
+router.get("/burial/search", verifyToken, grantAccess("readOwn", "church"), searchDeathRecord);
 
 export default router;

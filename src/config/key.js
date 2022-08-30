@@ -10,6 +10,7 @@ export default ({
   S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
   S3_BUCKET_REGION: process.env.S3_BUCKET_REGION,
   S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
 });
   
     

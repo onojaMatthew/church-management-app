@@ -14,12 +14,12 @@ import {
 
 const router = express.Router();
 
-router.post("/tithe/new", verifyToken, grantAccess("createOwn", "branch church"), tithe_validator, create_tithe);
-router.get("/tithe/all", verifyToken, grantAccess("readOwn", "branch church"), get_tithe_list);
-router.get("/tithe/details", verifyToken, grantAccess("readOwn", "branch church"), get_tithe_details);
-router.put("/tithe/update", verifyToken, grantAccess("updateOwn", "branch church"), update_tithe);
-router.get("/tithe/search", verifyToken, grantAccess("readOwn", "branch church"), tithe_search);
-router.get("/tithe/filter", verifyToken, grantAccess("readOwn", "branch church"), tithe_filter);
-router.delete("/tithe/delete", verifyToken, grantAccess("deleteOwn", "branch church"), delete_tithe);
+router.post("/tithe/new", verifyToken, grantAccess("createOwn", "church"), tithe_validator, create_tithe);
+router.get("/tithe/all", verifyToken, grantAccess("readOwn", "church"), get_tithe_list);
+router.get("/tithe/details", verifyToken, grantAccess("readOwn", "church"), get_tithe_details);
+router.put("/tithe/update", verifyToken, grantAccess("updateOwn", "church"), update_tithe);
+router.get("/tithe/search", verifyToken, grantAccess("readOwn", "church"), tithe_search);
+router.get("/tithe/filter", verifyToken, grantAccess("readOwn", "church"), tithe_filter);
+router.delete("/tithe/delete", verifyToken, grantAccess("deleteOwn", "church"), delete_tithe);
 
 export default router;
