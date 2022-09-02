@@ -56,7 +56,7 @@ export const create_regional_pastor = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
-    const isRegionalPastor = await RegionalPastor.findOne({ email: req.body.email });
+    const isRegionalPastor = await RegionalPastor.findOne({ $or: [{ email: req.body.email }, { phone: req.body.email }]  });
     if (!isRegionalPastor) return res.status(404).json(error("User does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isRegionalPastor.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));

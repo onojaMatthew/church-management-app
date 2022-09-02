@@ -56,7 +56,7 @@ export const create_zonal_pastor = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
-    const isZonalPastor = await ZonalPastor.findOne({ email: req.body.email });
+    const isZonalPastor = await ZonalPastor.findOne({ $or: [{ email: req.body.email }, { phone: req.body.email }]});
     if (!isZonalPastor) return res.status(404).json(error("User does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isZonalPastor.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));
