@@ -31,7 +31,7 @@ export const fetchCategoryList = async (req, res) => {
 export const fetchCategory = async (req, res) => {
   const { id, churchId } = req.params;
   try {
-    const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema)
+    const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema);
     const category = await MembershipCategory.findById({ _id: id });
     if (!category) return res.json(success("No records found", category, res.statusCode));
     return res.json(success("Success", category, res.statusCode));

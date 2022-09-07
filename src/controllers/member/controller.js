@@ -84,7 +84,7 @@ export const updateMember = async (req, res) => {
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
     const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
-    const membershipCategory = await MembershipCategory.findById({ _id: req.body.category });
+    const membershipCategory = req.body.category ? await MembershipCategory.findById({ _id: req.body.category }) : "";
     let member_obj = await Member.findById({ _id: member }); 
     if (!member_obj) return res.status(404).json(error("Record not found", res.statusCode));
     if (req.body.first_name) member_obj.first_name = req.body.first_name;
@@ -106,6 +106,7 @@ export const updateMember = async (req, res) => {
     member_obj = await member_obj.save()
     return res.json(success("Operation success", member_obj, res.statusCode));
   } catch (err) {
+    console.log(err, " error")
     res.status(400).json(error(err.message, res.statusCode));
   }
 }
