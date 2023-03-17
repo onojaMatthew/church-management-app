@@ -1,5 +1,5 @@
 import { error, success } from "../../config/response";
-import { paginated_data } from "../../middleware/pagination";
+import { paginated_data, pagination } from "../../middleware/pagination";
 import { membershipCategorySchema } from "../../models/membership_category";
 import { getModelByChurch } from "../../utils/util";
 
@@ -20,12 +20,12 @@ export const create = async (req, res) => {
 export const fetchCategoryList = async (req, res) => {
   const { churchId } = req.params;
   try {
-    const { page, limit } = req.query;
+    const { page, limit } = pagination(req.query);
     const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema)
-    const categoryList = await MembershipCategory.find({});
+    const categoryList = await MembershipCategory.paginate({}, { offset: page, limit });
     if (!categoryList) return res.json(success("No records found", categoryList, res.statusCode));
-    const data = paginated_data(categoryList, page, limit);
-    return res.json(success("Success", data, res.statusCode));
+    
+    return res.json(success("Success", categoryList, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
