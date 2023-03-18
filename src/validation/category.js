@@ -1,9 +1,9 @@
-import { check, param, validationResult } from "express-validator";
+import { body, check, param, validationResult } from "express-validator";
 import { validation } from "../config/response";
 
 export const body_validator = [
-  check("churchId").isMongoId().withMessage("Church ID is not a valid ID"),
-  check("name").isString({ min: 3, max: 50 }).withMessage(""),
+  body("churchId").isMongoId().withMessage("Church ID is not a valid ID"),
+  body("name").notEmpty().withMessage("Category name is required"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));

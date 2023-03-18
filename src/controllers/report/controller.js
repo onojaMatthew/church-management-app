@@ -19,6 +19,7 @@ export const create_report = async (req, res) => {
     attachment,
   } = req.body;
   try {
+    console.log(req.body, " the report")
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
     const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);

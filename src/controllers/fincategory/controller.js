@@ -1,6 +1,7 @@
 import { fcategorySchema } from "../../models/fin_category";
 import { getModelByChurch } from "../../utils/util";
 import { error, success, alreadyExists, notFound } from "../../config/response";
+import { pagination } from "../../middleware/pagination";
 
 export const create = async (req, res) => {
   const { name } = req.body;
@@ -18,8 +19,9 @@ export const create = async (req, res) => {
 
 export const category_list = async (req, res) => {
   try {
+    const { page, limit } = pagination(req.query);
     const FinCategory = await getModelByChurch("hostdatabase", "FinCategory", fcategorySchema);
-    const categories = await FinCategory.find({});
+    const categories = await FinCategory.paginate({}, { offset: page, limit });
     if (!categories) return res.status(404).json(notFound("No records found", res.statusCode));
     return res.json(success("Success", categories, res.statusCode));
   } catch (err) {

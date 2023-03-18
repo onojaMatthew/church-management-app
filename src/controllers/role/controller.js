@@ -1,4 +1,5 @@
 import { error, success } from "../../config/response";
+import { pagination } from "../../middleware/pagination";
 import {roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 
@@ -19,8 +20,9 @@ export const createRole = async (req, res) => {
 
 export const fetchRoles = async (req, res) => {
   try {
+    const { page, limit } = pagination(req.query);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
-    const roles = await Role.find().sort({ name: 1 });
+    const roles = await Role.paginate({}, { offset: page, limit, sort: { name: 1 } });
     return res.json(success("Success", roles, res.statusCode));
   } catch (err) {
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
