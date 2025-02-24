@@ -1,7 +1,7 @@
-import winston from "winston";
+import { Logger } from "./error-log";
 
 export default ( err, req, res, next ) => {
-  winston.error( err.message, err );
+  Logger.error( err.message, err );
 
   res.status( 500 ).json( err.message );
 }

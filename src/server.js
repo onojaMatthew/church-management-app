@@ -5,7 +5,6 @@ import morgan from "morgan";
 import { prod } from "./middleware/prod";
 import { mongodb } from "./config/db";
 import router from "./middleware/router";
-import logger from "./config/error-log";
 
 
 const port = process.env.PORT || 3200;
@@ -39,7 +38,6 @@ app.get( '/', ( req, res ) => {
 });
 
 router(app);
-logger();
 
 app.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);

@@ -1,30 +1,30 @@
 import path from "path";
 require( "dotenv" ).config({ path: path.resolve(__dirname + "/../../.env" )});
 import mongoose from "mongoose";
-import winston from "winston";
 import key from "./key";
+import { Logger } from "./error-log";
 
 const db_url = key.PROD_DB;
   
-const mongoOptions = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  autoIndex: true,
-  poolSize: 10,
-  connectTimeoutMS: 30000,
-  socketTimeoutMS: 30000,
-};
 
-const connect = () => mongoose.createConnection(db_url, mongoOptions);
+
+const connect = () => mongoose.createConnection(`mongodb+srv://nca:vWmixZSiOoUO7R8C@testdb.i7efc.mongodb.net/test`);
 const connectToMongoDB = () => {
-  const db = connect("db_url");
+  mongoose.Promise = global.Promise;
+  // const db = mongoose.connect(`mongodb+srv://nca:vWmixZSiOoUO7R8C@testdb.i7efc.mongodb.net/test`, (err) => {
+  //   if (err) {
+  //     Logger.error(`Failed to connect to database. Error: ${err.message}`);
+  //   } else {
+  //     Logger.info(`Connection to database established`);
+  //   }
+  // });
+
+  const db = connect(db_url);
   db.on("open", () => {
-    winston.info(`Connection to database established with ${JSON.stringify(db_url)}`);
+    Logger.info(`Connection to database established`);
   })
   db.on("error", (err) => {
-    winston.error(`Failed to connect to database. Error: ${err.message}`);
+    Logger.error(`Failed to connect to database. Error: ${err.message}`);
   })
   
   return db;

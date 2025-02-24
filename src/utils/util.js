@@ -1,4 +1,4 @@
-import winston from "winston";
+import { Logger } from "../config/error-log";
 import { mongodb } from "../config/db";
 
 /**
@@ -16,7 +16,7 @@ export const getChurchDB = async (churchId, modelName, schema) => {
       return db;
     }
   } catch (err) {
-    winston.error(err.message);
+    Logger.error(err.message);
   }
 };
 
@@ -29,6 +29,6 @@ export const getModelByChurch = async (churchId, modelName, schema) => {
     const churchDB = await getChurchDB(churchId, modelName, schema);
     return churchDB.model(modelName);
   } catch (err) {
-    winston.error(err.message);
+    Logger.error(err.message);
   }
 };
