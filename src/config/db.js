@@ -4,11 +4,9 @@ import mongoose from "mongoose";
 import key from "./key";
 import { Logger } from "./error-log";
 
-const db_url = key.PROD_DB;
-  
-console.log(key.DB_USER)
+const db_url =`mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`;
 
-const connect = () => mongoose.createConnection(`mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`);
+const connect = () => mongoose.createConnection(db_url);
 const connectToMongoDB = () => {
   
   mongoose.Promise = global.Promise;
