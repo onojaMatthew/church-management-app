@@ -5,19 +5,16 @@ import {roleSchema } from "../../models/role";
 import { getModelByChurch } from "../../utils/util";
 
 export const createRole = async (req, res) => {
-  console.log(req.body, " the request body")
   const { name } = req.body;
   const role_name = name.toLowerCase();
   try {
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
     const isRole = await Role.findOne({ name: role_name });
-    console.log(isRole)
     if (isRole) return res.status(400).json(error("Role already exists", res.statusCode));
     let newRole = new Role({ name: role_name });
     newRole = await newRole.save();
     return res.json(success("Role created successfully", newRole, res.statusCode));
   } catch (err) {
-    console.log(err)
     Logger.error(JSON.stringify(err))
     return res.status(500).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
