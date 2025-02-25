@@ -1,8 +1,8 @@
-import winston from "winston";
+import winston, { level } from "winston";
 import key from "./key";
-// require('winston-mongodb');
+require('winston-mongodb');
 
-const db_url = `mongodb+srv://nca:vWmixZSiOoUO7R8C@testdb.i7efc.mongodb.net/test`;
+const db_url = `mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`;
 
 const logger = winston.createLogger({
   level: 'info',
@@ -30,6 +30,10 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.simple(),
   }));
+  // logger.add(new winston.transports.MongoDB, {
+  //   level: "info",
+  //   // db: db_url
+  // })
 }
 
 export { logger as Logger }

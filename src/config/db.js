@@ -6,19 +6,12 @@ import { Logger } from "./error-log";
 
 const db_url = key.PROD_DB;
   
+console.log(key.DB_USER)
 
-
-const connect = () => mongoose.createConnection(`mongodb+srv://nca:vWmixZSiOoUO7R8C@testdb.i7efc.mongodb.net/test`);
+const connect = () => mongoose.createConnection(`mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`);
 const connectToMongoDB = () => {
+  
   mongoose.Promise = global.Promise;
-  // const db = mongoose.connect(`mongodb+srv://nca:vWmixZSiOoUO7R8C@testdb.i7efc.mongodb.net/test`, (err) => {
-  //   if (err) {
-  //     Logger.error(`Failed to connect to database. Error: ${err.message}`);
-  //   } else {
-  //     Logger.info(`Connection to database established`);
-  //   }
-  // });
-
   const db = connect(db_url);
   db.on("open", () => {
     Logger.info(`Connection to database established`);

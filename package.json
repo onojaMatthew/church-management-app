@@ -50,6 +50,6 @@
     "rimraf": "^3.0.2",
     "shortid": "^2.2.16",
     "winston": "^3.17.0",
-    "winston-mongodb": "3.0.0"
+    "winston-mongodb": "^6.0.0"
   }
 }
