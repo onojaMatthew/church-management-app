@@ -7,7 +7,7 @@ export const check_resident_pastor = [
   check("email").isEmail().withMessage("Invalid email address"),
   check("phone").isMobilePhone("en-NG").withMessage("Invalid phone number"),
   check("role").isMongoId().withMessage("Invalid role"),
-  check("image_url").isURL().withMessage("Invalid image"),
+  // check("image_url").isURL().withMessage("Invalid image"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));

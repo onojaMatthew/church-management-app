@@ -9,7 +9,7 @@ export const check_regional_pastor = [
   check("region").isLength({ min: 5 }).withMessage("Region is required"),
   check("role").isMongoId().withMessage("Invalid role"),
   check("password").isLength({ min: 6, max: 30 }).withMessage("Password must be at least 6 characters long"),
-  check("image_url").isURL().withMessage("Invalid image"),
+  // check("image_url").isURL().withMessage("Invalid image"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(validation(errors.array()));

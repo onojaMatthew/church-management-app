@@ -8,8 +8,9 @@ require("dotenv").config({ path: path.resolve(__dirname, "/../../.env")});
 sgMail.setApiKey(key.SENDGRID_API_KEY);
 
 export const sendEmail = async (data) => {
+  console.log(data)
   const msg = {
-    from: "nca@thealphashops.com",
+    from: "info@findchow.co.uk",
     to: data.receiver,
     subject: data.subject,
     text: 'Hello world',
