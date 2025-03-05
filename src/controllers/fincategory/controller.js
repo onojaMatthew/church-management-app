@@ -25,6 +25,7 @@ export const category_list = async (req, res) => {
     if (!categories) return res.status(404).json(notFound("No records found", res.statusCode));
     return res.json(success("Success", categories, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }

@@ -7,10 +7,10 @@ import { serviceList, postService, service, updateService, deleteService } from 
 
 const router = express.Router();
 
-router.post("/service/new", verifyToken, grantAccess("createOwn", "branch church"), validateInput, postService);
-router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "branch church"), validateParams, serviceList);
-router.get("/service/detail", verifyToken, grantAccess("readOwn", "branch church"), service);
-router.put("/service/update", verifyToken, grantAccess("updateOwn", "branch church"), updateService);
-router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "branch church"), deleteService);
+router.post("/service/new", verifyToken, grantAccess("createOwn", "church"), validateInput, postService);
+router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church"), validateParams, serviceList);
+router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), service);
+router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateService);
+router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteService);
 
 export default router;

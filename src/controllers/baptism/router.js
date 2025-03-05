@@ -12,6 +12,6 @@ router.get("/baptism/details", verifyToken, baptism_details);
 router.put("/baptism/update", verifyToken, update_baptism);
 router.delete("/baptism/delete", verifyToken, delete_baptism);
 router.get("/baptism/search", verifyToken, search);
-router.get("/baptism/filter", verifyToken, filter)
+router.get("/baptism/filter", verifyToken, filter);
 
 export default router;
