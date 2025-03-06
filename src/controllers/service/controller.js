@@ -72,3 +72,47 @@ export const deleteService = async (req, res) => {
     return res.status(400).json(error(err.message, res.statusCode));
   }
 }
+
+export const search = async (req, res) => {
+  try {
+    const { searchTerm, church } = req.query;
+
+    const Service = await getModelByChurch(church, "Service", serviceSchema);
+    const result = Service.aggregate([{ $match: {
+      $or: [
+        { name: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+          { preacher: {
+            $regex: searchTerm,
+            $options: "i"
+          }
+        },
+        { 
+          bible_quote: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          start_time: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+        { 
+          end_time: {
+            $regex: searchTerm,
+            $options: "i"
+          },
+        },
+      ]
+    }}]);
+
+    return res.json(success("Success", result, res.statusCode));
+  } catch (err) {
+    return res.status(500).json(error("Internal Server Error", res.statusCode));
+  }
+}

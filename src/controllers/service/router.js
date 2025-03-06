@@ -2,7 +2,7 @@ import express from "express";
 import { grantAccess } from "../../middleware/access";
 import { validateParams, validateQuery, validateInput } from "../../validation/service";
 import { verifyToken } from "../../middleware/auth"
-import { serviceList, postService, service, updateService, deleteService } from "./controller";
+import { serviceList, postService, service, updateService, deleteService, search } from "./controller";
 
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church")
 router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), service);
 router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateService);
 router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteService);
+router.get("/search", verifyToken, grantAccess("deleteOwn", "church"), search);
 
 export default router;
