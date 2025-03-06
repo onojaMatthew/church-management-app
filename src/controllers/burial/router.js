@@ -7,7 +7,7 @@ import { burialDetail, burial_filter, createBurial, death_list, deleteBurial, se
 
 const router = express.Router();
 
-router.post("/burial/new", verifyToken, grantAccess("createOwn", "branch church"), upload.fields([
+router.post("/burial/new", verifyToken, grantAccess("createOwn", "church"), upload.fields([
   { name: "first_name", maxCount: 1 },
   { name: "last_name", maxCount: 1 },
   { name: "age", maxCount: 1 },

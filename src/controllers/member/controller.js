@@ -4,6 +4,7 @@ import { membershipCategorySchema } from "../../models/membership_category";
 import { churchSchema } from "../../models/church";
 import { getModelByChurch } from "../../utils/util";
 import { pagination } from "../../middleware/pagination";
+import { isValidObjectId } from "mongoose";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
@@ -84,7 +85,7 @@ export const updateMember = async (req, res) => {
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
     const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
-    const membershipCategory = req.body.category ? await MembershipCategory.findById({ _id: req.body.category }) : "";
+    const membershipCategory = req.body.category && isValidObjectId(req.body.category) ? await MembershipCategory.findById({ _id: req.body.category }) : null;
     let member_obj = await Member.findById({ _id: member }); 
     if (!member_obj) return res.status(404).json(error("Record not found", res.statusCode));
     if (req.body.first_name) member_obj.first_name = req.body.first_name;

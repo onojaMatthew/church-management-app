@@ -59,10 +59,11 @@ export const deleteCategory = async (req, res) => {
   try {
     const MembershipCategory = await getModelByChurch(churchId, "MembershipCategory", membershipCategorySchema)
     const category = await MembershipCategory.findByIdAndRemove({ _id: id });
-    if (!category) return res.json(success("Category does not exist", category, res.statusCode));
+    
+    if (!category) return res.status(400).json(error("Category does not exist", res.statusCode));
     return res.json(success("Deleted successfully", category, res.statusCode));
   } catch (err) {
-    return res.status(400).json(error(err.message, res.statusCode));
+    return res.status(500).json(error(err.message, res.statusCode));
   }
 }
 

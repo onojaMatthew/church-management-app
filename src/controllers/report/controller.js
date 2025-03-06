@@ -52,7 +52,6 @@ export const create_report = async (req, res) => {
       }
     }
     
-
     if (regionalPastor) {
       regionPastorData = {
         _id: regionalPastor && regionalPastor._id,
