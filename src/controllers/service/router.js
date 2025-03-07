@@ -12,6 +12,6 @@ router.get("/service/all/:church", verifyToken, grantAccess("readOwn", "church")
 router.get("/service/detail", verifyToken, grantAccess("readOwn", "church"), service);
 router.put("/service/update", verifyToken, grantAccess("updateOwn", "church"), updateService);
 router.delete("/service/delete", verifyToken, grantAccess("deleteOwn", "church"), deleteService);
-router.get("/search", verifyToken, grantAccess("deleteOwn", "church"), search);
+router.get("/service/search", verifyToken, grantAccess("readOwn", "church"), search);
 
 export default router;

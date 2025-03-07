@@ -222,16 +222,17 @@ export const search_zonal_pastor = async (req, res) => {
 
 export const zonal_pastor_filter = async (req, res) => {
   const { time_range } = req.query;
-
   try {
-
+    let coordinator;
     const time_data = time_range.split(" ");
     const time_length = Number(time_data[0]);
     const time_param = time_data[1];
     const date = new Date();
     let date_ago;
 
-    if (time_param === "days") {
+    if (time_param === "hours") {
+      date_ago = date.setDate(date.getHours() - time_length);
+    } else if (time_param === "days") {
       date_ago = date.setDate(date.getDate() - time_length);
     } else if (time_param === "weeks") {
       date_ago = date.setDate(date.getDate() - (time_length * 7));
@@ -240,8 +241,13 @@ export const zonal_pastor_filter = async (req, res) => {
     }
 
     const ZonalPastor = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
-    const zonalPastor = await ZonalPastor.find({ createdAt: { $gte: date_ago }});
-    return res.json(success("Success", zonalPastor, res.statusCode));
+    if (time_range.toLowerCase() === "all") {
+      coordinator = await ZonalPastor.find({});
+    } else {
+      coordinator = await ZonalPastor.find({ createdAt: { $gte: date_ago }});
+    }
+    
+    return res.json(success("Success", coordinator, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
