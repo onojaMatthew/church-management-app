@@ -4,7 +4,7 @@ import { success, error } from "../../config/response";
 import { regionalPastorSchema } from "../../models/regional_pastor";
 import { getModelByChurch } from "../../utils/util";
 import { sendEmail } from "../../services/mailer";
-import { pagination } from "../../middleware/pagination";
+import { paginated_data, pagination } from "../../middleware/pagination";
 import { churchSchema } from "../../models/church";
 import { roleSchema } from "../../models/role";
 
@@ -228,7 +228,8 @@ export const search_regional_pastor = async (req, res) => {
       ]
     }}]);
 
-    return res.json(success("Success", searchResult, res.statusCode));
+    const output = paginated_data(searchResult, 1, 1000)
+    return res.json(success("Success", output, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode))
   }
@@ -244,7 +245,8 @@ export const region_pastor_filter = async (req, res) => {
     const time_param = time_data[1];
     const date = new Date();
     let date_ago;
-
+    let regionalPastor;
+    
     if (time_param === "days") {
       date_ago = date.setDate(date.getDate() - time_length);
     } else if (time_param === "weeks") {
@@ -254,8 +256,14 @@ export const region_pastor_filter = async (req, res) => {
     }
 
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
-    const regionalPastor = await RegionalPastor.find({ createdAt: { $gte: date_ago }});
-    return res.json(success("Success", regionalPastor, res.statusCode));
+    if (time_param === "all") {
+      regionalPastor = await RegionalPastor.find({});
+    } else {
+      regionalPastor = await RegionalPastor.find({ createdAt: { $gte: date_ago }});
+    }
+    
+    const output = paginated_data(regionalPastor, 1, 1000);
+    return res.json(success("Success", output, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
