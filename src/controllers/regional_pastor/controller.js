@@ -10,7 +10,6 @@ import { roleSchema } from "../../models/role";
 
 export const create_regional_pastor = async (req, res) => {
   const { first_name, last_name, email, phone, password, role, region, image_url } = req.body;
-  console.log(req.body);
   
   try {
     const RegionalPastor = await getModelByChurch("hostdatabase", "Regionalpastor", regionalPastorSchema);

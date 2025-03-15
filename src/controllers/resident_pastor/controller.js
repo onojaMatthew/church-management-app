@@ -2,6 +2,7 @@ import { residentPastorSchema } from "../../models/residence_pastor";
 import { roleSchema } from "../../models/role";
 import { error, success } from "../../config/response";
 import { getModelByChurch } from "../../utils/util";
+import { paginated_data } from "../../middleware/pagination";
 
 export const create_residence_pastor = async (req, res) => {
   const { email, first_name, last_name, phone, role, image_url } = req.body;
@@ -24,10 +25,13 @@ export const create_residence_pastor = async (req, res) => {
 
 export const resident_pastor_list = async (req, res) => {
   try {
-    
+    const { offset, limit } = req.query;
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
     const result = await ResidentPastor.find({});
-    return res.json(success("Success", result, res.statusCode));
+    const pageCount = offset ? parseInt(offset) : 1;
+    const pageLimit = limit ? parseInt(limit) : 10;
+    const output = paginated_data(result, pageCount, pageLimit)
+    return res.json(success("Success", output, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
@@ -105,8 +109,8 @@ export const search_resident_pastor = async (req, res) => {
         },
       ]
     }}]);
-
-    return res.json(success("Success", searchResult, res.statusCode));
+    const output = paginated_data(searchResult, 1, 1000);
+    return res.json(success("Success", output, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode))
   }
@@ -122,6 +126,7 @@ export const resident_pastor_filter = async (req, res) => {
     const time_param = time_data[1];
     const date = new Date();
     let date_ago;
+    let residentPastor;
 
     if (time_param === "days") {
       date_ago = date.setDate(date.getDate() - time_length);
@@ -132,8 +137,14 @@ export const resident_pastor_filter = async (req, res) => {
     }
 
     const ResidentPastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
-    const residentPastor = await ResidentPastor.find({ createdAt: { $gte: date_ago }});
-    return res.json(success("Success", residentPastor, res.statusCode));
+    
+    if (time_param === "all") {
+      residentPastor = await ResidentPastor.find({});
+    } else {
+      residentPastor = await ResidentPastor.find({ createdAt: { $gte: date_ago }});
+    }
+    const output = paginated_data(residentPastor, 1, 1000);
+    return res.json(success("Success", output, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
   }
