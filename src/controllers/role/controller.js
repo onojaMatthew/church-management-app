@@ -27,6 +27,7 @@ export const fetchRoles = async (req, res) => {
     const roles = await Role.paginate({}, { offset: page, limit, sort: { name: 1 } });
     return res.json(success("Success", roles, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error("Internal Server Error. Try again after few minutes", res.statusCode));
   }
 }

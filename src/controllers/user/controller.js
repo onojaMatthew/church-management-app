@@ -45,6 +45,7 @@ export const signIn = async (req, res) => {
     res.cookie("token", `Bearer ${token}`, { expires: new Date(new Date() + 64800000)});
     return res.header("authorization", `Bearer ${token}`).json(success("Login success", { token, user: { email, first_name, role, last_name, phone, _id }}, res.statusCode));
   } catch (err) {
+    console.log(err)
     return res.status(400).json(error("Internal Server Error. Please try again", res.statusCode));
   }
 }
