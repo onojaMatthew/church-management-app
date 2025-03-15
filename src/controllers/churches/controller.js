@@ -299,15 +299,14 @@ export const searchChurch = async (req, res) => {
 
 export const church_filter = async (req, res) => {
   const { time_range } = req.query;
-
+  
   try {
-
     const time_data = time_range.split(" ");
     const time_length = Number(time_data[0]);
     const time_param = time_data[1];
     const date = new Date();
     let date_ago;
-
+    let church;
     if (time_param === "days") {
       date_ago = date.setDate(date.getDate() - time_length);
     } else if (time_param === "weeks") {
@@ -317,7 +316,12 @@ export const church_filter = async (req, res) => {
     }
 
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
-    const church = await Church.find({ createdAt: { $gte: date_ago }}).sort({ createdAt: -1 });
+    
+    if (time_range === "all") {
+      church = await Church.find({});
+    } else {
+      church = await Church.find({ createdAt: { $gte: date_ago }}).sort({ createdAt: -1 });
+    }
     return res.json(success("Success", church, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));
