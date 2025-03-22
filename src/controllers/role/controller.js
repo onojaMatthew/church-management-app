@@ -22,9 +22,9 @@ export const createRole = async (req, res) => {
 
 export const fetchRoles = async (req, res) => {
   try {
-    const { page, limit } = pagination(req.query);
+    const { offset, limit } = pagination(req.query);
     const Role = await getModelByChurch("hostdatabase", "Role", roleSchema);
-    const roles = await Role.paginate({}, { offset: page, limit, sort: { name: 1 } });
+    const roles = await Role.paginate({}, { offset, limit, sort: { name: 1 } });
     return res.json(success("Success", roles, res.statusCode));
   } catch (err) {
     console.log(err)
