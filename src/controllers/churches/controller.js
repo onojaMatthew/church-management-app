@@ -333,6 +333,8 @@ export const adminData = async (req, res) => {
     let incomeObj = {};
     let expenditureObj = {};
     let coordinatorObj = {};
+    let regPastorObj = {};
+    let pastorObj = {};
     let memberObj = {};
     let members = [];
     let income = [];
@@ -347,6 +349,12 @@ export const adminData = async (req, res) => {
 
     const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const coordinators = await Coordinator.find({});
+
+    const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
+    const regionalPastor = await RegionalPastor.find({});
+
+    const Pastor = await getModelByChurch("hostdatabase", "ResidentPastor", residentPastorSchema);
+    const pastors = await Pastor.find({});
 
     if (churches.length > 0) {
       for (let church of churches) {
@@ -380,10 +388,12 @@ export const adminData = async (req, res) => {
 
     memberObj["totalMember"] = flattened_members.length;
     churchObj["totalChurch"] = churches && churches.length;
+    pastorObj["totalPastor"] = pastors && pastors.length;
+    regPastorObj["totalRegPastor"] = regionalPastor && regionalPastor.length;
     const male_members = flattened_members && flattened_members.filter(m => m.sex === "male");
     const female_members = flattened_members && flattened_members.filter(m => m.sex === "female");
     const chart_data = chartData({ male_members, female_members });
-    const result = { coordinatorObj, expenditureObj, incomeObj, memberObj, chart_data, churchObj };
+    const result = { coordinatorObj, expenditureObj, incomeObj, memberObj, chart_data, churchObj, pastorObj, regPastorObj };
 
     return res.json(success("Success", result, res.statusCode));
   } catch (err) {
