@@ -36,7 +36,6 @@ export const signIn = async (req, res) => {
   try {
     const Admin = await getModelByChurch("hostdatabase", "Admin", adminSchema);
     const isAdmin = await Admin.findOne({ $or: [{ email: req.body.email }, { phone: req.body.email}]});
-    console.log(isAdmin)
     if (!isAdmin) return res.status(404).json(error("User does not exist", res.statusCode));
     const passwordMatched = bcrypt.compareSync(req.body.password, isAdmin.password);
     if (!passwordMatched) return res.status(400).json(error("Password did not match", res.statusCode));
