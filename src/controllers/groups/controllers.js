@@ -3,6 +3,7 @@ import { groupSchema } from "../../models/group";
 import { getModelByChurch } from "../../utils/util";
 import { success, error } from "../../config/response";
 import { memberSchema } from "../../models/member";
+import { paginated_data, pagination } from "../../middleware/pagination";
 
 export const postGroup = async (req, res) => {
   const { name, church } = req.body;
@@ -21,8 +22,9 @@ export const postGroup = async (req, res) => {
 export const groupList = async (req, res) => {
   const { church } = req.params;
   try {
+    const { offset, limit } = pagination(req.query);
     const Group = await getModelByChurch(church, "Group", groupSchema);
-    const groups = await Group.find({});
+    const groups = await Group.paginate({}, { offset, limit, sort: { name: -1 }});
     return res.json(success("Success", groups, res.statusCode));
   } catch (err) {
     return res.status(400).json(error(err.message, res.statusCode));

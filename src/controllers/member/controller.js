@@ -5,15 +5,17 @@ import { churchSchema } from "../../models/church";
 import { getModelByChurch } from "../../utils/util";
 import { pagination } from "../../middleware/pagination";
 import { isValidObjectId } from "mongoose";
+import { groupSchema } from "../../models/group";
 
 export const createMember = async (req, res) => {
   const { church } = req.body;
-  // return
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema)
+    const MembershipCategory = await getModelByChurch(church, "MembershipCategory", membershipCategorySchema);
+    const Group = await getModelByChurch(church, "Group", groupSchema);
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const membershipCategory = await MembershipCategory.findById({ _id: req.body.category });
+    let membershipGroup = await Group.findById({ _id: req.body.membershipGroup })
     const isExists = await Member.aggregate([{ $match: { $or: [{ email: req.body.email }, { phone: req.body.phone }]}}]);
     if (isExists[0]) return res.status(400).json(error("Member alreay exists", res.statusCode));
     let newMember = new Member();
@@ -32,11 +34,10 @@ export const createMember = async (req, res) => {
     newMember.dob = req.body.dob;
     newMember.sex = req.body.sex;
     newMember.membershipCategory = membershipCategory.name;
-    newMember.membershipGroup = req.body.membershipGroup;
+    newMember.membershipGroup = membershipGroup.name;
     
     const response = await newMember.save();
-
-    await Church.findByIdAndUpdate({ _id: church }, { $push: { members: response._id }}, { new: true})
+    await Church.findByIdAndUpdate({ _id: church }, { $push: { members: response._id }}, { new: true});
     return res.json(success("Member successfully created", response, res.statusCode));
   } catch (err) {
     console.log(err);
@@ -49,7 +50,7 @@ export const getMembers = async (req, res) => {
   const { church } = req.params;
   try {
     const Member = await getModelByChurch(church, "Member", memberSchema);
-    const members = await Member.paginate({}, { limit, offset });
+    const members = await Member.paginate({}, { limit, offset, populate: ["membershipGroup", ] });
     if (!members) return res.json(success("No records found", members, res.statusCode));
     return res.json(success("Success", members, res.statusCode));
   } catch (err) {

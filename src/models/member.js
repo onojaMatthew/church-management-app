@@ -26,7 +26,7 @@ export const memberSchema = new Schema({
     name: String,
     _id: ObjectId
   }],
-  membershipGroup: { type: String, enum: [ "adult", "children" ]},
+  membershipGroup: { type: String },
 }, { timestamps: true });
 
 memberSchema.plugin(mongoosePaginate);

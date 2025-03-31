@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import mongoosePaginate from "mongoose-paginate-v2";
+
 const { Schema, ObjectId } = mongoose;
 
 export const groupSchema = new Schema({
@@ -14,3 +16,5 @@ export const groupSchema = new Schema({
     _id: ObjectId
   }]
 }, { timestamps: true });
+
+groupSchema.plugin(mongoosePaginate);
