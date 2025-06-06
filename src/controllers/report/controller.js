@@ -19,13 +19,13 @@ export const create_report = async (req, res) => {
     attachment,
   } = req.body;
   try {
-    console.log(req.body, " the report")
     const Church = await getModelByChurch("hostdatabase", "Church", churchSchema);
     const Report = await getModelByChurch("hostdatabase", "Report", reportSchema);
     const Coordinator = await getModelByChurch("hostdatabase", "ZonalPastor", zonalPastorSchema);
     const RegionalPastor = await getModelByChurch("hostdatabase", "RegionalPastor", regionalPastorSchema);
     const church_details = await Church.findById({ _id: church });
 
+    if (!regional_pastor) return res.status(404).json(error("Invalid request params: regionalPastor", res.statusCode));
     if (!church_details) return res.status(404).json(error("Church does not exist", res.statusCode));
 
     let coordinator;
@@ -34,11 +34,11 @@ export const create_report = async (req, res) => {
     let data = {};
 
     if (to_regional_pastor) {
-      regionalPastor = await RegionalPastor.findById({ _id: regional_pastor });
+      regionalPastor = RegionalPastor && await RegionalPastor.findById({ _id: regional_pastor });
     }
      
     if (to_zonal_pastor) {
-      coordinator = await Coordinator.findById({ _id: zonal_pastor });
+      coordinator = Coordinator && await Coordinator.findById({ _id: zonal_pastor });
     }
 
     if (coordinator) {
