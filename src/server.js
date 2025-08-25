@@ -6,7 +6,6 @@ import { prod } from "./middleware/prod";
 import { mongodb } from "./config/db";
 import router from "./middleware/router";
 
-
 const port = process.env.PORT || 3200;
 
 const app = express();

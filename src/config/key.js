@@ -2,6 +2,7 @@ import path from "path";
 require("dotenv").config({ path: path.resolve(__dirname + "/../../.env")});
 
 export default ({
+  MONGO_URI: process.env.MONGO_URI,
   SECRET_KEY: process.env.SECRET_KEY,
   DB_HOST:  process.env.DB_HOST,
   DB_PASSWORD: process.env.DB_PASSWORD,

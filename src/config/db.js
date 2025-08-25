@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import key from "./key";
 import { Logger } from "./error-log";
 
-const db_url =`mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`;
+const db_url = process.env.NODE_ENV === "development" ? key.MONGO_URI : `mongodb+srv://${key.DB_USER}:${key.DB_PASSWORD}@${key.DB_HOST}/${key.DB_NAME}`;
 
 const connect = () => mongoose.createConnection(db_url);
 const connectToMongoDB = () => {
